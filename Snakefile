@@ -13,7 +13,7 @@ from os.path import join
 # print(glob_wildcards('{sample}.fasta'))
 # print('{sample}.fasta')
 rule all:
-    input: "test.txt"
+    input: "test.fasta"
 
 rule downsampling:
     input:
