@@ -17,7 +17,7 @@ print('{sample}.fasta')
 # PATTERN_R2 = '{sample}.R2.fastq.gz'
 
 # Rules -----------------------------------------------------------------------
-# 
+#
 # rule all:
 #     input:
 #         'test.txt'
