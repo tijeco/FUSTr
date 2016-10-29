@@ -9,6 +9,7 @@ from os.path import join
 #FASTQ_DIR = 'fastq/'
 
 SAMPLES, = glob_wildcards('{sample}.fasta')
+print SAMPLES
 
 # PATTERN_R1 = '{sample}.R1.fastq.gz'
 # PATTERN_R2 = '{sample}.R2.fastq.gz'
