@@ -2,6 +2,6 @@ rule complex_conversion:
     input:
         "{dataset}/fasta"
     output:
-        "{dataset}/file.{group}.txt"
+        "{dataset}/txt"
     shell:
-        "echo --group {wildcards.group} < {input} > {output}"
+        "echo {input} > {output}"
