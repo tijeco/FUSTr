@@ -3,15 +3,15 @@ from os.path import join
 # Globals ---------------------------------------------------------------------
 
 # Full path to a FASTA file.
-GENOME = 'genome.fa'
+#GENOME = 'genome.fa'
 
 # Full path to a folder that holds all of your FASTQ files.
-FASTQ_DIR = 'fastq/'
+#FASTQ_DIR = 'fastq/'
 
-SAMPLES, = glob_wildcards(join(FASTQ_DIR, '{sample,Samp[^/]+}.R1.fastq.gz'))
+SAMPLES, = glob_wildcards('{sample}.fasta')
 
-PATTERN_R1 = '{sample}.R1.fastq.gz'
-PATTERN_R2 = '{sample}.R2.fastq.gz'
+# PATTERN_R1 = '{sample}.R1.fastq.gz'
+# PATTERN_R2 = '{sample}.R2.fastq.gz'
 
 # Rules -----------------------------------------------------------------------
 
@@ -21,13 +21,14 @@ rule all:
 
 rule quantify_genes:
     input:
-        genome = GENOME,
-        r1 = join(FASTQ_DIR, PATTERN_R1),
-        r2 = join(FASTQ_DIR, PATTERN_R2)
+        genome = '{sample}.fasta'
+        #genome = GENOME,
+        # r1 = join(FASTQ_DIR, PATTERN_R1),
+        # r2 = join(FASTQ_DIR, PATTERN_R2)
     output:
         '{sample}.txt'
     shell:
-        'echo {input.genome} {input.r1} {input.r2} > {output}'
+        'echo {input.genome}  > {output}'
 
 rule collate_outputs:
     input:
