@@ -13,6 +13,11 @@ print(SAMPLES)
 print(glob_wildcards('{sample}.fasta'))
 print('{sample}.fasta')
 
+AMPLES, = glob_wildcards(join(FASTQ_DIR, '{sample,Samp[^/]+}.R1.fastq.gz'))
+print(AMPLES)
+print(glob_wildcards(join(FASTQ_DIR, '{sample,Samp[^/]+}.R1.fastq.gz')))
+print('{sample,Samp[^/]+}.R1.fastq.gz')
+
 # PATTERN_R1 = '{sample}.R1.fastq.gz'
 # PATTERN_R2 = '{sample}.R2.fastq.gz'
 
