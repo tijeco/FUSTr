@@ -1,5 +1,6 @@
 SAMPLES = ['Sample1', 'Sample2']
 print("IIIIIIIII")
+print(SAMPLES)
 
 rule all:
     input:
