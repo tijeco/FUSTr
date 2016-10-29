@@ -6,7 +6,7 @@ from os.path import join
 #GENOME = 'genome.fa'
 
 # Full path to a folder that holds all of your FASTQ files.
-#FASTQ_DIR = 'fastq/'
+FASTQ_DIR = 'fastq/'
 
 SAMPLES, = glob_wildcards('{sample}.fasta')
 print(SAMPLES)
