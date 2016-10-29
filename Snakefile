@@ -9,9 +9,20 @@ from os.path import join
 FASTQ_DIR = 'fastq/'
 
 SAMPLES, = glob_wildcards('{sample}.fasta')
-print(SAMPLES)
-print(glob_wildcards('{sample}.fasta'))
-print('{sample}.fasta')
+# print(SAMPLES)
+# print(glob_wildcards('{sample}.fasta'))
+# print('{sample}.fasta')
+import glob
+print(glob.glob(os.path.join(FASTQ_DIR, "{sample}_*.fastq.gz")) )
+print(glob.glob("{sample}_*.fasta"))
+
+rule merge_fastq:
+  input:   glob.glob(os.path.join(FASTQ_DIR, "{sample}_*.fastq.gz"))
+  output: "merged/{sample}.fastq.gz"
+  shell: "cat {input} > {output}"
+
+
+
 #
 # AMPLES, = glob_wildcards(join(FASTQ_DIR, '{sample,Samp[^/]+}.R1.fastq.gz'))
 # print(AMPLES)
@@ -50,10 +61,3 @@ print('{sample}.fasta')
 #                 sample = i.split('.')[0]
 #                 for line in open(i):
 #                     out.write(sample + ' ' + line)
-rule thingy:
-    input:
-        "{sample}.fasta"
-    output:
-        "{sample}.texas"
-    shell:
-        'echo {input}>output'
