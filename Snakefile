@@ -17,29 +17,37 @@ print(glob_wildcards('{sample}.fasta'))
 
 # Rules -----------------------------------------------------------------------
 
-rule all:
-    input:
-        'test.txt'
 
-rule quantify_genes:
+rule fastaCopy:
     input:
-        genome = '{sample}.fasta'
-        #genome = GENOME,
-        # r1 = join(FASTQ_DIR, PATTERN_R1),
-        # r2 = join(FASTQ_DIR, PATTERN_R2)
+        '{sample}.fa'
     output:
-        '{sample}.txt'
+        '{sample}.texas'
     shell:
-        'echo {input.genome}  > {output}'
-
-rule collate_outputs:
-    input:
-        expand('{sample}.txt', sample=SAMPLES)
-    output:
-        'test.txt'
-    run:
-        with open(output[0], 'w') as out:
-            for i in input:
-                sample = i.split('.')[0]
-                for line in open(i):
-                    out.write(sample + ' ' + line)
+        'echo {input}>{output}'
+# rule all:
+#     input:
+#         'test.txt'
+#
+# rule quantify_genes:
+#     input:
+#         genome = '{sample}.fasta'
+#         #genome = GENOME,
+#         # r1 = join(FASTQ_DIR, PATTERN_R1),
+#         # r2 = join(FASTQ_DIR, PATTERN_R2)
+#     output:
+#         '{sample}.txt'
+#     shell:
+#         'echo {input.genome}  > {output}'
+#
+# rule collate_outputs:
+#     input:
+#         expand('{sample}.txt', sample=SAMPLES)
+#     output:
+#         'test.txt'
+#     run:
+#         with open(output[0], 'w') as out:
+#             for i in input:
+#                 sample = i.split('.')[0]
+#                 for line in open(i):
+#                     out.write(sample + ' ' + line)
