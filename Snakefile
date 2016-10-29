@@ -10,6 +10,7 @@ from os.path import join
 
 SAMPLES, = glob_wildcards('{sample}.fasta')
 print(SAMPLES)
+print(glob_wildcards('{sample}.fasta'))
 
 # PATTERN_R1 = '{sample}.R1.fastq.gz'
 # PATTERN_R2 = '{sample}.R2.fastq.gz'
