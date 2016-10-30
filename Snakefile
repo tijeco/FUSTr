@@ -12,13 +12,14 @@ from os.path import join
 # print(SAMPLES)
 # print(glob_wildcards('{sample}.fasta'))
 # print('{sample}.fasta')
-rule all:
-    input: "test.fasta"
+SAMPLES, = glob_wildcards("{sample}.fasta")
+rule final:
+    input: expand("{sample}.txt", sample=SAMPLES)
 
 rule downsampling:
     input:
-        "{bname}.fasta"
+        "{sample}.fasta"
     output:
-        "{bname}.txt"
+        "{sample}.txt"
     shell:
         "cat {input}  > {output}"
