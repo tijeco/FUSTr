@@ -16,10 +16,10 @@ SAMPLES, = glob_wildcards("{sample}.fasta")
 rule final:
     input: expand("{sample}.txt", sample=SAMPLES)
 
-rule downsampling:
+rule get_headers:
     input:
         "{sample}.fasta"
     output:
-        "{sample}.txt"
+        "{sample}.headers.txt"
     shell:
-        "cat {input}  > {output}"
+        "cat {input} |grep ">" |sed -e 's/>//g' > {output}"
