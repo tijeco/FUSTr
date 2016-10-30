@@ -84,8 +84,11 @@ rule subset_fasta:
                     for ff in fitter:
                         headerStr,seq =ff
                         if ID in headerStr:
+                            print(ID, "Is definitely in",headerStr)
                             out.write(">"+sample+headerStr+"\n")
                             out.write(seq+"\n")
+                        else:
+                            print(ID, "was not found in",headerStr)
 
 
 
