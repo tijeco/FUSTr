@@ -1,4 +1,21 @@
 from os.path import join
+from itertools import groupby
+def fasta_iter(fasta_name):
+
+
+    fh = open(fasta_name)
+
+
+    faiter = (x[1] for x in groupby(fh, lambda line: line[0] == ">"))
+
+    for header in faiter:
+        headerStr = header.__next__()[1:].strip()
+        # print(header)
+
+
+        seq = "".join(s.strip() for s in faiter.__next__())
+
+        yield (headerStr, seq)
 
 
 # Globals ---------------------------------------------------------------------
@@ -44,6 +61,29 @@ rule keep_longest_isoform:
         "{sample}.longestIsoform.txt"
     shell:
         "Rscript KeepLongestIsoformID.R {input} {output}"
+
+
+rule subset_fasta:
+    input:
+        "{sample}.longestIsoform.txt"
+    output:
+        "{sample}.longestIsoform.fasta"
+    run:
+        #fiter = fasta_iter({output})
+        with open(output[0], 'w') as out:
+            for i in input:
+                sample = i.split('.')[0]
+                for line in open(i):
+                    out.write(sample)        
+
+        #for ff in fiter:
+
+            #headerStr, seq = ff
+
+
+
+
+
 
 # rule combine_files:
 #     input:
