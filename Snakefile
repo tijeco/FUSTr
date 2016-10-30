@@ -78,8 +78,7 @@ rule subset_fasta:
                 sample = i.split('.')[0]
                 fasta_file = sample+".fasta"
                 fitter = fasta_iter(fasta_file)
-                for ff in fiter:
-                    headerStr, seq = ff
+                
                 for line in open(i):
                     ID = line.split()[0]+"|"+line.split()[1]
                     for ff in fitter:
