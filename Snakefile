@@ -73,11 +73,20 @@ rule subset_fasta:
         #fiter = fasta_iter({output})
         with open(output[0], 'w') as out:
 
+
             for i in input:
                 sample = i.split('.')[0]
                 fasta_file = sample+".fasta"
-                for line in open(fasta_file):
-                    out.write(line)
+                fitter = fasta_iter(fasta_file)
+                for ff in fiter:
+                    headerStr, seq = ff
+                for line in open(i):
+                    ID = line.split()[0]+"|"+line.split()[1]
+                    for ff in fitter:
+                        headerStr,seq =ff
+                        if ID in headerStr:
+                            out.write(">"+headerStr)
+                            out.write(seq)
 
         #for ff in fiter:
 
