@@ -17,7 +17,7 @@ It can work on one or as many transcriptomes as you desire.
 Once you have conda installed,change in to the directory that has your transcriptomes and clone into this repository.
 
 ```bash
-git clone https://github.com/tijeco/Fuster.gitThe best practice for running this program would be to have all of your transcriptome fasta files in one directory.
+git clone https://github.com/tijeco/Fuster.git
 ```
 
 The best practice for running this program would be to move all of your transcriptome fasta files into the Fuster directory.
