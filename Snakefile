@@ -14,7 +14,7 @@ from os.path import join
 # print('{sample}.fasta')
 SAMPLES, = glob_wildcards("{sample}.fasta")
 rule final:
-    input: expand("{sample}.txt", sample=SAMPLES)
+    input: expand("{sample}.headers.txt", sample=SAMPLES)
 
 rule get_headers:
     input:
