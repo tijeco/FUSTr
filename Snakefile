@@ -14,7 +14,7 @@ from os.path import join
 # print('{sample}.fasta')
 SAMPLES, = glob_wildcards("{sample}.fasta")
 rule final:
-    input: expand("{sample}.headers.txt", sample=SAMPLES)
+    input: expand("{sample}.prepped_headers.txt", sample=SAMPLES)
 
 rule get_headers:
     input:
@@ -23,3 +23,11 @@ rule get_headers:
         "{sample}.headers.txt"
     shell:
         "cat {input} |grep '>' |sed -e 's/>//g' > {output}"
+
+rule prep_headers:
+    input:
+        "{sample}.headers.txt"
+    output:
+        "{sample}.prepped_headers.txt"
+    shell:
+        "cat {input} |awk '{print $1,$5}'|cut -d':' -f1,3,8|awk -F':' '{print $2,$3}'|awk -F'|' '{print $1,$2 }' > {output}"
