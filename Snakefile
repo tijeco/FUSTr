@@ -79,16 +79,17 @@ rule subset_fasta:
                 fasta_file = sample+".pep"
                 fitter = fasta_iter(fasta_file)
 
-                for line in open(i):
-                    ID = line.split()[0]+"|"+line.split()[1]
-                    for ff in fitter:
-                        headerStr,seq =ff
-                        if ID in headerStr:
-                            print(ID, "Is definitely in",headerStr)
-                            out.write(">"+sample+headerStr+"\n")
-                            out.write(seq+"\n")
-                        else:
-                            print(ID, "was not found in",headerStr)
+                with open(i) as f:
+                    for line in f:
+                        ID = line.split()[0]+"|"+line.split()[1]
+                        for ff in fitter:
+                            headerStr,seq =ff
+                            if ID in headerStr:
+                                print(ID, "Is definitely in",headerStr)
+                                out.write(">"+sample+headerStr+"\n")
+                                out.write(seq+"\n")
+                            else:
+                                print(ID, "was not found in",headerStr)
 
 
 
