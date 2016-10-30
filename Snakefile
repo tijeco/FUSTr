@@ -32,8 +32,8 @@ def fasta_iter(fasta_name):
 # print('{sample}.pep')
 SAMPLES, = glob_wildcards("{sample}.pep")
 rule final:
-    input: expand("{sample}.longestIsoform.fa", sample=SAMPLES)
-    #input: "all.combined.txt"
+    #input: expand("{sample}.longestIsoform.fa", sample=SAMPLES)
+    input: "all.combined.fasta"
 
 rule get_headers:
     input:
@@ -66,20 +66,14 @@ rule keep_longest_isoform:
 rule subset_fasta:
     input:
         header_subset="{sample}.longestIsoform.txt"
-        #sequence_file = "{sample}.pep"
     output:
         "{sample}.longestIsoform.fa"
     run:
-        #fiter = fasta_iter({output})
-
         with open(output[0], 'w') as out:
-
-
             for i in input:
                 sample = i.split('.')[0]
                 fasta_file = sample+".pep"
                 fitter = fasta_iter(fasta_file)
-
                 for ff in fitter:
                     headerStr,seq =ff
                     with open(i) as f:
@@ -90,24 +84,14 @@ rule subset_fasta:
                                 out.write(seq+"\n")
 
 
-
-
-
-
-
-
-
-
-
-
-# rule combine_files:
-#     input:
-#         expand("{sample}.prepped_headers.txt", sample=SAMPLES)
-#     output:
-#         "all.combined.txt"
-#     run:
-#         with open(output[0], 'w') as out:
-#             for i in input:
-#                 sample = i.split('.')[0]
-#                 for line in open(i):
-#                     out.write(sample + ' ' + line)
+rule combine_fasta_files:
+    input:
+        expand("{sample}.longestIsoform.fa", sample=SAMPLES)
+    output:
+        "all.combined.fasta"
+    run:
+        with open(output[0], 'w') as out:
+            for i in input:
+                sample = i.split('.')[0]
+                for line in open(i):
+                    out.write(sample + ' ' + line)
