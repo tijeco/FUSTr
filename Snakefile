@@ -26,18 +26,18 @@ def fasta_iter(fasta_name):
 # Full path to a folder that holds all of your FASTQ files.
 #FASTQ_DIR = 'fastq/'
 
-#SAMPLES, = glob_wildcards('{sample}.fasta')
+#SAMPLES, = glob_wildcards('{sample}.pep')
 # print(SAMPLES)
-# print(glob_wildcards('{sample}.fasta'))
-# print('{sample}.fasta')
-SAMPLES, = glob_wildcards("{sample}.fasta")
+# print(glob_wildcards('{sample}.pep'))
+# print('{sample}.pep')
+SAMPLES, = glob_wildcards("{sample}.pep")
 rule final:
     input: expand("{sample}.longestIsoform.fa", sample=SAMPLES)
     #input: "all.combined.txt"
 
 rule get_headers:
     input:
-        "{sample}.fasta"
+        "{sample}.pep"
     output:
         "{sample}.headers.txt"
     shell:
@@ -66,7 +66,7 @@ rule keep_longest_isoform:
 rule subset_fasta:
     input:
         header_subset="{sample}.longestIsoform.txt"
-        #sequence_file = "{sample}.fasta"
+        #sequence_file = "{sample}.pep"
     output:
         "{sample}.longestIsoform.fa"
     run:
@@ -76,7 +76,7 @@ rule subset_fasta:
 
             for i in input:
                 sample = i.split('.')[0]
-                fasta_file = sample+".fasta"
+                fasta_file = sample+".pep"
                 fitter = fasta_iter(fasta_file)
 
                 for line in open(i):
