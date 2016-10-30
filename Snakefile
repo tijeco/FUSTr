@@ -67,7 +67,7 @@ rule subset_fasta:
     input:
         "{sample}.longestIsoform.txt"
     output:
-        "{sample}.longestIsoform.fasta"
+        "{sample}.longestIsoform.fa"
     run:
         #fiter = fasta_iter({output})
         with open(output[0], 'w') as out:
