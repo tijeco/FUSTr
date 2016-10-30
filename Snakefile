@@ -94,4 +94,4 @@ rule combine_fasta_files:
             for i in input:
                 sample = i.split('.')[0]
                 for line in open(i):
-                    out.write(sample + ' ' + line)
+                    out.write(line)
