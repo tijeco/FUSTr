@@ -1,6 +1,5 @@
 from os.path import join
-from snakemake.utils import R
-import rpy2
+
 
 # Globals ---------------------------------------------------------------------
 
@@ -35,18 +34,16 @@ rule prep_headers:
     shell:
         "cat {input} |awk '{{print $1,$5}}'|cut -d':' -f1,3,8|awk -F':' '{{print $2,$3}}'|awk -F'|' '{{print $1,$2 }}' > {output}"
 
+
+
+
 rule keep_longest_isoform:
     input:
         "{sample}.prepped_headers.txt"
     output:
         "{sample}.longestIsoform.txt"
-    run:
-        R("""
-        transcripts<-read.table("{sample}.prepped_headers.txt")
-        aa <- transcripts[order(transcripts$V1, -abs(transcripts$V3) ), ]
-        write.table( aa[ !duplicated(aa$V1), ] ,file="{sample}.longestIsoform.txt",row.names=F,col.names=F,quote=F)
-        """)
-
+    shell:
+        "Rscript KeepLongestIsoform.R {sample}.prepped_headers.txt {sample}.longestIsoform.txt"
 
 # rule combine_files:
 #     input:
