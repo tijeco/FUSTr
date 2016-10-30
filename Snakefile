@@ -74,8 +74,8 @@ rule subset_fasta:
         with open(output[0], 'w') as out:
 
             for i in input:
-                #sample = i.split('.')[0]
-                fasta_file = str(i)+".fasta"
+                sample = i.split('.')[0]
+                fasta_file = sample+".fasta"
                 for line in open(fasta_file):
                     out.write(line)
 
