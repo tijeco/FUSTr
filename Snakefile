@@ -65,7 +65,7 @@ rule keep_longest_isoform:
 
 rule subset_fasta:
     input:
-        header_subset="{sample}.longestIsoform.txt"
+        header_subset="{sample}.longestIsoform.txt",
         sequence_file = "{sample}.fasta"
     output:
         "{sample}.longestIsoform.fa"
