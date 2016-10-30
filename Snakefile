@@ -32,7 +32,7 @@ def fasta_iter(fasta_name):
 # print('{sample}.fasta')
 SAMPLES, = glob_wildcards("{sample}.fasta")
 rule final:
-    input: expand("{sample}.longestIsoform.txt", sample=SAMPLES)
+    input: expand("{sample}.longestIsoform.fasta", sample=SAMPLES)
     #input: "all.combined.txt"
 
 rule get_headers:
@@ -74,7 +74,7 @@ rule subset_fasta:
             for i in input:
                 sample = i.split('.')[0]
                 for line in open(i):
-                    out.write(sample)        
+                    out.write(sample)
 
         #for ff in fiter:
 
