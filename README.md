@@ -1,3 +1,2 @@
-# Fuster
-Transitive protein family clusters
-Another neat line
+# FUSTr
+Families Under Selection in Transcriptomes
