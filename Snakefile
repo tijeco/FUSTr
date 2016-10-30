@@ -74,7 +74,7 @@ rule subset_fasta:
             for i in input:
                 sample = i.split('.')[0]
                 for line in open(i):
-                    out.write(sample)
+                    out.write(sample+' ' +line)
 
         #for ff in fiter:
 
