@@ -73,7 +73,7 @@ rule subset_fasta:
         #fiter = fasta_iter({output})
         with open(output[0], 'w') as out:
 
-            for i in input.header_subset:
+            for i in header_subset:
                 sample = i.split('.')[0]
                 for line in open(i):
                     out.write(sample+' ' +line)
