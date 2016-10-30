@@ -86,7 +86,7 @@ rule subset_fasta:
                         for line in f:
                             ID = line.split()[0]+"|"+line.split()[1]
                             if ID in headerStr:
-                                out.write(">"+sample+headerStr+"\n")
+                                out.write(">"+sample+"_"+headerStr+"\n")
                                 out.write(seq+"\n")
 
 
