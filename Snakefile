@@ -65,15 +65,15 @@ rule keep_longest_isoform:
 
 rule subset_fasta:
     input:
-        header_subset="{sample}.longestIsoform.txt",
-        sequence_file = "{sample}.fasta"
+        header_subset="{sample}.longestIsoform.txt"
+        #sequence_file = "{sample}.fasta"
     output:
         "{sample}.longestIsoform.fa"
     run:
         #fiter = fasta_iter({output})
         with open(output[0], 'w') as out:
 
-            for i in header_subset:
+            for i in input:
                 sample = i.split('.')[0]
                 for line in open(i):
                     out.write(sample+' ' +line)
