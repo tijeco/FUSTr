@@ -43,7 +43,7 @@ rule keep_longest_isoform:
     output:
         "{sample}.longestIsoform.txt"
     shell:
-        "Rscript KeepLongestIsoform.R {input} {output}"
+        "Rscript KeepLongestIsoformID.R {input} {output}"
 
 # rule combine_files:
 #     input:
