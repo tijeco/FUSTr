@@ -30,4 +30,4 @@ rule prep_headers:
     output:
         "{sample}.prepped_headers.txt"
     shell:
-        "cat {input} |awk '{print $1,$5}'|cut -d':' -f1,3,8|awk -F':' '{print $2,$3}'|awk -F'|' '{print $1,$2 }' > {output}"
+        "cat {input} |awk '{{print $1,$5}}'|cut -d':' -f1,3,8|awk -F':' '{{print $2,$3}}'|awk -F'|' '{{print $1,$2 }}' > {output}"
