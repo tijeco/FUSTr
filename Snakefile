@@ -14,7 +14,8 @@ from os.path import join
 # print('{sample}.fasta')
 SAMPLES, = glob_wildcards("{sample}.fasta")
 rule final:
-    input: expand("{sample}.prepped_headers.txt", sample=SAMPLES)
+    #input: expand("{sample}.prepped_headers.txt", sample=SAMPLES)
+    input: "all.combined.txt"
 
 rule get_headers:
     input:
@@ -32,4 +33,15 @@ rule prep_headers:
     shell:
         "cat {input} |awk '{{print $1,$5}}'|cut -d':' -f1,3,8|awk -F':' '{{print $2,$3}}'|awk -F'|' '{{print $1,$2 }}' > {output}"
 
-        
+
+rule combine_files:
+    input:
+        expand("{sample}.prepped_headers.txt", sample=SAMPLES)
+    output:
+        "all.combined.txt"
+    run:
+        with open(output[0], 'w') as out:
+            for i in input:
+                sample = i.split('.')[0]
+                for line in open(i):
+                    out.write(sample + ' ' + line)
