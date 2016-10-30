@@ -86,8 +86,7 @@ rule subset_fasta:
                         if ID in headerStr:
                             out.write(">"+headerStr+"\n")
                             out.write(seq+"\n")
-                            out.write(">"+headerStr+"\n")
-                            out.write(seq+"\n")
+
 
         #for ff in fiter:
 
