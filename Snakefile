@@ -22,4 +22,4 @@ rule get_headers:
     output:
         "{sample}.headers.txt"
     shell:
-        "cat {input} |grep ">" |sed -e 's/>//g' > {output}"
+        "cat {input} |grep '>' |sed -e 's/>//g' > {output}"
