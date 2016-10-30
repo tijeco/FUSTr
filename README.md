@@ -30,4 +30,14 @@ conda create --name Fuster -c bioconda --file Fuster.requirements.txt
 source activate Fuster
 ```
 
-Now all you have to do is type 'snakemake'
+In this directory you should have the amino acid sequence files and nucleotide sequences from transdecoder, make sure that the amino acid sequences end in <.pep>
+After that all you have to do is type the following command and the Snakefile will do the rest of the work!
+
+```
+snakemake
+```
+Once that finishes you can end the conda session using
+
+```bash
+source deactivate Fuster
+```
