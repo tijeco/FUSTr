@@ -1,4 +1,5 @@
 from os.path import join
+from snakemake.utils import R
 
 # Globals ---------------------------------------------------------------------
 
