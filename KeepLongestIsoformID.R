@@ -1,5 +1,5 @@
 args <- commandArgs(TRUE)
-transcripts <- read.table(args[1],header=T)
+transcripts <- read.table(args[1])
 
 aa <- transcripts[order(transcripts$V1, -abs(transcripts$V3) ), ]
 
