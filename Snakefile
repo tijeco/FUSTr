@@ -71,6 +71,7 @@ rule subset_fasta:
         "{sample}.longestIsoform.fa"
     run:
         #fiter = fasta_iter({output})
+
         with open(output[0], 'w') as out:
 
 
@@ -79,17 +80,21 @@ rule subset_fasta:
                 fasta_file = sample+".pep"
                 fitter = fasta_iter(fasta_file)
 
-                with open(i) as f:
-                    for line in f:
-                        ID = line.split()[0]+"|"+line.split()[1]
-                        for ff in fitter:
-                            headerStr,seq =ff
+                for ff in fitter:
+                    headerStr,seq =ff
+                    with open(i) as f:
+                        for line in f:
+                            ID = line.split()[0]+"|"+line.split()[1]
                             if ID in headerStr:
                                 print(ID, "Is definitely in",headerStr)
                                 out.write(">"+sample+headerStr+"\n")
                                 out.write(seq+"\n")
                             else:
                                 print(ID, "was not found in",headerStr)
+                
+
+
+
 
 
 
