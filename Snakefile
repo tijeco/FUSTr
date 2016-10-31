@@ -97,25 +97,25 @@ rule subset_pep:
         #                 if ID in headerStr:
         #                     out.write(">"+sample+"_"+headerStr+"\n")
         #                     out.write(seq+"\n")
-rule subset_cds:
-    input:
-        header_subset="{sample}.longestIsoform.txt"
-    output:
-        "{sample}.longestIsoform.cds"
-    run:
-        with open(output[0], 'w') as out:
-            for i in input:
-                sample = i.split('.')[0]
-                pep_file = sample+".cds"
-                fitter = fasta_iter(pep_file)
-                for ff in fitter:
-                    headerStr,seq =ff
-                    with open(i) as f:
-                        for line in f:
-                            ID = line.split()[0]+"|"+line.split()[1]
-                            if ID in headerStr:
-                                out.write(">"+sample+"_"+headerStr+"\n")
-                                out.write(seq+"\n")
+# rule subset_cds:
+#     input:
+#         header_subset="{sample}.longestIsoform.txt"
+#     output:
+#         "{sample}.longestIsoform.cds"
+#     run:
+#         with open(output[0], 'w') as out:
+#             for i in input:
+#                 sample = i.split('.')[0]
+#                 pep_file = sample+".cds"
+#                 fitter = fasta_iter(pep_file)
+#                 for ff in fitter:
+#                     headerStr,seq =ff
+#                     with open(i) as f:
+#                         for line in f:
+#                             ID = line.split()[0]+"|"+line.split()[1]
+#                             if ID in headerStr:
+#                                 out.write(">"+sample+"_"+headerStr+"\n")
+#                                 out.write(seq+"\n")
 
 # rule samtool_index:
 #     input:
@@ -132,17 +132,17 @@ rule subset_cds:
 
 
 
-# rule combine_fasta_files:
-#     input:
-#         expand("{sample}.longestIsoform.fa", sample=SAMPLES)
-#     output:
-#         "all.combined.fasta"
-#     run:
-#         with open(output[0], 'w') as out:
-#             for i in input:
-#                 sample = i.split('.')[0]
-#                 for line in open(i):
-#                     out.write(line)
+rule combine_fasta_files:
+    input:
+        expand("{sample}.longestIsoform.fa", sample=SAMPLES)
+    output:
+        "all.combined.fasta"
+    run:
+        with open(output[0], 'w') as out:
+            for i in input:
+                sample = i.split('.')[0]
+                for line in open(i):
+                    out.write(line)
 rule blastall:
     input:
         "all.combined.fasta"
