@@ -144,7 +144,7 @@ rule combine_pep:
     input:
         expand("{sample}.longestIsoform.fa", sample=SAMPLES)
     output:
-        "all.combined.fasta"
+        "all.combined.pep"
     run:
         with open(output[0], 'w') as out:
             for i in input:
@@ -156,7 +156,7 @@ rule combine_cds:
     input:
         expand("{sample}.longestIsoform.cds", sample=SAMPLES)
     output:
-        "all.combined.fasta"
+        "all.combined.cds"
     run:
         with open(output[0], 'w') as out:
             for i in input:
