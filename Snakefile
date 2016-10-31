@@ -162,7 +162,7 @@ rule split_pep:
             headerStr,seq =ff
 
 
-            fileName = number+"individual.fasta"
+            fileName = str(number)+"individual.fasta"
 
             with open(fileName, "wb") as out:
                 out.write(headerStr+"\n")
