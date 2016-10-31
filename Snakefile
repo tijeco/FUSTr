@@ -145,12 +145,15 @@ rule combine_pep:
         expand("{sample}.longestIsoform.fa", sample=SAMPLES)
     output:
         "all.combined.pep"
-    run:
-        with open(output[0], 'w') as out:
-            for i in input:
-                sample = i.split('.')[0]
-                for line in open(i):
-                    out.write(line)
+    shell:
+        "cat *longestIsoform.cds > all.combined.cds; cat *longestIsoform.fa > {output}"
+
+
+        # with open(output[0], 'w') as out:
+        #     for i in input:
+        #         sample = i.split('.')[0]
+        #         for line in open(i):
+        #             out.write(line)
 
 rule combine_cds:
     input:
