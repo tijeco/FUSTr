@@ -164,7 +164,7 @@ rule split_pep:
 
             fileName = number+"individual.fasta"
 
-            with open(fileName. "wb") as out:
+            with open(fileName, "wb") as out:
                 out.write(headerStr+"\n")
                 out.write(seq)
                 number+=1
