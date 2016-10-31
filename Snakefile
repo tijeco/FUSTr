@@ -168,7 +168,7 @@ rule combine_cds:
 
 rule blastall:
     input:
-        "all.combined.pep"
+        "all.combined.pep", "all.combined.cds"
     output:
         "all.combined.blastall.out"
     shell:
