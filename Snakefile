@@ -72,7 +72,7 @@ rule subset_pep:
         wanted = []
         for i in input:
 
-            with open() as f:
+            with open(i) as f:
                 for line in f:
                     line = line.strip()
                     if line != "":
