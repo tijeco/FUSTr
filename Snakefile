@@ -69,6 +69,14 @@ rule subset_pep:
     output:
         "{sample}.longestIsoform.fa"
     run:
+        wanted = []
+        for i in input:
+
+            with open() as f:
+                for line in f:
+                    line = line.strip()
+                    if line != "":
+                        wanted.append(line)
         with open(output[0], 'w') as out:
             for i in input:
                 sample = i.split('.')[0]
@@ -76,12 +84,13 @@ rule subset_pep:
                 fitter = fasta_iter(pep_file)
                 for ff in fitter:
                     headerStr,seq =ff
-                    with open(i) as f:
-                        for line in f:
-                            ID = line.split()[0]+"|"+line.split()[1]
-                            if ID in headerStr:
-                                out.write(">"+sample+"_"+headerStr+"\n")
-                                out.write(seq+"\n")
+                    #with open(i) as f:
+                        #for line in f:
+                    for line in wanted:
+                        ID = line.split()[0]+"|"+line.split()[1]
+                        if ID in headerStr:
+                            out.write(">"+sample+"_"+headerStr+"\n")
+                            out.write(seq+"\n")
 rule subset_cds:
     input:
         header_subset="{sample}.longestIsoform.txt"
