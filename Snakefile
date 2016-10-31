@@ -168,7 +168,7 @@ rule combine_cds:
 
 rule blastall:
     input:
-        "all.combined.fasta"
+        "all.combined.pep"
     output:
         "all.combined.blastall.out"
     shell:
