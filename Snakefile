@@ -32,7 +32,7 @@ def fasta_iter(fasta_name):
 # print('{sample}.pep')
 SAMPLES, = glob_wildcards("{sample}.pep")
 rule final:
-    input: expand("{sample}.longestIsoform.fa", sample=SAMPLES)
+    input: expand("{sample}.longestIsoform.cds", sample=SAMPLES)
     #input: "all.combined.blastall.out"
 
 rule get_headers:
@@ -66,11 +66,13 @@ rule keep_longest_isoform:
 rule subset_pep:
     input:
         header="{sample}.longestIsoform.txt",
-        sequence="{sample}.pep"
+        sequence="{sample}.pep",
+        cds_sequence = "{sample}.cds"
     output:
-        "{sample}.longestIsoform.fa"
+        pep="{sample}.longestIsoform.fa",
+        cds="{sample}.longestIsoform.cds"
     shell:
-        "cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.sequence} >{output} "
+        "cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.sequence} >{pep.output}; cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {cds.sequence} >{cds.output}"
 
 
         # wanted = []
