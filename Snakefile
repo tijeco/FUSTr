@@ -65,11 +65,12 @@ rule keep_longest_isoform:
 
 rule subset_pep:
     input:
-        "{sample}.longestIsoform.txt"
+        header="{sample}.longestIsoform.txt"
+        sequence="{sample}.pep"
     output:
         "{sample}.longestIsoform.fa"
     shell:
-        "cat {input} |awk '{{ print $1""|""$2 }}'|xargs faidx -f -d':' {sample}.pep >{output} " 
+        "cat {input.header} |awk '{{ print $1""|""$2 }}'|xargs faidx -f -d':' {input.sequence} >{output} " 
 
 
         # wanted = []
