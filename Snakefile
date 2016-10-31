@@ -149,24 +149,24 @@ rule combine_pep:
         "cat *longestIsoform.cds > all.combined.cds; cat *longestIsoform.fa > {output}"
 
 
-        # with open(output[0], 'w') as out:
-        #     for i in input:
-        #         sample = i.split('.')[0]
-        #         for line in open(i):
-        #             out.write(line)
+rule split_pep:
+    input:
+        "all.combined.pep"
 
-# rule combine_cds:
-#     input:
-#         expand("{sample}.longestIsoform.cds", sample=SAMPLES)
-#     output:
-#         "all.combined.cds"
-#     run:
-#         with open(output[0], 'w') as out:
-#             for i in input:
-#                 sample = i.split('.')[0]
-#                 for line in open(i):
-#                     out.write(line)
-#
+    run:
+        number = 1
+        fitter = fasta_iter(input)
+        for ff in variable:
+            headerStr,seq =ff:
+
+
+            fileName = number+"individual.fasta"
+
+            with open(fileName. "wb") as out:
+                out.write(headerStr+"\n")
+                out.write(seq)
+                number+=1
+
 
 
 rule blastall:
