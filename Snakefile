@@ -155,18 +155,18 @@ rule combine_pep:
         #         for line in open(i):
         #             out.write(line)
 
-rule combine_cds:
-    input:
-        expand("{sample}.longestIsoform.cds", sample=SAMPLES)
-    output:
-        "all.combined.cds"
-    run:
-        with open(output[0], 'w') as out:
-            for i in input:
-                sample = i.split('.')[0]
-                for line in open(i):
-                    out.write(line)
-
+# rule combine_cds:
+#     input:
+#         expand("{sample}.longestIsoform.cds", sample=SAMPLES)
+#     output:
+#         "all.combined.cds"
+#     run:
+#         with open(output[0], 'w') as out:
+#             for i in input:
+#                 sample = i.split('.')[0]
+#                 for line in open(i):
+#                     out.write(line)
+#
 
 
 rule blastall:
