@@ -101,4 +101,4 @@ rule blastall:
     output:
         "all.combined.blastall.out"
     shell:
-        "formatd -i {input} -n all.combined.db; blastall -p blastp -d all.combined.db -i {input} -m 8 -o {output} "
+        "formatdb -i {input} -n all.combined.db; blastall -p blastp -d all.combined.db -i {input} -m 8 -o {output} "
