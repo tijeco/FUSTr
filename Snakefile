@@ -72,7 +72,15 @@ rule subset_pep:
         pep="{sample}.longestIsoform.fa",
         cds="{sample}.longestIsoform.cds"
     shell:
-        "cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.sequence} >{pep.output}; cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {cds.sequence} >{cds.output}"
+        "cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.sequence} >{output.pep}; cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.sequence} >{output.cds}"
+#
+# rule subset_cds:
+#     input:
+#         header = "{sample}.longestIsoform.txt",
+#         sequence = "{sample}.cds"
+#     output:
+#         "{sample}.longestIsoform.cds"
+
 
 
         # wanted = []
