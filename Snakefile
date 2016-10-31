@@ -63,7 +63,7 @@ rule keep_longest_isoform:
         "Rscript KeepLongestIsoformID.R {input} {output}"
 
 
-rule subset_fasta:
+rule subset_pep:
     input:
         header_subset="{sample}.longestIsoform.txt"
     output:
@@ -72,8 +72,8 @@ rule subset_fasta:
         with open(output[0], 'w') as out:
             for i in input:
                 sample = i.split('.')[0]
-                fasta_file = sample+".pep"
-                fitter = fasta_iter(fasta_file)
+                pep_file = sample+".pep"
+                fitter = fasta_iter(pep_file)
                 for ff in fitter:
                     headerStr,seq =ff
                     with open(i) as f:
@@ -82,6 +82,39 @@ rule subset_fasta:
                             if ID in headerStr:
                                 out.write(">"+sample+"_"+headerStr+"\n")
                                 out.write(seq+"\n")
+rule subset_cds:
+    input:
+        header_subset="{sample}.longestIsoform.txt"
+    output:
+        "{sample}.longestIsoform.cds"
+    run:
+        with open(output[0], 'w') as out:
+            for i in input:
+                sample = i.split('.')[0]
+                pep_file = sample+".cds"
+                fitter = fasta_iter(pep_file)
+                for ff in fitter:
+                    headerStr,seq =ff
+                    with open(i) as f:
+                        for line in f:
+                            ID = line.split()[0]+"|"+line.split()[1]
+                            if ID in headerStr:
+                                out.write(">"+sample+"_"+headerStr+"\n")
+                                out.write(seq+"\n")
+
+# rule samtool_index:
+#     input:
+#         "{sample}.pep"
+#     shell:
+#         "samtools faidx {input}"
+# rule rewrite_headers:
+#     input:
+#         "{sample}.pep"
+#     output:
+#         "{sample}.newHeader.pep"
+#     shell:
+
+
 
 
 rule combine_fasta_files:
@@ -101,4 +134,18 @@ rule blastall:
     output:
         "all.combined.blastall.out"
     shell:
-        "formatdb -i {input} -n all.combined.db; blastall -p blastp -d all.combined.db -i {input} -m 8 -o {output} "
+        "touch all.combined.blastall.out"
+        #"formatdb -i {input} -n all.combined.db; blastall -p blastp -d all.combined.db -i {input} -m 8 -o {output} "
+
+
+
+
+#
+# rule spectral_clust:
+#     input:
+#         "all.combined.blastall.out"
+#     output:
+#         "clusterx.out"
+#     shell:
+#         "../../../scps-0.9.8-Linux-amd64/bin/clusterx --param k_max=20 -t blast {input} -o {output}"
+#
