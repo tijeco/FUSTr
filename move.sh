@@ -1,0 +1,16 @@
+mv	Tacuta.assembly.10.5.16.cds	Tacuta.cds
+mv	Tacuta.assembly.10.5.16.pep	Tacuta.pep
+mv	TpaludicolaMolokai.asssembly.10.6.16.cds	TpaludicolaMolokai.cds
+mv	TpaludicolaMolokai.asssembly.10.6.16.pep	TpaludicolaMolokai.pep
+mv	TpaludicolaWestMaui.assembly.10.6.16.cds	TpaludicolaWestMaui.cds
+mv	TpaludicolaWestMaui.assembly.10.6.16.pep	TpaludicolaWestMaui.pep
+mv	Tpilosa.assembly.10.5.16.cds	Tpilosa.cds
+mv	Tpilosa.assembly.10.5.16.pep	Tpilosa.pep
+mv	Tquasimodo2.assembly.10.5.16.cds	Tquasimodo2.cds
+mv	Tquasimodo2.assembly.10.5.16.pep	Tquasimodo2.pep
+mv	Tquasimodo1.assembly.10.5.16.cds	Tquasimodo1.cds
+mv	Tquasimodo1.assembly.10.5.16.pep	Tquasimodo1.pep
+mv	TstelarobustaWestMaui.assembly.10.6.16.cds	TstelarobustaWestMaui.cds
+mv	TstelarobustaWestMaui.assembly.10.6.16.pep	TstelarobustaWestMaui.pep
+mv	TstelarobustaWaikamoi.assembly.10.6.16.cds	TstelarobustaWaikamoi.cds
+mv	TstelarobustaWaikamoi.assembly.10.6.16.pep	TstelarobustaWaikamoi.pep
