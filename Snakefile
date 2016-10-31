@@ -132,17 +132,17 @@ rule subset_cds:
 
 
 
-rule combine_fasta_files:
-    input:
-        expand("{sample}.longestIsoform.fa", sample=SAMPLES)
-    output:
-        "all.combined.fasta"
-    run:
-        with open(output[0], 'w') as out:
-            for i in input:
-                sample = i.split('.')[0]
-                for line in open(i):
-                    out.write(line)
+# rule combine_fasta_files:
+#     input:
+#         expand("{sample}.longestIsoform.fa", sample=SAMPLES)
+#     output:
+#         "all.combined.fasta"
+#     run:
+#         with open(output[0], 'w') as out:
+#             for i in input:
+#                 sample = i.split('.')[0]
+#                 for line in open(i):
+#                     out.write(line)
 rule blastall:
     input:
         "all.combined.fasta"
