@@ -11,6 +11,6 @@ mv	Tquasimodo2.assembly.10.5.16.pep	Tquasimodo2.pep
 mv	Tquasimodo1.assembly.10.5.16.cds	Tquasimodo1.cds
 mv	Tquasimodo1.assembly.10.5.16.pep	Tquasimodo1.pep
 mv	TstelarobustaWestMaui.assembly.10.6.16.cds	TstelarobustaWestMaui.cds
-mv	TstelarobustaWestMaui.assembly.10.6.16.pep	TstelarobustaWestMaui.pep
+mv	TstelarobustaWestMaui.assembly.10.6.16.pep	TstelarobustaWestMaui.pep#
 mv	TstelarobustaWaikamoi.assembly.10.6.16.cds	TstelarobustaWaikamoi.cds
 mv	TstelarobustaWaikamoi.assembly.10.6.16.pep	TstelarobustaWaikamoi.pep
