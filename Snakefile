@@ -70,7 +70,7 @@ rule subset_pep:
     output:
         "{sample}.longestIsoform.fa"
     shell:
-        "cat {input.header} |awk '{{ print $1""|""$2 }}'|xargs faidx -f -d':' {input.sequence} >{output} "
+        "cat {input.header} |awk '{{ print $1"|"$2 }}'|xargs faidx -f -d':' {input.sequence} >{output} "
 
 
         # wanted = []
