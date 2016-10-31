@@ -153,7 +153,7 @@ rule split_pep:
     input:
         "all.combined.pep"
     output:
-        "all.blastall.out"
+        "all.combined.blastall.out"
 
     run:
         number = 1
