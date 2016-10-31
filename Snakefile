@@ -152,6 +152,8 @@ rule combine_pep:
 rule split_pep:
     input:
         "all.combined.pep"
+    output:
+        "all.blastall.out"
 
     run:
         number = 1
@@ -168,17 +170,17 @@ rule split_pep:
                 number+=1
 
 
-
-rule blastall:
-    input:
-        "all.combined.pep"
-    output:
-        "all.combined.blastall.out"
-    shell:
-        "touch all.combined.blastall.out"
-        #"formatdb -i {input} -n all.combined.db; blastall -p blastp -d all.combined.db -i {input} -m 8 -o {output} "
-
-
+#
+# rule blastall:
+#     input:
+#         "all.combined.pep"
+#     output:
+#         "all.combined.blastall.out"
+#     shell:
+#         "touch all.combined.blastall.out"
+#         #"formatdb -i {input} -n all.combined.db; blastall -p blastp -d all.combined.db -i {input} -m 8 -o {output} "
+#
+#
 
 
 #
