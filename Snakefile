@@ -32,8 +32,8 @@ def fasta_iter(fasta_name):
 # print('{sample}.pep')
 SAMPLES, = glob_wildcards("{sample}.pep")
 rule final:
-    input: expand("{sample}.longestIsoform.cds", sample=SAMPLES)
-    #input: "all.combined.blastall.out"
+    #input: expand("{sample}.longestIsoform.cds", sample=SAMPLES)
+    input: "all.combined.blastall.out"
 
 rule get_headers:
     input:
@@ -140,7 +140,7 @@ rule subset_pep:
 
 
 
-rule combine_fasta_files:
+rule combine_pep:
     input:
         expand("{sample}.longestIsoform.fa", sample=SAMPLES)
     output:
@@ -151,6 +151,21 @@ rule combine_fasta_files:
                 sample = i.split('.')[0]
                 for line in open(i):
                     out.write(line)
+
+rule combine_cds:
+    input:
+        expand("{sample}.longestIsoform.cds", sample=SAMPLES)
+    output:
+        "all.combined.fasta"
+    run:
+        with open(output[0], 'w') as out:
+            for i in input:
+                sample = i.split('.')[0]
+                for line in open(i):
+                    out.write(line)
+
+
+
 rule blastall:
     input:
         "all.combined.fasta"
