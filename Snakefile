@@ -159,7 +159,7 @@ rule split_pep:
         number = 1
         fitter = fasta_iter(input)
         for ff in variable:
-            headerStr,seq =ff:
+            headerStr,seq =ff
 
 
             fileName = number+"individual.fasta"
