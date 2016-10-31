@@ -22,6 +22,7 @@ beast=1.8.2
 blast=2.5.0
 mcl=14.137
 meme=4.11.1
-muscle3.8.1551
+muscle=3.8.1551
+pyfaidx=0.4.7.1
 #R=3.2.5
 #rpy2=2-2.8.2
