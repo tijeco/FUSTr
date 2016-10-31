@@ -65,20 +65,13 @@ rule keep_longest_isoform:
 
 rule subset_pep:
     input:
-        header_subset="{sample}.longestIsoform.txt"
+        "{sample}.longestIsoform.txt"
     output:
         "{sample}.longestIsoform.fa"
-    run:
-        from Bio import SeqIO
-        import sys
-        for i in input:
+    shell:
+        "cat {input} |awk '{{ print $1""|""$2 }}'|xargs faidx -f -d':' {sample}.pep >{output} " 
 
-            wanted = [line.strip() for line in open(i)]
-            sample = i.split('.')[0]
 
-            pep_file = sample+".pep"
-            seqiter = SeqIO.parse(open(pep_file), 'fasta')
-            SeqIO.write((seq for seq in seqiter if seq.id in wanted), output[0],'fasta')
         # wanted = []
         # for i in input:
         #
