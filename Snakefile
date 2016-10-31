@@ -157,7 +157,7 @@ rule split_pep:
 
     run:
         number = 1
-        fitter = fasta_iter(input)
+        fitter = fasta_iter(input[0])
         for ff in fitter:
             headerStr,seq =ff
 
