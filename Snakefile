@@ -30,7 +30,7 @@ def fasta_iter(fasta_name):
 # print(SAMPLES)
 # print(glob_wildcards('{sample}.pep'))
 # print('{sample}.pep')
-SAMPLES, = glob_wildcards("{sample}individua;.fa")
+SAMPLES, = glob_wildcards("{sample}.fa")
 rule final:
     input: expand("{sample}.hhr", sample=SAMPLES)
 
@@ -175,7 +175,7 @@ rule split_pep:
 """
 rule hhblits:
     input:
-        "{sample}individual.fa"#change to individual.fa, dammit!!!!
+        "{sample}.fa"#change to individual.fa, dammit!!!!
     output:
         "{sample}.hhr"
     shell:
