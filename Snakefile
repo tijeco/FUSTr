@@ -32,10 +32,13 @@ def fasta_iter(fasta_name):
 # print('{sample}.pep')
 SAMPLES, = glob_wildcards("{sample}.fa")
 rule final:
+    input: "all.combined.blastall.out"
     #input: expand("{sample}.hhr", sample=SAMPLES)
 
 
-    input: "all.combined.blastall.out"
+    #input: "all.combined.blastall.out"
+
+
 """
 rule get_headers:
     input:
