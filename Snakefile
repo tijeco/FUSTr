@@ -33,6 +33,8 @@ def fasta_iter(fasta_name):
 SAMPLES, = glob_wildcards("{sample}.fa")
 rule final:
     input: expand("{sample}.hhr", sample=SAMPLES)
+
+
     #input: "all.combined.blastall.out"
 """
 rule get_headers:
@@ -177,7 +179,7 @@ rule hhblits:
     output:
         "{sample}.hhr"
     shell:
-        "//bin/hhblits -i 10000individual.fa -d ../uniprot20_2016_02/uniprot20_2016_02"
+        "//bin/hhblits -i {sample}.fa -d ../uniprot20_2016_02/uniprot20_2016_02"
 # rule blastall:
 #     input:
 #         "all.combined.pep"
