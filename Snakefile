@@ -32,7 +32,7 @@ def fasta_iter(fasta_name):
 # print('{sample}.pep')
 SAMPLES, = glob_wildcards("{sample}.fa")
 rule final:
-    input: "all.combined.blastall.out"
+    #input: "all.combined.blastall.out"
     #input: expand("{sample}.PleaseDeleteMe", sample=SAMPLES)
 
 
@@ -155,6 +155,7 @@ rule subset_pep:
         "cat *longestIsoform.cds > all.combined.cds; cat *longestIsoform.fa > {output}"
 
 """
+"""
 rule split_pep:
     input:
         "all.combined.pep"
@@ -174,8 +175,8 @@ rule split_pep:
                 out.write(">"+headerStr+"\n")
                 out.write(seq)
                 number+=1
-
 """
+
 rule hhblits:
     input:
         "{sample}.fa"#change to individual.fa, dammit!!!!
