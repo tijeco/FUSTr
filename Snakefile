@@ -179,7 +179,7 @@ rule hhblits:
     output:
         "{sample}.hhr"
     shell:
-        "//bin/hhblits -i {sample}.fa -d ../uniprot20_2016_02/uniprot20_2016_02"
+        "//bin/hhblits -i {input} -d ../uniprot20_2016_02/uniprot20_2016_02"
 # rule blastall:
 #     input:
 #         "all.combined.pep"
