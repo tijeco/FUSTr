@@ -34,7 +34,7 @@ SAMPLES, = glob_wildcards("{sample}.fa")
 rule final:
     input: expand("{sample}.hhr", sample=SAMPLES)
     #input: "all.combined.blastall.out"
-
+"""
 rule get_headers:
     input:
         "{sample}.pep"
@@ -73,6 +73,7 @@ rule subset_pep:
         cds="{sample}.longestIsoform.cds"
     shell:
         "cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.sequence} >{output.pep}; cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.sequence} >{output.cds}"
+"""
 #
 # rule subset_cds:
 #     input:
@@ -140,7 +141,7 @@ rule subset_pep:
 
 
 
-rule combine_pep:
+"""rule combine_pep:
     input:
         expand("{sample}.longestIsoform.fa", sample=SAMPLES)
     output:
@@ -169,8 +170,8 @@ rule split_pep:
                 out.write(seq)
                 number+=1
 
-
-rule:
+"""
+rule hhblits:
     input:
         "{sample}.fa"
     output:
