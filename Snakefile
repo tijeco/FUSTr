@@ -30,10 +30,10 @@ def fasta_iter(fasta_name):
 # print(SAMPLES)
 # print(glob_wildcards('{sample}.pep'))
 # print('{sample}.pep')
-SAMPLES, = glob_wildcards("{sample}.pep")
+SAMPLES, = glob_wildcards("{sample}.fa")
 rule final:
-    #input: expand("{sample}.longestIsoform.cds", sample=SAMPLES)
-    input: "all.combined.blastall.out"
+    input: expand("{sample}.hhr", sample=SAMPLES)
+    #input: "all.combined.blastall.out"
 
 rule get_headers:
     input:
@@ -170,7 +170,13 @@ rule split_pep:
                 number+=1
 
 
-#
+rule:
+    input:
+        "{sample}.fa"
+    output:
+        "{sample}.hhr"
+    shell:
+        "//bin/hhblits -i 10000individual.fa -d ../uniprot20_2016_02/uniprot20_2016_02"
 # rule blastall:
 #     input:
 #         "all.combined.pep"
