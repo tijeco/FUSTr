@@ -32,10 +32,10 @@ def fasta_iter(fasta_name):
 # print('{sample}.pep')
 SAMPLES, = glob_wildcards("{sample}.fa")
 rule final:
-    input: expand("{sample}.hhr", sample=SAMPLES)
+    #input: expand("{sample}.hhr", sample=SAMPLES)
 
 
-    #input: "all.combined.blastall.out"
+    input: "all.combined.blastall.out"
 """
 rule get_headers:
     input:
@@ -180,6 +180,13 @@ rule hhblits:
         "{sample}.hhr"
     shell:
         "//bin/hhblits -i {input} -d ../uniprot20_2016_02/uniprot20_2016_02"
+rule makeshift:
+    input:
+        "{sample}.hhr"
+    output:
+        "all.combined.blastall.out"
+    shell:
+        "touch {output}"
 # rule blastall:
 #     input:
 #         "all.combined.pep"
