@@ -32,8 +32,8 @@ def fasta_iter(fasta_name):
 # print('{sample}.pep')
 SAMPLES, = glob_wildcards("{sample}.fa")
 rule final:
-    #input: "all.combined.blastall.out"
-    input: expand("{sample}.PleaseDeleteMe", sample=SAMPLES)
+    input: "all.combined.blastall.out"
+    #input: expand("{sample}.PleaseDeleteMe", sample=SAMPLES)
 
 
     #input: "all.combined.blastall.out"
@@ -175,7 +175,7 @@ rule split_pep:
                 out.write(seq)
                 number+=1
 
-
+"""
 rule hhblits:
     input:
         "{sample}.fa"#change to individual.fa, dammit!!!!
@@ -190,6 +190,7 @@ rule makeshift:
         "{sample}.PleaseDeleteMe"
     shell:
         "cat {input}>{output}"
+"""
 # rule blastall:
 #     input:
 #         "all.combined.pep"
