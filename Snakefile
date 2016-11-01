@@ -32,8 +32,8 @@ def fasta_iter(fasta_name):
 # print('{sample}.pep')
 SAMPLES, = glob_wildcards("{sample}.fa")
 rule final:
-    input: "all.combined.blastall.out"
-    #input: expand("{sample}.hhr", sample=SAMPLES)
+    #input: "all.combined.blastall.out"
+    input: expand("{sample}.PleaseDeleteMe", sample=SAMPLES)
 
 
     #input: "all.combined.blastall.out"
@@ -187,9 +187,9 @@ rule makeshift:
     input:
         "{sample}.hhr"
     output:
-        "all.combined.blastall.out"
+        "{sample}.PleaseDeleteMe"
     shell:
-        "touch {output}"
+        "cat {input}>{output}"
 # rule blastall:
 #     input:
 #         "all.combined.pep"
