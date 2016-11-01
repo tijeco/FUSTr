@@ -182,7 +182,7 @@ rule hhblits:
     output:
         "{sample}.hhr"
     shell:
-        "/bin/hhblits -i {input} -d ../uniprot20_2016_02/uniprot20_2016_02"
+        "/bin/hhblits -i {input} -d /media/BigRAID/JeffTemp/uniprot20_2016_02/uniprot20_2016_02"
 rule makeshift:
     input:
         "{sample}.hhr"
