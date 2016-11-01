@@ -33,7 +33,7 @@ def fasta_iter(fasta_name):
 SAMPLES, = glob_wildcards("{sample}.fa")
 rule final:
     #input: "all.combined.blastall.out"
-    #input: expand("{sample}.PleaseDeleteMe", sample=SAMPLES)
+    input: expand("{sample}.PleaseDeleteMe", sample=SAMPLES)
 
 
     #input: "all.combined.blastall.out"
