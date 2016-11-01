@@ -154,13 +154,13 @@ rule subset_pep:
     shell:
         "cat *longestIsoform.cds > all.combined.cds; cat *longestIsoform.fa > {output}"
 
-
+"""
 rule split_pep:
     input:
         "all.combined.pep"
     output:
         "all.combined.blastall.out"
-"""
+
     run:
         number = 1
         fitter = fasta_iter(input[0])
