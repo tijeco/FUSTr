@@ -30,7 +30,7 @@ def fasta_iter(fasta_name):
 # print(SAMPLES)
 # print(glob_wildcards('{sample}.pep'))
 # print('{sample}.pep')
-SAMPLES, = glob_wildcards("{sample}.fa")
+SAMPLES, = glob_wildcards("{sample}individua;.fa")
 rule final:
     input: expand("{sample}.hhr", sample=SAMPLES)
 
