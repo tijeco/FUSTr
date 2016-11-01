@@ -160,7 +160,7 @@ rule split_pep:
         "all.combined.pep"
     output:
         "all.combined.blastall.out"
-
+"""
     run:
         number = 1
         fitter = fasta_iter(input[0])
@@ -168,14 +168,14 @@ rule split_pep:
             headerStr,seq =ff
 
 
-            fileName = str(number)+"individual.fasta"
+            fileName = str(number)+"individual.fa"
 
             with open(fileName, "w") as out:
-                out.write(headerStr+"\n")
+                out.write(">"+headerStr+"\n")
                 out.write(seq)
                 number+=1
 
-"""
+
 rule hhblits:
     input:
         "{sample}.fa"#change to individual.fa, dammit!!!!
