@@ -191,7 +191,6 @@ rule makeshift:
         "{sample}.PleaseDeleteMe"
     shell:
         "cat {input}>{output}"
-"""
 # rule blastall:
 #     input:
 #         "all.combined.pep"
