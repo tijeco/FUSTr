@@ -175,7 +175,7 @@ rule split_pep:
 """
 rule hhblits:
     input:
-        "{sample}.fa"
+        "{sample}individual.fa"#change to individual.fa, dammit!!!!
     output:
         "{sample}.hhr"
     shell:
