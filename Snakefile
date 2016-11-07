@@ -123,10 +123,12 @@ rule mcl2tab:
     output:
         "all.pep.combined_MCL.fnodes"
     run:
+        number=1
         with open(input[0]) as f:
             with open(output[0], "w") as out:
                 for line in f:
                     row = line.split()
                     for i in range(len(row)):
 
-                        out.write(str(len(row))+"\t"+row[i]+"\n")
+                        out.write(str(number+"\t"+row[i]+"\n")
+                    number+=1
