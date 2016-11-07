@@ -130,5 +130,5 @@ rule mcl2tab:
                     row = line.split()
                     for i in range(len(row)):
 
-                        out.write(str(number+"\t"+row[i]+"\n")
+                        out.write(str(number)+"\t"+row[i]+"\n")
                     number+=1
