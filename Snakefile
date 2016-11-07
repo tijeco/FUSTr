@@ -85,5 +85,6 @@ rule combine_pep_and_cds:
         print("INput looks like this")
         for i in input:
             print(i)
+        print(pep_sequence)
         with open("all.pep.combined", "w") as out:
             out.write("Place holder text")
