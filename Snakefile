@@ -23,7 +23,7 @@ def fasta_iter(fasta_name):
 SAMPLES, = glob_wildcards("{sample}.pep")
 
 rule final:
-    input: "all.pep.combined_MCL.fnodes"
+    input: "TMP.file"
     #input: expand("{sample}.pep.longestIsoform", sample=SAMPLES)
 
 
