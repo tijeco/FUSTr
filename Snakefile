@@ -129,4 +129,4 @@ rule mcl2tab:
                     row = line.split()
                     for i in range(len(row)):
 
-                    out.write(len(row)+"\t"+row[i])
+                        out.write(len(row)+"\t"+row[i])
