@@ -149,3 +149,10 @@ rule mafft:
         expand("{sample}.aln", sample=SAMPLES)
     shell:
         "mafft --auto {input} > {output}"
+rule mafft_tmpOneFile:
+    input:
+        expand("{sample}.aln", sample=SAMPLES)
+    output:
+        "NewTmp"
+    shell:
+        "touch {output}"
