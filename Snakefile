@@ -78,9 +78,12 @@ rule combine_pep_and_cds:
     run:
         print("###################################")
         print("Output looks like this")
+        for i in output:
+            print(i)
         print(output)
         print("~~~~~~~~~~~~~~~~~~~~~~~~")
         print("INput looks like this")
-        print(input)
+        for i in input:
+            print(i)
         with open("all.pep.combined", "w") as out:
             out.write("Place holder text")
