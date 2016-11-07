@@ -136,5 +136,7 @@ rule mcl2tab:
 rule sep_family_fasta:
     input:
         "all.pep.combined_MCL.fnodes"
+    output:
+        "TMP.file"
     shell:
-        "cp all.cds.combined  all.cds.combined.fasta; silix-split -n 15 all.cds.combined.fasta {input} -o MCL_CDS_FAM_15.members_dir "
+        "cp all.cds.combined  all.cds.combined.fasta; silix-split -n 15 all.cds.combined.fasta {input} -o MCL_CDS_FAM_15.members_dir ; touch {output}"
