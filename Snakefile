@@ -201,7 +201,28 @@ rule makeshift:
 #         #"formatdb -i {input} -n all.combined.db; blastall -p blastp -d all.combined.db -i {input} -m 8 -o {output} "
 #
 #
+"""
+mcl cluster stuff
+mcxdeblast --m9 --line-mode=abc All.samples.fasta.blastall.out -o Blastfile11.2.16.abc
+mcl  Blastfile11.2.16.abc --abc  -I 2.0 -scheme 1 -o mcl.clusterfileCORRECT.txt
 
+
+number = 1
+with open("mcl.clusterfileCORRECT.txt") as f:
+        for line in f:
+                row = line.split()
+
+                for i in range(len(row)):
+                        fileName = "Family."+str(number)+".ID.txt"
+                        with open(fileName, "w") as out:
+                                out.write(row[i])
+
+                        #print number, row[i]
+                number+=1
+
+cat Family.10000.ID.txt|xargs faidx  ../All.samples.fasta >Family.10000.ID.fa
+
+"""
 
 #
 # rule spectral_clust:
