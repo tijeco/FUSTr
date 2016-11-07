@@ -21,11 +21,14 @@ def fasta_iter(fasta_name):
 
 
 SAMPLES, = glob_wildcards("{sample}.pep")
+SAMPLES2, = glob_wildcards("MCL_CDS_FAM_15.members_dir/all.cds.combined_{sample}.fasta")
+
 
 rule final:
-    input: "New.tmp"
+    #input: "New.tmp"
     #input: expand("{sample}.pep.longestIsoform", sample=SAMPLES)
-
+    input:expand("all.cds.combined_{sample}.aln", sample=SAMPLES2)
+    input:
 
     #input: "all.combined.blastall.out"
 
@@ -140,19 +143,21 @@ rule sep_family_fasta:
         "TMP.file"
     shell:
         "cp all.cds.combined  all.cds.combined.fasta; silix-split -n 15 all.cds.combined.fasta {input} ; touch {output}"
-SAMPLES, = glob_wildcards("MCL_CDS_FAM_15.members_dir/all.cds.combined_{sample}.fasta")
+SAMPLES2, = glob_wildcards("MCL_CDS_FAM_15.members_dir/all.cds.combined_{sample}.fasta")
 
 rule mafft:
     input:
-        expand("all.cds.combined_{sample}.fasta", sample=SAMPLES)
+        expand("all.cds.combined_{sample}.fasta", sample=SAMPLES2)
     output:
-        expand("all.cds.combined_{sample}.aln", sample=SAMPLES)
+        expand("all.cds.combined_{sample}.aln", sample=SAMPLES2)
     shell:
         "mafft --auto {input} > {output}"
-rule mafft_tmpOneFile:
-    input:
-        expand("all.cds.combined_{sample}.aln", sample=SAMPLES)
-    output:
-        "New.tmp"
-    shell:
-        "touch {output}"
+
+
+# rule mafft_tmpOneFile:
+#     input:
+#         expand("all.cds.combined_{sample}.aln", sample=SAMPLES)
+#     output:
+#         "New.tmp"
+#     shell:
+#         "touch {output}"
