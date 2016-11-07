@@ -132,3 +132,9 @@ rule mcl2tab:
 
                         out.write(str(number)+"\t"+row[i]+"\n")
                     number+=1
+
+rule sep_family_fasta:
+    input:
+        "all.pep.combined_MCL.fnodes"
+    shell:
+        "cp all.cds.combined  all.cds.combined.fasta; silix-split -n 15 all.cds.combined.fasta {input} -o MCL_CDS_FAM_15.members_dir "
