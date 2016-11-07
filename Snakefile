@@ -69,8 +69,8 @@ rule subset_pep_and_cds:
 
 rule combine_pep_and_cds:
     input:
-        cds_sequence="{sample}.cds.longestIsoform",
-        pep_sequence="{sample}.pep.longestIsoform"
+        cds_sequence=expand("{sample}.cds.longestIsoform",sample=SAMPLES),
+        pep_sequence=expand("{sample}.pep.longestIsoform",sample=SAMPLES)
     output:
         pep="all.pep.combined",
         cds="all.cds.combined"
@@ -84,16 +84,3 @@ rule combine_pep_and_cds:
         print(input)
         with open("all.pep.combined", "w") as out:
             out.write("Place holder text")
-        with open(output[0], 'w') as out:
-            for i in input:
-                sample = i.split('.')[0]
-                pep_file = sample+".cds"
-                fitter = fasta_iter(pep_file)
-                for ff in fitter:
-                    headerStr,seq =ff
-                    with open(i) as f:
-                        for line in f:
-                            ID = line.split()[0]+"|"+line.split()[1]
-                            if ID in headerStr:
-                                out.write(">"+sample+"_"+headerStr+"\n")
-                                out.write(seq+"\n")
