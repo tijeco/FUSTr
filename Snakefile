@@ -124,9 +124,9 @@ rule mcl2tab:
         "all.pep.combined_MCL.fnodes"
     run:
         with open(input[0]) as f:
-                with open(output[0], "w") as out:
-                    for line in f:
-                        row = line.split()
-                        for i in range(len(row)):
+            with open(output[0], "w") as out:
+                for line in f:
+                    row = line.split()
+                    for i in range(len(row)):
 
-                        out.write(len(row)+"\t"+row[i])
+                    out.write(len(row)+"\t"+row[i])
