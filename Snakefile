@@ -23,8 +23,8 @@ def fasta_iter(fasta_name):
 SAMPLES, = glob_wildcards("{sample}.pep")
 
 rule final:
-    #input: "all.combined.blastall.out"
-    input: expand("{sample}.pep.longestIsoform", sample=SAMPLES)
+    input: "all.pep.combined"
+    #input: expand("{sample}.pep.longestIsoform", sample=SAMPLES)
 
 
     #input: "all.combined.blastall.out"
@@ -55,7 +55,7 @@ rule keep_longest_isoform:
     shell:
         "Rscript KeepLongestIsoformID.R {input} {output}"
 
-rule subset_pep:
+rule subset_pep_and_cds:
     input:
         header="{sample}.longestIsoform.txt",
         sequence="{sample}.pep",
@@ -65,3 +65,22 @@ rule subset_pep:
         cds="{sample}.cds.longestIsoform"
     shell:
         "cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.sequence} >{output.pep}; cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.cds_sequence} >{output.cds}"
+
+
+rule combine_pep_and_cds:
+    input:
+        cds_sequence="{sample}.cds.longestIsoform"
+        pep_sequence="{sample}.pep.longestIsoform"
+    output:
+        pep="all.pep.combined"
+        cds="all.cds.combined"
+
+    run:
+        print("###################################")
+        print("Output looks like this")
+        print(output)
+        print("~~~~~~~~~~~~~~~~~~~~~~~~")
+        print("INput looks like this")
+        print(input)
+        with open("all.pep.combined", "w") as out:
+            out.write("Place holder text")
