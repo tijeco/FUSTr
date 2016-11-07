@@ -23,7 +23,7 @@ def fasta_iter(fasta_name):
 SAMPLES, = glob_wildcards("{sample}.pep")
 
 rule final:
-    input: "all.pep.combined.blastall.out"
+    input: "all.pep.combined.mcl.dumpfile"
     #input: expand("{sample}.pep.longestIsoform", sample=SAMPLES)
 
 
@@ -110,3 +110,10 @@ rule blastall:
         "all.pep.combined.blastall.out"
     shell:
         " formatdb -i {input} -n {input}.seq.db;blastall -p blastp -d {input}.seq.db -i {input} -m 8 -o {output} -a 13"
+rule mcl:
+    input:
+        "all.pep.combined.blastall.out"
+    output:
+        "all.pep.combined.mcl.dumpfile"
+    shell:
+        "mcxdeblast --m9 --line-mode=abc {input} -o {input}.abc;mcl {input}.abc --abc -I 2.0 -scheme 1 -o {output}"
