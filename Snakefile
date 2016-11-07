@@ -144,14 +144,14 @@ SAMPLES, = glob_wildcards("{sample}.fasta")
 
 rule mafft:
     input:
-        expand("{sample}.fasta", sample=SAMPLES)
+        expand("MCL_CDS_FAM_15.members_dir/{sample}.fasta", sample=SAMPLES)
     output:
-        expand("{sample}.aln", sample=SAMPLES)
+        expand("MCL_CDS_FAM_15.members_dir/{sample}.aln", sample=SAMPLES)
     shell:
         "mafft --auto {input} > {output}"
 rule mafft_tmpOneFile:
     input:
-        expand("{sample}.aln", sample=SAMPLES)
+        expand("MCL_CDS_FAM_15.members_dir/{sample}.aln", sample=SAMPLES)
     output:
         "NewTmp"
     shell:
