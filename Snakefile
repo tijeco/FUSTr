@@ -139,19 +139,19 @@ rule sep_family_fasta:
     output:
         "TMP.file"
     shell:
-        "cp all.cds.combined  all.cds.combined.fasta;mkdir MCL_CDS_FAM_15.members_dir; silix-split -n 15 all.cds.combined.fasta {input} -o MCL_CDS_FAM_15.members_dir ; touch {output}"
-SAMPLES, = glob_wildcards("MCL_CDS_FAM_15.members_dir/{sample}.fasta")
+        "cp all.cds.combined  all.cds.combined.fasta; silix-split -n 15 all.cds.combined.fasta {input} -o MCL_CDS_FAM_15.members_dir ; touch {output}"
+SAMPLES, = glob_wildcards("MCL_CDS_FAM_15.members_dir/all.cds.combined_{sample}.fasta")
 
 rule mafft:
     input:
-        expand("MCL_CDS_FAM_15.members_dir/{sample}.fasta", sample=SAMPLES)
+        expand("MCL_CDS_FAM_15.members_dir/all.cds.combined_{sample}.fasta", sample=SAMPLES)
     output:
-        expand("MCL_CDS_FAM_15.members_dir/{sample}.aln", sample=SAMPLES)
+        expand("MCL_CDS_FAM_15.members_dir/all.cds.combined_{sample}.aln", sample=SAMPLES)
     shell:
         "mafft --auto {input} > {output}"
 rule mafft_tmpOneFile:
     input:
-        expand("MCL_CDS_FAM_15.members_dir/{sample}.aln", sample=SAMPLES)
+        expand("MCL_CDS_FAM_15.members_dir/all.cds.combined_{sample}.aln", sample=SAMPLES)
     output:
         "NewTmp"
     shell:
