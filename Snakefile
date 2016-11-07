@@ -84,5 +84,11 @@ rule combine_pep_and_cds:
         for i in input.cds_sequence:
             print(i)
 
-        with open("all.pep.combined", "w") as out:
-            out.write("Place holder text")
+        with open(output.pep, "w") as out:
+            for i in input.pep_sequence:
+                sample = i.split('.')[0]
+                for line in open(i):
+                    if ">" in line:
+                        out.write(">"+sample+"_"+line)
+                    else:
+                        out.write(line)
