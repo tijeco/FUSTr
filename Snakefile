@@ -92,3 +92,11 @@ rule combine_pep_and_cds:
                         out.write(">"+sample+"_"+line)
                     else:
                         out.write(line)
+        with open(output.cds, "w") as out:
+            for i in input.cds_sequence:
+                sample = i.split('.')[0]
+                for line in open(i):
+                    if ">" in line:
+                        out.write(">"+sample+"_"+line)
+                    else:
+                        out.write(line)
