@@ -23,7 +23,7 @@ def fasta_iter(fasta_name):
 SAMPLES, = glob_wildcards("{sample}.pep")
 
 rule final:
-    input: "NewTmp"
+    input: "TMP.file"
     #input: expand("{sample}.pep.longestIsoform", sample=SAMPLES)
 
 
@@ -144,14 +144,14 @@ SAMPLES, = glob_wildcards("MCL_CDS_FAM_15.members_dir/all.cds.combined_{sample}.
 
 rule mafft:
     input:
-        expand("MCL_CDS_FAM_15.members_dir/all.cds.combined_{sample}.fasta", sample=SAMPLES)
+        expand("all.cds.combined_{sample}.fasta", sample=SAMPLES)
     output:
-        expand("MCL_CDS_FAM_15.members_dir/all.cds.combined_{sample}.aln", sample=SAMPLES)
+        expand("all.cds.combined_{sample}.aln", sample=SAMPLES)
     shell:
         "mafft --auto {input} > {output}"
 rule mafft_tmpOneFile:
     input:
-        expand("MCL_CDS_FAM_15.members_dir/all.cds.combined_{sample}.aln", sample=SAMPLES)
+        expand("all.cds.combined_{sample}.aln", sample=SAMPLES)
     output:
         "NewTmp"
     shell:
