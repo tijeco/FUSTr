@@ -23,7 +23,7 @@ def fasta_iter(fasta_name):
 SAMPLES, = glob_wildcards("{sample}.pep")
 
 rule final:
-    input: "all.pep.combined.mcl.dumpfile"
+    input: "all.pep.combined_MCL.fnodes"
     #input: expand("{sample}.pep.longestIsoform", sample=SAMPLES)
 
 
@@ -117,3 +117,16 @@ rule mcl:
         "all.pep.combined.mcl.dumpfile"
     shell:
         "mcxdeblast --m9 --line-mode=abc {input} -o {input}.abc;mcl {input}.abc --abc -I 2.0 -scheme 1 -o {output}"
+rule mcl2tab:
+    input:
+        "all.pep.combined.mcl.dumpfile"
+    output:
+        "all.pep.combined_MCL.fnodes"
+    run:
+        with open(input[0]) as f:
+                with open(output[0], "w") as out:
+                    for line in f:
+                        row = line.split()
+                        for i in range(len(row)):
+
+                        out.write(len(row)+"\t"+row[i])
