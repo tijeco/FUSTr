@@ -100,3 +100,13 @@ rule combine_pep_and_cds:
                         out.write(">"+sample+"_"+line.strip(">"))
                     else:
                         out.write(line)
+
+
+
+rule blastall:
+    input:
+        "all.pep.combined"
+    output:
+        "all.pep.combined.blastall.out"
+    shell:
+        " formatdb -i {input} -n {input}.seq.db;blastall -p blastp -d {input}.seq.db -i {input} -m 8 -o {output} -a 13"
