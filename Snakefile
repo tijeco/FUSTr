@@ -76,15 +76,13 @@ rule combine_pep_and_cds:
         cds="all.cds.combined"
 
     run:
-        print("###################################")
-        print("Output looks like this")
-        for i in output:
+        print("first ouput file",output.pep,"the following files")
+
+        for i in input.pep_sequence:
             print(i)
-        print(output)
-        print("~~~~~~~~~~~~~~~~~~~~~~~~")
-        print("INput looks like this")
-        for i in input:
+        print("second ouput file",output.cds,"the following files")
+        for i in input.cds_sequence:
             print(i)
-        print(input.pep_sequence)
+
         with open("all.pep.combined", "w") as out:
             out.write("Place holder text")
