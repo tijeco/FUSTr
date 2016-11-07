@@ -23,7 +23,7 @@ def fasta_iter(fasta_name):
 SAMPLES, = glob_wildcards("{sample}.pep")
 
 rule final:
-    input: "all.pep.combined"
+    input: "all.pep.combined.blastall.out"
     #input: expand("{sample}.pep.longestIsoform", sample=SAMPLES)
 
 
