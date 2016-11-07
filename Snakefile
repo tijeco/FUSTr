@@ -28,7 +28,7 @@ rule final:
     #input: "New.tmp"
     #input: expand("{sample}.pep.longestIsoform", sample=SAMPLES)
     input:expand("all.cds.combined_{sample}.aln", sample=SAMPLES2)
-    input:
+    #Aqinput:
 
     #input: "all.combined.blastall.out"
 
