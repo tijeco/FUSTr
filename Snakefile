@@ -89,7 +89,7 @@ rule combine_pep_and_cds:
                 sample = i.split('.')[0]
                 for line in open(i):
                     if ">" in line:
-                        out.write(">"+sample+"_"+line)
+                        out.write(">"+sample+"_"+line.strip(">"))
                     else:
                         out.write(line)
         with open(output.cds, "w") as out:
