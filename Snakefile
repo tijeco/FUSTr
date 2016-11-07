@@ -140,7 +140,7 @@ rule sep_family_fasta:
         "TMP.file"
     shell:
         "cp all.cds.combined  all.cds.combined.fasta;mkdir MCL_CDS_FAM_15.members_dir; silix-split -n 15 all.cds.combined.fasta {input} -o MCL_CDS_FAM_15.members_dir ; touch {output}"
-SAMPLES, = glob_wildcards("{sample}.fasta")
+SAMPLES, = glob_wildcards("MCL_CDS_FAM_15.members_dir/{sample}.fasta")
 
 rule mafft:
     input:
