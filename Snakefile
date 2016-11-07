@@ -27,7 +27,7 @@ SAMPLES2, = glob_wildcards("all.cds.combined_{sample}.fasta")
 rule final:
     #input: "New.tmp"
     #input: expand("{sample}.pep.longestIsoform", sample=SAMPLES)
-    input:expand("all.cds.combined_{sample}.aln", sample=SAMPLES2)
+    input:expand("all.cds.combined_{sample2}.aln", sample2=SAMPLES2)
     #Aqinput:
 
     #input: "all.combined.blastall.out"
@@ -147,9 +147,9 @@ rule sep_family_fasta:
 
 rule mafft:
     input:
-        expand("all.cds.combined_{sample}.fasta", sample=SAMPLES2)
+        "all.cds.combined_{sample2}.fasta"
     output:
-        expand("all.cds.combined_{sample}.aln", sample=SAMPLES2)
+        "all.cds.combined_{sample2}.aln"
     shell:
         "mafft --auto {input} > {output}"
 
