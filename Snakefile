@@ -21,7 +21,7 @@ def fasta_iter(fasta_name):
 
 
 SAMPLES, = glob_wildcards("{sample}.pep")
-SAMPLES2, = glob_wildcards("MCL_CDS_FAM_15.members_dir/all.cds.combined_{sample}.fasta")
+SAMPLES2, = glob_wildcards("all.cds.combined_{sample}.fasta")
 
 
 rule final:
