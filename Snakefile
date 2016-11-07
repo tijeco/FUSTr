@@ -69,10 +69,10 @@ rule subset_pep_and_cds:
 
 rule combine_pep_and_cds:
     input:
-        cds_sequence="{sample}.cds.longestIsoform"
+        cds_sequence="{sample}.cds.longestIsoform",
         pep_sequence="{sample}.pep.longestIsoform"
     output:
-        pep="all.pep.combined"
+        pep="all.pep.combined",
         cds="all.cds.combined"
 
     run:
