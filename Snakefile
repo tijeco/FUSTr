@@ -1,5 +1,7 @@
 from os.path import join
 from itertools import groupby
+from itertools import (takewhile,repeat)
+
 
 def fasta_iter(fasta_name):
 
@@ -18,6 +20,11 @@ def fasta_iter(fasta_name):
 
         yield (headerStr, seq)
 
+
+def rawincount(filename):
+    f = open(filename, 'rb')
+    bufgen = takewhile(lambda x: x, (f.raw.read(1024*1024) for _ in repeat(None)))
+    return sum( buf.count(b'\n') for buf in bufgen )
 
 
 SAMPLES, = glob_wildcards("{sample}.pep")
@@ -193,7 +200,7 @@ rule aln2phy:
                 headerStr, seq = ff
                 if first_line:
                     seq_length = len(seq)
-                    num_lines = sum(1 for line in open(input[0]))
+                    num_lines = rawincount(input[0])
                     out.write(str(num_lines)+" "+str(seq_length)+"\n")
                     first_line=False
 
