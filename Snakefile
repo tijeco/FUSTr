@@ -182,9 +182,9 @@ rule aln2phy:
     output:
         "all.pep.combined_{sample2}.phy"
     run:
-        with open(output, "w") as out:
+        with open(output[0], "w") as out:
 
-            sequence_iterator = fasta_iter(input)
+            sequence_iterator = fasta_iter(input[0])
             for ff in sequence_iterator:
                 headerStr, seq = ff
                 out.write(headerStr.strip('>').split()[0]+"\t")
