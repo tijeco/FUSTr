@@ -34,7 +34,7 @@ SAMPLES2, = glob_wildcards("all.cds.combined_{sample}.fasta")
 rule final:
     #input: "New.tmp"
     #input: expand("{sample}.pep.longestIsoform", sample=SAMPLES)
-    input:expand("all.pep.combined_{sample2}.phy", sample2=SAMPLES2)
+    input:expand("all.pep.combined_{sample2}.aln", sample2=SAMPLES2)
     #Aqinput:
 
     #input: "all.combined.blastall.out"
