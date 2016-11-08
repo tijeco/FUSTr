@@ -200,7 +200,7 @@ rule aln2phy:
                 headerStr, seq = ff
                 if first_line:
                     seq_length = len(seq)
-                    num_lines = rawincount(input[0])
+                    num_lines = num_lines = sum(1 for line in open(input[0]) if line[0]=='>')
                     out.write(str(num_lines)+" "+str(seq_length)+"\n")
                     first_line=False
 
