@@ -104,7 +104,8 @@ rule combine_pep_and_cds:
                     else:
                         out.write(line)
 
-                        #####Below shouldn't be necessary, but it might be 
+                        #####Below shouldn't be necessary, but it might be ,
+                        #### If it is then it will give one line sequences
 """
         with open(output.pep, "w") as out:
             for sample_file in input.pep_sequence:
@@ -116,7 +117,7 @@ rule combine_pep_and_cds:
                     out.write(seq)
 
 
-            #below might not b wrong, but I am afraid that the fasta file will give issues
+
 """
 
 
