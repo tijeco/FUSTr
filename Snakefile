@@ -104,6 +104,21 @@ rule combine_pep_and_cds:
                     else:
                         out.write(line)
 
+                        #####Below shouldn't be necessary, but it might be 
+"""
+        with open(output.pep, "w") as out:
+            for sample_file in input.pep_sequence:
+                sample = sample_file.split('.')[0]
+                sequence_iterator = fasta_iter(sample_file)
+                for ff in sequence_iterator:
+                    headerStr, seq = ff
+                    out.write(">"+sample+"_"+headerStr)
+                    out.write(seq)
+
+
+            #below might not b wrong, but I am afraid that the fasta file will give issues
+"""
+
 
 
 rule blastall:
