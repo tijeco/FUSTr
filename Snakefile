@@ -145,14 +145,20 @@ rule sep_family_fasta:
         "cp all.cds.combined  all.cds.combined.fasta; silix-split -n 15 all.cds.combined.fasta {input} ; touch {output}"
 #SAMPLES2, = glob_wildcards("MCL_CDS_FAM_15.members_dir/all.cds.combined_{sample}.fasta")
 
-rule mafft:
+rule mafft_cds:
     input:
         "all.cds.combined_{sample2}.fasta"
     output:
         "all.cds.combined_{sample2}.aln"
     shell:
         "mafft --auto {input} > {output}"
-
+rule mafft_pep:
+    input :
+        "all.pep.combined_{sample2}.fasta"
+    output:
+        "all.pep.combined_{sample2}.aln"
+    shell:
+        "mafft --auto {input} > {output}"
 
 # rule mafft_tmpOneFile:
 #     input:
