@@ -205,7 +205,7 @@ rule aln2phy:
                     first_line=False
 
                 seq_length = len(seq)
-                out.write(headerStr.strip('>').split('.')[0]+"\t")
+                out.write(headerStr.strip('>').split(':')[0]+"\t")
                 out.write(seq +"\n")
 # rule mafft_tmpOneFile:
 #     input:
