@@ -183,12 +183,12 @@ rule aln2phy:
         "all.pep.combined_{sample2}.phy"
     run:
         with open(output, "w") as out:
-            for sample_file in input:
-                sequence_iterator = fasta_iter(sample_file)
-                for ff in sequence_iterator:
-                    headerStr, seq = ff
-                    out.write(headerStr.strip('>').split()[0]+"\t")
-                    out.write(seq +"\n")
+
+            sequence_iterator = fasta_iter(input)
+            for ff in sequence_iterator:
+                headerStr, seq = ff
+                out.write(headerStr.strip('>').split()[0]+"\t")
+                out.write(seq +"\n")
 # rule mafft_tmpOneFile:
 #     input:
 #         expand("all.cds.combined_{sample}.aln", sample=SAMPLES)
