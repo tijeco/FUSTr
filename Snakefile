@@ -27,7 +27,7 @@ SAMPLES2, = glob_wildcards("all.cds.combined_{sample}.fasta")
 rule final:
     #input: "New.tmp"
     #input: expand("{sample}.pep.longestIsoform", sample=SAMPLES)
-    input:expand("all.pep.combined_{sample2}.aln", sample2=SAMPLES2)
+    input:expand("all.pep.combined_{sample2}.phy", sample2=SAMPLES2)
     #Aqinput:
 
     #input: "all.combined.blastall.out"
@@ -176,6 +176,19 @@ rule mafft_pep:
     shell:
         "mafft --auto {input} > {output}"
 
+rule aln2phy:
+    input:
+        "all.pep.combined_{sample2}.aln"
+    output:
+        "all.pep.combined_{sample2}.phy"
+    run:
+        with open(output, "w") as out:
+            for sample_file in input:
+                sequence_iterator = fasta_iter(sample_file)
+                for ff in sequence_iterator:
+                    headerStr, seq = ff
+                    out.write(headerStr.strip('>').split()[0]+"\t")
+                    out.write(seq +"\n")
 # rule mafft_tmpOneFile:
 #     input:
 #         expand("all.cds.combined_{sample}.aln", sample=SAMPLES)
