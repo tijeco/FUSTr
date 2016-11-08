@@ -28,7 +28,7 @@ def rawincount(filename):
 
 
 SAMPLES, = glob_wildcards("{sample}.pep")
-SAMPLES2, = glob_wildcards("all.cds.combined_{sample}.fasta")
+SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
 
 
 rule final:
