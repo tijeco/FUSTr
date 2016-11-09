@@ -37,7 +37,7 @@ rule final:
     input:expand("all.pep.combined_{sample2}.phy", sample2=SAMPLES2)
     #Aqinput:
 
-    #input: "all.combined.blastall.out"
+    #input: "all.pep.combined.blastall.out"
 
 
 rule get_headers:
@@ -135,7 +135,7 @@ rule blastall:
     output:
         "all.pep.combined.blastall.out"
     shell:
-        " makeblastdb -in {input} -out {input}.seq.db;blastp -db {input}.seq.db -query {input} -outfm 6 -out {output} -a 13"
+        " makeblastdb -in {input} -out {input}.seq.db -dbtype prot ;blastp -db {input}.seq.db -query {input} -outfm 6 -out {output} -a 13"
 rule mcl:
     input:
         "all.pep.combined.blastall.out"
