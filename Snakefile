@@ -135,7 +135,7 @@ rule blastall:
     output:
         "all.pep.combined.blastall.out"
     shell:
-        " formatdb -i {input} -n {input}.seq.db;blastall -p blastp -d {input}.seq.db -i {input} -m 8 -o {output} -a 13"
+        " makeblastdb -in {input} -out {input}.seq.db;blastp -db {input}.seq.db -query {input} -outfm 6 -out {output} -a 13"
 rule mcl:
     input:
         "all.pep.combined.blastall.out"
