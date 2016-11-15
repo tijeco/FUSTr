@@ -34,7 +34,7 @@ SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
 rule final:
     #input: "New.tmp"
     #input: expand("{sample}.pep.longestIsoform", sample=SAMPLES)
-    input:expand("all.pep.combined_{sample2}.phy", sample2=SAMPLES2)
+    input:expand("all.pep.combined_{sample2}.RAXML.out.tre", sample2=SAMPLES2)
     #Aqinput:
 
     #input: "all.pep.combined.blastall.out"
@@ -207,6 +207,15 @@ rule aln2phy:
                 seq_length = len(seq)
                 out.write(headerStr.strip('>').split(':')[0]+"\t")
                 out.write(seq +"\n")
+                
+rule raxml:
+    input:
+        "all.pep.combined_{sample2}.phy"
+    output:
+        "all.pep.combined_{sample2}.RAXML.out.tre"
+    shell:
+        "raxmlHPC-PTHREADS-SSE3 -p 18274 -m PROTGAMMAWAG -T 12 -# 1000 -s {input} -n {output}"
+
 # rule mafft_tmpOneFile:
 #     input:
 #         expand("all.cds.combined_{sample}.aln", sample=SAMPLES)
