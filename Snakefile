@@ -214,7 +214,7 @@ rule raxml:
     output:
         "all.pep.combined_{sample2}.RAXML.out.tre"
     shell:
-        "raxmlHPC-PTHREADS-SSE3 -p 18274 -m PROTGAMMAWAG -T 12 -# 1000 -s {input} -n {output}"
+        "raxmlHPC-PTHREADS-AVX2 -p 18274 -m PROTGAMMAWAG -T 12 -# 1000 -s {input} -n {output}"
 
 # rule mafft_tmpOneFile:
 #     input:
