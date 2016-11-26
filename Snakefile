@@ -38,7 +38,7 @@ def rawincount(filename):
 SAMPLES, = glob_wildcards("{sample}.pep")
 SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
 RESULTS, = glob_wildcards("sequenceDir/Resuls_{date}")
-ORTHOGROUP = glob_wildcards("OG{orthogroup}.fa")
+ORTHOGROUP, = glob_wildcards("OG{orthogroup}.fa")
 
 rule final:
     input: "{orthogroup}.out"
@@ -96,7 +96,7 @@ rule longestIsoformDirectory:
 
 rule listAlignments:
     input:
-        expand("OG{orthogroup}.fa", orthogroup=ORTHOGROUP)
+        "OG{orthogroup}.fa"
     output:
         "{orthogroup}.out"
     shell:
