@@ -115,7 +115,7 @@ rule dothings:
     output:
         "output.out"
     shell:
-        "mkdir Alignments;mv sequenceDir/"+OrthoFinderDir+"/Alignments Alignments/;touch {output}""
+        "mkdir Alignments;mv sequenceDir/"+OrthoFinderDir+"/Alignments Alignments/;touch {output}"
 
 
 
