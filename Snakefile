@@ -37,6 +37,7 @@ def rawincount(filename):
 
 SAMPLES, = glob_wildcards("{sample}.pep")
 SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
+RESULTS, = glob_wildcards("sequenceDir/Resuls_{date}")
 
 
 rule final:
@@ -92,6 +93,12 @@ rule longestIsoformDirectory:
     shell:
         " cp {input} {output} "
 
+
+rule listAlignments:
+    input:
+        "sequenceDir/Resuls_{date}/Alignments/"
+    shell:
+        "ls {inputQ}"
 
 rule combine_pep_and_cds:
     input:
