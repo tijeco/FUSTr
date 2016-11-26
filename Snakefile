@@ -41,8 +41,8 @@ SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
 
 rule final:
     #input: "New.tmp"
-    #input: expand("{sample}.pep.longestIsoform", sample=SAMPLES)
-    input:expand("all.pep.combined_{sample2}.RAXML.out.tre", sample2=SAMPLES2)
+    input: expand("sequenceDir/{sample}.longestIsoform.pep.fasta", sample=SAMPLES)
+    #input:expand("all.pep.combined_{sample2}.RAXML.out.tre", sample2=SAMPLES2)
     #Aqinput:
 
     #input: "all.pep.combined.blastall.out"
@@ -83,6 +83,14 @@ rule subset_pep_and_cds:
         cds="{sample}.cds.longestIsoform"
     shell:
         "cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.sequence} >{output.pep}; cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.cds_sequence} >{output.cds}"
+
+rule: longestIsoformDirectory
+    input:
+        "{sample}.pep.longestIsoform"
+    output:
+        "sequenceDir/{sample}.longestIsoform.pep.fasta"
+    shell:
+        "mkdir sequenceDir; cp {input} {output} "
 
 
 rule combine_pep_and_cds:
