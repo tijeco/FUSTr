@@ -96,10 +96,10 @@ rule longestIsoformDirectory:
     shell:
         " cp {input} {output} "
 
-place4File = "sequenceDir/"+OrthoFinderDir
+place4File = "sequenceDir/"+OrthoFinderDir+"/OG{orthogroup}.fa"
 rule listAlignments:
     input:
-         place4File+"/OG{orthogroup}.fa"
+         place4File
     output:
         "{orthogroup}.out"
     shell:
