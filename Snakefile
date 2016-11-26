@@ -38,7 +38,7 @@ def rawincount(filename):
 SAMPLES, = glob_wildcards("{sample}.pep")
 SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
 RESULTS, = glob_wildcards("sequenceDir/Resuls_{date}")
-ORTHOGROUP = "OG{orthogroup}.fa"
+ORTHOGROUP = glob_wildcards("OG{orthogroup}.fa")
 
 rule final:
     input: expand("{orthogroup}.out", orthogroup=ORTHOGROUP)
@@ -101,6 +101,11 @@ rule listAlignments:
         "{orthogroup}.out"
     shell:
         "grep -c ">" {input} > {output}"
+
+
+
+
+
 
 rule combine_pep_and_cds:
     input:
