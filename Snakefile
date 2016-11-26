@@ -100,7 +100,7 @@ rule listAlignments:
     output:
         "{orthogroup}.out"
     shell:
-        "touch {output}"
+        "touch  {output}"
 
 
 
