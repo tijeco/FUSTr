@@ -41,7 +41,7 @@ RESULTS, = glob_wildcards("sequenceDir/Resuls_{date}")
 ORTHOGROUP = "OG{orthogroup}.fa"
 
 rule final:
-    input: expand("{orthogroup}.out, orthogroup=ORTHOGROUP")
+    input: expand("{orthogroup}.out", orthogroup=ORTHOGROUP)
     #input: expand("sequenceDir/{sample}.longestIsoform.pep.fasta", sample=SAMPLES)
     #input:expand("all.pep.combined_{sample2}.RAXML.out.tre", sample2=SAMPLES2)
     #Aqinput:
