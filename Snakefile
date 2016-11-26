@@ -38,10 +38,10 @@ def rawincount(filename):
 SAMPLES, = glob_wildcards("{sample}.pep")
 SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
 RESULTS, = glob_wildcards("sequenceDir/Resuls_{date}")
-
+ORTHOGROUP = "OG{orthogroup}.fa"
 
 rule final:
-    input: "ALIGNMEN.txt"
+    input: expand("{orthogroup}.out, orthogroup=ORTHOGROUP")
     #input: expand("sequenceDir/{sample}.longestIsoform.pep.fasta", sample=SAMPLES)
     #input:expand("all.pep.combined_{sample2}.RAXML.out.tre", sample2=SAMPLES2)
     #Aqinput:
@@ -93,7 +93,7 @@ rule longestIsoformDirectory:
     shell:
         " cp {input} {output} "
 
-ORTHOGROUP = "OG{orthogroup}.fa"
+
 rule listAlignments:
     input:
         expand("OG{orthogroup}.fa",orthogroup=ORTHOGROUP)
