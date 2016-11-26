@@ -41,8 +41,8 @@ RESULTS, = glob_wildcards("sequenceDir/Resuls_{date}")
 
 
 rule final:
-    #input: "New.tmp"
-    input: expand("sequenceDir/{sample}.longestIsoform.pep.fasta", sample=SAMPLES)
+    input: "ALIGNMEN.txt"
+    #input: expand("sequenceDir/{sample}.longestIsoform.pep.fasta", sample=SAMPLES)
     #input:expand("all.pep.combined_{sample2}.RAXML.out.tre", sample2=SAMPLES2)
     #Aqinput:
 
@@ -97,8 +97,10 @@ rule longestIsoformDirectory:
 rule listAlignments:
     input:
         "sequenceDir/Resuls_{date}/Alignments/"
+    output:
+        "ALIGNMEN.txt"
     shell:
-        "ls {inputQ}"
+        "ls {input}> {output}"
 
 rule combine_pep_and_cds:
     input:
