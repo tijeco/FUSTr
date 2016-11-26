@@ -7,7 +7,7 @@ def getOptionValue(option):
     optionPos = [i for i, j in enumerate(sys.argv) if j == option][0]
     optionValue = sys.argv[optionPos + 1]
 if "-DoFlagsWork" in sys.argv:
-    print getOptionValue("-DoFlagsWork")
+    print(getOptionValue("-DoFlagsWork"))
     sys.exit()
 
 def fasta_iter(fasta_name):
