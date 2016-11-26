@@ -77,12 +77,12 @@ rule subset_pep_and_cds:
     input:
         header="{sample}.longestIsoform.txt",
         sequence="{sample}.pep",
-        cds_sequence = "{sample}.cds"
+        #cds_sequence = "{sample}.cds"
     output:
         pep="{sample}.pep.longestIsoform",
-        cds="{sample}.cds.longestIsoform"
+        #cds="{sample}.cds.longestIsoform"
     shell:
-        "cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.sequence} >{output.pep}; cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.cds_sequence} >{output.cds}"
+        "cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.sequence} >{output.pep}"#; cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.cds_sequence} >{output.cds}"
 
 rule longestIsoformDirectory:
     input:
