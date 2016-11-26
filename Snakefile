@@ -90,7 +90,7 @@ rule longestIsoformDirectory:
     output:
         "sequenceDir/{sample}.longestIsoform.pep.fasta"
     shell:
-        "mkdir sequenceDir; cp {input} {output} "
+        " cp {input} {output} "
 
 
 rule combine_pep_and_cds:
