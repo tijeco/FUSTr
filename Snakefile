@@ -93,14 +93,14 @@ rule longestIsoformDirectory:
     shell:
         " cp {input} {output} "
 
-
+ORTHOGROUP = "OG{orthogroup}.fa"
 rule listAlignments:
     input:
-        expand("sequenceDir/Resuls_{date}/Alignments/",date=RESULTS)
+        expand("OG{orthogroup}.fa",orthogroup=ORTHOGROUP)
     output:
-        "ALIGNMEN.txt"
+        "{orthogroup}.output"
     shell:
-        "grep -c ">" sequenceDir/Results*/Alignments/ > {output}"
+        "grep -c ">" {input} > {output}"
 
 rule combine_pep_and_cds:
     input:
