@@ -100,7 +100,7 @@ rule listAlignments:
     output:
         "{orthogroup}.out"
     shell:
-        "grep -c ">" {input} > {output}"
+        "touch {output}"
 
 
 
