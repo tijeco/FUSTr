@@ -100,7 +100,7 @@ rule listAlignments:
     output:
         "ALIGNMEN.txt"
     shell:
-        "echo {input}> {output}"
+        "ls Results*/Alignments/ > {output}"
 
 rule combine_pep_and_cds:
     input:
