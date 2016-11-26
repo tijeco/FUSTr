@@ -46,7 +46,9 @@ ORTHOGROUP, = glob_wildcards("OG{orthogroup}.fa")
 place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
 
 rule final:
-    input: expand("sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out", orthogroup=ORTHOGROUP)
+    input:"output.out"
+    #input: expand("sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out", orthogroup=ORTHOGROUP)
+
     #input: expand("sequenceDir/{sample}.longestIsoform.pep.fasta", sample=SAMPLES)
     #input:expand("all.pep.combined_{sample2}.RAXML.out.tre", sample2=SAMPLES2)
     #Aqinput:
@@ -106,6 +108,13 @@ rule listAlignments:
     shell:
         "touch  {output}"
 
+rule dothings:
+    input:
+        "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
+    output:
+        "output.out"
+    shell:
+        "touch {output}"
 
 
 
