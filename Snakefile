@@ -1,7 +1,12 @@
 from os.path import join
 from itertools import groupby
 from itertools import (takewhile,repeat)
+import sys
 
+def getOptionValue(option):
+    optionPos = [i for i, j in enumerate(sys.argv) if j == option][0]
+    optionValue = sys.argv[optionPos + 1]
+    return optionValueQ
 
 def fasta_iter(fasta_name):
 
@@ -207,7 +212,7 @@ rule aln2phy:
                 seq_length = len(seq)
                 out.write(headerStr.strip('>').split(':')[0]+"\t")
                 out.write(seq +"\n")
-                
+
 rule raxml:
     input:
         "all.pep.combined_{sample2}.phy"
