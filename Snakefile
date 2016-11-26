@@ -2,6 +2,9 @@ from os.path import join
 from itertools import groupby
 from itertools import (takewhile,repeat)
 import sys
+import datetime
+today = datetime.date.today()
+OrthoFinderDir = today.strftime('Results_%b%d')
 
 
 # def getOptionValue(option):
@@ -93,10 +96,10 @@ rule longestIsoformDirectory:
     shell:
         " cp {input} {output} "
 
-
+place4File = "sequenceDir/"+OrthoFinderDir
 rule listAlignments:
     input:
-        expand("sequenceDir/Resuls_{date}/OG{orthogroup}.fa",date=RESULTS,orthogroup=ORTHOGROUP)
+         place4File+"/OG{orthogroup}.fa"
     output:
         "{orthogroup}.out"
     shell:
