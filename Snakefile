@@ -84,7 +84,7 @@ rule subset_pep_and_cds:
     shell:
         "cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.sequence} >{output.pep}; cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.cds_sequence} >{output.cds}"
 
-rule: longestIsoformDirectory
+rule longestIsoformDirectory:
     input:
         "{sample}.pep.longestIsoform"
     output:
