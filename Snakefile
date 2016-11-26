@@ -96,7 +96,7 @@ rule longestIsoformDirectory:
 
 rule listAlignments:
     input:
-        expand("sequenceDir/Resuls_{date}/Alignments/"),date=RESULTS
+        expand("sequenceDir/Resuls_{date}/Alignments/",date=RESULTS)
     output:
         "ALIGNMEN.txt"
     shell:
