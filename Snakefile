@@ -43,7 +43,7 @@ SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
 RESULTS, = glob_wildcards("sequenceDir/Resuls_{date}")
 ORTHOGROUP, = glob_wildcards("OG{orthogroup}.fa")
 
-place4File = "sequenceDir/"+OrthoFinderDir+"/OG{orthogroup}.out"
+place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
 
 rule final:
     input: expand(place4File, orthogroup=ORTHOGROUP)
@@ -100,9 +100,9 @@ rule longestIsoformDirectory:
 
 rule listAlignments:
     input:
-         "sequenceDir/"+OrthoFinderDir+"/OG{orthogroup}.fa"
+         "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.fa"
     output:
-        "sequenceDir/"+OrthoFinderDir+"/OG{orthogroup}.out"
+        "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
     shell:
         "touch  {output}"
 
