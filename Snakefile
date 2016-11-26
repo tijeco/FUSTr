@@ -96,7 +96,7 @@ rule longestIsoformDirectory:
 
 rule listAlignments:
     input:
-        expand("OG{orthogroup}.fa",orthogroup=ORTHOGROUP)
+        "OG{orthogroup}.fa"
     output:
         "{orthogroup}.output"
     shell:
