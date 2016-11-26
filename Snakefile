@@ -100,7 +100,7 @@ rule listAlignments:
     output:
         "ALIGNMEN.txt"
     shell:
-        "grep -c ">" sequenceDir/Results*/Alignments/* > {output}"
+        "grep -c ">" sequenceDir/Results*/Alignments/ > {output}"
 
 rule combine_pep_and_cds:
     input:
