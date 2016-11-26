@@ -41,7 +41,7 @@ RESULTS, = glob_wildcards("sequenceDir/Resuls_{date}")
 ORTHOGROUP = glob_wildcards("OG{orthogroup}.fa")
 
 rule final:
-    input: "tempy.out"
+    input: expand("{orthogroup}.out", orthogroup=ORTHOGROUP)
     #input: expand("sequenceDir/{sample}.longestIsoform.pep.fasta", sample=SAMPLES)
     #input:expand("all.pep.combined_{sample2}.RAXML.out.tre", sample2=SAMPLES2)
     #Aqinput:
@@ -98,9 +98,9 @@ rule listAlignments:
     input:
         "OG{orthogroup}.fa"
     output:
-        "tempy.out"
+        "{orthogroup}.out"
     shell:
-        "grep -c ">" {input} >> {output}"
+        "grep -c ">" {input} > {output}"
 
 
 
