@@ -96,7 +96,7 @@ rule longestIsoformDirectory:
 
 rule listAlignments:
     input:
-        "OG{orthogroup}.fa"
+        "sequenceDir/Resuls_{date}/OG{orthogroup}.fa"
     output:
         "{orthogroup}.out"
     shell:
