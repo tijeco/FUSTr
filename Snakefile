@@ -47,6 +47,7 @@ place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
 
 rule final:
     input:"output.out"
+
     #input: expand("sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out", orthogroup=ORTHOGROUP)
 
     #input: expand("sequenceDir/{sample}.longestIsoform.pep.fasta", sample=SAMPLES)
@@ -110,11 +111,11 @@ rule listAlignments:
 
 rule dothings:
     input:
-        "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
+        "move.sh"
     output:
         "output.out"
     shell:
-        "touch {output}"
+        "mkdir Alignments;mv sequenceDir/"+OrthoFinderDir+"/Alignments Alignments/;touch {output}""
 
 
 
