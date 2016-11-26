@@ -96,9 +96,9 @@ rule longestIsoformDirectory:
 
 rule listAlignments:
     input:
-        expand("OG{orthogroup}.fa", orthogroup=ORTHOGROUP)
+        "OG{orthogroup}.fa"
     output:
-        expand("{orthogroup}.out",orthogroup=ORTHOGROUP)
+        "{orthogroup}.out"
     shell:
         "grep -c ">" {input} > {output}"
 
