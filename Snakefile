@@ -46,7 +46,7 @@ ORTHOGROUP, = glob_wildcards("Alignments/OG{orthogroup}.fa")
 place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
 
 rule final:
-    input:expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP)
+    input:expand("Alignments/OG{orthogroup}.fa",orthogroup=ORTHOGROUP)
 
     #input: expand("sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out", orthogroup=ORTHOGROUP)
 
