@@ -42,7 +42,6 @@ SAMPLES, = glob_wildcards("{sample}.pep")
 SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
 RESULTS, = glob_wildcards("sequenceDir/Resuls_{date}")
 ORTHOGROUP, = glob_wildcards("Alignments/OG{orthogroup}.fa")
-print(ORTHOGROUP)
 
 place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
 #print(expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP))
@@ -116,7 +115,7 @@ rule listAlignments:
 
 rule dothings:
     input:
-        "sequenceDir/{sample}.longestIsoform.pep.fasta"
+        expand("sequenceDir/{sample}.longestIsoform.pep.fasta",sample=SAMPLES)
     output:
         "Alignments/OG{orthogroup}.fa"
     shell:
