@@ -119,7 +119,7 @@ rule moveAlignments:
     output:
         "Alignments/OG{orthogroup}.fa"
     shell:
-        cp sequenceDir/"+OrthoFinderDir+"/Alignments Alignments/"
+        "cp sequenceDir/"+OrthoFinderDir+"/Alignments Alignments/"
         #"mkdir Alignments;cd sequenceDir/" +OrthoFinderDir+"/Alignments; for f in $(find . -maxdepth 1 -type f -exec sh -c 'test $( grep -c '>' {} | cut -f1 -d' ' ) -gt "+"14"+"' \; -print);do  cp  $f ../../../Alignments/$f;done"
 
 rule aln2phy:
