@@ -113,13 +113,15 @@ rule listAlignments:
     shell:
         "touch  {output}"
 
-rule dothings:
+rule moveAlignments:
     input:
         expand("sequenceDir/{sample}.longestIsoform.pep.fasta",sample=SAMPLES)
     output:
         "Alignments/OG{orthogroup}.fa"
     shell:
-        "mkdir Alignments;cp sequenceDir/"+OrthoFinderDir+"/Alignments Alignments/"
+        "mkdir Alignments;cd sequenceDir/" +OrthoFinderDir+"/Alignments; for f in $(find . -maxdepth 1 -type f -exec sh -c 'test $( grep -c '>' {} | cut -f1 -d' ' ) -gt "+"14"+"' \; -print);do  cp  $f ../../../Alignments/$f;done"
+
+        #cp sequenceDir/"+OrthoFinderDir+"/Alignments Alignments/"
 
 rule aln2phy:
     input:
