@@ -124,7 +124,7 @@ rule dothings:
 
 rule aln2phy:
     input:
-        expand("Alignments/OG{orthogroup}.fa"
+        "Alignments/OG{orthogroup}.fa"
     output:
         "Alignments/OG{orthogroup}.phy"
     run:
