@@ -147,7 +147,7 @@ rule aln2phy:
 
 rule mergePhys:
     input:
-        expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP)
+        "Alignments/OG{orthogroup}.phy"
     output:
         "combined.txt"
     run:
