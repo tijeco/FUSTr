@@ -150,8 +150,12 @@ rule mergePhys:
         expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP)
     output:
         "combined.txt"
-    shell:
-        "cat Alignments/*phy > {output}"
+    run:
+         with open(output[0], 'w') as out:
+            for i in input:
+                sample = i.split('.')[0]
+                for line in open(i):
+                    out.write(sample + ' ' + line)
 
 
 
