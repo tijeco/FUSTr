@@ -144,7 +144,7 @@ rule aln2phy:
                 out.write(headerStr.strip('>').split(':')[0]+"\t")
                 out.write(seq +"\n")
 
-rule: mergePhys:
+rule mergePhys:
     input:
         "Alignments/OG{orthogroup}.phy"
     output:
