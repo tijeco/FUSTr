@@ -113,12 +113,13 @@ rule dothings:
     input:
         "move.sh"
     output:
-        "output.out"
+        "Alignments/OG{orthogroup}.fa"
     shell:
-        "mkdir Alignments;mv sequenceDir/"+OrthoFinderDir+"/Alignments Alignments/;touch {output}"
+        "mkdir Alignments;mv sequenceDir/"+OrthoFinderDir+"/Alignments Alignments/"
 
 rule aln2phy:
     input:
+
         "Alignments/OG{orthogroup}.fa"
     output:
         "Alignments/OG{orthogroup}.phy"
