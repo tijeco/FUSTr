@@ -113,11 +113,11 @@ rule listAlignments:
 
 rule dothings:
     input:
-        "move.sh"
+        "sequenceDir/{sample}.longestIsoform.pep.fasta"
     output:
         "Alignments/OG{orthogroup}.fa"
     shell:
-        "mkdir Alignments;mv sequenceDir/"+OrthoFinderDir+"/Alignments Alignments/"
+        "mkdir Alignments;cp sequenceDir/"+OrthoFinderDir+"/Alignments Alignments/"
 
 rule aln2phy:
     input:
