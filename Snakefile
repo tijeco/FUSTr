@@ -40,14 +40,14 @@ def rawincount(filename):
 
 SAMPLES, = glob_wildcards("{sample}.pep")
 SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
-RESULTS, = glob_wildcards("sequenceDir/Resuls_{date}")
-ORTHOGROUP, = glob_wildcards("Alignments/OG{orthogroup}.fa")
-
+RESULTS, = glob_wildcards("sequenceDir/Results_{date}")
+#ORTHOGROUP, = glob_wildcards("Alignments/OG{orthogroup}.fa")
+ORTHOGROUP, = glob_wildcards("sequenceDir/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa")
 place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
 #print(expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP))
 
 rule final:
-    input:expand("Alignments/OG{orthogroup}.fa",orthogroup=ORTHOGROUP)
+    input:expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP)
 
     #input: "combined.txt"
 
@@ -106,26 +106,19 @@ rule longestIsoformDirectory:
     shell:
         " cp {input} {output} "
 
-rule listAlignments:
-    input:
-         "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.fa"
-    output:
-        "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
-    shell:
-        "touch  {output}"
 
 rule moveAlignments:
     input:
-        expand("sequenceDir/{sample}.longestIsoform.pep.fasta",sample=SAMPLES)
+        "sequenceDir/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa"
     output:
-        "Alignments/OG{orthogroup}.fa"
+        "Alignments/OG{orthogroup}.aln"
     shell:
-        "cp sequenceDir/"+OrthoFinderDir+"/Alignments Alignments/"
+        "mkdir -p Alignments && cp {input} {output}"
         #"mkdir Alignments;cd sequenceDir/" +OrthoFinderDir+"/Alignments; for f in $(find . -maxdepth 1 -type f -exec sh -c 'test $( grep -c '>' {} | cut -f1 -d' ' ) -gt "+"14"+"' \; -print);do  cp  $f ../../../Alignments/$f;done"
 
 rule aln2phy:
     input:
-        "Alignments/OG{orthogroup}.fa"
+        "Alignments/OG{orthogroup}.aln"
     output:
         "Alignments/OG{orthogroup}.phy"
     run:
@@ -150,17 +143,17 @@ rule aln2phy:
                 out.write(headerStr.strip('>').split(':')[0]+"\t")
                 out.write(seq +"\n")
 
-rule mergePhys:
-    input:
-        "Alignments/OG{orthogroup}.phy"
-    output:
-        "combined.txt"
-    run:
-         with open(output[0], 'w') as out:
-            for i in input:
-                sample = i.split('.')[0]
-                for line in open(i):
-                    out.write(sample + ' ' + line)
+# rule mergePhys:
+#     input:
+#         "Alignments/OG{orthogroup}.phy"
+#     output:
+#         "combined.txt"
+#     run:
+#          with open(output[0], 'w') as out:
+#             for i in input:
+#                 sample = i.split('.')[0]
+#                 for line in open(i):
+#                     out.write(sample + ' ' + line)
 
 
 
