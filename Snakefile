@@ -129,8 +129,8 @@ rule aln2phy:
         "Alignments/OG{orthogroup}.phy"
     run:
         seq_length=0
-        print(output)
-        print(input)
+        print(output,"is output")
+        print(input,"is input")
         # with open(output[0], "w") as out:
         #
         #
