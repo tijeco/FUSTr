@@ -44,6 +44,7 @@ RESULTS, = glob_wildcards("sequenceDir/Resuls_{date}")
 ORTHOGROUP, = glob_wildcards("Alignments/OG{orthogroup}.fa")
 
 place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
+print(expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP))
 
 rule final:
     input: expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP)
