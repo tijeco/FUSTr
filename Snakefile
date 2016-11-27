@@ -46,7 +46,8 @@ ORTHOGROUP, = glob_wildcards("Alignments/OG{orthogroup}.fa")
 place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
 
 rule final:
-    input:expand("Alignments/OG{orthogroup}.fa",orthogroup=ORTHOGROUP)
+    input: "Alignments/OG{orthogroup}.phy"
+    #input:expand("Alignments/OG{orthogroup}.fa",orthogroup=ORTHOGROUP)
 
     #input: expand("sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out", orthogroup=ORTHOGROUP)
 
@@ -143,6 +144,13 @@ rule aln2phy:
                 out.write(headerStr.strip('>').split(':')[0]+"\t")
                 out.write(seq +"\n")
 
+rule: mergePhys
+    input:
+        "Alignments/OG{orthogroup}.phy"
+    output:
+        "combined.txt"
+    shell:
+        "cat Alignments/*phy > {output}"
 
 
 
