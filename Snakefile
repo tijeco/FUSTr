@@ -47,7 +47,7 @@ place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
 print(expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP))
 
 rule final:
-    input: expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP)
+    input: "combined.txt"
     #input:expand("Alignments/OG{orthogroup}.fa",orthogroup=ORTHOGROUP)
 
     #input: expand("sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out", orthogroup=ORTHOGROUP)
