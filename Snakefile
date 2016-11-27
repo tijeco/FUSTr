@@ -123,7 +123,6 @@ rule dothings:
 
 rule aln2phy:
     input:
-
         "Alignments/OG{orthogroup}.fa"
     output:
         "Alignments/OG{orthogroup}.phy"
