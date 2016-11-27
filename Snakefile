@@ -130,23 +130,23 @@ rule aln2phy:
         seq_length=0
         print(output,"is output")
         print(input,"is input")
-        # with open(output[0], "w") as out:
-        #
-        #
-        #     sequence_iterator = fasta_iter(input[0])
-        #     first_line =True
-        #     for ff in sequence_iterator:
-        #
-        #         headerStr, seq = ff
-        #         if first_line:
-        #             seq_length = len(seq)
-        #             num_lines = num_lines = sum(1 for line in open(input[0]) if line[0]=='>')
-        #             out.write(str(num_lines)+" "+str(seq_length)+"\n")
-        #             first_line=False
-        #
-        #         seq_length = len(seq)
-        #         out.write(headerStr.strip('>').split(':')[0]+"\t")
-        #         out.write(seq +"\n")
+        with open(output[0], "w") as out:
+
+
+            sequence_iterator = fasta_iter(input[0])
+            first_line =True
+            for ff in sequence_iterator:
+
+                headerStr, seq = ff
+                if first_line:
+                    seq_length = len(seq)
+                    num_lines = num_lines = sum(1 for line in open(input[0]) if line[0]=='>')
+                    out.write(str(num_lines)+" "+str(seq_length)+"\n")
+                    first_line=False
+
+                seq_length = len(seq)
+                out.write(headerStr.strip('>').split(':')[0]+"\t")
+                out.write(seq +"\n")
 
 rule mergePhys:
     input:
