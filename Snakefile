@@ -117,6 +117,30 @@ rule dothings:
     shell:
         "mkdir Alignments;mv sequenceDir/"+OrthoFinderDir+"/Alignments Alignments/;touch {output}"
 
+rule aln2phy:
+    input:
+        "Alignments/OG{orthogroup}.fa"
+    output:
+        "Alignments/OG{orthogroup}.phy"
+    run:
+        seq_length=0
+        with open(output[0], "w") as out:
+
+
+            sequence_iterator = fasta_iter(input[0])
+            first_line =True
+            for ff in sequence_iterator:
+
+                headerStr, seq = ff
+                if first_line:
+                    seq_length = len(seq)
+                    num_lines = num_lines = sum(1 for line in open(input[0]) if line[0]=='>')
+                    out.write(str(num_lines)+" "+str(seq_length)+"\n")
+                    first_line=False
+
+                seq_length = len(seq)
+                out.write(headerStr.strip('>').split(':')[0]+"\t")
+                out.write(seq +"\n")
 
 
 
@@ -227,30 +251,6 @@ rule mafft_pep:
     shell:
         "mafft --auto {input} > {output}"
 
-rule aln2phy:
-    input:
-        "all.pep.combined_{sample2}.aln"
-    output:
-        "all.pep.combined_{sample2}.phy"
-    run:
-        seq_length=0
-        with open(output[0], "w") as out:
-
-
-            sequence_iterator = fasta_iter(input[0])
-            first_line =True
-            for ff in sequence_iterator:
-
-                headerStr, seq = ff
-                if first_line:
-                    seq_length = len(seq)
-                    num_lines = num_lines = sum(1 for line in open(input[0]) if line[0]=='>')
-                    out.write(str(num_lines)+" "+str(seq_length)+"\n")
-                    first_line=False
-
-                seq_length = len(seq)
-                out.write(headerStr.strip('>').split(':')[0]+"\t")
-                out.write(seq +"\n")
 
 rule raxml:
     input:
