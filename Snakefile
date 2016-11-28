@@ -78,8 +78,10 @@ rule longestIsoform:
     run:
         longIsoform = {}
         with open(output[0], "w") as out:
+
             sequence_iterator = fasta_iter(input[0])
             sample = input[0].split('.')[0]
+            out.write(sample)
             for ff in sequence_iterator:
 
                 headerStr, seq = ff
