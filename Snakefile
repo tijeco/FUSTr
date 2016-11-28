@@ -81,7 +81,7 @@ rule longestIsoform:
 
             sequence_iterator = fasta_iter(input[0])
             sample = input[0].split('.')[0]
-            out.write(sample)
+            #out.write(sample)
             for ff in sequence_iterator:
 
                 headerStr, seq = ff
@@ -91,11 +91,11 @@ rule longestIsoform:
                     if longIsoform[headerStr][0] < len(seq):
                         longIsoform[headerStr] = [len(seq),seq]
             for i in longIsoform.keys():
-                print("things")
-                print(i)
-                print(longIsoform[i][1])
-                out.write(i)
-                out.write(longIsoform[i][1])
+                #print("things")
+                #print(i)
+                #print(longIsoform[i][1])
+                out.write('>'+sample+'_'+i+'\n')
+                out.write(longIsoform[i][1]+'\n')
 
 
 
