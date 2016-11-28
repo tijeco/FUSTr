@@ -43,7 +43,7 @@ TESTTT, = glob_wildcards("OG{sample}.fa")
 
 print(TESTTT)
 SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
-RESULTS, = glob_wildcards("sequenceDir/Results_{date}")
+RESULTS, = glob_wildcards("OrthoDir/Results_{date}")
 #ORTHOGROUP, = glob_wildcards("Alignments/OG{orthogroup}.fa")
 
 
