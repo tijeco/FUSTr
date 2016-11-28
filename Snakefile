@@ -55,7 +55,7 @@ place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
 #print(RESULTS)
 #print(ORTHOGROUP)
 rule final:
-    input:expand("Alignments/OG{orthogroup}.aln", orthogroup=ORTHOGROUP)
+    input:"Alignments/"
     #input:expand("OrthoDir/{sample}.longestIsoform.newer.fasta",sample=SAMPLES)
     #input:expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP)
 
@@ -102,16 +102,14 @@ rule longestIsoform:
 
 
 rule keep15:
-    try:
         input:
-            "OrthoDir/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa"
+            expand("OrthoDir/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa",ORTHOGROUP=orthogroup)
         output:
-            "Alignments/OG{orthogroup}.aln"
+            "Alignments/"
         shell:
             "test $(grep -c ">" {input}) -gt 14 && cp {input} {output}"
 
-    except:
-        print("I will still probaly be forced to exit")
+
 
 
 
