@@ -76,7 +76,7 @@ rule longestIsoform:
         longIsoform = {}
         with open(output[0], "w") as out:
             sequence_iterator = fasta_iter(input[0])
-            sample = input.split('.')[0]
+            sample = input[0].split('.')[0]
             for ff in sequence_iterator:
 
                 headerStr, seq = ff
