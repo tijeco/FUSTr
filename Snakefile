@@ -103,7 +103,7 @@ rule longestIsoform:
 
 rule keep15:
         input:
-            expand("OrthoDir/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa",ORTHOGROUP=orthogroup)
+            expand("OrthoDir/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa",orthogroup=ORTHOGROUP)
         output:
             "Alignments/"
         shell:
