@@ -104,7 +104,8 @@ rule longestIsoform:
 
 
 
-
+"""
+These are now obsolete, and wrong actually!
 rule get_headers:
     input:
         "{sample}.pep"
@@ -148,6 +149,8 @@ rule longestIsoformDirectory:
         "sequenceDir/{sample}.longestIsoform.pep.fasta"
     shell:
         " cp {input} {output} "
+
+"""
 
 """
 These are also fine
