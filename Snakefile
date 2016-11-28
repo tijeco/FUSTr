@@ -100,13 +100,18 @@ rule longestIsoform:
                 out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
                 out.write(longIsoform[i][2]+'\n')
 
-rule keep15:
-    input:
-        "OrthoDir/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa"
-    output:
-        "Alignments/OG{orthogroup}.aln"
-    shell:
-        "cp {input} {output}"
+try:
+    rule keep15:
+        input:
+            "OrthoDir/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa"
+        output:
+            "Alignments/OG{orthogroup}.aln"
+        shell:
+            "test $(grep -c ">") -gt 14 && cp {input} {output}"
+
+except:
+    print("I will still probaly be forced to exit")
+    print ORTHOGROUP
 
 
 
