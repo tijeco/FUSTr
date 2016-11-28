@@ -107,7 +107,7 @@ rule keep15:
         output:
             "Alignments/"
         shell:
-            "test $(grep -c ">" {input}) -gt 14 && cp {input} {output}"
+            "for f in {input};do test $(grep -c ">" $f) -gt 14 && cp $f {output}"
 
 
 
