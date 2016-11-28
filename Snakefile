@@ -39,6 +39,7 @@ def rawincount(filename):
 
 
 SAMPLES, = glob_wildcards("{sample}.pep")
+print(SAMPLES)
 SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
 RESULTS, = glob_wildcards("sequenceDir/Results_{date}")
 #ORTHOGROUP, = glob_wildcards("Alignments/OG{orthogroup}.fa")
