@@ -112,7 +112,7 @@ rule keep15:
                 inFile = i.split('/')[-1]
 
                 fileToWrite= output[0]+inFile
-                os.makedirs(os.path.dirname(inFile), exist_ok=True)
+                os.makedirs(os.path.dirname(fileToWrite), exist_ok=True)
 
                 with open(fileToWrite, "w") as out:
                     sequenceCount=0
