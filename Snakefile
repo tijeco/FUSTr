@@ -114,20 +114,21 @@ rule keep15:
                 fileToWrite= output[0]+inFile
                 os.makedirs(os.path.dirname(fileToWrite), exist_ok=True)
 
-                with open(fileToWrite, "w") as out:
-                    sequenceCount=0
-                    with open(i) as f:
-                        for line in f:
-                            if line[0] == '>':
-                                sequenceCount+=1
-                    print(inFile,"has",sequenceCount,"sequences")
-                    if sequenceCount>14:
-                        print("we will write",inFile)
+                #with open(fileToWrite, "w") as out:
+                sequenceCount=0
+                with open(i) as f:
+                    for line in f:
+                        if line[0] == '>':
+                            sequenceCount+=1
+                print(inFile,"has",sequenceCount,"sequences")
+                if sequenceCount>14:
+                    print("we will write",inFile)
+                    with open(fileToWrite, "w") as out:
                         with open(i) as g:
                             for lines in g:
                                 out.write(lines.strip())
-                    else:
-                        print("we will not write", inFile)
+                else:
+                    print("we will not write", inFile)
 
 
             #"for f in {input};do test $(grep -c ">" $f) -gt 14 && cp $f {output}"
