@@ -107,7 +107,7 @@ try:
         output:
             "Alignments/OG{orthogroup}.aln"
         shell:
-            "test $(grep -c ">") -gt 14 && cp {input} {output}"
+            "test $(grep -c ">" {input}) -gt 14 && cp {input} {output}"
 
 except:
     print("I will still probaly be forced to exit")
