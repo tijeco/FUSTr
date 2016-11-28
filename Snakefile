@@ -38,7 +38,7 @@ def rawincount(filename):
     return sum( buf.count(b'\n') for buf in bufgen )
 
 
-SAMPLES, = glob_wildcards("{sample}.pep")
+SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 TESTTT, = glob_wildcards("OG{sample}.fa")
 
 print(TESTTT)
@@ -72,7 +72,7 @@ rule final:
 
 rule longestIsoform:
     input:
-        "{sample}.pep"
+        "{sample}.pep.transdecoder"
     output:
         "{sample}.longestIsoform.new"
     run:
