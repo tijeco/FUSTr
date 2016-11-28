@@ -95,7 +95,6 @@ rule longestIsoform:
 
 
 
-
 rule get_headers:
     input:
         "{sample}.pep"
@@ -140,7 +139,8 @@ rule longestIsoformDirectory:
     shell:
         " cp {input} {output} "
 
-
+"""
+These are also fine
 rule moveAlignments:
     input:
         "sequenceDir/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa"
@@ -177,19 +177,7 @@ rule aln2phy:
                 out.write(headerStr.strip('>').split(':')[0]+"\t")
                 out.write(seq +"\n")
 
-# rule mergePhys:
-#     input:
-#         "Alignments/OG{orthogroup}.phy"
-#     output:
-#         "combined.txt"
-#     run:
-#          with open(output[0], 'w') as out:
-#             for i in input:
-#                 sample = i.split('.')[0]
-#                 for line in open(i):
-#                     out.write(sample + ' ' + line)
-
-
+"""
 
 rule combine_pep_and_cds:
     input:
