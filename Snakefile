@@ -39,7 +39,7 @@ def rawincount(filename):
 
 
 SAMPLES, = glob_wildcards("{sample}.pep")
-TESTTT, = glob_wildcards("OG{test}.fa")
+TESTTT, = glob_wildcards("OG{sample}.fa")
 
 print(TESTTT)
 SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
