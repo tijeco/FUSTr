@@ -89,7 +89,7 @@ rule longestIsoform:
                     if longIsoform[headerStr][0] < len(seq):
                         longIsoform[headerStr] = [len(seq),seq]
             for i in longIsoform.keys():
-                print "things"
+                print("things")
                 out.write(i)
                 out.write(longIsoform[i][1])
 
