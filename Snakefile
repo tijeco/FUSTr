@@ -54,8 +54,8 @@ place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
 #print(expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP))
 
 rule final:
-    input:"Alignments/OG{orthogroup}.aln"
-    input:expand("OrthoDir/{sample}.longestIsoform.newer.fasta",sample=SAMPLES)
+    input:expand("Alignments/OG{orthogroup}.aln", orthogroup=ORTHOGROUP)
+    #input:expand("OrthoDir/{sample}.longestIsoform.newer.fasta",sample=SAMPLES)
     #input:expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP)
 
     #input: "combined.txt"
