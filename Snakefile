@@ -101,7 +101,7 @@ rule longestIsoform:
                 out.write(longIsoform[i][2]+'\n')
 
 
-    rule keep15:
+rule keep15:
     try:
         input:
             "OrthoDir/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa"
