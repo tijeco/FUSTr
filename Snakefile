@@ -122,10 +122,12 @@ rule keep15:
                                 sequenceCount+=1
                     print(inFile,"has",sequenceCount,"sequences")
                     if sequenceCount>14:
+                        print("we will write",inFile)
                         with open(i) as g:
                             for lines in g:
                                 out.write(lines.strip())
-
+                    else:
+                        print("we will not write", inFile)
 
 
             #"for f in {input};do test $(grep -c ">" $f) -gt 14 && cp $f {output}"
