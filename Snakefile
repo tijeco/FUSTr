@@ -46,15 +46,15 @@ SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
 RESULTS, = glob_wildcards("sequenceDir/Results_{date}")
 #ORTHOGROUP, = glob_wildcards("Alignments/OG{orthogroup}.fa")
 
-"""
-This is fine!!!!
-ORTHOGROUP, = glob_wildcards("sequenceDir/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa")
-"""
+
+ORTHOGROUP, = glob_wildcards("OrthoDir/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa")
+
 
 place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
 #print(expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP))
 
 rule final:
+    input:"Alignments/OG{orthogroup}.aln"
     input:expand("OrthoDir/{sample}.longestIsoform.newer.fasta",sample=SAMPLES)
     #input:expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP)
 
@@ -101,9 +101,11 @@ rule longestIsoform:
 
 rule keep15:
     input:
-        "OrthoDir/{sample}.longestIsoform.newer.fasta"
+        "OrthoDir/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}"
     output:
-        "OrthoDir"
+        "Alignments/OG{orthogroup}.aln"
+    shell:
+        "cp {input} {output}"
 
 
 
