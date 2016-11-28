@@ -106,8 +106,23 @@ rule keep15:
             expand("OrthoDir/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa",orthogroup=ORTHOGROUP)
         output:
             "Alignments/"
-        shell:
-            "for f in {input};do test $(grep -c ">" $f) -gt 14 && cp $f {output}"
+        run:
+            for i in input:
+                fileToWrite= output[0]+i
+                with open(fileToWrite, "w") as out:
+                    sequenceCount=0
+                    with open(i) as f:
+                        for line in f:
+                            if line[0] == '>':
+                                sequenceCount+=1
+                    if sequenceCount>14:
+                        with open(i) as f:
+                            for line in f:
+                                out.write(line.strip())
+
+
+                
+            #"for f in {input};do test $(grep -c ">" $f) -gt 14 && cp $f {output}"
 
 
 
