@@ -53,6 +53,7 @@ ORTHOGROUP, = glob_wildcards("OrthoDir/Results_"+RESULTS[0]+"/Alignments/OG{orth
 place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
 #print(expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP))
 print(RESULTS)
+print(ORTHOGROUP)
 rule final:
     input:expand("Alignments/OG{orthogroup}.aln", orthogroup=ORTHOGROUP)
     #input:expand("OrthoDir/{sample}.longestIsoform.newer.fasta",sample=SAMPLES)
