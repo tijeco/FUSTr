@@ -120,10 +120,11 @@ rule keep15:
                         for line in f:
                             if line[0] == '>':
                                 sequenceCount+=1
+                    print(inFile,"has",sequenceCount,"sequences")
                     if sequenceCount>14:
-                        with open(i) as f:
-                            for line in f:
-                                out.write(line.strip())
+                        with open(i) as g:
+                            for lines in g:
+                                out.write(lines.strip())
 
 
 
