@@ -107,8 +107,14 @@ rule keep15:
         output:
             "Alignments/"
         run:
+            import os,errno
+            os.makedirs(os.path.dirname(filename), exist_ok=True)
             for i in input:
-                fileToWrite= output[0]+i
+                inFile = i.split('/')[-1]
+
+                fileToWrite= output[0]+inFile
+                os.makedirs(os.path.dirname(inFile), exist_ok=True)
+
                 with open(fileToWrite, "w") as out:
                     sequenceCount=0
                     with open(i) as f:
@@ -121,7 +127,7 @@ rule keep15:
                                 out.write(line.strip())
 
 
-                
+
             #"for f in {input};do test $(grep -c ">" $f) -gt 14 && cp $f {output}"
 
 
