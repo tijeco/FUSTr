@@ -42,7 +42,12 @@ SAMPLES, = glob_wildcards("{sample}.pep")
 SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
 RESULTS, = glob_wildcards("sequenceDir/Results_{date}")
 #ORTHOGROUP, = glob_wildcards("Alignments/OG{orthogroup}.fa")
+
+"""
+This is fine!!!!
 ORTHOGROUP, = glob_wildcards("sequenceDir/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa")
+"""
+
 place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
 #print(expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP))
 
