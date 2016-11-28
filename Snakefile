@@ -125,7 +125,7 @@ rule keep15:
                     print("we will write",inFile)
                     with open(fileToWrite, "w") as out:
                         seq_length=0
-                        sequence_iterator = fasta_iter(input[0])
+                        sequence_iterator = fasta_iter(i)
                         first_line =True
                         for ff in sequence_iterator:
 
