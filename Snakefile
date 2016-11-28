@@ -55,7 +55,7 @@ place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
 #print(expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP))
 
 rule final:
-    input:expand("NewDir/{sample}.longestIsoform.newer.fasta",sample=SAMPLES)
+    input:expand("OrthoDir/{sample}.longestIsoform.newer.fasta",sample=SAMPLES)
     #input:expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP)
 
     #input: "combined.txt"
@@ -74,7 +74,7 @@ rule longestIsoform:
     input:
         "{sample}.pep.transdecoder"
     output:
-        "NewDir/{sample}.longestIsoform.newer.fasta"
+        "OrthoDir/{sample}.longestIsoform.newer.fasta"
     run:
         longIsoform = {}
         with open(output[0], "w") as out:
@@ -96,7 +96,7 @@ rule longestIsoform:
                 #print("things")
                 #print(i)
                 #print(longIsoform[i][1])
-                out.write('>'+sample+'_'+longIsoform[i][1]+'\n')
+                out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
                 out.write(longIsoform[i][2]+'\n')
 
 
@@ -153,7 +153,6 @@ rule longestIsoformDirectory:
 """
 
 """
-These are also fine
 rule moveAlignments:
     input:
         "sequenceDir/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa"
@@ -192,6 +191,8 @@ rule aln2phy:
 
 """
 
+"""
+This should be needed, but it needs more work
 rule combine_pep_and_cds:
     input:
         cds_sequence=expand("{sample}.cds.longestIsoform",sample=SAMPLES),
@@ -225,6 +226,7 @@ rule combine_pep_and_cds:
                         out.write(">"+sample+"_"+line.strip(">"))
                     else:
                         out.write(line)
+"""
 
                         #####Below shouldn't be necessary, but it might be ,
                         #### If it is then it will give one line sequences
