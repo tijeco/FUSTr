@@ -47,7 +47,8 @@ place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
 #print(expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP))
 
 rule final:
-    input:expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP)
+    input:expand("{sample}.longestIsoform.new",sample=SAMPLES)
+    #input:expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP)
 
     #input: "combined.txt"
 
@@ -60,6 +61,34 @@ rule final:
     #Aqinput:
 
     #input: "all.pep.combined.blastall.out"
+
+rule longestIsoform:
+    input:
+        "{sample}.pep"
+    output:
+        "{sample}.longestIsoform.new"
+    run:
+        longIsoform = {}
+        with open(output[0], "w") as out:
+            sequence_iterator = fasta_iter(input[0])
+            sample = input.split('.')[0]
+            for ff in sequence_iterator:
+
+                headerStr, seq = ff
+                if headerStr not in longIsoform:
+                    longIsoform[headerStr] = [len(seq),seq]
+                else:
+                    if longIsoform[headerStr][0] < len(seq)
+                        longIsoform[headerStr] = [len(seq),seq]
+            for i in longIsoform.keys()
+                out.write(i)
+                out.write(longIsoform[i][1])
+
+
+
+
+
+
 
 
 rule get_headers:
