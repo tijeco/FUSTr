@@ -99,58 +99,15 @@ rule longestIsoform:
                 out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
                 out.write(longIsoform[i][2]+'\n')
 
-
-
-
-
-
-"""
-These are now obsolete, and wrong actually!
-rule get_headers:
+rule keep15:
     input:
-        "{sample}.pep"
+        "OrthoDir/{sample}.longestIsoform.newer.fasta"
     output:
-        "{sample}.headers.txt"
-    shell:
-        "cat {input} |grep '>' |sed -e 's/>//g' > {output}"
+        "OrthoDir"
 
 
-rule prep_headers:
-    input:
-        "{sample}.headers.txt"
-    output:
-        "{sample}.prepped_headers.txt"
-    shell:
-        "cat {input} |awk '{{print $1,$5}}'|cut -d':' -f1,3,8|awk -F':' '{{print $2,$3}}'|awk -F'|' '{{print $1,$2 }}' > {output}"
 
-rule keep_longest_isoform:
-    input:
-        "{sample}.prepped_headers.txt"
-    output:
-        "{sample}.longestIsoform.txt"
-    shell:
-        "Rscript KeepLongestIsoformID.R {input} {output}"
 
-rule subset_pep_and_cds:
-    input:
-        header="{sample}.longestIsoform.txt",
-        sequence="{sample}.pep",
-        #cds_sequence = "{sample}.cds"
-    output:
-        pep="{sample}.pep.longestIsoform",
-        #cds="{sample}.cds.longestIsoform"
-    shell:
-        "cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.sequence} >{output.pep}"#; cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.cds_sequence} >{output.cds}"
-
-rule longestIsoformDirectory:
-    input:
-        "{sample}.pep.longestIsoform"
-    output:
-        "sequenceDir/{sample}.longestIsoform.pep.fasta"
-    shell:
-        " cp {input} {output} "
-
-"""
 
 """
 rule moveAlignments:
