@@ -108,7 +108,6 @@ rule keep15:
             "Alignments/"
         run:
             import os,errno
-            os.makedirs(os.path.dirname(filename), exist_ok=True)
             for i in input:
                 inFile = i.split('/')[-1]
 
