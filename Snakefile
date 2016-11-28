@@ -100,8 +100,9 @@ rule longestIsoform:
                 out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
                 out.write(longIsoform[i][2]+'\n')
 
-try:
+
     rule keep15:
+    try:
         input:
             "OrthoDir/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa"
         output:
@@ -109,8 +110,8 @@ try:
         shell:
             "test $(grep -c ">" {input}) -gt 14 && cp {input} {output}"
 
-except:
-    print("I will still probaly be forced to exit")
+    except:
+        print("I will still probaly be forced to exit")
 
 
 
