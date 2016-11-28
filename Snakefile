@@ -55,7 +55,7 @@ place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
 #print(expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP))
 
 rule final:
-    input:expand("{sample}.longestIsoform.new",sample=SAMPLES)
+    input:expand("{sample}.longestIsoform.newer",sample=SAMPLES)
     #input:expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP)
 
     #input: "combined.txt"
@@ -74,7 +74,7 @@ rule longestIsoform:
     input:
         "{sample}.pep.transdecoder"
     output:
-        "{sample}.longestIsoform.new"
+        "{sample}.longestIsoform.newer"
     run:
         longIsoform = {}
         with open(output[0], "w") as out:
@@ -85,17 +85,19 @@ rule longestIsoform:
             for ff in sequence_iterator:
 
                 headerStr, seq = ff
-                if headerStr not in longIsoform:
-                    longIsoform[headerStr] = [len(seq),seq]
+                GeneID = headerStr.split('::')[1][:-2]
+
+                if GeneID not in longIsoform:
+                    longIsoform[GeneID] = [len(seq),headerStr,seq]
                 else:
-                    if longIsoform[headerStr][0] < len(seq):
-                        longIsoform[headerStr] = [len(seq),seq]
+                    if longIsoform[GeneID][0] < len(seq):
+                        longIsoform[GeneID] = [len(seq),headerStr,seq]
             for i in longIsoform.keys():
                 #print("things")
                 #print(i)
                 #print(longIsoform[i][1])
-                out.write('>'+sample+'_'+i+'\n')
-                out.write(longIsoform[i][1]+'\n')
+                out.write('>'+sample+'_'+longIsoform[i][1]+'\n')
+                out.write(longIsoform[i][2]+'\n')
 
 
 
