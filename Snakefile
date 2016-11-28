@@ -78,7 +78,7 @@ rule longestIsoform:
                 if headerStr not in longIsoform:
                     longIsoform[headerStr] = [len(seq),seq]
                 else:
-                    if longIsoform[headerStr][0] < len(seq)
+                    if longIsoform[headerStr][0] < len(seq):
                         longIsoform[headerStr] = [len(seq),seq]
             for i in longIsoform.keys()
                 out.write(i)
