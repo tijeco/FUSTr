@@ -111,7 +111,6 @@ try:
 
 except:
     print("I will still probaly be forced to exit")
-    print ORTHOGROUP
 
 
 
