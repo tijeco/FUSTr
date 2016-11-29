@@ -43,12 +43,12 @@ TESTTT, = glob_wildcards("OG{sample}.fa")
 
 print(TESTTT)
 SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
-RESULTS, = glob_wildcards("Little/Results_{date}")
+#RESULTS, = glob_wildcards("Little/Results_{date}")
 #ORTHOGROUP, = glob_wildcards("Alignments/OG{orthogroup}.fa")
 
 
-ORTHOGROUP, = glob_wildcards("Little/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa")
-
+#ORTHOGROUP, = glob_wildcards("Little/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa")
+ORTHOGROUP, = glob_wildcards("Little/OG{orthogroup}.fa")
 
 place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
 #print(expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP))
@@ -103,7 +103,7 @@ rule longestIsoform:
 
 rule keep15:
         input:
-            expand("Little/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa",orthogroup=ORTHOGROUP)
+            expand("Little/OG{orthogroup}.fa",orthogroup=ORTHOGROUP)
         output:
             "LittleAlignments/"
         run:
