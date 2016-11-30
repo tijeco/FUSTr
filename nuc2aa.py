@@ -22,9 +22,9 @@ protein =""
 for i in nuc:
     codon +=i
     print i,position%3,codon
-    if position%3==2:
+    if position%3==2: 
         print codon
-        print codonTable[codon] 
+        print codonTable[codon]
         protein+=codonTable[codon]
     position +=1
 
