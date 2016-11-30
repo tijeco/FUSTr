@@ -23,7 +23,7 @@ for i in nuc:
     codon +=i
     print i,position%3,codon
     if position%3==2:
-        print codon #
+        print codon
         print codonTable[codon]
         protein+=codonTable[codon]
     position +=1
@@ -32,7 +32,7 @@ for i in nuc:
         #print codon
         codon=""
 print protein
-print "MNFSTIIILLIIGISYATGLSTNQGSTRSKKGALMEIERRCIGKEQECTDNKGGCCGDMKCLCYKNVMDENEKGCWCGSGTYYFIEKP*"
+print    "MNFSTIIILLIIGISYATGLSTNQGSTRSKKGALMEIERRCIGKEQECTDNKGGCCGDMKCLCYKNVMDENEKGCWCGSGTYYFIEKP*"
 
 original = "------------------MNFSTIIILLIIGISYATGLSTNQGSTRSKKGALMEI-ERRCIGKEQECTDNKGGCCG-----DMKCLCYKN-----VMDENEKGCWCGSGTYYFIE-KP"
 print len(original),original
