@@ -37,3 +37,37 @@ print    "MNFSTIIILLIIGISYATGLSTNQGSTRSKKGALMEIERRCIGKEQECTDNKGGCCGDMKCLCYKNVMDE
 original = "------------------MNFSTIIILLIIGISYATGLSTNQGSTRSKKGALMEI-ERRCIGKEQECTDNKGGCCG-----DMKCLCYKN-----VMDENEKGCWCGSGTYYFIE-KP"
 print len(original),original
 trimmed= "MNFSTIIILLIIGISYATGLSTNQGSTRSKKMEI-ERRCIGKEQECTDNKGGCCGDMKCLCYKNDENEKGCWCGSGTYY"
+
+#number of gaps in original
+lengthOriginal = len(original)
+gapOriginal = original.count('-')
+aaOriginal = lengthOriginal - gapOriginal
+
+lengthTrimm = len(trimmed)
+gapTrim = trimmed.count('-')
+aaTrim = lengthTrimm - gapTrim
+
+gapLost = gapOriginal - gapTrim
+aaLost = aaOriginal - aaTrim
+
+aaFreq = {}
+numberS=0
+for i in original:
+    if i != "-":
+        if i not in aaFreq:
+            aaFreq[i]=original.count(i)
+            numberS+=original.count(i)
+print aaFreq
+lostAndFound ={}
+for i in trimmed:
+    if i !="-":
+        print aaFreq[i], trimmed.count(i)
+        if aaFreq[i] != trimmed.count(i) and i not in lostAndFound:
+            print "You lost",aaFreq[i]- trimmed.count(i),i
+            lostAndFound[i]=True
+            #print i
+        #print aaFreq[i]
+print aaOriginal
+print aaTrim
+print aaLost,len(lostAndFound)
+print numberS
