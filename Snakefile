@@ -1,7 +1,18 @@
 from os.path import join
 from itertools import groupby
 from itertools import (takewhile,repeat)
+import sys
+import datetime
+today = datetime.date.today()
+OrthoFinderDir = today.strftime('Results_%b%d')
 
+
+# def getOptionValue(option):
+#     optionPos = [i for i, j in enumerate(sys.argv) if j == option][0]
+#     optionValue = sys.argv[optionPos + 1]
+# if "--DIR" in sys.argv:
+#     print(getOptionValue("--DIR"))
+#     sys.exit()
 
 def fasta_iter(fasta_name):
 
@@ -12,7 +23,7 @@ def fasta_iter(fasta_name):
     faiter = (x[1] for x in groupby(fh, lambda line: line[0] == ">"))
 
     for header in faiter:
-        headerStr = header.__next__()[1:].strip()
+        headerStr = header.__next__()[1:].strip().split()[0]
         # print(header)
 
 
@@ -27,56 +38,168 @@ def rawincount(filename):
     return sum( buf.count(b'\n') for buf in bufgen )
 
 
-SAMPLES, = glob_wildcards("{sample}.pep")
+SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
+TESTTT, = glob_wildcards("OG{sample}.fa")
+
+print(TESTTT)
 SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
+#RESULTS, = glob_wildcards("Little/Results_{date}")
+#ORTHOGROUP, = glob_wildcards("Alignments/OG{orthogroup}.fa")
 
 
+#ORTHOGROUP, = glob_wildcards("Little/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa")
+ORTHOGROUP, = glob_wildcards("Little/OG{orthogroup}.fa")
+
+place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
+#print(expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP))
+#print(RESULTS)
+#print(ORTHOGROUP)
 rule final:
-    #input: "New.tmp"
-    #input: expand("{sample}.pep.longestIsoform", sample=SAMPLES)
-    input:expand("all.pep.combined_{sample2}.RAXML.out.tre", sample2=SAMPLES2)
+    input:"LittleAlignments/"
+    #input:expand("OrthoDir/{sample}.longestIsoform.newer.fasta",sample=SAMPLES)
+    #input:expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP)
+
+    #input: "combined.txt"
+
+    #input:expand("Alignments/OG{orthogroup}.fa",orthogroup=ORTHOGROUP)
+
+    #input: expand("sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out", orthogroup=ORTHOGROUP)
+
+    #input: expand("sequenceDir/{sample}.longestIsoform.pep.fasta", sample=SAMPLES)
+    #input:expand("all.pep.combined_{sample2}.RAXML.out.tre", sample2=SAMPLES2)
     #Aqinput:
 
     #input: "all.pep.combined.blastall.out"
 
-
-rule get_headers:
+rule longestIsoform:
     input:
-        "{sample}.pep"
+        "{sample}.pep.transdecoder"
     output:
-        "{sample}.headers.txt"
-    shell:
-        "cat {input} |grep '>' |sed -e 's/>//g' > {output}"
+        "OrthoDir/{sample}.longestIsoform.newer.fasta"
+    run:
+        longIsoform = {}
+        with open(output[0], "w") as out:
+
+            sequence_iterator = fasta_iter(input[0])
+            sample = input[0].split('.')[0]
+            #out.write(sample)
+            for ff in sequence_iterator:
+
+                headerStr, seq = ff
+                GeneID = headerStr.split('::')[1][:-2]
+
+                if GeneID not in longIsoform:
+                    longIsoform[GeneID] = [len(seq),headerStr,seq]
+                else:
+                    if longIsoform[GeneID][0] < len(seq):
+                        longIsoform[GeneID] = [len(seq),headerStr,seq]
+            for i in longIsoform.keys():
+                #print("things")
+                #print(i)
+                #print(longIsoform[i][1])
+                out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
+                out.write(longIsoform[i][2]+'\n')
 
 
-rule prep_headers:
+rule keep15:
+        input:
+            expand("Little/OG{orthogroup}.fa",orthogroup=ORTHOGROUP)
+        output:
+            "LittleAlignments/"
+        run:
+            import os,errno
+            for i in input:
+                inFile = i.split('/')[-1]
+
+                fileToWrite= output[0]+inFile
+                os.makedirs(os.path.dirname(fileToWrite), exist_ok=True)
+
+                #with open(fileToWrite, "w") as out:
+                sequenceCount=0
+                with open(i) as f:
+                    for line in f:
+                        if line[0] == '>':
+                            sequenceCount+=1
+                print(inFile,"has",sequenceCount,"sequences")
+                if sequenceCount>14:
+                    print("we will write",inFile)
+                    with open(fileToWrite, "w") as out:
+                        seq_length=0
+                        sequence_iterator = fasta_iter(i)
+                        first_line =True
+                        for ff in sequence_iterator:
+
+                            headerStr, seq = ff
+                            if first_line:
+                                seq_length = len(seq)
+                                #num_lines = num_lines = sum(1 for line in open(input[0]) if line[0]=='>')
+                                out.write(str(sequenceCount)+" "+str(seq_length)+"\n")
+                                first_line=False
+
+                            seq_length = len(seq)
+                            out.write(headerStr.strip('>').split(':')[0]+"\t")
+                            out.write(seq +"\n")
+
+
+
+
+
+                        # with open(i) as g:
+                        #     for lines in g:
+                        #         out.write(lines.strip())
+                else:
+                    print("we will not write", inFile)
+
+
+            #"for f in {input};do test $(grep -c ">" $f) -gt 14 && cp $f {output}"
+
+
+
+
+
+
+
+"""
+rule moveAlignments:
     input:
-        "{sample}.headers.txt"
+        "sequenceDir/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa"
     output:
-        "{sample}.prepped_headers.txt"
+        "Alignments/OG{orthogroup}.aln"
     shell:
-        "cat {input} |awk '{{print $1,$5}}'|cut -d':' -f1,3,8|awk -F':' '{{print $2,$3}}'|awk -F'|' '{{print $1,$2 }}' > {output}"
+        "mkdir -p Alignments && cp {input} {output}"
+        #"mkdir Alignments;cd sequenceDir/" +OrthoFinderDir+"/Alignments; for f in $(find . -maxdepth 1 -type f -exec sh -c 'test $( grep -c '>' {} | cut -f1 -d' ' ) -gt "+"14"+"' \; -print);do  cp  $f ../../../Alignments/$f;done"
 
-rule keep_longest_isoform:
+rule aln2phy:
     input:
-        "{sample}.prepped_headers.txt"
+        "Alignments/OG{orthogroup}.aln"
     output:
-        "{sample}.longestIsoform.txt"
-    shell:
-        "Rscript KeepLongestIsoformID.R {input} {output}"
-
-rule subset_pep_and_cds:
-    input:
-        header="{sample}.longestIsoform.txt",
-        sequence="{sample}.pep",
-        cds_sequence = "{sample}.cds"
-    output:
-        pep="{sample}.pep.longestIsoform",
-        cds="{sample}.cds.longestIsoform"
-    shell:
-        "cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.sequence} >{output.pep}; cat {input.header} |awk '{{ print $1\"|\"$2 }}'|xargs faidx -f -d':' {input.cds_sequence} >{output.cds}"
+        "Alignments/OG{orthogroup}.phy"
+    run:
+        seq_length=0
+        print(output,"is output")
+        print(input,"is input")
+        with open(output[0], "w") as out:
 
 
+            sequence_iterator = fasta_iter(input[0])
+            first_line =True
+            for ff in sequence_iterator:
+
+                headerStr, seq = ff
+                if first_line:
+                    seq_length = len(seq)
+                    num_lines = num_lines = sum(1 for line in open(input[0]) if line[0]=='>')
+                    out.write(str(num_lines)+" "+str(seq_length)+"\n")
+                    first_line=False
+
+                seq_length = len(seq)
+                out.write(headerStr.strip('>').split(':')[0]+"\t")
+                out.write(seq +"\n")
+
+"""
+
+"""
+This should be needed, but it needs more work
 rule combine_pep_and_cds:
     input:
         cds_sequence=expand("{sample}.cds.longestIsoform",sample=SAMPLES),
@@ -110,6 +233,7 @@ rule combine_pep_and_cds:
                         out.write(">"+sample+"_"+line.strip(">"))
                     else:
                         out.write(line)
+"""
 
                         #####Below shouldn't be necessary, but it might be ,
                         #### If it is then it will give one line sequences
@@ -183,31 +307,7 @@ rule mafft_pep:
     shell:
         "mafft --auto {input} > {output}"
 
-rule aln2phy:
-    input:
-        "all.pep.combined_{sample2}.aln"
-    output:
-        "all.pep.combined_{sample2}.phy"
-    run:
-        seq_length=0
-        with open(output[0], "w") as out:
 
-
-            sequence_iterator = fasta_iter(input[0])
-            first_line =True
-            for ff in sequence_iterator:
-
-                headerStr, seq = ff
-                if first_line:
-                    seq_length = len(seq)
-                    num_lines = num_lines = sum(1 for line in open(input[0]) if line[0]=='>')
-                    out.write(str(num_lines)+" "+str(seq_length)+"\n")
-                    first_line=False
-
-                seq_length = len(seq)
-                out.write(headerStr.strip('>').split(':')[0]+"\t")
-                out.write(seq +"\n")
-                
 rule raxml:
     input:
         "all.pep.combined_{sample2}.phy"
