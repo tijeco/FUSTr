@@ -4,7 +4,7 @@ from itertools import (takewhile,repeat)
 import sys
 import datetime
 today = datetime.date.today()
-OrthoFinderDir = today.strftime('Results_%b%d')
+#OrthoFinderDir = today.strftime('Results_%b%d')
 
 
 # def getOptionValue(option):
@@ -39,18 +39,18 @@ def fasta_iter(fasta_name):
 
 
 SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
-TESTTT, = glob_wildcards("OG{sample}.fa")
+#TESTTT, = glob_wildcards("OG{sample}.fa")
 
-print(TESTTT)
+#print(TESTTT)
 SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
 #RESULTS, = glob_wildcards("Little/Results_{date}")
 #ORTHOGROUP, = glob_wildcards("Alignments/OG{orthogroup}.fa")
 
 
 #ORTHOGROUP, = glob_wildcards("Little/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa")
-ORTHOGROUP, = glob_wildcards("Little/OG{orthogroup}.fa")
+#ORTHOGROUP, = glob_wildcards("Little/OG{orthogroup}.fa")
 
-place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
+#place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
 #print(expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP))
 #print(RESULTS)
 #print(ORTHOGROUP)
@@ -91,7 +91,7 @@ rule longestIsoform:
             longIsoform={}
             with open(output.pep_after[0], "w") as out:
 
-                sequence_iterator = fasta_iter(pep_before.input[0])
+                sequence_iterator = fasta_iter(input.pep_before[0])
                 sample = input.pep_before[0].split('.')[0]
                 #out.write(sample)
                 for ff in sequence_iterator:
@@ -116,8 +116,8 @@ rule longestIsoform:
         def get_cds():
             with open(output.cds_after[0], "w") as out:
 
-                sequence_iterator = fasta_iter(cds_before.input[0])
-                sample = input.pep_before[0].split('.')[0]
+                sequence_iterator = fasta_iter(input.cds_before[0])
+                sample = input.cds_before[0].split('.')[0]
                 #out.write(sample)
                 for ff in sequence_iterator:
 
