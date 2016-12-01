@@ -74,7 +74,7 @@ rule final:
     #input: "all.pep.combined.blastall.out"
 
 longIsoform_CDS = {}
-
+#THIS RULE WORKS, hopefully correctly.....
 rule longestIsoform:
     input:
         pep_before = expand("{sample}.pep.transdecoder",sample=SAMPLES),
