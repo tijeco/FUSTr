@@ -86,7 +86,7 @@ rule longestIsoform:
         import multiprocessing
 
 
-
+        print(input.pep_before)
         def get_pep():
             longIsoform={}
             print(input.pep_before)
