@@ -184,7 +184,7 @@ rule blastall:
     input:
         "Temp/all.pep.combined"
     output:
-        "all.pep.combined.blastall.out"
+        "Temp/all.pep.combined.blastall.out"
     shell:
         " makeblastdb -in {input} -out {input}.seq.db -dbtype prot ;blastp -db {input}.seq.db -query {input} -outfmt 6 -out {output} -num_threads 13 -evalue 1E-5"
 
