@@ -112,6 +112,8 @@ rule longestIsoform:
                 #print("things")
                 #print(i)
                 #print(longIsoform[i][1])
+                print(sample)
+                print(longIsoform[i])
                 out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
                 out.write(longIsoform[i][2]+'\n')
 
