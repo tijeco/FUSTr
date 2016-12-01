@@ -87,6 +87,7 @@ rule longestIsoform:
         longIsoform={}
         print(input.pep_before)
         print (output.pep_after)
+        sample=""
 
 
 
@@ -138,7 +139,7 @@ rule longestIsoform:
                 #print(longIsoform[i][1])
                 out.write('>'+sample+'_'+longIsoform_CDS[i][1].split("::")[0]+'\n')
                 out.write(longIsoform_CDS[i][2]+'\n')
-        
+
         # with open(output.pep_after[0], "w") as out:
         #
         #     sequence_iterator = fasta_iter(pep_before.input[0])
