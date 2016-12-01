@@ -112,6 +112,7 @@ rule longestIsoform:
 
                     out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
                     out.write(longIsoform[i][2]+'\n')
+                    longIsoform={}
 
 
 
