@@ -52,7 +52,7 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 #print(RESULTS)
 #print(ORTHOGROUP)
 rule final:
-    input:"Temp/tmp.sh"
+    input:"Temp/tmp.txt"
     #input: "Temp/all.pep.combined.blastall.out"
     #input:expand("Temp/{sample}.longestIsoform.pep.fasta", sample=SAMPLES),expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
 #        input:"LittleAlignments/"
@@ -191,9 +191,9 @@ rule blastall:
 
 rule silix:
     output:
-        "Temp/tmp.sh"
+        "Temp/tmp.txt"
     shell:
-        "echo 'silix -r 0.9 Temp/all.pep.combined Temp/all.pep.combined.blastall.out > Temp/all.pep.combined_r90_SLX.fnode'>{output};bash {output}"
+        "bash tmp.sh;touch {output}"
 
 
 
