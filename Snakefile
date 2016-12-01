@@ -52,7 +52,8 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 #print(RESULTS)
 #print(ORTHOGROUP)
 rule final:
-    input: "Temp/all.pep.combined.blastall.out"
+    input:"Temp/all.pep.combined_r90_SLX.fnodes"
+    #input: "Temp/all.pep.combined.blastall.out"
     #input:expand("Temp/{sample}.longestIsoform.pep.fasta", sample=SAMPLES),expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
 #        input:"LittleAlignments/"
 
@@ -189,7 +190,14 @@ rule blastall:
         " makeblastdb -in {input} -out {input}.seq.db -dbtype prot ;blastp -db {input}.seq.db -query {input} -outfmt 6 -out {output} -num_threads 13 -evalue 1E-5"
 
 
-
+rule silix:
+    input:
+        blast_file="Temp/all.pep.combined.blastp.out",
+        sequence_file="Temp/all.pep.combined"
+    output:
+        "Temp/all.pep.combined_r90_SLX.fnodes"
+    shell:
+        "silix -r 0.9 {input.sequence_file} {input.blast_file} > {output}"
 
 
 
