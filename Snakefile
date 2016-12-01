@@ -190,13 +190,23 @@ rule blastall:
         " makeblastdb -in {input} -out {input}.seq.db -dbtype prot ;blastp -db {input}.seq.db -query {input} -outfmt 6 -out {output} -num_threads 13 -evalue 1E-5"
 
 rule silix:
+    input:
+        sequence_file="Temp/all.pep.combined",
+        blast_file = "Temp/all.pep.combined.blastall.out"
+    output:
+        "Temp/all.pep.combined_r90_SLX.fnodes"
+    shell:
+        "silix -r 0.9 {input.sequence_file} {input.blast_file} > {output} || true"
+
+"""
+rule silix:
     output:
         "Temp/tmp.txt"
     shell:
         "touch {output};silix -r 0.9 Temp/all.pep.combined Temp/all.pep.combined.blastall.out > Temp/all.pep.combined_r90_SLX.fnodes || true"
 
 
-
+"""
 
 
 
