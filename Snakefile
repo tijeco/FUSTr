@@ -197,7 +197,7 @@ rule silix:
     output:
         "Temp/all.pep.combined_r90_SLX.fnodes"
     shell:
-        "silix -r 0.9 {input.sequence_file} {input.blast_file} > {output};silix -r 0.9 Temp/all.pep.combined Temp/all.pep.combined.blastall.out > Temp/all.pep.combined_r90_SLX.fnodes
+        "silix -r 0.9 {input.sequence_file} {input.blast_file} > {output};silix -r 0.9 Temp/all.pep.combined Temp/all.pep.combined.blastall.out > Temp/all.pep.combined_r90_SLX.fnodes"
 
 ombined_r90_SLX.fnodes
 Snakefile55:48
