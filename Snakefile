@@ -194,7 +194,7 @@ rule silix:
     output:
         "Temp/all.pep.combined_r90_SLX.fnodes"
     shell:
-        "silix -r 0.9 Temp/all.pep.combined Temp/all.pep.combined.blastall.out > Temp/all.pep.combined_r90_SLX.fnodes"
+        "silix -r 0.9 Temp/all.pep.combined Temp/all.pep.combined.blastall.out > {output}"
 
 
 
