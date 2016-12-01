@@ -193,7 +193,7 @@ rule silix:
     output:
         "Temp/tmp.txt"
     shell:
-        "touch {output}"#silix -r 0.9 Temp/all.pep.combined Temp/all.pep.combined.blastall.out > Temp/all.pep.combined_r90_SLX.fnode;
+        "echo 9> {output}"#silix -r 0.9 Temp/all.pep.combined Temp/all.pep.combined.blastall.out > Temp/all.pep.combined_r90_SLX.fnode;
 
 
 
