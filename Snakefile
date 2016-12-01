@@ -150,7 +150,7 @@ rule combine_pep:
     input:
         expand("Temp/{sample}.longestIsoform.pep.fasta",sample=SAMPLES)
     output:
-        pep="Temp/all.pep.combined"
+        "Temp/all.pep.combined"
 
     run:
         # print("first ouput file",output.pep,"the following files")
