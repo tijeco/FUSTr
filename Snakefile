@@ -83,7 +83,6 @@ rule longestIsoform:
         pep_after = expand("Temp/{sample}.longestIsoform.pep.fasta",sample=SAMPLES),
         cds_after = expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
     run:
-        import multiprocessing
 
         longIsoform={}
         print(input.pep_before)
@@ -105,7 +104,7 @@ rule longestIsoform:
 
                     if GeneID not in longIsoform:
                         longIsoform[GeneID] = [len(seq),headerStr,seq]
-                    else: 
+                    else:
                         if longIsoform[GeneID][0] < len(seq):
                             longIsoform[GeneID] = [len(seq),headerStr,seq]
             for i in longIsoform.keys():
@@ -139,16 +138,7 @@ rule longestIsoform:
                 #print(longIsoform[i][1])
                 out.write('>'+sample+'_'+longIsoform_CDS[i][1].split("::")[0]+'\n')
                 out.write(longIsoform_CDS[i][2]+'\n')
-        process_pep = multiprocessing.Process(target=get_pep)
-        process_cds = multiprocessing.Process(target=get_cds)
-
-
-        process_cds.start()
-        process_pep.start()
-
-
-        process_pep.join
-        process_cds.join
+        
         # with open(output.pep_after[0], "w") as out:
         #
         #     sequence_iterator = fasta_iter(pep_before.input[0])
