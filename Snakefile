@@ -87,7 +87,6 @@ rule longestIsoform:
         longIsoform={}
         #print(input.pep_before)
         #print (output.pep_after)
-        sample=""
 
 
 
