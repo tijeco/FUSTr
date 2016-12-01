@@ -70,7 +70,7 @@ rule final:
 
     #input: "all.pep.combined.blastall.out"
 
-longIsoform_CDS = {}
+longIsoform_CDS_combined = {}
 #THIS RULE WORKS, hopefully correctly.....
 rule longestIsoform:
     input:
@@ -120,6 +120,7 @@ rule longestIsoform:
 
         for currentFile in range(len(output.cds_after)):
             with open(output.cds_after[currentFile], "w") as out:
+                longIsoform_CDS ={}
 
                 sequence_iterator = fasta_iter(input.cds_before[currentFile])
                 sample = input.cds_before[currentFile].split('.')[0]
@@ -139,7 +140,8 @@ rule longestIsoform:
                     #print(longIsoform[i][1])
                     out.write('>'+sample+'_'+longIsoform_CDS[i][1].split("::")[0]+'\n')
                     out.write(longIsoform_CDS[i][2]+'\n')
-
+                    Header = sample+'_'+longIsoform_CDS[i][1].split("::")[0]
+                    longIsoform_CDS_combined[Header]=longIsoform_CDS[i][2]
         # with open(output.pep_after[0], "w") as out:
         #
         #     sequence_iterator = fasta_iter(pep_before.input[0])
