@@ -85,8 +85,8 @@ rule longestIsoform:
     run:
 
         longIsoform={}
-        print(input.pep_before)
-        print (output.pep_after)
+        #print(input.pep_before)
+        #print (output.pep_after)
         sample=""
 
 
@@ -108,14 +108,13 @@ rule longestIsoform:
                     else:
                         if longIsoform[GeneID][0] < len(seq):
                             longIsoform[GeneID] = [len(seq),headerStr,seq]
-            for i in longIsoform.keys():
-                #print("things")
-                #print(i)
-                #print(longIsoform[i][1])
-                print(sample)
-                print(longIsoform[i])
-                out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
-                out.write(longIsoform[i][2]+'\n')
+                for i in longIsoform.keys():
+                    #print("things")
+                    #print(i)
+                    #print(longIsoform[i][1])
+
+                    out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
+                    out.write(longIsoform[i][2]+'\n')
 
 
 
@@ -135,12 +134,12 @@ rule longestIsoform:
                     else:
                         if longIsoform_CDS[GeneID][0] < len(seq):
                             longIsoform_CDS[GeneID] = [len(seq),headerStr,seq]
-            for i in longIsoform_CDS.keys():
-                #print("things")
-                #print(i)
-                #print(longIsoform[i][1])
-                out.write('>'+sample+'_'+longIsoform_CDS[i][1].split("::")[0]+'\n')
-                out.write(longIsoform_CDS[i][2]+'\n')
+                for i in longIsoform_CDS.keys():
+                    #print("things")
+                    #print(i)
+                    #print(longIsoform[i][1])
+                    out.write('>'+sample+'_'+longIsoform_CDS[i][1].split("::")[0]+'\n')
+                    out.write(longIsoform_CDS[i][2]+'\n')
 
         # with open(output.pep_after[0], "w") as out:
         #
