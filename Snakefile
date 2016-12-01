@@ -52,6 +52,7 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 #print(RESULTS)
 #print(ORTHOGROUP)
 rule final:
+    input: "Temp/all.pep.combined"
     input:expand("Temp/{sample}.longestIsoform.pep.fasta", sample=SAMPLES),expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
 #        input:"LittleAlignments/"
 
@@ -140,8 +141,8 @@ rule longestIsoform:
                     out.write('>'+sample+'_'+longIsoform_CDS[i][1].split("::")[0]+'\n')
                     out.write(longIsoform_CDS[i][2]+'\n')
                     Header = sample+'_'+longIsoform_CDS[i][1].split("::")[0]
+                    #this thing may be too unreasonably huge, but it will save time in the later rule
                     longIsoform_CDS_combined[Header]=longIsoform_CDS[i][2]
-        print(len(longIsoform_CDS_combined))
         # with open(output.pep_after[0], "w") as out:
         #
         #     sequence_iterator = fasta_iter(pep_before.input[0])
@@ -167,39 +168,37 @@ rule longestIsoform:
 
 
 ###CHANG THIS TO JUS PEP
-rule combine_pep_and_cds:
+rule combine_pep:
     input:
-        cds_sequence=expand("{sample}.cds.longestIsoform",sample=SAMPLES),
-        pep_sequence=expand("{sample}.pep.longestIsoform",sample=SAMPLES)
+        expand("{sample}.cds.longestIsoform",sample=SAMPLES),
     output:
-        pep="all.pep.combined",
-        cds="all.cds.combined"
+        pep="Temp/all.pep.combined"
 
     run:
-        print("first ouput file",output.pep,"the following files")
+        # print("first ouput file",output.pep,"the following files")
+        #
+        # for i in input.pep_sequence:
+        #     print(i)
+        # print("second ouput file",output.cds,"the following files")
+        # for i in input.cds_sequence:
+        #     print(i)
 
-        for i in input.pep_sequence:
-            print(i)
-        print("second ouput file",output.cds,"the following files")
-        for i in input.cds_sequence:
-            print(i)
-
-        with open(output.pep, "w") as out:
-            for i in input.pep_sequence:
+        with open(output, "w") as out:
+            for i in input:
                 sample = i.split('.')[0]
                 for line in open(i):
-                    if ">" in line:
-                        out.write(">"+sample+"_"+line.strip(">"))
-                    else:
-                        out.write(line)
-        with open(output.cds, "w") as out:
-            for i in input.cds_sequence:
-                sample = i.split('.')[0]
-                for line in open(i):
-                    if ">" in line:
-                        out.write(">"+sample+"_"+line.strip(">"))
-                    else:
-                        out.write(line)
+                    # if ">" in line:
+                    #     out.write(">"+sample+"_"+line.strip(">"))
+                    # else:
+                    out.write(line)
+        # with open(output.cds, "w") as out:
+        #     for i in input.cds_sequence:
+        #         sample = i.split('.')[0]
+        #         for line in open(i):
+        #             if ">" in line:
+        #                 out.write(">"+sample+"_"+line.strip(">"))
+        #             else:
+        #                 out.write(line)
 
 #
 # rule keep15:
