@@ -89,7 +89,7 @@ rule longestIsoform:
         print(input.pep_before)
         print (output.pep_after)
         for i in range(len(output.pep_after)):
-            print(output.pep_after[i],input.pep_before)
+            print(output.pep_after[i],input.pep_before[i])
         def get_pep():
 
             print(input.pep_before)
