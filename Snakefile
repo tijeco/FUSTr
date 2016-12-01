@@ -89,7 +89,7 @@ rule longestIsoform:
 
         def get_pep():
             longIsoform={}
-            print(output.pep_after)
+            print(input.pep_before)
             with open(output.pep_after[0], "w") as out:
 
                 sequence_iterator = fasta_iter(input.pep_before[0])
