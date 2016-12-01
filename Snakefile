@@ -1,9 +1,6 @@
-from os.path import join
 from itertools import groupby
 from itertools import (takewhile,repeat)
-import sys
-import datetime
-today = datetime.date.today()
+
 #OrthoFinderDir = today.strftime('Results_%b%d')
 
 
@@ -42,7 +39,7 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 #TESTTT, = glob_wildcards("OG{sample}.fa")
 
 #print(TESTTT)
-SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
+#SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
 #RESULTS, = glob_wildcards("Little/Results_{date}")
 #ORTHOGROUP, = glob_wildcards("Alignments/OG{orthogroup}.fa")
 
@@ -165,7 +162,7 @@ rule longestIsoform:
 
 
 
-
+###CHANG THIS TO JUS PEP
 rule combine_pep_and_cds:
     input:
         cds_sequence=expand("{sample}.cds.longestIsoform",sample=SAMPLES),
