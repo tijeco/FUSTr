@@ -129,7 +129,7 @@ rule longestIsoform:
                     headerStr, seq = ff
                     GeneID = headerStr.split('::')[1][:-2]
 
-                    if GeneID not in longIsoform:
+                    if GeneID not in longIsoform_CDS:
                         longIsoform_CDS[GeneID] = [len(seq),headerStr,seq]
                     else:
                         if longIsoform_CDS[GeneID][0] < len(seq):
