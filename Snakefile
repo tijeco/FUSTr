@@ -81,7 +81,7 @@ rule longestIsoform:
         cds_after = expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
     run:
 
-        longIsoform={}
+
         print(longIsoform_CDS)
         #print(input.pep_before)
         #print (output.pep_after)
@@ -92,6 +92,7 @@ rule longestIsoform:
         for currentFile in range(len(output.pep_after)):
 
             with open(output.pep_after[currentFile], "w") as out:
+                longIsoform={}
 
                 sequence_iterator = fasta_iter(input.pep_before[currentFile])
                 sample = input.pep_before[currentFile].split('.')[0]
@@ -112,7 +113,7 @@ rule longestIsoform:
 
                     out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
                     out.write(longIsoform[i][2]+'\n')
-                    longIsoform={}
+
 
 
 
