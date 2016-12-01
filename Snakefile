@@ -89,56 +89,56 @@ rule longestIsoform:
         print(input.pep_before)
         print (output.pep_after)
 
-        def get_pep():
 
-            #print(input.pep_before)
-            for currentFile in range(len(output.pep_after)):
 
-                with open(output.pep_after[currentFile], "w") as out:
+        #print(input.pep_before)
+        for currentFile in range(len(output.pep_after)):
 
-                    sequence_iterator = fasta_iter(input.pep_before[currentFile])
-                    sample = input.pep_before[currentFile].split('.')[0]
-                    for ff in sequence_iterator:
+            with open(output.pep_after[currentFile], "w") as out:
 
-                        headerStr, seq = ff
-                        GeneID = headerStr.split('::')[1][:-2]
+                sequence_iterator = fasta_iter(input.pep_before[currentFile])
+                sample = input.pep_before[currentFile].split('.')[0]
+                for ff in sequence_iterator:
 
-                        if GeneID not in longIsoform:
+                    headerStr, seq = ff
+                    GeneID = headerStr.split('::')[1][:-2]
+
+                    if GeneID not in longIsoform:
+                        longIsoform[GeneID] = [len(seq),headerStr,seq]
+                    else: 
+                        if longIsoform[GeneID][0] < len(seq):
                             longIsoform[GeneID] = [len(seq),headerStr,seq]
-                        else:
-                            if longIsoform[GeneID][0] < len(seq):
-                                longIsoform[GeneID] = [len(seq),headerStr,seq]
-                for i in longIsoform.keys():
-                    #print("things")
-                    #print(i)
-                    #print(longIsoform[i][1])
-                    out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
-                    out.write(longIsoform[i][2]+'\n')
+            for i in longIsoform.keys():
+                #print("things")
+                #print(i)
+                #print(longIsoform[i][1])
+                out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
+                out.write(longIsoform[i][2]+'\n')
 
 
 
-        def get_cds():
-            for currentFile_CDS in range(len(output.cds_after)):
-                with open(output.cds_after[currentFile], "w") as out_CDS:
 
-                    sequence_iterator_CDS = fasta_iter(input.cds_before[currentFile_CDS])
-                    sample_CDS = input.cds_before[currentFile_CDS].split('.')[0]
-                    for ff_CDS in sequence_iterator_CDS:
+        for currentFile in range(len(output.cds_after)):
+            with open(output.cds_after[currentFile], "w") as out:
 
-                        headerStr_CDS, seq_CDS = ff_CDS
-                        GeneID = headerStr.split('::')[1][:-2]
+                sequence_iterator = fasta_iter(input.cds_before[currentFile])
+                sample = input.cds_before[currentFile].split('.')[0]
+                for ff in sequence_iterator:
 
-                        if GeneID_CDS not in longIsoform_CDS:
-                            longIsoform_CDS[GeneID_CDS] = [len(seq_CDS),headerStr_CDS,seq_CDS]
-                        else:
-                            if longIsoform_CDS[GeneID_CDS][0] < len(seq_CDS):
-                                longIsoform_CDS[GeneID_CDS] = [len(seq_CDS),headerStr_CDS,seq_CDS]
-                for i_CDS in longIsoform_CDS.keys():
-                    #print("things") 
-                    #print(i)
-                    #print(longIsoform[i][1])
-                    out_CDS.write('>'+sample_CDS+'_'+longIsoform_CDS[i_CDS][1].split("::")[0]+'\n')
-                    out_CDS.write(longIsoform_CDS[i_CDS][2]+'\n')
+                    headerStr, seq = ff
+                    GeneID = headerStr.split('::')[1][:-2]
+
+                    if GeneID not in longIsoform:
+                        longIsoform_CDS[GeneID] = [len(seq),headerStr,seq]
+                    else:
+                        if longIsoform_CDS[GeneID][0] < len(seq):
+                            longIsoform_CDS[GeneID] = [len(seq),headerStr,seq]
+            for i in longIsoform_CDS.keys():
+                #print("things")
+                #print(i)
+                #print(longIsoform[i][1])
+                out.write('>'+sample+'_'+longIsoform_CDS[i][1].split("::")[0]+'\n')
+                out.write(longIsoform_CDS[i][2]+'\n')
         process_pep = multiprocessing.Process(target=get_pep)
         process_cds = multiprocessing.Process(target=get_cds)
 
