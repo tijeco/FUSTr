@@ -192,7 +192,7 @@ rule blastall:
 
 rule silix:
     input:
-        blast_file="Temp/all.pep.combined.blastp.out",
+        blast_file="Temp/all.pep.combined.blastall.out",
         sequence_file="Temp/all.pep.combined"
     output:
         "Temp/all.pep.combined_r90_SLX.fnodes"
