@@ -77,11 +77,11 @@ longIsoform_CDS = {}
 
 rule longestIsoform:
     input:
-        pep_before = "{sample}.pep.transdecoder",
-        cds_before = "{sample}.cds.transdecoder"
+        pep_before = expand("{sample}.pep.transdecoder",sample=SAMPLES),
+        cds_before = expand("{sample}.cds.transdecoder",sample=SAMPLES)
     output:
-        pep_after="Temp/{sample}.longestIsoform.pep.fasta",
-        cds_after = "Temp/{sample}.longestIsoform.cds"
+        pep_after = expand("Temp/{sample}.longestIsoform.pep.fasta",sample=SAMPLES),
+        cds_after = expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
     run:
         import multiprocessing
 
