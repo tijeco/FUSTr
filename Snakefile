@@ -141,6 +141,7 @@ rule longestIsoform:
                     out.write(longIsoform_CDS[i][2]+'\n')
                     Header = sample+'_'+longIsoform_CDS[i][1].split("::")[0]
                     longIsoform_CDS_combined[Header]=longIsoform_CDS[i][2]
+        print(len(longIsoform_CDS_combined))
         # with open(output.pep_after[0], "w") as out:
         #
         #     sequence_iterator = fasta_iter(pep_before.input[0])
