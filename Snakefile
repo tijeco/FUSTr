@@ -85,6 +85,7 @@ rule longestIsoform:
     run:
 
         longIsoform={}
+        print(longIsoform_CDS)
         #print(input.pep_before)
         #print (output.pep_after)
 
