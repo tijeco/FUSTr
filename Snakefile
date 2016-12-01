@@ -189,7 +189,7 @@ rule blastall:
     shell:
         " makeblastdb -in {input} -out {input}.seq.db -dbtype prot ;blastp -db {input}.seq.db -query {input} -outfmt 6 -out {output} -num_threads 13 -evalue 1E-5"
 
-shell.suffix(sleep 30)
+shell.suffix("sleep 30")
 rule silix:
     output:
         "Temp/all.pep.combined_r90_SLX.fnodes"
