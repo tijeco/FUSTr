@@ -55,7 +55,7 @@ SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
 #print(RESULTS)
 #print(ORTHOGROUP)
 rule final:
-    input:expand("Temp/{sample}.longestIsoform.pep.fasta", sample=SAMPLES)
+    input:expand("Temp/{sample}.longestIsoform.pep.fasta", sample=SAMPLES),expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
 #        input:"LittleAlignments/"
 
     #input:expand("OrthoDir/{sample}.longestIsoform.newer.fasta",sample=SAMPLES)
