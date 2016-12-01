@@ -98,7 +98,6 @@ rule longestIsoform:
 
                     sequence_iterator = fasta_iter(input.pep_before[currentFile])
                     sample = input.pep_before[currentFile].split('.')[0]
-                    #out.write(sample)
                     for ff in sequence_iterator:
 
                         headerStr, seq = ff
@@ -124,7 +123,6 @@ rule longestIsoform:
 
                     sequence_iterator = fasta_iter(input.cds_before[currentFile])
                     sample = input.cds_before[currentFile].split('.')[0]
-                    #out.write(sample)
                     for ff in sequence_iterator:
 
                         headerStr, seq = ff
