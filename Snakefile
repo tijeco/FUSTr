@@ -88,26 +88,27 @@ rule longestIsoform:
         longIsoform={}
         print(input.pep_before)
         print (output.pep_after)
-        for i in range(len(output.pep_after)):
-            print(output.pep_after[i],input.pep_before[i])
+
         def get_pep():
 
-            print(input.pep_before)
-            with open(output.pep_after[0], "w") as out:
+            #print(input.pep_before)
+            for currentFile in range(len(output.pep_after)):
 
-                sequence_iterator = fasta_iter(input.pep_before[0])
-                sample = input.pep_before[0].split('.')[0]
-                #out.write(sample)
-                for ff in sequence_iterator:
+                with open(output.pep_after[currentFile], "w") as out:
 
-                    headerStr, seq = ff
-                    GeneID = headerStr.split('::')[1][:-2]
+                    sequence_iterator = fasta_iter(input.pep_before[currentFile])
+                    sample = input.pep_before[currentFile].split('.')[0]
+                    #out.write(sample)
+                    for ff in sequence_iterator:
 
-                    if GeneID not in longIsoform:
-                        longIsoform[GeneID] = [len(seq),headerStr,seq]
-                    else:
-                        if longIsoform[GeneID][0] < len(seq):
+                        headerStr, seq = ff
+                        GeneID = headerStr.split('::')[1][:-2]
+
+                        if GeneID not in longIsoform:
                             longIsoform[GeneID] = [len(seq),headerStr,seq]
+                        else:
+                            if longIsoform[GeneID][0] < len(seq):
+                                longIsoform[GeneID] = [len(seq),headerStr,seq]
                 for i in longIsoform.keys():
                     #print("things")
                     #print(i)
@@ -118,21 +119,22 @@ rule longestIsoform:
 
 
         def get_cds():
-            with open(output.cds_after[0], "w") as out:
+            for currentFile in range(len(output.cds_after)):
+                with open(output.cds_after[currentFile], "w") as out:
 
-                sequence_iterator = fasta_iter(input.cds_before[0])
-                sample = input.cds_before[0].split('.')[0]
-                #out.write(sample)
-                for ff in sequence_iterator:
+                    sequence_iterator = fasta_iter(input.cds_before[currentFile])
+                    sample = input.cds_before[currentFile].split('.')[0]
+                    #out.write(sample)
+                    for ff in sequence_iterator:
 
-                    headerStr, seq = ff
-                    GeneID = headerStr.split('::')[1][:-2]
+                        headerStr, seq = ff
+                        GeneID = headerStr.split('::')[1][:-2]
 
-                    if GeneID not in longIsoform:
-                        longIsoform_CDS[GeneID] = [len(seq),headerStr,seq]
-                    else:
-                        if longIsoform_CDS[GeneID][0] < len(seq):
+                        if GeneID not in longIsoform:
                             longIsoform_CDS[GeneID] = [len(seq),headerStr,seq]
+                        else:
+                            if longIsoform_CDS[GeneID][0] < len(seq):
+                                longIsoform_CDS[GeneID] = [len(seq),headerStr,seq]
                 for i in longIsoform_CDS.keys():
                     #print("things")
                     #print(i)
