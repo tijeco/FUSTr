@@ -161,7 +161,7 @@ rule combine_pep:
         # for i in input.cds_sequence:
         #     print(i)
 
-        with open(output, "w") as out:
+        with open(output[0], "w") as out:
             for i in input:
                 sample = i.split('.')[0]
                 for line in open(i):
