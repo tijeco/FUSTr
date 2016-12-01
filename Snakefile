@@ -31,11 +31,11 @@ def fasta_iter(fasta_name):
 
         yield (headerStr, seq)
 
-
-def rawincount(filename):
-    f = open(filename, 'rb')
-    bufgen = takewhile(lambda x: x, (f.raw.read(1024*1024) for _ in repeat(None)))
-    return sum( buf.count(b'\n') for buf in bufgen )
+#
+# def rawincount(filename):
+#     f = open(filename, 'rb')
+#     bufgen = takewhile(lambda x: x, (f.raw.read(1024*1024) for _ in repeat(None)))
+#     return sum( buf.count(b'\n') for buf in bufgen )
 
 
 SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
@@ -71,90 +71,192 @@ rule final:
 
     #input: "all.pep.combined.blastall.out"
 
+longIsoform_CDS = {}
+
 rule longestIsoform:
     input:
-        "{sample}.pep.transdecoder"
+        pep_before = "{sample}.pep.transdecoder",
+        cds_before = "{sample}.cds.transdecoder"
     output:
-        "OrthoDir/{sample}.longestIsoform.newer.fasta"
+        pep_after="Temp/{sample}.longestIsoform.pep.fasta",
+        cds_after = "Temp/{sample}.longestIsoform.cds"
     run:
-        longIsoform = {}
-        with open(output[0], "w") as out:
+        import multiprocessing
+        
 
-            sequence_iterator = fasta_iter(input[0])
-            sample = input[0].split('.')[0]
-            #out.write(sample)
-            for ff in sequence_iterator:
 
-                headerStr, seq = ff
-                GeneID = headerStr.split('::')[1][:-2]
+        def get_pep():
+            longIsoform={}
+            with open(output.pep_after[0], "w") as out:
 
-                if GeneID not in longIsoform:
-                    longIsoform[GeneID] = [len(seq),headerStr,seq]
-                else:
-                    if longIsoform[GeneID][0] < len(seq):
+                sequence_iterator = fasta_iter(pep_before.input[0])
+                sample = input.pep_before[0].split('.')[0]
+                #out.write(sample)
+                for ff in sequence_iterator:
+
+                    headerStr, seq = ff
+                    GeneID = headerStr.split('::')[1][:-2]
+
+                    if GeneID not in longIsoform:
                         longIsoform[GeneID] = [len(seq),headerStr,seq]
-            for i in longIsoform.keys():
-                #print("things")
-                #print(i)
-                #print(longIsoform[i][1])
-                out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
-                out.write(longIsoform[i][2]+'\n')
-
-
-rule keep15:
-        input:
-            expand("Little/OG{orthogroup}.fa",orthogroup=ORTHOGROUP)
-        output:
-            "LittleAlignments/"
-        run:
-            import os,errno
-            for i in input:
-                inFile = i.split('/')[-1]
-
-                fileToWrite= output[0]+inFile
-                os.makedirs(os.path.dirname(fileToWrite), exist_ok=True)
-
-                #with open(fileToWrite, "w") as out:
-                sequenceCount=0
-                with open(i) as f:
-                    for line in f:
-                        if line[0] == '>':
-                            sequenceCount+=1
-                print(inFile,"has",sequenceCount,"sequences")
-                if sequenceCount>14:
-                    print("we will write",inFile)
-                    with open(fileToWrite, "w") as out:
-                        seq_length=0
-                        sequence_iterator = fasta_iter(i)
-                        first_line =True
-                        for ff in sequence_iterator:
-
-                            headerStr, seq = ff
-                            if first_line:
-                                seq_length = len(seq)
-                                #num_lines = num_lines = sum(1 for line in open(input[0]) if line[0]=='>')
-                                out.write(str(sequenceCount)+" "+str(seq_length)+"\n")
-                                first_line=False
-
-                            seq_length = len(seq)
-                            out.write(headerStr.strip('>').split(':')[0]+"\t")
-                            out.write(seq +"\n")
+                    else:
+                        if longIsoform[GeneID][0] < len(seq):
+                            longIsoform[GeneID] = [len(seq),headerStr,seq]
+                for i in longIsoform.keys():
+                    #print("things")
+                    #print(i)
+                    #print(longIsoform[i][1])
+                    out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
+                    out.write(longIsoform[i][2]+'\n')
 
 
 
+        def get_cds():
+            with open(output.cds_after[0], "w") as out:
+
+                sequence_iterator = fasta_iter(cds_before.input[0])
+                sample = input.pep_before[0].split('.')[0]
+                #out.write(sample)
+                for ff in sequence_iterator:
+
+                    headerStr, seq = ff
+                    GeneID = headerStr.split('::')[1][:-2]
+
+                    if GeneID not in longIsoform:
+                        longIsoform_CDS[GeneID] = [len(seq),headerStr,seq]
+                    else:
+                        if longIsoform_CDS[GeneID][0] < len(seq):
+                            longIsoform_CDS[GeneID] = [len(seq),headerStr,seq]
+                for i in longIsoform_CDS.keys():
+                    #print("things")
+                    #print(i)
+                    #print(longIsoform[i][1])
+                    out.write('>'+sample+'_'+longIsoform_CDS[i][1].split("::")[0]+'\n')
+                    out.write(longIsoform_CDS[i][2]+'\n')
+        process_pep = multiprocessing.Process(target=get_pep)
+        process_cds = multiprocessing.Process(target=get_cds)
 
 
-                        # with open(i) as g:
-                        #     for lines in g:
-                        #         out.write(lines.strip())
-                else:
-                    print("we will not write", inFile)
+        process_cds.start()
+        process_pep.start()
 
 
-            #"for f in {input};do test $(grep -c ">" $f) -gt 14 && cp $f {output}"
+        process_pep.join
+        process_cds.join
+        # with open(output.pep_after[0], "w") as out:
+        #
+        #     sequence_iterator = fasta_iter(pep_before.input[0])
+        #     sample = input.pep_before[0].split('.')[0]
+        #     #out.write(sample)
+        #     for ff in sequence_iterator:
+        #
+        #         headerStr, seq = ff
+        #         GeneID = headerStr.split('::')[1][:-2]
+        #
+        #         if GeneID not in longIsoform:
+        #             longIsoform[GeneID] = [len(seq),headerStr,seq]
+        #         else:
+        #             if longIsoform[GeneID][0] < len(seq):
+        #                 longIsoform[GeneID] = [len(seq),headerStr,seq]
+        #     for i in longIsoform.keys():
+        #         #print("things")
+        #         #print(i)
+        #         #print(longIsoform[i][1])
+        #         out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
+        #         out.write(longIsoform[i][2]+'\n')
 
 
 
+
+rule combine_pep_and_cds:
+    input:
+        cds_sequence=expand("{sample}.cds.longestIsoform",sample=SAMPLES),
+        pep_sequence=expand("{sample}.pep.longestIsoform",sample=SAMPLES)
+    output:
+        pep="all.pep.combined",
+        cds="all.cds.combined"
+
+    run:
+        print("first ouput file",output.pep,"the following files")
+
+        for i in input.pep_sequence:
+            print(i)
+        print("second ouput file",output.cds,"the following files")
+        for i in input.cds_sequence:
+            print(i)
+
+        with open(output.pep, "w") as out:
+            for i in input.pep_sequence:
+                sample = i.split('.')[0]
+                for line in open(i):
+                    if ">" in line:
+                        out.write(">"+sample+"_"+line.strip(">"))
+                    else:
+                        out.write(line)
+        with open(output.cds, "w") as out:
+            for i in input.cds_sequence:
+                sample = i.split('.')[0]
+                for line in open(i):
+                    if ">" in line:
+                        out.write(">"+sample+"_"+line.strip(">"))
+                    else:
+                        out.write(line)
+
+#
+# rule keep15:
+#         input:
+#             expand("Little/OG{orthogroup}.fa",orthogroup=ORTHOGROUP)
+#         output:
+#             "LittleAlignments/"
+#         run:
+#             import os,errno
+#             for i in input:
+#                 inFile = i.split('/')[-1]
+#
+#                 fileToWrite= output[0]+inFile
+#                 os.makedirs(os.path.dirname(fileToWrite), exist_ok=True)
+#
+#                 #with open(fileToWrite, "w") as out:
+#                 sequenceCount=0
+#                 with open(i) as f:
+#                     for line in f:
+#                         if line[0] == '>':
+#                             sequenceCount+=1
+#                 print(inFile,"has",sequenceCount,"sequences")
+#                 if sequenceCount>14:
+#                     print("we will write",inFile)
+#                     with open(fileToWrite, "w") as out:
+#                         seq_length=0
+#                         sequence_iterator = fasta_iter(i)
+#                         first_line =True
+#                         for ff in sequence_iterator:
+#
+#                             headerStr, seq = ff
+#                             if first_line:
+#                                 seq_length = len(seq)
+#                                 #num_lines = num_lines = sum(1 for line in open(input[0]) if line[0]=='>')
+#                                 out.write(str(sequenceCount)+" "+str(seq_length)+"\n")
+#                                 first_line=False
+#
+#                             seq_length = len(seq)
+#                             out.write(headerStr.strip('>').split(':')[0]+"\t")
+#                             out.write(seq +"\n")
+#
+#
+#
+#
+#
+#                         # with open(i) as g:
+#                         #     for lines in g:
+#                         #         out.write(lines.strip())
+#                 else:
+#                     print("we will not write", inFile)
+#
+#
+#             #"for f in {input};do test $(grep -c ">" $f) -gt 14 && cp $f {output}"
+#
+#
+#
 
 
 
