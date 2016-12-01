@@ -55,7 +55,9 @@ place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
 #print(RESULTS)
 #print(ORTHOGROUP)
 rule final:
-    input:"LittleAlignments/"
+    input:expand("Temp/{sample}.longestIsoform.pep.fasta", sample=SAMPLES)
+#        input:"LittleAlignments/"
+
     #input:expand("OrthoDir/{sample}.longestIsoform.newer.fasta",sample=SAMPLES)
     #input:expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP)
 
@@ -82,7 +84,7 @@ rule longestIsoform:
         cds_after = "Temp/{sample}.longestIsoform.cds"
     run:
         import multiprocessing
-        
+
 
 
         def get_pep():
