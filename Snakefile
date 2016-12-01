@@ -143,34 +143,12 @@ rule longestIsoform:
                     Header = sample+'_'+longIsoform_CDS[i][1].split("::")[0]
                     #this thing may be too unreasonably huge, but it will save time in the later rule
                     longIsoform_CDS_combined[Header]=longIsoform_CDS[i][2]
-        # with open(output.pep_after[0], "w") as out:
-        #
-        #     sequence_iterator = fasta_iter(pep_before.input[0])
-        #     sample = input.pep_before[0].split('.')[0]
-        #     #out.write(sample)
-        #     for ff in sequence_iterator:
-        #
-        #         headerStr, seq = ff
-        #         GeneID = headerStr.split('::')[1][:-2]
-        #
-        #         if GeneID not in longIsoform:
-        #             longIsoform[GeneID] = [len(seq),headerStr,seq]
-        #         else:
-        #             if longIsoform[GeneID][0] < len(seq):
-        #                 longIsoform[GeneID] = [len(seq),headerStr,seq]
-        #     for i in longIsoform.keys():
-        #         #print("things")
-        #         #print(i)
-        #         #print(longIsoform[i][1])
-        #         out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
-        #         out.write(longIsoform[i][2]+'\n')
-
 
 
 ###CHANG THIS TO JUS PEP
 rule combine_pep:
     input:
-        expand("{sample}.cds.longestIsoform",sample=SAMPLES),
+        expand("Temp/{sample}.longestIsoform.pep.fasta",sample=SAMPLES)
     output:
         pep="Temp/all.pep.combined"
 
