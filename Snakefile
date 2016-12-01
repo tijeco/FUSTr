@@ -85,10 +85,10 @@ rule longestIsoform:
     run:
         import multiprocessing
 
-
+        longIsoform={}
         print(input.pep_before)
         def get_pep():
-            longIsoform={}
+
             print(input.pep_before)
             with open(output.pep_after[0], "w") as out:
 
