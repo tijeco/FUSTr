@@ -52,8 +52,8 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 #print(RESULTS)
 #print(ORTHOGROUP)
 rule final:
-    input: "Temp/all.pep.combined"
-    input:expand("Temp/{sample}.longestIsoform.pep.fasta", sample=SAMPLES),expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
+    input: "Temp/all.pep.combined.blastall.out"
+    #input:expand("Temp/{sample}.longestIsoform.pep.fasta", sample=SAMPLES),expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
 #        input:"LittleAlignments/"
 
     #input:expand("OrthoDir/{sample}.longestIsoform.newer.fasta",sample=SAMPLES)
@@ -177,6 +177,24 @@ rule combine_pep:
         #                 out.write(">"+sample+"_"+line.strip(">"))
         #             else:
         #                 out.write(line)
+
+
+
+rule blastall:
+    input:
+        "Temp/all.pep.combined"
+    output:
+        "all.pep.combined.blastall.out"
+    shell:
+        " makeblastdb -in {input} -out {input}.seq.db -dbtype prot ;blastp -db {input}.seq.db -query {input} -outfmt 6 -out {output} -num_threads 13 -evalue 1E-5"
+
+
+
+
+
+
+
+
 
 #
 # rule keep15:
