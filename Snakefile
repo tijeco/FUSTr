@@ -259,7 +259,7 @@ rule mafft:
     output:
         "Families/family_{fam}.aln"
     run:
-        "mafft --auto {input} > {output}"
+        "mafft --auto {input} > {output}||true"
 
 
 
