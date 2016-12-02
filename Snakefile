@@ -368,8 +368,8 @@ rule phy2codon:
                     row =line.strip().split()
                     sequence=row[1]#cds
                     header=row[0]
-                    print(sequence)
-                    print(header)
+                    print("Sequence:",sequence)
+                    print("Header:",header)
                     original=longIsoform_CDS_combined[header]#original
                     CodonPos={}
                     position=0
