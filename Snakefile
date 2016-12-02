@@ -317,8 +317,7 @@ rule aln2phy:
 print(longIsoform_CDS_combined)
 rule phy2codon:
     input:
-        #trimmed="Families/family_{fam}.phy",#don't technically need this
-        untrimmed="Families/family_{fam}.phy.trimmed",
+        untrimmed="Families/family_{fam}.phy",
         column_file="Families/family_{fam}.aln.trimmed.column_file",
         nucleotide=expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
     output:
