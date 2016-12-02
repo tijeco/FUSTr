@@ -425,7 +425,7 @@ rule phy2codon:
                     #Make addition to this
                     num_lines = sum(1 for line in open(input.untrimmed) )
                     if first_line:
-                        out.write(str(len(trimmed))+" "+str(num_lines)+'\n')
+                        out.write(str(num_lines-1) + " " + str(len(trimmed)) + '\n')
                         first_line=False
                     out.write(header+'\t'+trimmed+'\n')
 
