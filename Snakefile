@@ -219,7 +219,7 @@ rule node2families:
 
             famDict = {}
             seqDict={}
-            print("opening",input.node_file[0])
+            print("opening",input.node_file)
             with open(input.node_file[0]) as f:
                 for line in f:
                     row = line.split()
