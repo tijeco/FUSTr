@@ -409,9 +409,9 @@ rule phy2codon:
                     trimmed=""
                     aaPos=1
                     prot=""
-                    # print(original)
-                    # print(CodonPos)
-                    # print(cut)
+                    print(original)
+                    print(CodonPos)
+                    print(cut)
                     for i in original:
                         if column  in cut:
                             if i =="-":
