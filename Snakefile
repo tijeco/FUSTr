@@ -51,8 +51,8 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 #print(expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP))
 #print(RESULTS)
 #print(ORTHOGROUP)
-#FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
-#print(FAMILIES)
+FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
+print(FAMILIES)
 rule final:
     input:"COMBINED.txt"
     #input:
@@ -219,7 +219,7 @@ rule node2families:
         node_file="Temp/all.pep.combined_r90_SLX.fnodes",
         sequence_file="Temp/all.pep.combined"
     output:
-        dynamic("Families/family_{fam}.fasta")
+        "Families/"
     run:
 
 
@@ -274,11 +274,11 @@ rule trimAln:
     shell:
         "trimal -in {input} -out {output.trimmed_file} -nogaps -colnumbering > {output.column_file}"
 
-rule:
+rule goober:
     input:
         expand("Families/family_{fam}.aln.trimmed.column_file",fam=FAMILIES)
-    # output:
-    #     "COMBINED.txt"
+    output:
+        "COMBINED.txt"
     shell:
         "touch COMBINED.txt"
 rule aln2phy:
