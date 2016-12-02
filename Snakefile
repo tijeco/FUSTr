@@ -54,7 +54,7 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 FAMILIES, = glob_wildcards("Temp/family_{fam}.fasta")
 
 rule final:
-    input:expand("Temp/family_{fam}.fasta",fam=FAMILIES)
+    input:expand("Temp/family_{fam}.aln",fam=FAMILIES)
     #input: "Families/"
     #input:"Temp/all.pep.combined_r90_SLX.fnodes"
     #input: "Temp/all.pep.combined.blastall.out"
@@ -257,7 +257,7 @@ rule mafft:
     input:
         "Temp/family_{fam}.fasta"
     output:
-        "Temp/family_{fam}.fasta"
+        "Temp/family_{fam}.aln"
     run:
         "mafft --auto {input} > {output}"
 
