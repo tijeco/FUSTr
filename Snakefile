@@ -345,7 +345,7 @@ rule phy2codon:
                     if GeneID not in longIsoform_CDS_combined:
                             longIsoform_CDS_combined[GeneID] = [headerStr,seq]
         #Open outout
-        with open(output, "w") as out:
+        with open(output[0], "w") as out:
 
 
             #Get  column cut file
