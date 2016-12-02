@@ -240,7 +240,7 @@ rule node2families:
                     with open(String, "w") as out:
                         for j in famDict[i]:
                             out.write('>'+j+'\n')
-                                out.write(seqDict[j]+'\n')
+                            out.write(seqDict[j]+'\n')
 
 
 
