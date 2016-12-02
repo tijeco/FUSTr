@@ -54,7 +54,8 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 #FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
 #print(FAMILIES)
 rule final:
-    input:dynamic("Families/family_{fam}.codon.phy")
+    input: dynamic("Families/family_{fam}.fasta")
+    #input:dynamic("Families/family_{fam}.codon.phy")
     #input:
     #    dynamic("Families/family_{fam}.phy.trimmed"),
     #    dynamic("Families/family_{fam}.phy")
