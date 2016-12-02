@@ -408,9 +408,9 @@ rule phy2codon:
                     trimmed=""
                     aaPos=1
                     prot=""
-                    print(original)
-                    print(CodonPos)
-                    print(cut)
+                    # print(original)
+                    # print(CodonPos)
+                    # print(cut)
                     for i in original:
                         if column  in cut:
                             if i =="-":
@@ -421,6 +421,8 @@ rule phy2codon:
                                 prot+=i
                                 aaPos+=1
                         column+=1
+                    #Make addition to this
+                    num_lines = num_lines = sum(1 for line in open(input[currentFile]) )
                     out.write(header+'\t'+trimmed+'\n')
 
 
