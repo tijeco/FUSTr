@@ -366,7 +366,7 @@ rule phy2codon:
                         line1=False
 
                     row =line.strip().split()
-                    print("***********"")
+                    print("***********")
                     print(row)
                     print("____________")
                     sequence=row[1]#cds
