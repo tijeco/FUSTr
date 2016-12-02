@@ -258,7 +258,7 @@ rule mafft:
         "Families/family_{fam}.fasta"
     output:
         "Families/family_{fam}.aln"
-    run:
+    shell:
         "mafft --auto {input} > {output}||true"
 
 
