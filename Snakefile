@@ -52,7 +52,6 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 #print(RESULTS)
 #print(ORTHOGROUP)
 FAMILIES, = glob_wildcards("Temp/family_{fam}.fasta")
-
 rule final:
     input:expand("Temp/family_{fam}.aln",fam=FAMILIES)
     #input: "Families/"
