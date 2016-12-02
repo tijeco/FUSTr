@@ -313,6 +313,8 @@ rule aln2phy:
                     out.write(headerStr.strip('>')+"\t")
                     out.write(seq +"\n")
 
+print(longIsoform_CDS_combined)
+
 
 
 #
