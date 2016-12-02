@@ -394,7 +394,7 @@ rule phy2codon:
                         if position%3==0:
                             #print codon
                             codon=""
-                    print(CodonPos)
+                    #print(CodonPos)
                     aaPos = 1
                     translated = ""
                     for i in original:
