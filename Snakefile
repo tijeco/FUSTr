@@ -51,6 +51,8 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 #print(expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP))
 #print(RESULTS)
 #print(ORTHOGROUP)
+FAMILIES, = glob_wildcards("Temp/family_{fam}.fasta")
+
 rule final:
     input: "Families/"
     #input:"Temp/all.pep.combined_r90_SLX.fnodes"
@@ -249,6 +251,12 @@ rule node2families:
 
 
 
+
+rule mafft:
+    input:
+        "Temp/family_{fam}.fasta"
+    output:
+        "Temp/family_{fam}.fasta"
 
 
 
