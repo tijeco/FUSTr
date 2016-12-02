@@ -408,6 +408,8 @@ rule phy2codon:
                     aaPos=1
                     prot=""
                     print(original)
+                    print(CodonPos)
+                    print(cut)
                     for i in original:
                         if column  in cut:
                             if i =="-":
