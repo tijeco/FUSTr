@@ -355,7 +355,7 @@ rule phy2codon:
                 for line in f:
                     cut  +=line.strip()
                 cut = cut.split(',')
-            print(cut)
+            #print(cut)
 
             #Get corresponding untrimmed Alignments, as original, line by line
             line1=True
@@ -368,6 +368,8 @@ rule phy2codon:
                     row =line.strip().split()
                     sequence=row[1]#cds
                     header=row[0]
+                    print(sequence)
+                    print(header)
                     original=longIsoform_CDS_combined[header]#original
                     CodonPos={}
                     position=0
