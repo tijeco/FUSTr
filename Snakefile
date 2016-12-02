@@ -55,8 +55,11 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 #print(FAMILIES)
 rule final:
     input:
-        trimmedFile=dynamic("Families/family_{fam}.aln.trimmed"),
-        columnFile=dynamic("Families/family_{fam}.aln.trimmed.column_file")
+        dynamic("Families/family_{fam}.aln.phy.trimmed"),
+        dynamic("Families/family_{fam}.aln.phy")
+    #input:
+        #trimmedFile=dynamic("Families/family_{fam}.aln.trimmed"),
+        #columnFile=dynamic("Families/family_{fam}.aln.trimmed.column_file")
     #input:dynamic("Families/family_{fam}.fasta")
 
     #input:expand("Families/family_{fam}.aln",fam=FAMILIES)
@@ -275,40 +278,41 @@ rule trimAln:
     shell:
         "trimal -in {input} -out {output.trimmed_file} -nogaps -colnumbering > {output.column_file}"
 
-# rule goober:
-#     input:
-#         expand("Families/family_{fam}.aln.trimmed.column_file")
-#     output:
-#         "COMBINED.txt"
-#     shell:
-#         "touch COMBINED.txt"
+
+
+
 rule aln2phy:
     input:
-        "Families/family_{fam}.aln"
+        "Families/family_{fam}.aln",
+        "Families/family_{fam}.aln.trimmed"
     output:
-        "Families/family_{fam}.phy"
+        "Families/family_{fam}.phy",
+        "Families/family_{fam}.phy.trimmed"
     run:
         seq_length=0
-        print(output,"is output")
-        print(input,"is input")
-        with open(output[0], "w") as out:
-
-
-            sequence_iterator = fasta_iter(input[0])
-            first_line =True
-            for ff in sequence_iterator:
-
-                headerStr, seq = ff
-                if first_line:
-                    seq_length = len(seq)
-                    num_lines = num_lines = sum(1 for line in open(input[0]) if line[0]=='>')
-                    out.write(str(num_lines)+" "+str(seq_length)+"\n")
-                    first_line=False
-
-                seq_length = len(seq)
-                out.write(headerStr.strip('>').split(':')[0]+"\t")
-                out.write(seq +"\n")
-
+        #print(output,"is output")
+        #print(input,"is input")
+        for currentFile in range(len(output)):
+            print(output[currentFile],input[currentFile])
+        #
+        # with open(output[0], "w") as out:
+        #
+        #
+        #     sequence_iterator = fasta_iter(input[0])
+        #     first_line =True
+        #     for ff in sequence_iterator:
+        #
+        #         headerStr, seq = ff
+        #         if first_line:
+        #             seq_length = len(seq)
+        #             num_lines = num_lines = sum(1 for line in open(input[0]) if line[0]=='>')
+        #             out.write(str(num_lines)+" "+str(seq_length)+"\n")
+        #             first_line=False
+        #
+        #         seq_length = len(seq)
+        #         out.write(headerStr.strip('>').split(':')[0]+"\t")
+        #         out.write(seq +"\n")
+        #
 
 
 #
