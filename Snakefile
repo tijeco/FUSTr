@@ -314,6 +314,124 @@ rule aln2phy:
                     out.write(seq +"\n")
 
 print(longIsoform_CDS_combined)
+rule phy2codon:
+    input:
+        #trimmed="Families/family_{fam}.phy",#don't technically need this
+        untrimmed="Families/family_{fam}.phy.trimmed",
+        column_file="Families/family_{fam}.aln.trimmed.column_file"
+        nucleotide=expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
+    output:
+        "Families/family_{fam}.codon.phy"
+    run:
+        print(input.untrimmed)
+        print(input.column_file)
+        print(input.nucleotide)
+        print(output)
+        if longIsoform_CDS_combined = {}:
+            for currentFile in input.nucleotide:
+                #with open(output.cds_after[currentFile], "w") as out:
+                    # longIsoform_CDS ={}
+
+                sequence_iterator = fasta_iter(currentFile)
+                    #sample = input.cds_before[currentFile].split('.')[0]
+                for ff in sequence_iterator:
+
+                    headerStr, seq = ff
+                    GeneID = headerStr
+
+                    if GeneID not in longIsoform_CDS_combined:
+                            longIsoform_CDS_combined[GeneID] = [headerStr,seq]
+        #Open outout
+            #Get  column cut file
+            with open(input.column_file) as f:
+                for line in f:
+                    cut = line.split(',')
+
+            #Get corresponding untrimmed Alignments, as original, line by line
+            with open(input.untrimmed) as f:
+                for line in f:
+                    if line1:
+                        continue
+                        line1=False
+
+                    row =line.strip().split()
+                    sequence=row[1]
+                    header=row[0]
+                    translated=longIsoform_CDS_combined[header]
+
+
+
+
+
+
+            cds="ATGTTTGCTAAGATCGCTCTTCTGTGTGCTGCTATCGCAGTCGCTCAGTGCAACCCTGTCGTTCACGGACACAAAGCACTCGCTAGCACCGGAGTGAGTTCCAGGTCCCAGTCCCAAGATGGATACGGAAACTACGCTTTCGGTTATGACATCAAGGACGCTCTGGGTGCCACCAACTCC"
+
+            original = "------------------------------------------------MFAKIALLCAAIAVAQCNPVVH--------------------GHKA----LASTGVSSRSQ-------SQD--GYGNYAFGYDIKDA---LGA-TNS------------------------------------------------------------------------------------------------------------"
+            cut=[49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 138, 139, 142, 143, 144, 145, 146, 147, 148, 149]
+
+            new = "FAKIALLCAAIAVAQCNLASTGVSSRSQYGNYAFGYDIKDALGTNS-----"
+
+            CodonPos={}
+            position=0
+            codon=""
+            number=1
+            #print len(cds)/3
+            for i in cds:
+
+                codon +=i
+                #print i,position%3,codon
+                if position%3==2:
+                    #print codon
+                    #print codonTable[codon]
+                    CodonPos[number]=codon
+                    number+=1
+                    #protein+=codonTable[codon]
+                position +=1
+
+                if position%3==0:
+                    #print codon
+                    codon=""
+            # print len(cut)
+            # print "****************"
+            # print CodonPos
+            # print "****************"
+
+            aaPos = 1
+            translated = ""
+            for i in original:
+                if i !="-":
+                    translated+=CodonPos[aaPos]
+                else:
+                    translated+="-"
+            #print translated
+            column=0
+            trimmed=""
+            aaPos=1
+            prot=""
+            for i in original:
+                if column  in cut:
+                    if i =="-":
+                        trimmed+="---"
+                        prot+=i
+                    else:
+                        trimmed+=CodonPos[aaPos]
+                        prot+=i
+                        aaPos+=1
+                column+=1
+            # print column
+            # print trimmed
+            # print prot
+            # print len(prot)
+            # print len(trimmed)
+            # print len(trimmed)/3
+        """
+
+        Insert magic function to use column_file and untrimmed Alignments with cdsDict to generate trimmed codon alignment here
+
+        """
+
+
+
 
 
 
