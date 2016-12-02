@@ -51,8 +51,8 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 #print(expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP))
 #print(RESULTS)
 #print(ORTHOGROUP)
-FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
-print(FAMILIES)
+#FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
+#print(FAMILIES)
 rule final:
     input:"COMBINED.txt"
     #input:
@@ -219,7 +219,7 @@ rule node2families:
         node_file="Temp/all.pep.combined_r90_SLX.fnodes",
         sequence_file="Temp/all.pep.combined"
     output:
-        "Families/"
+        dynamic("Families/family_{fam}.fasta")
     run:
 
 
