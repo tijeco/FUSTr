@@ -362,17 +362,18 @@ rule phy2codon:
             with open(input.untrimmed) as f:
                 for line in f:
                     if line1:
-                        continue
+
                         line1=False
+                        continue
 
                     row =line.strip().split()
-                    print("***********")
-                    print(row)
-                    print("____________")
+                    # print("***********")
+                    # print(row)
+                    # print("____________")
                     sequence=row[1]#cds
                     header=row[0]
-                    print("Sequence:",sequence)
-                    print("Header:",header)
+                    #print("Sequence:",sequence)
+                    #print("Header:",header)
                     original=longIsoform_CDS_combined[header]#original
                     CodonPos={}
                     position=0
