@@ -52,7 +52,8 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 #print(RESULTS)
 #print(ORTHOGROUP)
 rule final:
-    input:"Temp/all.pep.combined_r90_SLX.fnodes"
+    input: "Families/"
+    #input:"Temp/all.pep.combined_r90_SLX.fnodes"
     #input: "Temp/all.pep.combined.blastall.out"
     #input:expand("Temp/{sample}.longestIsoform.pep.fasta", sample=SAMPLES),expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
 #        input:"LittleAlignments/"
