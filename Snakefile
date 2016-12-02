@@ -54,9 +54,10 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
 print(FAMILIES)
 rule final:
-    input:
-        trimmedFile=expand("Families/family_{fam}.aln.trimmed",fam=FAMILIES),
-        columnFile=expand("Families/family_{fam}.aln.trimmed.column_file",fam=FAMILIES)
+    input:"COMBINED.txt"
+    #input:
+    #    trimmedFile=expand("Families/family_{fam}.aln.trimmed",fam=FAMILIES),
+    #    columnFile=expand("Families/family_{fam}.aln.trimmed.column_file",fam=FAMILIES)
     #input:expand("Families/family_{fam}.aln",fam=FAMILIES)
     #input: "Families/"
     #input:"Temp/all.pep.combined_r90_SLX.fnodes"
@@ -272,6 +273,14 @@ rule trimAln:
         column_file="Families/family_{fam}.aln.trimmed.column_file"
     shell:
         "trimal -in {input} -out {output.trimmed_file} -nogaps -colnumbering > {output.column_file}"
+
+rule:
+    input:
+        expand("Families/family_{fam}.aln.trimmed.column_file",fam=FAMILIES)
+    output:
+        "COMBINED.txt"
+    shell:
+        "touch {output}"
 rule aln2phy:
     input:
         "Families/family_{fam}.aln"
