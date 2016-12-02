@@ -353,7 +353,8 @@ rule phy2codon:
             #Get  column cut file
             with open(input.column_file) as f:
                 for line in f:
-                    cut = line.split(',')
+                    cut = +=line.strip
+                cut = cut.split(',')
             print(cut)
 
             #Get corresponding untrimmed Alignments, as original, line by line
