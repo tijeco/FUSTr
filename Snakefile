@@ -55,7 +55,7 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 #print(FAMILIES)
 rule final:
     #input: dynamic("Families/family_{fam}.fasta")
-    input:dynamic("Families/family_{fam}.codon.phy")
+    input:dynamic("Families/family_{fam}.codon.phylip")
     #input:
     #    dynamic("Families/family_{fam}.phy.trimmed"),
     #    dynamic("Families/family_{fam}.phy")
@@ -323,7 +323,7 @@ rule phy2codon:
         column_file="Families/family_{fam}.aln.trimmed.column_file",
         nucleotide=expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
     output:
-        "Families/family_{fam}.codon.phy"
+        "Families/family_{fam}.codon.phylip"
     run:
         print(input.untrimmed)
         print(input.column_file)
