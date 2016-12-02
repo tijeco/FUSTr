@@ -325,6 +325,7 @@ rule phy2codon:
     output:
         "Families/family_{fam}.codon.phylip"
     run:
+        cut = ""
         print(input.untrimmed)
         print(input.column_file)
         print(input.nucleotide)
@@ -344,12 +345,16 @@ rule phy2codon:
                     if GeneID not in longIsoform_CDS_combined:
                             longIsoform_CDS_combined[GeneID] = [headerStr,seq]
         #Open outout
+        with open(ouput, "w") as out:
+
+
             #Get  column cut file
             with open(input.column_file) as f:
                 for line in f:
                     cut = line.split(',')
 
             #Get corresponding untrimmed Alignments, as original, line by line
+            line1=True
             with open(input.untrimmed) as f:
                 for line in f:
                     if line1:
@@ -357,9 +362,53 @@ rule phy2codon:
                         line1=False
 
                     row =line.strip().split()
-                    sequence=row[1]
+                    sequence=row[1]#cds
                     header=row[0]
-                    translated=longIsoform_CDS_combined[header]
+                    original=longIsoform_CDS_combined[header]#original
+                    CodonPos={}
+                    position=0
+                    codon=""
+                    number=1
+                    for i in sequence:
+
+                        codon +=i
+                        #print i,position%3,codon
+                        if position%3==2:
+                            #print codon
+                            #print codonTable[codon]
+                            CodonPos[number]=codon
+                            number+=1
+                            #protein+=codonTable[codon]
+                        position +=1
+
+                        if position%3==0:
+                            #print codon
+                            codon=""
+                    aaPos = 1
+                    translated = ""
+                    for i in original:
+                        if i !="-":
+                            translated+=CodonPos[aaPos]
+                        else:
+                            translated+="-"
+                    #print translated
+                    column=0
+                    trimmed=""
+                    aaPos=1
+                    prot=""
+                    for i in original:
+                        if column  in cut:
+                            if i =="-":
+                                trimmed+="---"
+                                prot+=i
+                            else:
+                                trimmed+=CodonPos[aaPos]
+                                prot+=i
+                                aaPos+=1
+                        column+=1
+                    out.write(header+'\t'+trimmed)
+
+
 
 
 
