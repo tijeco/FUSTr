@@ -210,7 +210,8 @@ rule silix:
 """
 rule node2families:
     input:
-        "Temp/all.pep.combined_r90_SLX.fnodes"
+        node_file="Temp/all.pep.combined_r90_SLX.fnodes",
+        sequence_file="Temp/all.pep.combined"
     output:
         "Families/"
     run:
@@ -218,7 +219,7 @@ rule node2families:
 
             famDict = {}
             seqDict={}
-            with open(input[0]) as f:
+            with open(input.node_file[0]) as f:
                 for line in f:
                     row = line.split()
                     if row[0] not in famDict:
@@ -227,7 +228,7 @@ rule node2families:
                     else:
                         famDict[row[0]].append(row[1])
 
-            sequence_iterator = fasta_iter(fastaFile)
+            sequence_iterator = fasta_iter(input.sequence_file[0])
 
             for ff in sequence_iterator:
                 headerStr, seq = ff
