@@ -277,10 +277,10 @@ rule trimAln:
 rule:
     input:
         expand("Families/family_{fam}.aln.trimmed.column_file",fam=FAMILIES)
-    output:
-        "COMBINED.txt"
+    # output:
+    #     "COMBINED.txt"
     shell:
-        "touch {output}"
+        "touch COMBINED.txt"
 rule aln2phy:
     input:
         "Families/family_{fam}.aln"
