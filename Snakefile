@@ -370,11 +370,11 @@ rule phy2codon:
                     # print("***********")
                     # print(row)
                     # print("____________")
-                    sequence=row[1]#cds
+                    original=row[1]#cds
                     header=row[0]
                     #print("Sequence:",sequence)
                     #print("Header:",header)
-                    original=longIsoform_CDS_combined[header]#original
+                    sequence=longIsoform_CDS_combined[header]#original
                     CodonPos={}
                     position=0
                     codon=""
