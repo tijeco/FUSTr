@@ -316,7 +316,7 @@ rule aln2phy:
                     out.write(headerStr.strip('>')+"\t")
                     out.write(seq +"\n")
 
-print(longIsoform_CDS_combined)
+#print(longIsoform_CDS_combined)
 rule phy2codon:
     input:
         untrimmed="Families/family_{fam}.phy",
@@ -360,6 +360,7 @@ rule phy2codon:
 
             #Get corresponding untrimmed Alignments, as original, line by line
             line1=True
+            first_line=True
             with open(input.untrimmed) as f:
                 for line in f:
                     if line1:
@@ -422,7 +423,10 @@ rule phy2codon:
                                 aaPos+=1
                         column+=1
                     #Make addition to this
-                    num_lines = num_lines = sum(1 for line in open(input[currentFile]) )
+                    num_lines = sum(1 for line in open(input.untrimmed) )
+                    if first_line:
+                        out.write(len(trimmed)+" "+num_lines)
+                        first_line=False
                     out.write(header+'\t'+trimmed+'\n')
 
 
