@@ -344,9 +344,9 @@ rule phy2codon:
                     GeneID = headerStr
 
                     if GeneID not in longIsoform_CDS_combined:
-                            longIsoform_CDS_combined[GeneID] = [seq]
+                            longIsoform_CDS_combined[GeneID] = seq
         #Open outout
-        print(longIsoform_CDS_combined)
+        #print(longIsoform_CDS_combined)
         with open(output[0], "w") as out:
 
 
