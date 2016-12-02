@@ -395,18 +395,19 @@ rule phy2codon:
                             #print codon
                             codon=""
                     #print(CodonPos)
-                    aaPos = 1
-                    translated = ""
-                    for i in original:
-                        if i !="-":
-                            translated+=CodonPos[aaPos]
-                        else:
-                            translated+="-"
+                    # aaPos = 1
+                    # translated = ""
+                    # for i in original:
+                    #     if i !="-":
+                    #         translated+=CodonPos[aaPos]
+                    #     else:
+                    #         translated+="-"
                     #print translated
                     column=0
                     trimmed=""
                     aaPos=1
                     prot=""
+                    print(original)
                     for i in original:
                         if column  in cut:
                             if i =="-":
