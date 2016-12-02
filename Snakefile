@@ -54,10 +54,11 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 #FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
 #print(FAMILIES)
 rule final:
-    input:dynamic("Families/family_{fam}.fasta")
-    #input:
-    #    trimmedFile=dynamic("Families/family_{fam}.aln.trimmed"),
-    #    columnFile=dynamic("Families/family_{fam}.aln.trimmed.column_file")
+    input:
+        trimmedFile=dynamic("Families/family_{fam}.aln.trimmed"),
+        columnFile=dynamic("Families/family_{fam}.aln.trimmed.column_file")
+    #input:dynamic("Families/family_{fam}.fasta")
+
     #input:expand("Families/family_{fam}.aln",fam=FAMILIES)
     #input: "Families/"
     #input:"Temp/all.pep.combined_r90_SLX.fnodes"
