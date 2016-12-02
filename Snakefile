@@ -251,7 +251,8 @@ rule node2families:
 
             for i in famDict.keys():
                 if len(famDict[i])>14:
-                    String = "family_"+i+".fasta"
+                    String = output[0]+"family_"+i+".fasta"
+                    print(String)
 
                     with open(String, "w") as out:
                         for j in famDict[i]:
