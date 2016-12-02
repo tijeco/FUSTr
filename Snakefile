@@ -51,10 +51,10 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 #print(expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP))
 #print(RESULTS)
 #print(ORTHOGROUP)
-FAMILIES, = glob_wildcards("Temp/family_{fam}.fasta")
+FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
 print(FAMILIES)
 rule final:
-    input:expand("Temp/family_{fam}.aln",fam=FAMILIES)
+    input:expand("Families/family_{fam}.aln",fam=FAMILIES)
     #input: "Families/"
     #input:"Temp/all.pep.combined_r90_SLX.fnodes"
     #input: "Temp/all.pep.combined.blastall.out"
@@ -255,9 +255,9 @@ rule node2families:
 
 rule mafft:
     input:
-        "Temp/family_{fam}.fasta"
+        "Families/family_{fam}.fasta"
     output:
-        "Temp/family_{fam}.aln"
+        "Families/family_{fam}.aln"
     run:
         "mafft --auto {input} > {output}"
 
