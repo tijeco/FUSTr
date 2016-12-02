@@ -220,7 +220,7 @@ rule node2families:
             famDict = {}
             seqDict={}
             print("opening",input.node_file)
-            with open(input.node_file[0]) as f:
+            with open(input.node_file) as f:
                 for line in f:
                     row = line.split()
                     if row[0] not in famDict:
@@ -229,7 +229,7 @@ rule node2families:
                     else:
                         famDict[row[0]].append(row[1])
 
-            sequence_iterator = fasta_iter(input.sequence_file[0])
+            sequence_iterator = fasta_iter(input.sequence_file)
 
             for ff in sequence_iterator:
                 headerStr, seq = ff
@@ -240,6 +240,7 @@ rule node2families:
             for i in famDict.keys():
                 if len(famDict[i])>14:
                     String = output[0]+"family_"+i+".fasta"
+
                     with open(String, "w") as out:
                         for j in famDict[i]:
                             out.write('>'+j+'\n')
