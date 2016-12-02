@@ -360,13 +360,15 @@ rule phy2codon:
             #Get corresponding untrimmed Alignments, as original, line by line
             line1=True
             with open(input.untrimmed) as f:
-                print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
                 for line in f:
                     if line1:
                         continue
                         line1=False
 
                     row =line.strip().split()
+                    print("***********"")
+                    print(row)
+                    print("____________")
                     sequence=row[1]#cds
                     header=row[0]
                     print("Sequence:",sequence)
