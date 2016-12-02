@@ -55,8 +55,8 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 #print(FAMILIES)
 rule final:
     input:
-        dynamic("Families/family_{fam}.aln.phy.trimmed"),
-        dynamic("Families/family_{fam}.aln.phy")
+        dynamic("Families/family_{fam}.phy.trimmed"),
+        dynamic("Families/family_{fam}.phy")
     #input:
         #trimmedFile=dynamic("Families/family_{fam}.aln.trimmed"),
         #columnFile=dynamic("Families/family_{fam}.aln.trimmed.column_file")
