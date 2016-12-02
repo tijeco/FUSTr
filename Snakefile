@@ -416,7 +416,7 @@ rule phy2codon:
                                 prot+=i
                                 aaPos+=1
                         column+=1
-                    out.write(header+'\t'+trimmed)
+                    out.write(header+'\t'+trimmed+'\n')
 
 
 
