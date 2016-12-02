@@ -207,6 +207,41 @@ rule silix:
 
 
 """
+rule node2families:
+    input:
+        "Temp/all.combined_r90_SLX.fnodes"
+    output:
+        "Families/"
+    run:
+
+
+            famDict = {}
+            seqDict={}
+            with open(input[0]) as f:
+                for line in f:
+                    row = line.split()
+                    if row[0] not in famDict:
+                        famDict[row[0]]= [row[1]]
+
+                    else:
+                        famDict[row[0]].append(row[1])
+
+            sequence_iterator = fasta_iter(fastaFile)
+
+            for ff in sequence_iterator:
+                headerStr, seq = ff
+
+                seqDict[headerStr] = seq
+
+
+            for i in famDict.keys():
+                if len(famDict[i])>14:
+                    String = output[0]+"family_"+i+".fasta"
+                    with open(String, "w") as out:
+                        for j in famDict[i]:
+                            out.write('>'+j+'\n')
+                                out.write(seqDict[j]+'\n')
+
 
 
 
