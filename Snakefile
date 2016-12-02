@@ -54,9 +54,10 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 #FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
 #print(FAMILIES)
 rule final:
-    input:
-        dynamic("Families/family_{fam}.phy.trimmed"),
-        dynamic("Families/family_{fam}.phy")
+    input:dynamic("Families/family_{fam}.codon.phy")
+    #input:
+    #    dynamic("Families/family_{fam}.phy.trimmed"),
+    #    dynamic("Families/family_{fam}.phy")
     #input:
         #trimmedFile=dynamic("Families/family_{fam}.aln.trimmed"),
         #columnFile=dynamic("Families/family_{fam}.aln.trimmed.column_file")
@@ -327,7 +328,7 @@ rule phy2codon:
         print(input.column_file)
         print(input.nucleotide)
         print(output)
-        if longIsoform_CDS_combined = {}:
+        if longIsoform_CDS_combined == {}:
             for currentFile in input.nucleotide:
                 #with open(output.cds_after[currentFile], "w") as out:
                     # longIsoform_CDS ={}
