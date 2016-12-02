@@ -354,6 +354,7 @@ rule phy2codon:
             with open(input.column_file) as f:
                 for line in f:
                     cut = line.split(',')
+            print(cut)
 
             #Get corresponding untrimmed Alignments, as original, line by line
             line1=True
