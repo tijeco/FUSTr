@@ -210,7 +210,7 @@ rule silix:
 """
 rule node2families:
     input:
-        "Temp/all.combined_r90_SLX.fnodes"
+        "Temp/all.pep.combined_r90_SLX.fnodes"
     output:
         "Families/"
     run:
