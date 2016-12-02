@@ -355,6 +355,7 @@ rule phy2codon:
                 for line in f:
                     cut  +=line.strip()
                 cut = cut.split(',')
+                cut = list(map(int, cut))
             #print(cut)
 
             #Get corresponding untrimmed Alignments, as original, line by line
