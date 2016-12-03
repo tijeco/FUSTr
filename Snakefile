@@ -461,12 +461,12 @@ rule phy2codon:
                     #         else:
                     #             trimmed+="---"
                     #     alnPos+=1
-                    # #Make addition to this
-                    # num_lines = sum(1 for line in open(input.untrimmed) )
-                    # if first_line:
-                    #     out.write(str(num_lines-1) + " " + str(len(trimmed)) + '\n')
-                    #     first_line=False
-                    # out.write(header+'\t'+trimmed+'\n')
+                    #Make addition to this
+                    num_lines = sum(1 for line in open(input.untrimmed) )
+                    if first_line:
+                        out.write(str(num_lines-1) + " " + str(len(trimmed)) + '\n')
+                        first_line=False
+                    out.write(header+'\t'+trimmed+'\n')
 
 
 
