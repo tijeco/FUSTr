@@ -423,32 +423,50 @@ rule phy2codon:
                     #             prot+=i
                     #             aaPos+=1
                     #     column+=1
-                    aaPos=1
+
+                    aaPos=0
+                    firstAA=True
                     alnPos=0
-                    #prot=""
+                    prot=""
                     trimmed=""
                     for i in original:
                         if i!="-":
                             aaPos+=1
-                        if alnPos in cut:
-                            #prot+=i
-                            if i != "-":
-                                print(output[0])
-                                print(header)
-                                print(original)
-                                print(CodonPos)
-                                print(cut)
-                                trimmed+=CodonPos[aaPos]
 
+                        if alnPos in cut:
+                            prot+=i
+                            if i != "-":
+                                trimmed+=CodonPos[aaPos]
                             else:
                                 trimmed+="---"
                         alnPos+=1
-                    #Make addition to this
-                    num_lines = sum(1 for line in open(input.untrimmed) )
-                    if first_line:
-                        out.write(str(num_lines-1) + " " + str(len(trimmed)) + '\n')
-                        first_line=False
-                    out.write(header+'\t'+trimmed+'\n')
+
+                    # aaPos=1
+                    # alnPos=0
+                    # #prot=""
+                    # trimmed=""
+                    # for i in original:
+                    #     if i!="-":
+                    #         aaPos+=1
+                    #     if alnPos in cut:
+                    #         #prot+=i
+                    #         if i != "-":
+                    #             print(output[0])
+                    #             print(header)
+                    #             print(original)
+                    #             print(CodonPos)
+                    #             print(cut)
+                    #             trimmed+=CodonPos[aaPos]
+                    #
+                    #         else:
+                    #             trimmed+="---"
+                    #     alnPos+=1
+                    # #Make addition to this
+                    # num_lines = sum(1 for line in open(input.untrimmed) )
+                    # if first_line:
+                    #     out.write(str(num_lines-1) + " " + str(len(trimmed)) + '\n')
+                    #     first_line=False
+                    # out.write(header+'\t'+trimmed+'\n')
 
 
 
