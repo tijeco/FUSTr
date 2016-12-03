@@ -405,24 +405,38 @@ rule phy2codon:
                     #     else:
                     #         translated+="-"
                     #print translated
-                    column=0
-                    trimmed=""
+                    # column=0
+                    # trimmed=""
+                    # aaPos=1
+                    # prot=""
+                    # print(output[0])
+                    # print(original)
+                    # print(CodonPos)
+                    # print(cut)
+                    # for i in original:
+                    #     if column  in cut:
+                    #         if i =="-":
+                    #             trimmed+="---"
+                    #             prot+=i
+                    #         else:
+                    #             trimmed+=CodonPos[aaPos]
+                    #             prot+=i
+                    #             aaPos+=1
+                    #     column+=1
                     aaPos=1
-                    prot=""
-                    print(output[0])
-                    print(original)
-                    print(CodonPos)
-                    print(cut)
+                    alnPos=0
+                    #prot=""
+                    trimmed=""
                     for i in original:
-                        if column  in cut:
-                            if i =="-":
-                                trimmed+="---"
-                                prot+=i
-                            else:
+                        if i!="-":
+                            aaPos+=1
+                        if alnPos in cut:
+                            #prot+=i
+                            if i != "-":
                                 trimmed+=CodonPos[aaPos]
-                                prot+=i
-                                aaPos+=1
-                        column+=1
+                            else:
+                                trimmed+="---"
+                        alnPos+=1
                     #Make addition to this
                     num_lines = sum(1 for line in open(input.untrimmed) )
                     if first_line:
