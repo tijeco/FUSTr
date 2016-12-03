@@ -409,6 +409,7 @@ rule phy2codon:
                     trimmed=""
                     aaPos=1
                     prot=""
+                    print(output[0])
                     print(original)
                     print(CodonPos)
                     print(cut)
