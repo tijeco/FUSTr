@@ -433,7 +433,12 @@ rule phy2codon:
                         if alnPos in cut:
                             #prot+=i
                             if i != "-":
+                                print(output[0])
+                                print(original)
+                                print(CodonPos)
+                                print(cut)
                                 trimmed+=CodonPos[aaPos]
+                                
                             else:
                                 trimmed+="---"
                         alnPos+=1
