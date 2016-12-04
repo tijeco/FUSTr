@@ -1,15 +1,6 @@
 from itertools import groupby
 from itertools import (takewhile,repeat)
 
-#OrthoFinderDir = today.strftime('Results_%b%d')
-
-
-# def getOptionValue(option):
-#     optionPos = [i for i, j in enumerate(sys.argv) if j == option][0]
-#     optionValue = sys.argv[optionPos + 1]
-# if "--DIR" in sys.argv:
-#     print(getOptionValue("--DIR"))
-#     sys.exit()
 
 def fasta_iter(fasta_name):
 
