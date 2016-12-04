@@ -1214,7 +1214,7 @@ AKDFFNFYDGAKWSK
 >UniRef100_EB6DCS9 as:U3-lycotoxin-Ls1q 962 Toxin from venom of the spider Lycosa singoriensis with unknown molecular target and function
 MKFVLLFGVLLVTLFSYSSAEMFDDFDQADEDELLSLIEKEEARAKECTPRFYDCSHDRHSCCRSELFKDVCTCFYPEGG
 DNEVCTCQQPKHLKYMEKAAGKAKKFGGKVKKWFG
->UniRef100_F8J4S0 as:�?-oxotoxin-Ot4a 1793 Cytolytic peptide (Oxyopinin-4a) from the spider Oxyopes takobius
+>UniRef100_F8J4S0 as:Noxotoxin-Ot4a 1793 Cytolytic peptide (Oxyopinin-4a) from the spider Oxyopes takobius
 MKISQVFIFVFLLMISVAWANEAYEEESNYLSERFDADVEEITPEFRGIRCPKSWKCKAFKQRVLKRLLAMLRQHAF
 >UniRef100_G3LU44 as:TCTP1-1-Loxosceles intermedia 1612 Translationally-controlled tumor protein homolog from the venom of the spider Loxosceles intermedia
 MIIFKDLLTGDEMFTDSSKYKVVDGCLYEVECRHISRRHGDIQLDGANPSQEEADEATDDIVESGLDLVLNQRLIETGFS
@@ -2493,7 +2493,7 @@ ECGTLFSGCSTHADCCEGFICKLWCRYERTW
 KDDKNCIPKHHECTNDKKNCCKKGLTKMKCKCFTVADAKGATSERCACDSSLLQKFGFTGLHIIKGLF
 >UniRef100_P58605 as:omega-segestritoxin-Sf1a 256 Cav2.2 channel blocker (SNX-325) from the spider Segestria florentina
 GSCIESGKSCTHSRSMKNGLCCPKSRCNCRQIQHRHDYLGKRKYSCRCS
->UniRef100_P59367 as:�?-ctenitoxin-Pn1a 279 Toxin from venom of the spider Phoneutria nigriventer that inhibits NMDA-glutamate receptors
+>UniRef100_P59367 as:Nctenitoxin-Pn1a 279 Toxin from venom of the spider Phoneutria nigriventer that inhibits NMDA-glutamate receptors
 MKVAIVFLSLLVLAFASESIEENREEFPVEESARCADINGACKSDCDCCGDSVTCDCYWSDSCKCRESNFKIGMAIRKKF
 C
 >UniRef100_P59368 as:delta-ctenitoxin-Pn1a_2 280 Toxin from venom of the spider Phoneutria nigriventer that slows down inactivation of Nav channels
