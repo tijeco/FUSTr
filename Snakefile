@@ -432,11 +432,12 @@ rule makeCodmlFile:
         cml.set_options(Small_Diff = .45e-6) # Default value.
         cml.set_options(cleandata = 0)	     # remove sites with ambiguity data (1:yes, 0:no)?
         cml.set_options(fix_blength = 0)	 # 0: ignore, -1: random, 1: initial, 2: fixed
-        ctlFile = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+"codeml.ctl"
+
 
         try:
             cml.run(verbose=True)
         except:
+            ctlFile = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+"codeml.ctl"
             cml.ctl_file = ctlFile
             cml.write_ctl_file()
             with open(output[0], "w") as out:
