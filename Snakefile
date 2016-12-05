@@ -390,7 +390,7 @@ rule phy2codon:
                     out.write(header+'\t'+trimmed+'\n')
 rule FastTree:
     input:
-        "Families/family_{fam}.phy.trimmed"
+        "Families/family_{fam}.aln.trimmed"
     output:
         "Families/family_{fam}.tree"
     shell:
