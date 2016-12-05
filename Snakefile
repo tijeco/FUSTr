@@ -396,7 +396,7 @@ rule FastTree:
     output:
         "Families/family_{fam}_dir/family_{fam}.tree"
     shell:
-        "FastTree {input} > {output} || true"
+        "FastTree  -nosupport {input} > {output} || true"
 
 rule makeCodmlFile:
     input:
@@ -433,7 +433,7 @@ rule makeCodmlFile:
         cml.set_options(cleandata = 0)	     # remove sites with ambiguity data (1:yes, 0:no)?
         cml.set_options(fix_blength = 0)	 # 0: ignore, -1: random, 1: initial, 2: fixed
         ctlFile = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+"codeml.ctl"
-    
+
         try:
             cml.run()
         except:
