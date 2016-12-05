@@ -435,7 +435,7 @@ rule makeCodmlFile:
         try:
             cml.run()
         except:
-            with open(output[0],"w")as out:
+            with open(output[0], "w") as out:
                 out.write("EMPTY alignment")
 
 
