@@ -1,5 +1,6 @@
 from itertools import groupby
 from itertools import (takewhile,repeat)
+from Bio.Phylo.PAML import codeml
 
 
 def fasta_iter(fasta_name):
@@ -47,7 +48,7 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 rule final:
     #input:"Families/family_3523_dir/M8_family_3523.mcl"
     #input: dynamic("Families/family_{fam}.fasta")
-    input:dynamic("Families/family_{fam}_dir/M8_family_{fam}.ctl")
+    input:dynamic("Families/family_{fam}_dir/M8_family_{fam}.mcl")
     #input:
     #    dynamic("Families/family_{fam}.phy.trimmed"),
     #    dynamic("Families/family_{fam}.phy")
@@ -402,42 +403,76 @@ rule makeCodmlFile:
         tree="Families/family_{fam}_dir/family_{fam}.tree",
         codonAlignment = "Families/family_{fam}_dir/family_{fam}.codon.phylip"
     output:
-        "Families/family_{fam}_dir/M8_family_{fam}.ctl"
+        "Families/family_{fam}_dir/M8_family_{fam}.mcl"
     run:
-
-        configFile_M8 = string =   \
-  "seqfile = "+input.codonAlignment+" * sequence data file name\n"+\
-    "treefile = "+ input.tree+" * tree structure file name\n"+\
-     "outfile =" + output[0].split('.')[0]+".mcl * main result file name\n"+\
-"""
-       noisy = 9   * 0,1,2,3,9: how much rubbish on the screen
-     verbose = 1   * 1: detailed output, 0: concise output
-     runmode = 0   * 0: user tree;  1: semi-automatic;  2: automatic
-                   * 3: StepwiseAddition; (4,5):PerturbationNNI; -2: pairwise
-
-     seqtype = 1   * 1:codons; 2:AAs; 3:codons-->AAs
-   CodonFreq = 2   * 0:1/61 each, 1:F1X4, 2:F3X4, 3:codon table
-       clock = 0   * 0: no clock, unrooted tree, 1: clock, rooted tree
-      aaDist = 0   * 0:equal, +:geometric; -:linear, {1-5:G1974,Miyata,c,p,v}
-       model = 0   * models for codons:
-                   * 0:one, 1:b, 2:2 or more dN/dS ratios for branches
-     NSsites = 8   * 0:one w; 1:NearlyNeutral; 2:PositiveSelection; 3:discrete;
-                   * 4:freqs; 5:gamma;6:2gamma;
-                   * 7:beta;8:beta&w;9:beta&gamma;10:3normal
-       icode = 0   * 0:standard genetic code; 1:mammalian mt; 2-10:see below
-       Mgene = 0   * 0:rates, 1:separate; 2:pi, 3:kappa, 4:all
-   fix_kappa = 0   * 1: kappa fixed, 0: kappa to be estimated
-       kappa = 2   * initial or fixed kappa
-   fix_omega = 1   * 1: omega or omega_1 fixed, 0: estimate
-       omega = 1   * initial or fixed omega, for codons or codon-based AAs
-       getSE = 0       * 0: don't want them, 1: want S.E.s of estimates
-RateAncestor = 0       * (0,1,2): rates (alpha>0) or ancestral states (1 or 2)
-  Small_Diff = .45e-6  * Default value.
-   cleandata = 0       * remove sites with ambiguity data (1:yes, 0:no)?
- fix_blength = 0       * 0: ignore, -1: random, 1: initial, 2: fixed
+        cml = codeml.Codeml()
+        cml.alignment = input.codonAlignment
+        cml.tree = input.tree
+        cml.out_file = output[0]
+        cml.working_dir = output[0].split('/')[-1]
 
 
-"""
+        cml.set_options(noisy = 9)	         # 0,1,2,3,9: how much rubbish on the screen
+        cml.set_options(verbose = 1)	     # 1: detailed output, 0: concise output
+        cml.set_options(runmode = 0)	     # 0: user tree;  1: semi-automatic;  2: automatic
+        cml.set_options(seqtype = 1)	     # 1:codons; 2:AAs; 3:codons-->AAs
+        cml.set_options(CodonFreq = 2)	     # 0:1/61 each, 1:F1X4, 2:F3X4, 3:codon table
+        cml.set_options(clock = 0)	         # 0: no clock, unrooted tree, 1: clock, rooted tree
+        cml.set_options(aaDist = 0)	         # 0:equal, +:geometric; -:linear, {1-5:G1974,Miyata,c,p,v}
+        cml.set_options(model = 0)	         # models for codons:
+        cml.set_options(NSsites = 8)	     # 0:one w; 1:NearlyNeutral; 2:PositiveSelection; 3:discrete; Needs to be array
+        cml.set_options(icode = 0)	         # 0:standard genetic code; 1:mammalian mt; 2-10:see below
+        cml.set_options(Mgene = 0)	         # 0:rates, 1:separate; 2:pi, 3:kappa, 4:all
+        cml.set_options(fix_kappa = 0)	     # 1: kappa fixed, 0: kappa to be estimated
+        cml.set_options(kappa = 2)	         # initial or fixed kappa
+        cml.set_options(fix_omega = 1)	     # 1: omega or omega_1 fixed, 0: estimate
+        cml.set_options(omega = 1)	         # initial or fixed omega, for codons or codon-based AAs
+        cml.set_options(getSE = 0)	         # 0: don't want them, 1: want S.E.s of estimates
+        cml.set_options(RateAncestor = 0)	 # (0,1,2): rates (alpha>0) or ancestral states (1 or 2)
+        cml.set_options(Small_Diff = .45e-6) # Default value.
+        cml.set_options(cleandata = 0)	     # remove sites with ambiguity data (1:yes, 0:no)?
+        cml.set_options(fix_blength = 0)	 # 0: ignore, -1: random, 1: initial, 2: fixed
+        try:
+            cml.run()
+        except:
+            with open(output[0],"w")as f:
+                out.write("EMPTY alignment")
+
+
+#
+#         configFile_M8 = string =   \
+#   "seqfile = "+input.codonAlignment+" * sequence data file name\n"+\
+#     "treefile = "+ input.tree+" * tree structure file name\n"+\
+#      "outfile =" + output[0].split('.')[0]+".mcl * main result file name\n"+\
+# """
+#        noisy = 9   * 0,1,2,3,9: how much rubbish on the screen
+#      verbose = 1   * 1: detailed output, 0: concise output
+#      runmode = 0   * 0: user tree;  1: semi-automatic;  2: automatic
+#                    * 3: StepwiseAddition; (4,5):PerturbationNNI; -2: pairwise
+#
+#      seqtype = 1   * 1:codons; 2:AAs; 3:codons-->AAs
+#    CodonFreq = 2   * 0:1/61 each, 1:F1X4, 2:F3X4, 3:codon table
+#        clock = 0   * 0: no clock, unrooted tree, 1: clock, rooted tree
+#       aaDist = 0   * 0:equal, +:geometric; -:linear, {1-5:G1974,Miyata,c,p,v}
+#        model = 0   * models for codons:
+#                    * 0:one, 1:b, 2:2 or more dN/dS ratios for branches
+#      NSsites = 8   * 0:one w; 1:NearlyNeutral; 2:PositiveSelection; 3:discrete; Needs to be array
+#                    * 4:freqs; 5:gamma;6:2gamma;
+#                    * 7:beta;8:beta&w;9:beta&gamma;10:3normal
+#        icode = 0   * 0:standard genetic code; 1:mammalian mt; 2-10:see below
+#        Mgene = 0   * 0:rates, 1:separate; 2:pi, 3:kappa, 4:all
+#    fix_kappa = 0   * 1: kappa fixed, 0: kappa to be estimated
+#        kappa = 2   * initial or fixed kappa
+#    fix_omega = 1   * 1: omega or omega_1 fixed, 0: estimate
+#        omega = 1   * initial or fixed omega, for codons or codon-based AAs
+#        getSE = 0       * 0: don't want them, 1: want S.E.s of estimates
+# RateAncestor = 0       * (0,1,2): rates (alpha>0) or ancestral states (1 or 2)
+#   Small_Diff = .45e-6  * Default value.
+#    cleandata = 0       * remove sites with ambiguity data (1:yes, 0:no)?
+#  fix_blength = 0       * 0: ignore, -1: random, 1: initial, 2: fixed
+#
+#
+# """
         with open(output[0],"w") as out:
             out.write(configFile_M8)
 # rule codeml:
