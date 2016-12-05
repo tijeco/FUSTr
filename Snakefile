@@ -407,7 +407,7 @@ rule makeCodmlFile:
         configFile_M8 = string =   \
   "seqfile = "+input.codonAlignment+" * sequence data file name\n"+\
     "treefile = "+ input.tree+" * tree structure file name\n"+\
-     "outfile =" + output[0].split('.')[0].split('/')[-1]+" * main result file name\n"+\
+     "outfile =" + output[0].split('.')[0].split('/')[-1]+".mcl * main result file name\n"+\
 """
        noisy = 9   * 0,1,2,3,9: how much rubbish on the screen
      verbose = 1   * 1: detailed output, 0: concise output
