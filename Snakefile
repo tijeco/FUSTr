@@ -420,7 +420,7 @@ rule makeCodmlFile:
         cml.set_options(clock = 0)	         # 0: no clock, unrooted tree, 1: clock, rooted tree
         cml.set_options(aaDist = 0)	         # 0:equal, +:geometric; -:linear, {1-5:G1974,Miyata,c,p,v}
         cml.set_options(model = 0)	         # models for codons:
-        cml.set_options(NSsites = 8)	     # 0:one w; 1:NearlyNeutral; 2:PositiveSelection; 3:discrete; Needs to be array
+        cml.set_options(NSsites = [8])	     # 0:one w; 1:NearlyNeutral; 2:PositiveSelection; 3:discrete; Needs to be array
         cml.set_options(icode = 0)	         # 0:standard genetic code; 1:mammalian mt; 2-10:see below
         cml.set_options(Mgene = 0)	         # 0:rates, 1:separate; 2:pi, 3:kappa, 4:all
         cml.set_options(fix_kappa = 0)	     # 1: kappa fixed, 0: kappa to be estimated
