@@ -46,7 +46,7 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 #print(FAMILIES)
 rule final:
     #input: dynamic("Families/family_{fam}.fasta")
-    input:dynamic("Families/family_{fam}_dir/M8.family_{fam}.ctl")
+    input:dynamic("Families/family_{fam}_dir/M8_family_{fam}.ctl")
     #input:
     #    dynamic("Families/family_{fam}.phy.trimmed"),
     #    dynamic("Families/family_{fam}.phy")
