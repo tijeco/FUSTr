@@ -46,7 +46,7 @@ SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
 #print(FAMILIES)
 rule final:
     #input: dynamic("Families/family_{fam}.fasta")
-    input:dynamic("Families/family_{fam}.codon.phylip")
+    input:dynamic("Families/family_{fam}.trimmed")
     #input:
     #    dynamic("Families/family_{fam}.phy.trimmed"),
     #    dynamic("Families/family_{fam}.phy")
@@ -176,7 +176,10 @@ rule blastall:
     output:
         "Temp/all.pep.combined.blastall.out"
     shell:
-        " makeblastdb -in {input} -out {input}.seq.db -dbtype prot ;blastp -db {input}.seq.db -query {input} -outfmt 6 -out {output} -num_threads 13 -evalue 1E-5"
+        """
+        makeblastdb -in {input} -out {input}.seq.db -dbtype prot
+        blastp -db {input}.seq.db -query {input} -outfmt 6 -out {output} -num_threads 13 -evalue 1E-5
+        """
 
 rule silix:
     input:
@@ -385,3 +388,10 @@ rule phy2codon:
                         out.write(str(num_lines-1) + " " + str(len(trimmed)) + '\n')
                         first_line=False
                     out.write(header+'\t'+trimmed+'\n')
+rule FastTree:
+    input:
+        "Families/family_{fam}.phy.trimmed"
+    output:
+        "Families/family_{fam}.tree"
+    shell:
+        "fasttree {input} > {output}"
