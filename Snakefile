@@ -401,6 +401,6 @@ rule makeCodmlFile:
         tree="Families/family_{fam}_dir/family_{fam}.tree",
         codonAlignment = "Families/family_{fam}_dir/family_{fam}.codon.phylip"
     output:
-        "Families/family_{fam}_dir/family_{}.ctl"
+        "Families/family_{fam}_dir/family_{fam}.ctl"
     shell:
         "touch {output}"
