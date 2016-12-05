@@ -409,7 +409,7 @@ rule makeCodmlFile:
         cml.alignment = input.codonAlignment
         cml.tree = input.tree
         cml.out_file = output[0]
-        cml.working_dir = output[0].split('/')[-1]
+        cml.working_dir = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'
 
 
         cml.set_options(noisy = 9)	         # 0,1,2,3,9: how much rubbish on the screen
