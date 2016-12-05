@@ -294,7 +294,7 @@ rule phy2codon:
         column_file="Families/family_{fam}.aln.trimmed.column_file",
         nucleotide=expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
     output:
-        "Families/family_{fam}.codon.phylip"
+        "Families/family_{fam}_dir/family_{fam}.codon.phylip"
     run:
         cut = ""
         print(input.untrimmed)
@@ -392,6 +392,15 @@ rule FastTree:
     input:
         "Families/family_{fam}.aln.trimmed"
     output:
-        "Families/family_{fam}.tree"
+        "Families/family_{fam}_dir/family_{fam}.tree"
     shell:
         "FastTree {input} > {output} || true"
+
+rule makeCodmlFile:
+    input:
+        tree="Families/family_{fam}_dir/family_{fam}.tree",
+        codonAlignment = "Families/family_{fam}_dir/family_{fam}.codon.phylip"
+    output:
+        "Families/family_{fam}_dir/family_{}.ctl"
+    shell:
+        "touch {output}"
