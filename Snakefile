@@ -447,8 +447,7 @@ rule codeml:
 
     output:
         "Families/family_3523_dir/M8_family_3523.mcl"
-    shell:
-    """
+    shell:"""
         cd {input.directory}
         codeml {input.file}
         cd -
