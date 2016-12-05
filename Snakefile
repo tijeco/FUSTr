@@ -252,7 +252,7 @@ rule trimAln:
         trimmed_file="Families/family_{fam}.aln.trimmed",
         column_file="Families/family_{fam}.aln.trimmed.column_file"
     shell:
-        "trimal -in {input} -out {output.trimmed_file} -nogaps -colnumbering > {output.column_file}"#
+        "trimal -in {input} -out {output.trimmed_file} -nogaps -colnumbering > {output.column_file}"##
 
 
 
