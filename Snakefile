@@ -437,7 +437,7 @@ rule makeCodmlFile:
         try:
             cml.run(verbose=True)
         except:
-            ctlFile = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+"codeml.ctl"
+            ctlFile = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+"Codeml.ctl"
             cml.ctl_file = ctlFile
             cml.write_ctl_file()
             with open(output[0], "w") as out:
