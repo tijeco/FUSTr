@@ -394,4 +394,4 @@ rule FastTree:
     output:
         "Families/family_{fam}.tree"
     shell:
-        "fasttree {input} > {output}"
+        "FastTree {input} > {output}"
