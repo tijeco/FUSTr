@@ -408,7 +408,7 @@ rule makeCodmlFile:
         configFile_M8 = string =   \
   "seqfile = "+input.codonAlignment+" * sequence data file name\n"+\
     "treefile = "+ input.tree+" * tree structure file name\n"+\
-     "outfile =" + output[0].split('.')[0].split('/')[-1]+".mcl * main result file name\n"+\
+     "outfile =" + output[0].split('.')[0]+".mcl * main result file name\n"+\
 """
        noisy = 9   * 0,1,2,3,9: how much rubbish on the screen
      verbose = 1   * 1: detailed output, 0: concise output
@@ -442,7 +442,7 @@ RateAncestor = 0       * (0,1,2): rates (alpha>0) or ancestral states (1 or 2)
             out.write(configFile_M8)
 rule codeml:
     input:
-        file="M8_family_3523.ctl",
+        file="Families/family_3523_dir/M8_family_3523.ctl",
         directory="Families/family_3523_dir/"
 
     output:
