@@ -401,7 +401,7 @@ rule makeCodmlFile:
         tree="Families/family_{fam}_dir/family_{fam}.tree",
         codonAlignment = "Families/family_{fam}_dir/family_{fam}.codon.phylip"
     output:
-        "Families/family_{fam}_dir/M8.family_{fam}.ctl"
+        "Families/family_{fam}_dir/M8_family_{fam}.ctl"
     run:
 
         configFile_M8 = string =   \
