@@ -387,7 +387,7 @@ rule phy2codon:
                     if first_line:
                         out.write(str(num_lines-1) + " " + str(len(trimmed)) + '\n')
                         first_line=False
-                    out.write(header+'\t'+trimmed+'\n')
+                    out.write(header+'   '+trimmed+'\n')
 rule FastTree:
     input:
         "Families/family_{fam}.aln.trimmed"
