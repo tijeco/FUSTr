@@ -439,3 +439,16 @@ RateAncestor = 0       * (0,1,2): rates (alpha>0) or ancestral states (1 or 2)
 """
         with open(output[0],"w") as out:
             out.write(configFile_M8)
+rule codeml:
+    input:
+        file="M8_family_3523.ctl",
+        directory="Families/family_3523_dir/"
+
+    output:
+        "Families/family_3523_dir/M8_family_3523.mcl"
+    shell:
+    """
+        cd {input.directory}
+        codeml {input.file}
+        cd -
+    """
