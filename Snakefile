@@ -527,39 +527,8 @@ rule makeCodmlFile:
             M01237_cml.write_ctl_file()
             with open(output[0], "w") as out:
                 out.write("EMPTY alignment")
-"""
 
-
-
-"""linesToPrint =""
-keepGoing=False
-BEB_found= False
-DATA_found = False
-with open("BEB.txt") as f:
-    for line in f:
-        # if keepGoing:
-        #     linesToPrint+=line
-        if "BEB" in line and "11" in line :
-            # linesToPrint+=line
-            BEB_found = True
-        if BEB_found:
-            if DATA_found == False:
-                try:
-                    if line.split()[1] in "ACDEFGHIKLMNPQRSTVWY":
-                        linesToPrint+=line
-                        DATA_found = True
-                except:
-                    0
-            else:
-                try:
-                    if line.split()[1] in "ACDEFGHIKLMNPQRSTVWY":
-                        linesToPrint +=line
-                except:
-                    print linesToPrint
-                    break
-
-
-########A sketch for how to get needed data from end of rst file 
+########A sketch for how to get needed data from end of rst file
 """
 linesToPrint =""
 keepGoing=False
