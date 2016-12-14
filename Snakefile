@@ -20,14 +20,9 @@ def fasta_iter(fasta_name):
 
         yield (headerStr, seq)
 
-#
-# def rawincount(filename):
-#     f = open(filename, 'rb')
-#     bufgen = takewhile(lambda x: x, (f.raw.read(1024*1024) for _ in repeat(None)))
-#     return sum( buf.count(b'\n') for buf in bufgen )
 
 
-SAMPLES, = glob_wildcards("{sample}.pep.transdecoder")
+SAMPLES, = glob_wildcards("{sample}.fasta")
 #TESTTT, = glob_wildcards("OG{sample}.fa")
 
 #print(TESTTT)
@@ -78,7 +73,13 @@ rule final:
     #Aqinput:
 
     #input: "all.pep.combined.blastall.out"
-
+rule transdecoder:
+    input:
+        "{sample}.fasta"
+    output:
+        "{sample}.transdecoder.pep"
+    shell:
+        "TransDecoder.LongOrfs -t {input} -m 30;TransDecoder.Predict -t {input} --single_best_orf"
 longIsoform_CDS_combined = {}
 #THIS RULE WORKS, hopefully correctly.....
 rule longestIsoform:
@@ -180,7 +181,7 @@ rule blastall:
     shell:
         """
         makeblastdb -in {input} -out {input}.seq.db -dbtype prot
-        blastp -db {input}.seq.db -query {input} -outfmt 6 -out {output} -num_threads 13 -evalue 1E-5
+
         """
 
 rule silix:
