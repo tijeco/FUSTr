@@ -193,7 +193,17 @@ rule silix:
     shell:
         "silix -r 0.9 {input.sequence_file} {input.blast_file} > {output} || true"
 
+"""
 
+This is the first appearance of {fam} from dynamic,
+
+    Since not all families are kept for downstream analysis, we should only keep the ones that don't become empty after nogaps
+        the empty ones are determined from mafft,so that would probably have to be in this rule under some os() thingy
+            the fasta files can be written as a side effect with "EMPTYALIGNMENt" or something in the node2families
+                so that the sequences are still there physically
+                put in log file that these families suck
+
+"""
 rule node2families:
     input:
         node_file="Temp/all.pep.combined_r90_SLX.fnodes",
@@ -415,6 +425,28 @@ rule copyTreeAln:
         cp {input.aln_before} {output.alnM01237}
         """
 
+
+
+###############################################################
+"""
+
+for PAML rule,
+
+    have 2 outputs, M8 and M01237
+    also an out put file with the following columns
+        GeneFamily  ModelComparison ChiSq D.F p-value maybeFDR
+    Also,, try to generate all BEB files that exist (a lot of times they don't)
+        We'll use these in the final rule to plot familes with sites of strong selection
+
+
+"""
+
+
+
+
+
+
+#####################################################################3
 rule makeCodmlFile:
     input:
         tree="Families/family_{fam}_dir/M01237/family_{fam}.tree",
@@ -495,3 +527,66 @@ rule makeCodmlFile:
             M01237_cml.write_ctl_file()
             with open(output[0], "w") as out:
                 out.write("EMPTY alignment")
+"""
+
+
+
+"""linesToPrint =""
+keepGoing=False
+BEB_found= False
+DATA_found = False
+with open("BEB.txt") as f:
+    for line in f:
+        # if keepGoing:
+        #     linesToPrint+=line
+        if "BEB" in line and "11" in line :
+            # linesToPrint+=line
+            BEB_found = True
+        if BEB_found:
+            if DATA_found == False:
+                try:
+                    if line.split()[1] in "ACDEFGHIKLMNPQRSTVWY":
+                        linesToPrint+=line
+                        DATA_found = True
+                except:
+                    0
+            else:
+                try:
+                    if line.split()[1] in "ACDEFGHIKLMNPQRSTVWY":
+                        linesToPrint +=line
+                except:
+                    print linesToPrint
+                    break
+
+
+########A sketch for how to get needed data from end of rst file 
+"""
+linesToPrint =""
+keepGoing=False
+BEB_found= False
+DATA_found = False
+with open("BEB.txt") as f:
+    for line in f:
+        # if keepGoing:
+        #     linesToPrint+=line
+        if "BEB" in line and "11" in line :
+            # linesToPrint+=line
+            BEB_found = True
+        if BEB_found:
+            if DATA_found == False:
+                try:
+                    if line.split()[1] in "ACDEFGHIKLMNPQRSTVWY":
+                        linesToPrint+=line
+                        DATA_found = True
+                except:
+                    0
+            else:
+                try:
+                    if line.split()[1] in "ACDEFGHIKLMNPQRSTVWY":
+                        linesToPrint +=line
+                except:
+                    print linesToPrint
+                    break
+
+
+"""
