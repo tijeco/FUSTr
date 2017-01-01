@@ -316,53 +316,7 @@ rule node2families:
 
 
 
-            """
-            Here is where we take the family fasta file run mafft on it
-            """
-
-
-            #mafft_exe = "/opt/local/mafft"
-            in_file = "1.pep"
-
-
-            mafft_cline = MafftCommandline(input=in_file,auto=True)
-            stdout, stderr = mafft_cline()
-            align = AlignIO.read(StringIO(stdout), "fasta")
-            # print align
-            #
-            # print mafft_cline
-            # print align.get_alignment_length()
-
-            # from pprint import pprint
-            # pprint (vars(align))
-            # print align._records[4][1]
-
-
-
-            sequence={}
-            alignLength = align.get_alignment_length()
-            gapPos = {}
-
-
-            for i in range(len(align._records)):
-                sequence[i]=""
-                number = 0
-                for j in align._records[i]:
-                    sequence[i]+=j
-                    if j == "-":
-                        gapPos[number]= True
-                    number+=1
-
-
-            # print gapPos
-            # print len(gapPos)
-            # print len(sequence[0])
-            colsWithGaps = len(gapPos)
-            if colsWithGaps < alignLength:
-                count = SeqIO.write(align, "example.faa", "fasta")
-
-
-
+            
 
 rule mafft:
     input:
