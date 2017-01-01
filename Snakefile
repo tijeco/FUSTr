@@ -1,6 +1,10 @@
 from itertools import groupby
 from itertools import (takewhile,repeat)
 from Bio.Phylo.PAML import codeml
+from Bio.Align.Applications import MafftCommandline
+from StringIO import StringIO
+from Bio import AlignIO
+from Bio import SeqIO
 import sys
 
 
@@ -48,8 +52,10 @@ SAMPLES, = glob_wildcards("{sample}.fasta")
 #FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
 #print(FAMILIES)
 rule final:
-    input: expand("{sample}.trinity",sample=SAMPLES)
+    input:dynamic("Families/family_{fam}.aln")
     #input:dynamic("Families/family_{fam}_dir/M01237/family_{fam}.mcl")
+    #input: expand("{sample}.trinity",sample=SAMPLES)
+
     #input:"Families/family_3523_dir/M8_family_3523.mcl"
     #input: dynamic("Families/family_{fam}.fasta")
 
@@ -116,6 +122,11 @@ rule transdecoder:
         "TransDecoder.LongOrfs -t {input} -m 30;TransDecoder.Predict -t {input} --single_best_orf"
 longIsoform_CDS_combined = {}
 #THIS RULE WORKS, hopefully correctly.....
+
+"""
+From here down the transdecoder extension is wrong and needs to be changes to {sample}.transdecoder.pep
+
+"""
 rule longestIsoform:
     input:
         pep_before = expand("{sample}.pep.transdecoder",sample=SAMPLES),
@@ -247,7 +258,7 @@ rule node2families:
         node_file="Temp/all.pep.combined_r90_SLX.fnodes",
         sequence_file="Temp/all.pep.combined"
     output:
-        dynamic("Families/family_{fam}.fasta")
+        dynamic("Families/family_{fam}.aln")
     run:
 
 
@@ -281,6 +292,74 @@ rule node2families:
                             out.write('>'+j+'\n')
                             out.write(seqDict[j]+'\n')
 
+
+                    mafft_cline = MafftCommandline(input=String,auto=True)
+                    stdout, stderr = mafft_cline()
+                    align = AlignIO.read(StringIO(stdout), "fasta")
+
+                    sequence={}
+                    alignLength = align.get_alignment_length()
+                    gapPos = {}
+
+                    for i in range(len(align._records)):
+                        sequence[i]=""
+                        number = 0
+                        for j in align._records[i]:
+                            sequence[i]+=j
+                            if j == "-":
+                                gapPos[number]= True
+                            number+=1
+                    colsWithGaps = len(gapPos)
+                    if colsWithGaps < alignLength:
+                        AlignOut = String[0:-5]+"aln"
+                        count = SeqIO.write(align, AlignOut, "fasta")
+
+
+
+            """
+            Here is where we take the family fasta file run mafft on it
+            """
+
+
+            #mafft_exe = "/opt/local/mafft"
+            in_file = "1.pep"
+
+
+            mafft_cline = MafftCommandline(input=in_file,auto=True)
+            stdout, stderr = mafft_cline()
+            align = AlignIO.read(StringIO(stdout), "fasta")
+            # print align
+            #
+            # print mafft_cline
+            # print align.get_alignment_length()
+
+            # from pprint import pprint
+            # pprint (vars(align))
+            # print align._records[4][1]
+
+
+
+            sequence={}
+            alignLength = align.get_alignment_length()
+            gapPos = {}
+
+
+            for i in range(len(align._records)):
+                sequence[i]=""
+                number = 0
+                for j in align._records[i]:
+                    sequence[i]+=j
+                    if j == "-":
+                        gapPos[number]= True
+                    number+=1
+
+
+            # print gapPos
+            # print len(gapPos)
+            # print len(sequence[0])
+            colsWithGaps = len(gapPos)
+            if colsWithGaps < alignLength:
+                count = SeqIO.write(align, "example.faa", "fasta")
 
 
 
