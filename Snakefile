@@ -1,6 +1,7 @@
 from itertools import groupby
 from itertools import (takewhile,repeat)
 from Bio.Phylo.PAML import codeml
+import sys
 
 
 def fasta_iter(fasta_name):
@@ -19,6 +20,12 @@ def fasta_iter(fasta_name):
         seq = "".join(s.strip() for s in faiter.__next__())
 
         yield (headerStr, seq)
+def isTrinity(header):
+    if all([header[0:2] == "TR","|c" in header,"_g" in header,"_i" in header]):
+        return True
+    else:
+        print("Sorry, we only support Trinity assemblies as of now\nExiting now")
+        sys.exit()
 
 
 
@@ -41,9 +48,11 @@ SAMPLES, = glob_wildcards("{sample}.fasta")
 #FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
 #print(FAMILIES)
 rule final:
+    input: expand("{sample}.trinity",sample=SAMPLES)
+    #input:dynamic("Families/family_{fam}_dir/M01237/family_{fam}.mcl")
     #input:"Families/family_3523_dir/M8_family_3523.mcl"
     #input: dynamic("Families/family_{fam}.fasta")
-    input:dynamic("Families/family_{fam}_dir/M01237/family_{fam}.mcl")
+
     #input:
     #    dynamic("Families/family_{fam}.phy.trimmed"),
     #    dynamic("Families/family_{fam}.phy")
@@ -78,13 +87,29 @@ rule final:
 """
     Before this we need to check the headers of the fasta file, clean them up, and determine if they are from
         Trinity
-        
+
     For now we will just have transdecoder 2.0 as a requirements, since only 1.0 is on bioconda, until
         I find a workaround
 """
-rule transdecoder:
+
+rule checkTrinity:
     input:
         "{sample}.fasta"
+    output:
+        "{sample}.trinity"
+    run:
+        for currentFile in range(len(output)):
+            with open(output[currentFile], "w") as out:
+                with open(input[currentFile]) as f:
+                    for line in f:
+                        if line[0] ==">":
+                            isTrinity(line[1:-1])
+                        out.write(line)
+
+
+rule transdecoder:
+    input:
+        "{sample}.trinity"
     output:
         "{sample}.transdecoder.pep"
     shell:
@@ -190,7 +215,7 @@ rule blastall:
     shell:
         """
         makeblastdb -in {input} -out {input}.seq.db -dbtype prot
-
+        blastp -db {input}.seq.db -query {input} -outfmt 6 -out {output} -num_threads 13 -evalue 1E-5
         """
 
 rule silix:
