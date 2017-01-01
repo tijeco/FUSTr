@@ -2,7 +2,7 @@ from itertools import groupby
 from itertools import (takewhile,repeat)
 from Bio.Phylo.PAML import codeml
 from Bio.Align.Applications import MafftCommandline
-from StringIO import StringIO
+from io import StringIO
 from Bio import AlignIO
 from Bio import SeqIO
 import sys
