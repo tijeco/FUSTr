@@ -73,6 +73,15 @@ rule final:
     #Aqinput:
 
     #input: "all.pep.combined.blastall.out"
+
+#NOTE
+"""
+    Before this we need to check the headers of the fasta file, clean them up, and determine if they are from
+        Trinity
+        
+    For now we will just have transdecoder 2.0 as a requirements, since only 1.0 is on bioconda, until
+        I find a workaround
+"""
 rule transdecoder:
     input:
         "{sample}.fasta"
@@ -204,6 +213,10 @@ This is the first appearance of {fam} from dynamic,
                 put in log file that these families suck
 
 """
+
+
+
+
 rule node2families:
     input:
         node_file="Temp/all.pep.combined_r90_SLX.fnodes",
