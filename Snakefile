@@ -316,16 +316,16 @@ rule node2families:
 
 
 
-            
 
-rule mafft:
-    input:
-        "Families/family_{fam}.fasta"
-    output:
-        "Families/family_{fam}.aln"
-    shell:
-        "mafft --auto --thread -1 {input} > {output}"
-
+#
+# rule mafft:
+#     input:
+#         "Families/family_{fam}.fasta"
+#     output:
+#         "Families/family_{fam}.aln"
+#     shell:
+#         "mafft --auto --thread -1 {input} > {output}"
+#
 
 rule trimAln:
     input:
