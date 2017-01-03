@@ -52,7 +52,8 @@ SAMPLES, = glob_wildcards("{sample}.fasta")
 #FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
 #print(FAMILIES)
 rule final:
-    input:dynamic("Families/family_{fam}.aln")
+    input:dynamic("Families/family_{fam}_dir/family_{fam}.codon.phylip")
+    #input:dynamic("Families/family_{fam}.aln")
     #input:dynamic("Families/family_{fam}_dir/M01237/family_{fam}.mcl")
     #input: expand("{sample}.trinity",sample=SAMPLES)
 
@@ -525,43 +526,53 @@ rule makeCodmlFile:
     output:
         "Families/family_{fam}_dir/M01237/family_{fam}.mcl"
     run:
-        if True == False:
-            M8_cml = codeml.Codeml()
-            M8_cml.alignment = input.codonAlignment
-            M8_cml.tree = input.tree
-            M8_cml.out_file = output[0]
-            M8_cml.working_dir = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
+
+        M8_cml = codeml.Codeml()
+        M8_cml.alignment = input.codonAlignment
+        M8_cml.tree = input.tree
+        M8_cml.out_file = output[0]
+        M8_cml.working_dir = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
 
 
-            M8_cml.set_options(noisy = 9)	         # 0,1,2,3,9: how much rubbish on the screen
-            M8_cml.set_options(verbose = 1)	     # 1: detailed output, 0: concise output
-            M8_cml.set_options(runmode = 0)	     # 0: user tree;  1: semi-automatic;  2: automatic
-            M8_cml.set_options(seqtype = 1)	     # 1:codons; 2:AAs; 3:codons-->AAs
-            M8_cml.set_options(CodonFreq = 2)	     # 0:1/61 each, 1:F1X4, 2:F3X4, 3:codon table
-            M8_cml.set_options(clock = 0)	         # 0: no clock, unrooted tree, 1: clock, rooted tree
-            M8_cml.set_options(aaDist = 0)	         # 0:equal, +:geometric; -:linear, {1-5:G1974,Miyata,c,p,v}
-            M8_cml.set_options(model = 0)	         # models for codons:
-            M8_cml.set_options(NSsites = [8])	     # 0:one w; 1:NearlyNeutral; 2:PositiveSelection; 3:discrete; Needs to be array
-            M8_cml.set_options(icode = 0)	         # 0:standard genetic code; 1:mammalian mt; 2-10:see below
-            M8_cml.set_options(Mgene = 0)	         # 0:rates, 1:separate; 2:pi, 3:kappa, 4:all
-            M8_cml.set_options(fix_kappa = 0)	     # 1: kappa fixed, 0: kappa to be estimated
-            M8_cml.set_options(kappa = 2)	         # initial or fixed kappa
-            M8_cml.set_options(fix_omega = 1)	     # 1: omega or omega_1 fixed, 0: estimate
-            M8_cml.set_options(omega = 1)	         # initial or fixed omega, for codons or codon-based AAs
-            M8_cml.set_options(getSE = 0)	         # 0: don't want them, 1: want S.E.s of estimates
-            M8_cml.set_options(RateAncestor = 0)	 # (0,1,2): rates (alpha>0) or ancestral states (1 or 2)
-            M8_cml.set_options(Small_Diff = .45e-6) # Default value.
-            M8_cml.set_options(cleandata = 0)	     # remove sites with ambiguity data (1:yes, 0:no)?
-            M8_cml.set_options(fix_blength = 0)	 # 0: ignore, -1: random, 1: initial, 2: fixed
+        M8_cml.set_options(noisy = 9)	         # 0,1,2,3,9: how much rubbish on the screen
+        M8_cml.set_options(verbose = 1)	     # 1: detailed output, 0: concise output
+        M8_cml.set_options(runmode = 0)	     # 0: user tree;  1: semi-automatic;  2: automatic
+        M8_cml.set_options(seqtype = 1)	     # 1:codons; 2:AAs; 3:codons-->AAs
+        M8_cml.set_options(CodonFreq = 2)	     # 0:1/61 each, 1:F1X4, 2:F3X4, 3:codon table
+        M8_cml.set_options(clock = 0)	         # 0: no clock, unrooted tree, 1: clock, rooted tree
+        M8_cml.set_options(aaDist = 0)	         # 0:equal, +:geometric; -:linear, {1-5:G1974,Miyata,c,p,v}
+        M8_cml.set_options(model = 0)	         # models for codons:
+        M8_cml.set_options(NSsites = [8])	     # 0:one w; 1:NearlyNeutral; 2:PositiveSelection; 3:discrete; Needs to be array
+        M8_cml.set_options(icode = 0)	         # 0:standard genetic code; 1:mammalian mt; 2-10:see below
+        M8_cml.set_options(Mgene = 0)	         # 0:rates, 1:separate; 2:pi, 3:kappa, 4:all
+        M8_cml.set_options(fix_kappa = 0)	     # 1: kappa fixed, 0: kappa to be estimated
+        M8_cml.set_options(kappa = 2)	         # initial or fixed kappa
+        M8_cml.set_options(fix_omega = 1)	     # 1: omega or omega_1 fixed, 0: estimate
+        M8_cml.set_options(omega = 1)	         # initial or fixed omega, for codons or codon-based AAs
+        M8_cml.set_options(getSE = 0)	         # 0: don't want them, 1: want S.E.s of estimates
+        M8_cml.set_options(RateAncestor = 0)	 # (0,1,2): rates (alpha>0) or ancestral states (1 or 2)
+        M8_cml.set_options(Small_Diff = .45e-6) # Default value.
+        M8_cml.set_options(cleandata = 0)	     # remove sites with ambiguity data (1:yes, 0:no)?
+        M8_cml.set_options(fix_blength = 0)	 # 0: ignore, -1: random, 1: initial, 2: fixed
 
-            try:
-                M8_cml.run(verbose=True)
-            except:
-                ctlFile = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+"codeml.ctl"
-                M8_cml.ctl_file = ctlFile
-                M8_cml.write_ctl_file()
-                with open(output[0], "w") as out:
-                    out.write("EMPTY alignment")
+
+        M8_results=M8_cml.run(verbose=True)
+
+        M8a_lnL=M8_results.get("NSsites").get(8).get("lnL")
+        M8a_paramList= M8_results.get("NSsites").get(8).get("parameters").get("parameter list").split()
+        M8a_np = len(M8a_paramList)
+
+
+
+            #
+            # try:
+            #     M8_cml.run(verbose=True)
+            # except:
+            #     ctlFile = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+"codeml.ctl"
+            #     M8_cml.ctl_file = ctlFile
+            #     M8_cml.write_ctl_file()
+            #     with open(output[0], "w") as out:
+            #         out.write("EMPTY alignment")
         M01237_cml = codeml.Codeml()
         M01237_cml.alignment = input.codonAlignment
         M01237_cml.tree = input.tree
@@ -590,14 +601,71 @@ rule makeCodmlFile:
         M01237_cml.set_options(cleandata = 0)	     # remove sites with ambiguity data (1:yes, 0:no)?
         M01237_cml.set_options(fix_blength = 0)	 # 0: ignore, -1: random, 1: initial, 2: fixed
 
-        try:
-            M01237_cml.run(verbose=True)
-        except:
-            ctlFile = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output.split('/')[:-1][2]+'/'+"codemlM01237.ctl"
-            M01237_cml.ctl_file = ctlFile
-            M01237_cml.write_ctl_file()
-            with open(output[0], "w") as out:
-                out.write("EMPTY alignment")
+
+        M01237_results = M01237_cml.run(verbose=True)
+
+        M0_lnL = M01237_results.get("NSsites").get(0).get("lnL")
+        M0_np = len(M01237_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
+
+        M1a_lnL = M01237_results.get("NSsites").get(1).get("lnL")
+        M1a_np = len(M01237_results.get("NSsites").get(1).get("parameters").get("parameter list").split())
+
+        M2a_lnL = M01237_results.get("NSsites").get(2).get("lnL")
+        M2a_np = len(M01237_results.get("NSsites").get(2).get("parameters").get("parameter list").split())
+
+        M3_lnL = M01237_results.get("NSsites").get(3).get("lnL")
+        M3_np = len(M01237_results.get("NSsites").get(3).get("parameters").get("parameter list").split())
+
+        M7_lnL = M01237_results.get("NSsites").get(7).get("lnL")
+        M7_np = len(M01237_results.get("NSsites").get(7).get("parameters").get("parameter list").split())
+
+        M8_lnL = M01237_results.get("NSsites").get(8).get("lnL")
+        M8_np = len(M01237_results.get("NSsites").get(8).get("parameters").get("parameter list").split())
+
+        ####test M3-M0
+
+        M3_M0 = 2*(M3_lnL-M0_lnL)
+        df_M3_M0 = M3_np - M0_np
+        print(M3_M0)
+        if M3_M0 >=0:
+            print("P",cdf_chi2(df_M3_M0,M3_M0))
+
+        ##test M2a-M1a
+
+        M2a_M1a = 2*(M2a_lnL-M1a_lnL)
+        df_M2a_M1a = M2a_np - M1a_np
+
+        print(M2a_M1a)
+        if M2a_M1a >=0:
+            print("P",cdf_chi2(df_M2a_M1a,M2a_M1a))
+
+        ## test M8-M7
+
+        M8_M7 = 2*(M8_lnL-M7_lnL)
+        df_M8_M7 = M8_np - M7_np
+        print(M8_M7)
+        if M8_M7 >= 0:
+            print("P",cdf_chi2(df_M8_M7,M8_M7))
+
+        #test M8 - M8a
+
+        M8_M8a = 2*(M8_lnL-M8a_lnL)
+        df_M8_M8a = M8_np - M8a_np
+        print(M8_M8a)
+        if M8_M8a >=0:
+            print("P",cdf_chi2(df_M8_M8a,M8_M8a))
+
+
+
+
+        # try:
+        #     M01237_cml.run(verbose=True)
+        # except:
+        #     ctlFile = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output.split('/')[:-1][2]+'/'+"codemlM01237.ctl"
+        #     M01237_cml.ctl_file = ctlFile
+        #     M01237_cml.write_ctl_file()
+        #     with open(output[0], "w") as out:
+        #         out.write("EMPTY alignment")
 
 ########A sketch for how to get needed data from end of rst file
 """
