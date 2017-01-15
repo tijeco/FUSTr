@@ -32,6 +32,7 @@ def isTrinity(header):
         sys.exit()
         """
         Remove this nonsense, just return False
+        
         """
 
 
