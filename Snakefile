@@ -30,6 +30,9 @@ def isTrinity(header):
     else:
         print("Sorry, we only support Trinity assemblies as of now\nExiting now")
         sys.exit()
+        """
+        Remove this nonsense, just return False
+        """
 
 
 
