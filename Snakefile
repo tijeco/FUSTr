@@ -160,7 +160,7 @@ rule determineHeaderPattern:
     output:
         "{sample}.fasta.new_headers"
     run:
-        with open(input) as f:
+        with open(input[0]) as f:
             fileLength = 0
             columnCountDict={}
             wordDict = {}
@@ -231,11 +231,11 @@ rule determineHeaderPattern:
                 else:
                     pattern += "{isoform_id}"
                     numIsoformIDs+=1
-        print("Patern for",input,"is:", pattern)
+        print("Patern for",input[0],"is:", pattern)
         unique_Dict = find_left_right_anchor(pattern,"{unique_id}","{isoform_id}")
         isoformDict = find_left_right_anchor(pattern,"{isoform_id}","{unique_id}")
-        sample = input.split('.')[0]
-        with open(output[0]) as out:
+        sample = input[0].split('.')[0]
+        with open(output[0]) as out: 
             sequence_iterator = fasta_iter(sample+".fasta")
             for ff in sequence_iterator:
 
