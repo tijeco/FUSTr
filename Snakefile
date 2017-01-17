@@ -235,7 +235,7 @@ rule determineHeaderPattern:
         unique_Dict = find_left_right_anchor(pattern,"{unique_id}","{isoform_id}")
         isoformDict = find_left_right_anchor(pattern,"{isoform_id}","{unique_id}")
         sample = input[0].split('.')[0]
-        with open(output[0]) as out: 
+        with open(output[0],"w") as out: 
             sequence_iterator = fasta_iter(sample+".fasta")
             for ff in sequence_iterator:
 
