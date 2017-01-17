@@ -32,11 +32,38 @@ def isTrinity(header):
         sys.exit()
         """
         Remove this nonsense, just return False
-        
+
         """
 
 
+def find_left_right_anchor(String,pattern1,pattern2):
+    left_anchor = ""
+    right_anchor = ""
+    firstPosition = False
+    splitPattern =  String.split(pattern1)
+    if len(splitPattern) == 2:
+        for i in range(len(splitPattern)):
+            otherSplit = splitPattern[i].split(pattern2)
+            if len(otherSplit) ==1:
 
+                if i == 0:
+                    left_anchor = splitPattern[i]
+                    #print pattern1, " is first"
+                    firstPosition = True
+
+                else:
+                    right_anchor = splitPattern[i]
+                    #print pattern1, " is second"
+
+            else:
+                if i == 0:
+                    left_anchor = otherSplit[1]
+                else:
+                    right_anchor = otherSplit[0]
+    else:
+
+        sys.exit()
+    return {"left":left_anchor,"right":right_anchor,"first":firstPosition}
 SAMPLES, = glob_wildcards("{sample}.fasta")
 #TESTTT, = glob_wildcards("OG{sample}.fa")
 
@@ -102,20 +129,144 @@ rule final:
     For now we will just have transdecoder 2.0 as a requirements, since only 1.0 is on bioconda, until
         I find a workaround
 """
+#
+# rule checkTrinity:
+#     input:
+#         "{sample}.fasta"
+#     output:
+#         "{sample}.trinity"
+#     run:
+#         for currentFile in range(len(output)):
+#             with open(output[currentFile], "w") as out:
+#                 with open(input[currentFile]) as f:
+#                     for line in f:
+#                         if line[0] ==">":
+#                             isTrinity(line[1:-1])
+#                         out.write(line)
+#
 
-rule checkTrinity:
+rule getHeaders:
     input:
         "{sample}.fasta"
     output:
-        "{sample}.trinity"
+        "{sample}.headers"
+    shell:
+        "grep '>' {input} | sed -e 's/>//g' > {output}"
+
+rule determineHeaderPattern:
+    input:
+        "{sample}.headers"
+    output:
+        "{sample}.fasta.new_headers"
     run:
-        for currentFile in range(len(output)):
-            with open(output[currentFile], "w") as out:
-                with open(input[currentFile]) as f:
-                    for line in f:
-                        if line[0] ==">":
-                            isTrinity(line[1:-1])
-                        out.write(line)
+        with open(input) as f:
+            fileLength = 0
+            columnCountDict={}
+            wordDict = {}
+            rowMembers = 1
+            for line in f:
+                fileLength+=1
+                row = line.strip().split()
+                columnCount = len(row)
+                if len(row) not in columnCountDict:
+
+                    columnCountDict[len(row)] = 1
+                else:
+                    columnCountDict[len(row)] += 1
+                try:
+                    if len(columnCountDict)>rowMembers:
+                        #print "columnCount has changed"
+                        rowMembers+=1
+                except:
+                    None
+                #print columnCount
+                #wordDict = {1:{1:"g",2:"e"},2:{1:"i",2:"d"}}
+                numTypes = 0
+                #print line.strip()
+                subString = ""
+                wordColumn = 1
+                RecentAlpha = False
+                #print line
+                for j in line.strip():
+                    try:
+                        if specialCharacterBool != (not j.isdigit() and not j.isalpha() and j!='-'):
+                            if wordColumn not in wordDict:
+                                wordDict[wordColumn] = []
+                                wordDict[wordColumn].append(subString)
+                            else:
+                                if subString not in wordDict[wordColumn]:
+
+                                    wordDict[wordColumn].append(subString)
+                            #print wordColumn, subString
+                            wordColumn+=1
+                            #print subString
+                            subString = ""
+
+                        specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
+                    except:
+                        specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
+                    if specialCharacterBool:
+                        subString+=j
+                    else:
+                        subString += j
+                #print subString
+                #print '*************'
+                if wordColumn not in wordDict:
+                    wordDict[wordColumn] = []
+                    wordDict[wordColumn].append(subString)
+                else:
+                    if subString not in wordDict[wordColumn]:
+                        wordDict[wordColumn].append(subString)
+        pattern= ""
+        numIsoformIDs = 0
+        for i in wordDict.keys():
+            #print len(wordDict[i])
+            if len(wordDict[i]) == 1:
+                pattern+=wordDict[i][0]
+            else:
+                if len(wordDict[i]) == fileLength:
+
+                    pattern +="{unique_id}"
+                else:
+                    pattern += "{isoform_id}"
+                    numIsoformIDs+=1
+        unique_Dict = find_left_right_anchor(pattern,"{unique_id}","{isoform_id}")
+        isoformDict = find_left_right_anchor(pattern,"{isoform_id}","{unique_id}")
+        sample = input.split('.')[0]
+        with open(output[0]) as out:
+            sequence_iterator = fasta_iter(sample+".fasta")
+            for ff in sequence_iterator:
+
+                headerStr, seq = ff
+                first_pattern = ""
+            second_pattern= ""
+            for i in [unique_Dict,isoformDict]:
+                if i["first"]:
+                    #print headerStr
+                    ##print i["left"]
+                    if i["left"] !="" and i["right"] != "":
+                        #print headerStr.split(i["left"])[1].split(i["right"])[0]
+                        first_pattern = headerStr.split(i["left"])[1].split(i["right"])[0]
+                    elif i["left"] == "":
+                        #print headerStr.split(i["right"])[0]
+                        first_pattern = headerStr.split(i["right"])[0]
+                    else:
+                        #print headerStr.split(i["left"])[1]
+                        first_pattern = headerStr.split(i["left"])[1]
+                else:
+                    if i["left"] !="" and i["right"] != "":
+                        #print headerStr.split(i["left"])[1].split(i["right"])[0]
+                        second_pattern = headerStr.split(i["left"])[1].split(i["right"])[0]
+                    elif i["left"] == "":
+                        #print headerStr.split(i["right"])[0]
+                        second_pattern = headerStr.split(i["right"])[0]
+                    else:
+                        #print headerStr.split(i["left"])[1]
+                        second_pattern = headerStr.split(i["left"])[1]
+            out.write( ">"+first_pattern+"___"+second_pattern+'\n')
+            out.write(seq)
+
+
 
 
 rule transdecoder:
