@@ -249,13 +249,15 @@ rule determineHeaderPattern:
                 #first_pattern = ""
 
                 if True: #replace with num {isoform} == 1
+                    print(headerStr)
+
                     if "{isoform_id}" in pattern.split("{unique_id}")[1]:
                         first_constant = pattern.split("{unique_id}")[0]
                         second_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[0]
                         third_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[1]
-                        
-                        identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
 
+                        identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
+                        print(identifiers)
                         new_header = identifiers.group(1) +"___" + identifiers.group(2)
 
                     else:
