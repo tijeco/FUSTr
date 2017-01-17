@@ -83,7 +83,7 @@ SAMPLES, = glob_wildcards("{sample}.fasta")
 #FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
 #print(FAMILIES)
 rule final:
-    input:expand("{sample}.headers", sample = SAMPLES)
+    input:expand("{sample}fasta.new_headers", sample = SAMPLES)
     #input:dynamic("Families/family_{fam}_dir/family_{fam}.codon.phylip")
     #input:dynamic("Families/family_{fam}.aln")
     #input:dynamic("Families/family_{fam}_dir/M01237/family_{fam}.mcl")
@@ -150,13 +150,13 @@ rule getHeaders:
     input:
         "{sample}.fasta"
     output:
-        "{sample}.headers"
+        "{sample}.headers.txt"
     shell:
         "grep '>' {input} | sed -e 's/>//g' > {output}"
 
 rule determineHeaderPattern:
     input:
-        "{sample}.headers"
+        "{sample}.headers.txt"
     output:
         "{sample}.fasta.new_headers"
     run:
@@ -231,6 +231,7 @@ rule determineHeaderPattern:
                 else:
                     pattern += "{isoform_id}"
                     numIsoformIDs+=1
+        print("Patern for",input,"is:", pattern)
         unique_Dict = find_left_right_anchor(pattern,"{unique_id}","{isoform_id}")
         isoformDict = find_left_right_anchor(pattern,"{isoform_id}","{unique_id}")
         sample = input.split('.')[0]
