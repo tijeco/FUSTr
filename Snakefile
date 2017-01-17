@@ -19,7 +19,7 @@ def fasta_iter(fasta_name):
     faiter = (x[1] for x in groupby(fh, lambda line: line[0] == ">"))
 
     for header in faiter:
-        headerStr = header.__next__()[1:].strip().split()[0]
+        headerStr = header.__next__()[1:].strip()#Entire line, add .split[0] for just first column
         # print(header)
 
 
