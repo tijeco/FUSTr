@@ -83,7 +83,7 @@ SAMPLES, = glob_wildcards("{sample}.fasta")
 #FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
 #print(FAMILIES)
 rule final:
-    input:expand("{sample}.headers")
+    input:expand("{sample}.headers", sample = SAMPLES)
     #input:dynamic("Families/family_{fam}_dir/family_{fam}.codon.phylip")
     #input:dynamic("Families/family_{fam}.aln")
     #input:dynamic("Families/family_{fam}_dir/M01237/family_{fam}.mcl")
