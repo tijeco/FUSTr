@@ -248,14 +248,12 @@ rule determineHeaderPattern:
                 headerStr, seq = ff
                 #first_pattern = ""
 
-                if True: #replace with num {isoform} == 1 
+                if True: #replace with num {isoform} == 1
                     if "{isoform_id}" in pattern.split("{unique_id}")[1]:
                         first_constant = pattern.split("{unique_id}")[0]
                         second_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[0]
                         third_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[1]
-                        print first_constant
-                        print second_constant
-                        print third_constant
+                        
                         identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
 
                         new_header = identifiers.group(1) +"___" + identifiers.group(2)
