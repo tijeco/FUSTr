@@ -6,6 +6,8 @@ from io import StringIO
 from Bio import AlignIO
 from Bio import SeqIO
 import sys
+import re
+
 
 
 def fasta_iter(fasta_name):
@@ -36,34 +38,34 @@ def isTrinity(header):
         """
 
 
-def find_left_right_anchor(String,pattern1,pattern2):
-    left_anchor = ""
-    right_anchor = ""
-    firstPosition = False
-    splitPattern =  String.split(pattern1)
-    if len(splitPattern) == 2:
-        for i in range(len(splitPattern)):
-            otherSplit = splitPattern[i].split(pattern2)
-            if len(otherSplit) ==1:
-
-                if i == 0:
-                    left_anchor = splitPattern[i]
-                    #print pattern1, " is first"
-                    firstPosition = True
-
-                else:
-                    right_anchor = splitPattern[i]
-                    #print pattern1, " is second"
-
-            else:
-                if i == 0:
-                    left_anchor = otherSplit[1]
-                else:
-                    right_anchor = otherSplit[0]
-    else:
-
-        sys.exit()
-    return {"left":left_anchor,"right":right_anchor,"first":firstPosition}
+# def find_left_right_anchor(String,pattern1,pattern2):
+#     left_anchor = ""
+#     right_anchor = ""
+#     firstPosition = False
+#     splitPattern =  String.split(pattern1)
+#     if len(splitPattern) == 2:
+#         for i in range(len(splitPattern)):
+#             otherSplit = splitPattern[i].split(pattern2)
+#             if len(otherSplit) ==1:
+#
+#                 if i == 0:
+#                     left_anchor = splitPattern[i]
+#                     #print pattern1, " is first"
+#                     firstPosition = True
+#
+#                 else:
+#                     right_anchor = splitPattern[i]
+#                     #print pattern1, " is second"
+#
+#             else:
+#                 if i == 0:
+#                     left_anchor = otherSplit[1]
+#                 else:
+#                     right_anchor = otherSplit[0]
+#     else:
+#
+#         sys.exit()
+#     return {"left":left_anchor,"right":right_anchor,"first":firstPosition}
 SAMPLES, = glob_wildcards("{sample}.fasta")
 #TESTTT, = glob_wildcards("OG{sample}.fa")
 
@@ -232,42 +234,73 @@ rule determineHeaderPattern:
                     pattern += "{isoform_id}"
                     numIsoformIDs+=1
         print("Patern for",input[0],"is:", pattern)
-        unique_Dict = find_left_right_anchor(pattern,"{unique_id}","{isoform_id}")
-        isoformDict = find_left_right_anchor(pattern,"{isoform_id}","{unique_id}")
+
+
+
+
+        # unique_Dict = find_left_right_anchor(pattern,"{unique_id}","{isoform_id}")
+        # isoformDict = find_left_right_anchor(pattern,"{isoform_id}","{unique_id}")
         sample = input[0].split('.')[0]
         with open(output[0],"w") as out:
             sequence_iterator = fasta_iter(sample+".fasta")
             for ff in sequence_iterator:
 
                 headerStr, seq = ff
-                first_pattern = ""
-            second_pattern= ""
-            for i in [unique_Dict,isoformDict]:
-                if i["first"]:
-                    #print headerStr
-                    ##print i["left"]
-                    if i["left"] !="" and i["right"] != "":
-                        #print headerStr.split(i["left"])[1].split(i["right"])[0]
-                        first_pattern = headerStr.split(i["left"])[1].split(i["right"])[0]
-                    elif i["left"] == "":
-                        #print headerStr.split(i["right"])[0]
-                        first_pattern = headerStr.split(i["right"])[0]
+                #first_pattern = ""
+
+                if True: #replace with num {isoform} == 1 
+                    if "{isoform_id}" in pattern.split("{unique_id}")[1]:
+                        first_constant = pattern.split("{unique_id}")[0]
+                        second_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[0]
+                        third_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[1]
+                        print first_constant
+                        print second_constant
+                        print third_constant
+                        identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
+
+                        new_header = identifiers.group(1) +"___" + identifiers.group(2)
+
                     else:
-                        #print headerStr.split(i["left"])[1]
-                        first_pattern = headerStr.split(i["left"])[1]
-                else:
-                    if i["left"] !="" and i["right"] != "":
-                        #print headerStr.split(i["left"])[1].split(i["right"])[0]
-                        second_pattern = headerStr.split(i["left"])[1].split(i["right"])[0]
-                    elif i["left"] == "":
-                        #print headerStr.split(i["right"])[0]
-                        second_pattern = headerStr.split(i["right"])[0]
-                    else:
-                        print("Prepare for Errors!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-                        #print headerStr.split(i["left"])[1]
-                        second_pattern = headerStr.split(i["left"])[1]
-            out.write( ">"+first_pattern+"___"+second_pattern+'\n')
-            out.write(seq)
+                        first_constant = pattern.split("{isoform_id}")[0]
+                        second_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[0]
+                        third_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[1]
+
+                        identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
+
+                        new_header =  identifiers.group(2) + "___" + identifiers.group(1)
+
+                out.write( ">"+new_header+'\n')
+                out.write(seq)
+
+
+            # second_pattern= ""
+            # for i in [unique_Dict,isoformDict]:
+            #     if i["first"]:
+            #         #print headerStr
+            #         ##print i["left"]
+            #         if i["left"] !="" and i["right"] != "":
+            #             #print headerStr.split(i["left"])[1].split(i["right"])[0]
+            #             first_pattern = headerStr.split(i["left"])[1].split(i["right"])[0]
+            #         elif i["left"] == "":
+            #             #print headerStr.split(i["right"])[0]
+            #             first_pattern = headerStr.split(i["right"])[0]
+            #         else:
+            #             #print headerStr.split(i["left"])[1]
+            #             first_pattern = headerStr.split(i["left"])[1]
+            #     else:
+            #         if i["left"] !="" and i["right"] != "":
+            #             #print headerStr.split(i["left"])[1].split(i["right"])[0]
+            #             second_pattern = headerStr.split(i["left"])[1].split(i["right"])[0]
+            #         elif i["left"] == "":
+            #             #print headerStr.split(i["right"])[0]
+            #             second_pattern = headerStr.split(i["right"])[0]
+            #         else:
+            #             print("Prepare for Errors!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            #             #print headerStr.split(i["left"])[1]
+            #             second_pattern = headerStr.split(i["left"])[1]
+
+
+
 
 
 
