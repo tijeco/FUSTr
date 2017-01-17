@@ -247,7 +247,7 @@ rule determineHeaderPattern:
 
                 headerStr, seq = ff
                 #first_pattern = ""
-                if "NW_005081559" in headerStr or "NW_005081559" in seq:
+                if "NW_005081559" in seq:
                     print(headerStr,'\n',seq)
                 # if True: #replace with num {isoform} == 1
                 #     print(headerStr)
