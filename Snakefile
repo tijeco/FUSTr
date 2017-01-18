@@ -85,7 +85,8 @@ SAMPLES, = glob_wildcards("{sample}.fasta")
 #FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
 #print(FAMILIES)
 rule final:
-    input:expand("{sample}.fasta.clean", sample = SAMPLES),expand("{sample}.fasta.clean.new_headers", sample = SAMPLES)
+    input: expand("{sample}.transdecoder.pep")
+    #input:expand("{sample}.fasta.clean", sample = SAMPLES),expand("{sample}.fasta.clean.new_headers", sample = SAMPLES)
     #input:dynamic("Families/family_{fam}_dir/family_{fam}.codon.phylip")
     #input:dynamic("Families/family_{fam}.aln")
     #input:dynamic("Families/family_{fam}_dir/M01237/family_{fam}.mcl")
@@ -292,7 +293,7 @@ rule houseCleaning:
         #                 out.write(line.strip(">"))
 
         #"grep '^>' {input} | sed -e 's/>//g' > {output}"
-
+"""
 rule determineHeaderPattern:
     input:
         "{sample}.headers.txt"
@@ -441,15 +442,15 @@ rule determineHeaderPattern:
 
 
 
-
+"""
 
 rule transdecoder:
     input:
-        "{sample}.trinity"
+        "{sample}.fasta.clean.new_headers"
     output:
         "{sample}.transdecoder.pep"
     shell:
-        "TransDecoder.LongOrfs -t {input} -m 30;TransDecoder.Predict -t {input} --single_best_orf"
+        "~/transcriptome_programs/Transdecoder-3.0.0/TransDecoder.LongOrfs -t {input} -m 30;~/transcriptome_programs/Transdecoder-3.0.0/TransDecoder.Predict -t {input} --single_best_orf"
 longIsoform_CDS_combined = {}
 #THIS RULE WORKS, hopefully correctly.....
 
