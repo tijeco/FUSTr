@@ -85,7 +85,7 @@ SAMPLES, = glob_wildcards("{sample}.fasta")
 #FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
 #print(FAMILIES)
 rule final:
-    input:expand("{sample}.fasta.clean", sample = SAMPLES)
+    input:expand("{sample}.fasta.clean", sample = SAMPLES),expand("{sample}.fasta.clean.new_headers", sample = SAMPLES
     #input:dynamic("Families/family_{fam}_dir/family_{fam}.codon.phylip")
     #input:dynamic("Families/family_{fam}.aln")
     #input:dynamic("Families/family_{fam}_dir/M01237/family_{fam}.mcl")
@@ -152,7 +152,7 @@ rule houseCleaning:
     input:
         "{sample}.fasta"
     output:
-        "{sample}.fasta.clean"
+        "{sample}.fasta.clean","{sample}.fasta.new_headers"
     run:
         sequence_iterator = fasta_iter(input[0])
         fileLength = 0
@@ -184,10 +184,10 @@ rule houseCleaning:
                     if len(set(seq)) == 2:
                         if "N" in set(seq) and "n" in set(seq):
                             allNbool = True
-                            print(seq, "will be removed")
+                            #print(seq, "will be removed")
                     if len(set(seq)) == 1:
                         if "N" in set(seq) or "n" in set(seq):
-                            print(seq,"is just Ns")
+                            #print(seq,"is just Ns")
                             allNbool = True
                 if not allNbool:
                     out.write(">"+headerStr+'\n')
@@ -252,6 +252,39 @@ rule houseCleaning:
                     pattern += "{isoform_id}"
                     numIsoformIDs+=1
         print("Patern for",input[0],"is:", pattern)
+        #sample = input[0].split('.')[0]
+        with open(output[1],"w") as out:
+            sequence_iterator = fasta_iter(output[0])
+            for ff in sequence_iterator:
+
+                headerStr, seq = ff
+                #first_pattern = ""
+
+                if True: #replace with num {isoform} == 1
+                    #print(headerStr)
+
+                    if "{isoform_id}" in pattern.split("{unique_id}")[1]:
+                        first_constant = pattern.split("{unique_id}")[0]
+                        second_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[0]
+                        third_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[1]
+
+                        identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
+                        #print(identifiers)
+                        new_header = identifiers.group(1) +"___" + identifiers.group(2)
+
+                    else:
+                        first_constant = pattern.split("{isoform_id}")[0]
+                        second_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[0]
+                        third_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[1]
+
+                        identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
+
+                        new_header =  identifiers.group(2) + "___" + identifiers.group(1)
+
+                out.write( ">"+new_header+'\n')
+                out.write(seq+'\n')
+
+
         # with open(output[0], "w") as out:
         #     with open(input[0]) as f:
         #         for line in f:
