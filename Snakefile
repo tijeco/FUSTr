@@ -180,11 +180,11 @@ rule houseCleaning:
                     new_seq = seq
 
                 allNbool = False
-                if len(set(allNs)) == 2:
-                    print ("N" and "n") in set(allNs)
+                if len(set(new_seq)) == 2:
+                    print ("N" and "n") in set(new_seq)
                     allNbool = True
-                elif len(set(allNs)) == 1:
-                    print ("N" or "n") in set(allNs)
+                elif len(set(new_seq)) == 1:
+                    print ("N" or "n") in set(new_seq)
                     allNbool = True
                 if not allNbool:
                     out.write(">"+headerStr+'\n')
