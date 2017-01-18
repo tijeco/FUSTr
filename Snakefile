@@ -181,10 +181,10 @@ rule houseCleaning:
 
                 allNbool = False
                 if len(set(new_seq)) == 2:
-                    print ("N" and "n") in set(new_seq),"((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))"
+                    print (("N" and "n") in set(new_seq)),"((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))"
                     allNbool = True
                 elif len(set(new_seq)) == 1:
-                    print ("N" or "n") in set(new_seq),"((((((((((((((((((((((()))))))))))))))))))))))"
+                    print (("N" or "n") in set(new_seq)),"((((((((((((((((((((((()))))))))))))))))))))))"
                     allNbool = True
                 if not allNbool:
                     out.write(">"+headerStr+'\n')
