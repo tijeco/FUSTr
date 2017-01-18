@@ -247,7 +247,7 @@ rule determineHeaderPattern:
 
                 headerStr, seq = ff
                 #first_pattern = ""
-
+                
                 if True: #replace with num {isoform} == 1
                     #print(headerStr)
 
@@ -270,7 +270,7 @@ rule determineHeaderPattern:
                         new_header =  identifiers.group(2) + "___" + identifiers.group(1)
 
                 out.write( ">"+new_header+'\n')
-                out.write(seq)
+                out.write(seq+'\n')
 
 
 
