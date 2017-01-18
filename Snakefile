@@ -154,7 +154,7 @@ rule getHeaders:
     output:
         "{sample}.headers.txt"
     shell:
-        "grep '>' {input} | sed -e 's/>//g' > {output}"
+        "grep '^>' {input} | sed -e 's/>//g' > {output}"
 
 rule determineHeaderPattern:
     input:
@@ -247,31 +247,31 @@ rule determineHeaderPattern:
 
                 headerStr, seq = ff
                 #first_pattern = ""
-                if "NW_005081559" not in seq:
-                    print(headerStr,'\n',seq)
-                    if True: #replace with num {isoform} == 1
-                        print(headerStr)
 
-                        if "{isoform_id}" in pattern.split("{unique_id}")[1]:
-                            first_constant = pattern.split("{unique_id}")[0]
-                            second_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[0]
-                            third_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[1]
+                if True: #replace with num {isoform} == 1
+                    #print(headerStr)
 
-                            identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
-                            print(identifiers)
-                            new_header = identifiers.group(1) +"___" + identifiers.group(2)
+                    if "{isoform_id}" in pattern.split("{unique_id}")[1]:
+                        first_constant = pattern.split("{unique_id}")[0]
+                        second_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[0]
+                        third_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[1]
 
-                        else:
-                            first_constant = pattern.split("{isoform_id}")[0]
-                            second_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[0]
-                            third_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[1]
+                        identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
+                        #print(identifiers)
+                        new_header = identifiers.group(1) +"___" + identifiers.group(2)
 
-                            identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
+                    else:
+                        first_constant = pattern.split("{isoform_id}")[0]
+                        second_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[0]
+                        third_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[1]
 
-                            new_header =  identifiers.group(2) + "___" + identifiers.group(1)
+                        identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
 
-                    out.write( ">"+new_header+'\n')
-                    out.write(seq)
+                        new_header =  identifiers.group(2) + "___" + identifiers.group(1)
+
+                out.write( ">"+new_header+'\n')
+                out.write(seq)
+
 
 
             # second_pattern= ""
