@@ -152,7 +152,7 @@ rule houseCleaning:
     input:
         "{sample}.fasta"
     output:
-        "{sample}.fasta.clean","{sample}.fasta.new_headers"
+        "{sample}.fasta.clean","{sample}.fasta.clean.new_headers"
     run:
         sequence_iterator = fasta_iter(input[0])
         fileLength = 0
