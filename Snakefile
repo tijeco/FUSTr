@@ -184,8 +184,10 @@ rule houseCleaning:
                     if len(set(seq)) == 2:
                         if "N" in set(seq) and "n" in set(seq):
                             allNbool = True
+                            print(seq, "will be removed")
                     if len(set(seq)) == 1:
                         if "N" in set(seq) or "n" in set(seq):
+                            print(seq,"is just Ns")
                             allNbool = True
                 if not allNbool:
                     out.write(">"+headerStr+'\n')
