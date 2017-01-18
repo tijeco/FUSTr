@@ -153,8 +153,14 @@ rule getHeaders:
         "{sample}.fasta"
     output:
         "{sample}.headers.txt"
-    shell:
-        "grep '^>' {input} | sed -e 's/>//g' > {output}"
+    run:
+        with open(output[0], "w") as out:
+            with open(input[0]) as f:
+                for line in f:
+                    if line[0] == ">":
+                        out.write(line.strip(">"))
+
+        #"grep '^>' {input} | sed -e 's/>//g' > {output}"
 
 rule determineHeaderPattern:
     input:
@@ -247,7 +253,7 @@ rule determineHeaderPattern:
 
                 headerStr, seq = ff
                 #first_pattern = ""
-                
+
                 if True: #replace with num {isoform} == 1
                     #print(headerStr)
 
