@@ -85,7 +85,7 @@ SAMPLES, = glob_wildcards("{sample}.fasta")
 #FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
 #print(FAMILIES)
 rule final:
-    input:expand("{sample}.fasta.new_headers", sample = SAMPLES)
+    input:expand("{sample}.fasta.clean", sample = SAMPLES)
     #input:dynamic("Families/family_{fam}_dir/family_{fam}.codon.phylip")
     #input:dynamic("Families/family_{fam}.aln")
     #input:dynamic("Families/family_{fam}_dir/M01237/family_{fam}.mcl")
@@ -148,17 +148,99 @@ rule final:
 #                         out.write(line)
 #
 
-rule getHeaders:
+rule houseCleaning:
     input:
         "{sample}.fasta"
     output:
-        "{sample}.headers.txt"
+        "{sample}.fasta.clean"
     run:
-        with open(output[0], "w") as out:
-            with open(input[0]) as f:
-                for line in f:
-                    if line[0] == ">":
-                        out.write(line.strip(">"))
+        sequence_iterator = fasta_iter(input[0])
+        fileLength = 0
+        columnCountDict={}
+        wordDict = {}
+        rowMembers = 1
+        with open(output[0],"w") as out:
+            for ff in sequence_iterator:
+
+                headerStr, seq = ff
+                min = -1
+                max = 0
+                for i in range(len(seq)):
+                    if seq[i] not in "ATCGNatcgn":
+                        if  i!= 0:
+                            if min == -1:
+                                min = i
+                        else:
+                            min = 0
+                        if i > max:
+                            max = i
+                if min != -1 and max!= 0:
+                    new_seq = seq[0:min] + seq[max+1:]
+                else:
+                    new_seq = seq
+
+                allNbool = False
+                if len(set(allNs)) == 2:
+                    print ("N" and "n") in set(allNs)
+                    allNbool = True
+                elif len(set(allNs)) == 1:
+                    print ("N" or "n") in set(allNs)
+                    allNbool = True
+                if not allNbool:
+                    out.write(">"+headerStr+'\n')
+                    out.write(new_seq +"\n")
+                    fileLength+=1
+                    row = headerStr.strip().split()
+                    columnCount = len(row)
+                    if len(row) not in columnCountDict:
+
+                        columnCountDict[len(row)] = 1
+                    else:
+                        columnCountDict[len(row)] += 1
+                    try:
+                        if len(columnCountDict)>rowMembers:
+                            #print "columnCount has changed"
+                            rowMembers+=1
+                    except:
+                        None
+                    subString = ""
+                    wordColumn = 1
+                    RecentAlpha = False
+                    #print line
+                    for j in headerStr:
+                        try:
+                            if specialCharacterBool != (not j.isdigit() and not j.isalpha() and j!='-'):
+                                if wordColumn not in wordDict:
+                                    wordDict[wordColumn] = []
+                                    wordDict[wordColumn].append(subString)
+                                else:
+                                    if subString not in wordDict[wordColumn]:
+
+                                        wordDict[wordColumn].append(subString)
+                                #print wordColumn, subString
+                                wordColumn+=1
+                                #print subString
+                                subString = ""
+
+                            specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
+                        except:
+                            specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
+                        if specialCharacterBool:
+                            subString+=j
+                        else:
+                            subString += j
+                    if wordColumn not in wordDict:
+                        wordDict[wordColumn] = []
+                        wordDict[wordColumn].append(subString)
+                    else:
+                        if subString not in wordDict[wordColumn]:
+                            wordDict[wordColumn].append(subString)
+
+        # with open(output[0], "w") as out:
+        #     with open(input[0]) as f:
+        #         for line in f:
+        #             if line[0] == ">":
+        #                 out.write(line.strip(">"))
 
         #"grep '^>' {input} | sed -e 's/>//g' > {output}"
 
