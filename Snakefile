@@ -235,7 +235,20 @@ rule houseCleaning:
                     else:
                         if subString not in wordDict[wordColumn]:
                             wordDict[wordColumn].append(subString)
+        pattern= ""
+        numIsoformIDs = 0
+        for i in wordDict.keys():
+            #print len(wordDict[i])
+            if len(wordDict[i]) == 1:
+                pattern+=wordDict[i][0]
+            else:
+                if len(wordDict[i]) == fileLength:
 
+                    pattern +="{unique_id}"
+                else:
+                    pattern += "{isoform_id}"
+                    numIsoformIDs+=1
+        print("Patern for",input[0],"is:", pattern)
         # with open(output[0], "w") as out:
         #     with open(input[0]) as f:
         #         for line in f:
