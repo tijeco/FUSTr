@@ -450,7 +450,7 @@ rule transdecoder:
     output:
         "{sample}.transdecoder.pep"
     shell:
-        "~/transcriptome_programs/Transdecoder-3.0.0/TransDecoder.LongOrfs -t {input} -m 30;~/transcriptome_programs/Transdecoder-3.0.0/TransDecoder.Predict -t {input} --single_best_orf"
+        "~/transcriptome_programs/TransDecoder-3.0.0/TransDecoder.LongOrfs -t {input} -m 30;~/transcriptome_programs/TransDecoder-3.0.0/TransDecoder.Predict -t {input} --single_best_orf"
 longIsoform_CDS_combined = {}
 #THIS RULE WORKS, hopefully correctly.....
 
