@@ -461,8 +461,8 @@ From here down the transdecoder extension is wrong and needs to be changes to {s
 """
 rule longestIsoform:
     input:
-        pep_before = expand("{sample}.pep.transdecoder",sample=SAMPLES),
-        cds_before = expand("{sample}.cds.transdecoder",sample=SAMPLES)
+        pep_before = expand("{sample}.clean.new_headers.transdecoder.pep",sample=SAMPLES),
+        cds_before = expand("{sample}.clean.new_headers.transdecoder.cds",sample=SAMPLES)
     output:
         pep_after = expand("Temp/{sample}.longestIsoform.pep.fasta",sample=SAMPLES),
         cds_after = expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
