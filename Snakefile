@@ -559,10 +559,11 @@ rule blastall:
     output:
         "Temp/all.pep.combined.blastall.out"
     shell:
-        """
-        makeblastdb -in {input} -out {input}.seq.db -dbtype prot
-        blastp -db {input}.seq.db -query {input} -outfmt 6 -out {output} -num_threads 13 -evalue 1E-5
-        """
+        "cp {output} {output}"
+        # """
+        # makeblastdb -in {input} -out {input}.seq.db -dbtype prot
+        # blastp -db {input}.seq.db -query {input} -outfmt 6 -out {output} -num_threads 13 -evalue 1E-5
+        # """
 
 rule silix:
     input:
@@ -619,7 +620,7 @@ rule node2families:
 
             for i in famDict.keys():
                 if len(famDict[i])>14:
-                    String = "Families/family_"+i+".fasta"
+                    String = "Families/family_"+i+".fa"
                     print(String)
 
                     with open(String, "w") as out:
