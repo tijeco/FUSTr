@@ -486,7 +486,8 @@ rule longestIsoform:
                 for ff in sequence_iterator:
 
                     headerStr, seq = ff
-                    GeneID = headerStr.split('::')[1][:-2]
+                    #GeneID = headerStr.split('::')[1][:-2]
+                    GeneID=headerStr.split('___')[1].split('::')[0]
 
                     if GeneID not in longIsoform:
                         longIsoform[GeneID] = [len(seq),headerStr,seq]
@@ -514,7 +515,8 @@ rule longestIsoform:
                 for ff in sequence_iterator:
 
                     headerStr, seq = ff
-                    GeneID = headerStr.split('::')[1][:-2]
+                    #GeneID = headerStr.split('::')[1][:-2]
+                    GeneID=headerStr.split('___')[1].split('::')[0]
 
                     if GeneID not in longIsoform_CDS:
                         longIsoform_CDS[GeneID] = [len(seq),headerStr,seq]
