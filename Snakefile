@@ -559,7 +559,7 @@ rule blastall:
     output:
         "Temp/all.pep.combined.blastall.out"
     shell:
-        "cp {output} {output}"
+        "cp {output}.copy {output}"
         # """
         # makeblastdb -in {input} -out {input}.seq.db -dbtype prot
         # blastp -db {input}.seq.db -query {input} -outfmt 6 -out {output} -num_threads 13 -evalue 1E-5
