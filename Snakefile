@@ -85,7 +85,8 @@ SAMPLES, = glob_wildcards("{sample}.fasta")
 #FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
 #print(FAMILIES)
 rule final:
-    input: expand("{sample}.fasta.clean.new_headers.transdecoder.pep",sample=SAMPLES)
+    #input: expand("{sample}.fasta.clean.new_headers.transdecoder.pep",sample=SAMPLES)
+    input:"Temp/all.pep.combined"
     #input:dynamic("Families/family_{fam}.aln")
     #input:expand("{sample}.fasta.clean", sample = SAMPLES),expand("{sample}.fasta.clean.new_headers", sample = SAMPLES)
     #input:dynamic("Families/family_{fam}_dir/family_{fam}.codon.phylip")
