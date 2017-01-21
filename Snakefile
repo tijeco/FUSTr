@@ -85,7 +85,7 @@ SAMPLES, = glob_wildcards("{sample}.fasta")
 #FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
 #print(FAMILIES)
 rule final:
-    input: expand("{sample}.transdecoder.pep",sample=SAMPLES)
+    input: expand("{sample}.fasta.clean.new_headers.transdecoder.pep",sample=SAMPLES)
     #input:dynamic("Families/family_{fam}.aln")
     #input:expand("{sample}.fasta.clean", sample = SAMPLES),expand("{sample}.fasta.clean.new_headers", sample = SAMPLES)
     #input:dynamic("Families/family_{fam}_dir/family_{fam}.codon.phylip")
@@ -449,7 +449,7 @@ rule transdecoder:
     input:
         "{sample}.fasta.clean.new_headers"
     output:
-        "{sample}.transdecoder.pep"
+        "{sample}.fasta.clean.new_headers.transdecoder.pep"
     shell:
         "~/transcriptome_programs/TransDecoder-3.0.0/TransDecoder.LongOrfs -t {input} -m 30;~/transcriptome_programs/TransDecoder-3.0.0/TransDecoder.Predict -t {input} --single_best_orf"
 longIsoform_CDS_combined = {}
