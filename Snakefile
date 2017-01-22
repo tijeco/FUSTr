@@ -461,6 +461,11 @@ longIsoform_CDS_combined = {}
 From here down the transdecoder extension is wrong and needs to be changes to {sample}.transdecoder.pep
 
 """
+
+
+
+"""
+UNCOMMENT before 1/22/17
 rule longestIsoform:
     input:
         pep_before = expand("{sample}.fasta.clean.new_headers.transdecoder.pep",sample=SAMPLES),
@@ -553,7 +558,7 @@ rule combine_pep:
                     out.write(line)
 
 
-
+"""
 rule blastall:
     input:
         "Temp/all.pep.combined"
