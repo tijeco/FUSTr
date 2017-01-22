@@ -466,7 +466,7 @@ rule longestIsoform:
         pep_before = expand("{sample}.fasta.clean.new_headers.transdecoder.pep",sample=SAMPLES),
         cds_before = expand("{sample}.fasta.clean.new_headers.transdecoder.cds",sample=SAMPLES)
     output:
-        pep_after = expand("Temp/{sample}.longestIsoform.pep.fasta",sample=SAMPLES),
+        pep_after = expand("Temp/{sample}.longestIsoform.pep",sample=SAMPLES),
         cds_after = expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
     run:
 
@@ -588,7 +588,7 @@ This is the first appearance of {fam} from dynamic,
 """
 
 
-
+#NOTE this rule made a random .fasta file that was blank, all should be .fa or .aln
 
 rule node2families:
     input:
