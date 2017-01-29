@@ -269,7 +269,7 @@ rule cleanFasta:
 
 
 
-rule cleanFasta:
+rule newHeaders:
     input:
         "{sample}.clean"
     output:
