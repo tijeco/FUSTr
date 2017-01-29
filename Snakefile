@@ -160,6 +160,7 @@ rule cleanFasta:
     output:
         "{sample}.clean","{sample}.headerPattern"
     run:
+        print(pattern,False)
         sequence_iterator = fasta_iter(input[0])
         fileLength = 0
         columnCountDict={}
