@@ -151,12 +151,12 @@ rule final:
 #                             isTrinity(line[1:-1])
 #                         out.write(line)
 #
-
-rule houseCleaning:
+pattern= ""
+rule cleanFasta:
     input:
         "{sample}.fasta"
     output:
-        "{sample}.fasta.clean","{sample}.fasta.clean.new_headers"
+        "{sample}.clean","{sample}.headerPattern"
     run:
         sequence_iterator = fasta_iter(input[0])
         fileLength = 0
@@ -242,7 +242,7 @@ rule houseCleaning:
                     else:
                         if subString not in wordDict[wordColumn]:
                             wordDict[wordColumn].append(subString)
-        pattern= ""
+        #pattern= ""
         numIsoformIDs = 0
         for i in wordDict.keys():
             #print len(wordDict[i])
@@ -256,9 +256,28 @@ rule houseCleaning:
                     pattern += "{isoform_id}"
                     numIsoformIDs+=1
         print("Patern for",input[0],"is:", pattern)
+        with open(output[1],"a") as out:
+            out.write(input[0]+"\t"+pattern)
         #sample = input[0].split('.')[0]
-        with open(output[1],"w") as out:
-            sequence_iterator = fasta_iter(output[0])
+
+
+
+
+
+
+
+
+
+
+rule cleanFasta:
+    input:
+        "{sample}.clean"
+    output:
+        "{sample}.new_headers"
+    run:
+
+        with open(output[0],"w") as out:
+            sequence_iterator = fasta_iter(input[0])
             for ff in sequence_iterator:
 
                 headerStr, seq = ff
