@@ -257,7 +257,7 @@ rule cleanFasta:
                     numIsoformIDs+=1
         print("Patern for",input[0],"is:", pattern)
         with open("headerPatterns.txt","a") as out:
-            out.write(input[0]+"@@@"+pattern+'\n')
+            out.write(input[0].split('.')[0]+"@@@"+pattern+'\n')
         #sample = input[0].split('.')[0]
 
 
@@ -275,8 +275,13 @@ rule newHeaders:
     output:
         "{sample}.new_headers"
     run:
-
+        patternDict = {}
+        with open("headerPatterns.txt") as f:
+            for line in f:
+            row = line.strp().split("@@@")
+            patternDict[row[0]] = row[1]
         with open(output[0],"w") as out:
+            pattern = patternDict[input[0].split('.')[0]]
             sequence_iterator = fasta_iter(input[0])
             for ff in sequence_iterator:
 
