@@ -753,6 +753,7 @@ rule phy2codon:
         print(output)
         #if longIsoform_CDS_combined == {}:
         print("making cds dictionary")
+        print(input.nucleotide)
         for currentFile in input.nucleotide:
             print(currentFile)
             #with open(output.cds_after[currentFile], "w") as out:
