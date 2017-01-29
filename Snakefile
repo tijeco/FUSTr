@@ -156,7 +156,7 @@ rule cleanFasta:
     input:
         "{sample}.fasta"
     output:
-        "{sample}.clean","{sample}.headerPattern"
+        "{sample}.clean"
     run:
         sequence_iterator = fasta_iter(input[0])
         fileLength = 0
@@ -256,7 +256,7 @@ rule cleanFasta:
                     pattern += "{isoform_id}"
                     numIsoformIDs+=1
         print("Patern for",input[0],"is:", pattern)
-        with open(output[1],"a") as out:
+        with open("headerPatterns.txt","a") as out:
             out.write(input[0]+"\t"+pattern)
         #sample = input[0].split('.')[0]
 
