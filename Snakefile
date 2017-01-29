@@ -278,8 +278,8 @@ rule newHeaders:
         patternDict = {}
         with open("headerPatterns.txt") as f:
             for line in f:
-            row = line.strp().split("@@@")
-            patternDict[row[0]] = row[1]
+                row = line.strp().split("@@@")
+                patternDict[row[0]] = row[1]
         with open(output[0],"w") as out:
             pattern = patternDict[input[0].split('.')[0]]
             sequence_iterator = fasta_iter(input[0])
