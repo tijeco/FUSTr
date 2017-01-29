@@ -464,8 +464,7 @@ From here down the transdecoder extension is wrong and needs to be changes to {s
 
 
 
-"""
-UNCOMMENT before 1/22/17
+
 rule longestIsoform:
     input:
         pep_before = expand("{sample}.fasta.clean.new_headers.transdecoder.pep",sample=SAMPLES),
@@ -558,7 +557,7 @@ rule combine_pep:
                     out.write(line)
 
 
-"""
+
 rule blastall:
     input:
         "Temp/all.pep.combined"
@@ -738,7 +737,7 @@ rule phy2codon:
                 for ff in sequence_iterator:
 
                     headerStr, seq = ff
-                    GeneID = headerStr
+                    GeneID = headerStr[0]
 
                     if GeneID not in longIsoform_CDS_combined:
                             longIsoform_CDS_combined[GeneID] = seq
@@ -816,7 +815,7 @@ rule phy2codon:
                     out.write(header+'   '+trimmed+'\n')
 rule FastTree:
     input:
-        "Families/family_{fam}.aln.trimmed"
+        "Families/family_{fam}.aln"
     output:
         "Families/family_{fam}_dir/family_{fam}.tree"
     shell:
