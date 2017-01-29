@@ -257,7 +257,7 @@ rule cleanFasta:
                     numIsoformIDs+=1
         print("Patern for",input[0],"is:", pattern)
         with open("headerPatterns.txt","a") as out:
-            out.write(input[0]+"\t"+pattern)
+            out.write(input[0]+"\t"+pattern+'\n')
         #sample = input[0].split('.')[0]
 
 
