@@ -899,7 +899,7 @@ rule makeCodmlFile:
         M8_tree = "Families/family_{fam}_dir/M01237/family_{fam}.tree",
         M8_codonAlignment = "Families/family_{fam}_dir/M01237/family_{fam}.codon.phylip"
     output:
-        "Families/family_{fam}_dir/M01237/family_{fam}.mcl","Families/family_{fam}_dir/M8/family_{fam}.mcl"
+        "Families/family_{fam}_dir/M01237/family_{fam}.mcl","Families/family_{fam}_dir/M8/family_{fam}.mcl",
     run:
 
         M8_cml = codeml.Codeml()
@@ -949,8 +949,8 @@ rule makeCodmlFile:
             #     with open(output[0], "w") as out:
             #         out.write("EMPTY alignment")
         M01237_cml = codeml.Codeml()
-        M01237_cml.alignment = input.codonAlignment
-        M01237_cml.tree = input.tree
+        M01237_cml.alignment = input.M01237_codonAlignment
+        M01237_cml.tree = input.M01237_tree
         M01237_cml.out_file = output[1]
         M01237_cml.working_dir = output[1].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
 
@@ -998,37 +998,56 @@ rule makeCodmlFile:
         M8_np = len(M01237_results.get("NSsites").get(8).get("parameters").get("parameter list").split())
 
         ####test M3-M0
+        summaryFile = "selection_results.txt"
+        with open(summaryFile, "a") as out:
+            out.write("famliy\tM3-M0\tM2a-M1a\tM8-M7\tM8-M8a\n")
+            lineToWrite = output[0].split('/')[-1].split('.')[0]
+            M3_M0 = 2*(M3_lnL-M0_lnL)
+            df_M3_M0 = M3_np - M0_np
+            #print(M3_M0)
+            if M3_M0 >=0:
+                #print("P",cdf_chi2(df_M3_M0,M3_M0))
+                lineToWrite+= str(cdf_chi2(df_M3_M0,M3_M0)) +"\t"
+            else:
+                lineToWrite+="NA\t"
 
-        M3_M0 = 2*(M3_lnL-M0_lnL)
-        df_M3_M0 = M3_np - M0_np
-        print(M3_M0)
-        if M3_M0 >=0:
-            print("P",cdf_chi2(df_M3_M0,M3_M0))
 
-        ##test M2a-M1a
+            ##test M2a-M1a
 
-        M2a_M1a = 2*(M2a_lnL-M1a_lnL)
-        df_M2a_M1a = M2a_np - M1a_np
+            M2a_M1a = 2*(M2a_lnL-M1a_lnL)
+            df_M2a_M1a = M2a_np - M1a_np
 
-        print(M2a_M1a)
-        if M2a_M1a >=0:
-            print("P",cdf_chi2(df_M2a_M1a,M2a_M1a))
+            #print(M2a_M1a)
+            if M2a_M1a >=0:
+                #print("P",cdf_chi2(df_M2a_M1a,M2a_M1a))
+                lineToWrite+=str(cdf_chi2(df_M2a_M1a,M2a_M1a)) + "\t"
+            else:
+                lineToWrite+="NA\t"
 
-        ## test M8-M7
+            ## test M8-M7
 
-        M8_M7 = 2*(M8_lnL-M7_lnL)
-        df_M8_M7 = M8_np - M7_np
-        print(M8_M7)
-        if M8_M7 >= 0:
-            print("P",cdf_chi2(df_M8_M7,M8_M7))
+            M8_M7 = 2*(M8_lnL-M7_lnL)
+            df_M8_M7 = M8_np - M7_np
+            print(M8_M7)
+            if M8_M7 >= 0:
+                #print("P",cdf_chi2(df_M8_M7,M8_M7))
+                lineToWrite+=str(cdf_chi2(df_M8_M7,M8_M7)) +"\t"
+            else:
+                lineToWrite+="NA\t"
 
-        #test M8 - M8a
+            #test M8 - M8a
 
-        M8_M8a = 2*(M8_lnL-M8a_lnL)
-        df_M8_M8a = M8_np - M8a_np
-        print(M8_M8a)
-        if M8_M8a >=0:
-            print("P",cdf_chi2(df_M8_M8a,M8_M8a))
+            M8_M8a = 2*(M8_lnL-M8a_lnL)
+            df_M8_M8a = M8_np - M8a_np
+            print(M8_M8a)
+            if M8_M8a >=0:
+                #print("P",cdf_chi2(df_M8_M8a,M8_M8a))
+                lineToWrite+= str(cdf_chi2(df_M8_M8a,M8_M8a)) +"\t"
+            else:
+                lineToWrite+="NA\t"
+
+            out.write(lineToWrite+'\n')
+
 
 
 
