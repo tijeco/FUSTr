@@ -764,12 +764,13 @@ rule phy2codon:
             for ff in sequence_iterator:
 
                 headerStr, seq = ff
-                GeneID = headerStr[0]
+                GeneID = headerStr
 
                 if GeneID not in longIsoform_CDS_combined:
                         longIsoform_CDS_combined[GeneID] = seq
         #Open outout
         print(len(longIsoform_CDS_combined))
+
         with open(output[0], "w") as out:
 
 
