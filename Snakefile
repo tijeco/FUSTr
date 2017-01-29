@@ -152,14 +152,12 @@ rule final:
 #                             isTrinity(line[1:-1])
 #                         out.write(line)
 #
-print(pattern,True)
 rule cleanFasta:
     input:
         "{sample}.fasta"
     output:
         "{sample}.clean","{sample}.headerPattern"
     run:
-        print(pattern,False)
         sequence_iterator = fasta_iter(input[0])
         fileLength = 0
         columnCountDict={}
