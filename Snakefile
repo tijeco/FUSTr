@@ -152,7 +152,6 @@ rule final:
 #                             isTrinity(line[1:-1])
 #                         out.write(line)
 #
-pattern= ""
 print(pattern,True)
 rule cleanFasta:
     input:
@@ -245,7 +244,7 @@ rule cleanFasta:
                     else:
                         if subString not in wordDict[wordColumn]:
                             wordDict[wordColumn].append(subString)
-        #pattern= ""
+        pattern= ""
         numIsoformIDs = 0
         for i in wordDict.keys():
             #print len(wordDict[i])
