@@ -541,7 +541,7 @@ rule longestIsoform:
 
 rule combine_pep:
     input:
-        expand("Temp/{sample}.longestIsoform.pep.fasta",sample=SAMPLES)
+        expand("Temp/{sample}.longestIsoform.pep",sample=SAMPLES)
     output:
         "Temp/all.pep.combined"
 
