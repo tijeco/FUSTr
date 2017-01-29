@@ -765,7 +765,7 @@ rule phy2codon:
                 GeneID = headerStr[0]
 
                 if GeneID not in longIsoform_CDS_combined:
-                        longIsoform_CDS_combined[GeneID] = seq    
+                        longIsoform_CDS_combined[GeneID] = seq
         #Open outout
         #print(longIsoform_CDS_combined)
         with open(output[0], "w") as out:
@@ -797,7 +797,10 @@ rule phy2codon:
                     header=row[0]
                     #print("Sequence:",sequence)
                     #print("Header:",header)
-                    sequence=longIsoform_CDS_combined[header]#original
+                    try:
+                        sequence=longIsoform_CDS_combined[header]#original
+                    except:
+                        print(header,"not in dict")
                     CodonPos={}
                     position=0
                     codon=""
