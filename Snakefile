@@ -468,9 +468,9 @@ rule determineHeaderPattern:
 
 rule transdecoder:
     input:
-        "{sample}.fasta.clean.new_headers"
+        "{sample}.new_headers"
     output:
-        "{sample}.fasta.clean.new_headers.transdecoder.pep","{sample}.fasta.clean.new_headers.transdecoder.cds"
+        "{sample}.new_headers.transdecoder.pep","{sample}.new_headers.transdecoder.cds"
     shell:
         "~/transcriptome_programs/TransDecoder-3.0.0/TransDecoder.LongOrfs -t {input} -m 30;~/transcriptome_programs/TransDecoder-3.0.0/TransDecoder.Predict -t {input} --single_best_orf"
 longIsoform_CDS_combined = {}
@@ -486,8 +486,8 @@ From here down the transdecoder extension is wrong and needs to be changes to {s
 
 rule longestIsoform:
     input:
-        pep_before = expand("{sample}.fasta.clean.new_headers.transdecoder.pep",sample=SAMPLES),
-        cds_before = expand("{sample}.fasta.clean.new_headers.transdecoder.cds",sample=SAMPLES)
+        pep_before = expand("{sample}.new_headers.transdecoder.pep",sample=SAMPLES),
+        cds_before = expand("{sample}.new_headers.transdecoder.cds",sample=SAMPLES)
     output:
         pep_after = expand("Temp/{sample}.longestIsoform.pep",sample=SAMPLES),
         cds_after = expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
