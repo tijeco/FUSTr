@@ -153,6 +153,7 @@ rule final:
 #                         out.write(line)
 #
 pattern= ""
+print(pattern,True)
 rule cleanFasta:
     input:
         "{sample}.fasta"
