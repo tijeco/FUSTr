@@ -755,7 +755,7 @@ rule phy2codon:
         print("making cds dictionary")
         print(input.nucleotide)
         for currentFile in input.nucleotide:
-            print(currentFile)
+            #print(currentFile)
             #with open(output.cds_after[currentFile], "w") as out:
                 # longIsoform_CDS ={}
 
