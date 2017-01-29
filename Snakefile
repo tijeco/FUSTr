@@ -156,7 +156,7 @@ rule cleanFasta:
     input:
         "{sample}.fasta"
     output:
-        "{sample}.clean","headerPattern.txt"
+        "{sample}.clean","{sample}.headerPattern"
     run:
         sequence_iterator = fasta_iter(input[0])
         fileLength = 0
