@@ -738,6 +738,7 @@ rule aln2phy:
                     out.write(seq +"\n")
 
 #print(longIsoform_CDS_combined)
+longIsoform_CDS_combined={}
 rule phy2codon:
     input:
         untrimmed="Families/family_{fam}.phy",
@@ -751,23 +752,23 @@ rule phy2codon:
         print(input.column_file)
         print(input.nucleotide)
         print(output)
-        #if longIsoform_CDS_combined == {}:
-        print("making cds dictionary")
-        #print(input.nucleotide)
-        for currentFile in input.nucleotide:
-            #print(currentFile)
-            #with open(output.cds_after[currentFile], "w") as out:
-                # longIsoform_CDS ={}
+        if longIsoform_CDS_combined == {}:
+            print("making cds dictionary")
+            #print(input.nucleotide)
+            for currentFile in input.nucleotide:
+                #print(currentFile)
+                #with open(output.cds_after[currentFile], "w") as out:
+                    # longIsoform_CDS ={}
 
-            sequence_iterator = fasta_iter(currentFile)
-                #sample = input.cds_before[currentFile].split('.')[0]
-            for ff in sequence_iterator:
+                sequence_iterator = fasta_iter(currentFile)
+                    #sample = input.cds_before[currentFile].split('.')[0]
+                for ff in sequence_iterator:
 
-                headerStr, seq = ff
-                GeneID = headerStr
+                    headerStr, seq = ff
+                    GeneID = headerStr
 
-                if GeneID not in longIsoform_CDS_combined:
-                        longIsoform_CDS_combined[GeneID] = seq
+                    if GeneID not in longIsoform_CDS_combined:
+                            longIsoform_CDS_combined[GeneID] = seq
         #Open outout
         print(len(longIsoform_CDS_combined))
 
