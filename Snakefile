@@ -451,7 +451,7 @@ rule transdecoder:
     input:
         "{sample}.fasta.clean.new_headers"
     output:
-        "{sample}.fasta.clean.new_headers.transdecoder.pep"
+        "{sample}.fasta.clean.new_headers.transdecoder.pep","{sample}.fasta.clean.new_headers.transdecoder.cds"
     shell:
         "~/transcriptome_programs/TransDecoder-3.0.0/TransDecoder.LongOrfs -t {input} -m 30;~/transcriptome_programs/TransDecoder-3.0.0/TransDecoder.Predict -t {input} --single_best_orf"
 longIsoform_CDS_combined = {}
