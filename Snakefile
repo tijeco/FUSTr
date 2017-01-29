@@ -751,21 +751,21 @@ rule phy2codon:
         print(input.column_file)
         print(input.nucleotide)
         print(output)
-        if longIsoform_CDS_combined == {}:
-            print("making cds dictionary")
-            for currentFile in input.nucleotide:
-                #with open(output.cds_after[currentFile], "w") as out:
-                    # longIsoform_CDS ={}
+        #if longIsoform_CDS_combined == {}:
+        print("making cds dictionary")
+        for currentFile in input.nucleotide:
+            #with open(output.cds_after[currentFile], "w") as out:
+                # longIsoform_CDS ={}
 
-                sequence_iterator = fasta_iter(currentFile)
-                    #sample = input.cds_before[currentFile].split('.')[0]
-                for ff in sequence_iterator:
+            sequence_iterator = fasta_iter(currentFile)
+                #sample = input.cds_before[currentFile].split('.')[0]
+            for ff in sequence_iterator:
 
-                    headerStr, seq = ff
-                    GeneID = headerStr[0]
+                headerStr, seq = ff
+                GeneID = headerStr[0]
 
-                    if GeneID not in longIsoform_CDS_combined:
-                            longIsoform_CDS_combined[GeneID] = seq
+                if GeneID not in longIsoform_CDS_combined:
+                        longIsoform_CDS_combined[GeneID] = seq    
         #Open outout
         #print(longIsoform_CDS_combined)
         with open(output[0], "w") as out:
