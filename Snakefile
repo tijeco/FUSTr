@@ -85,7 +85,7 @@ SAMPLES, = glob_wildcards("{sample}.fasta")
 #FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
 #print(FAMILIES)
 rule final:
-    input: dynamic("Families/family_{fam}_dir/M8/family_{fam}.tree")
+    input: dynamic("Families/family_{fam}_dir/M8/family_{fam}.mcl")
     #input: "Temp/all.pep.combined"
     #input: expand("{sample}.new_headers", sample=SAMPLES)
     #input: dynamic("Families/family_{fam}_dir/family_{fam}.codon.phylip")
@@ -894,15 +894,17 @@ for PAML rule,
 #####################################################################3
 rule makeCodmlFile:
     input:
-        tree="Families/family_{fam}_dir/M01237/family_{fam}.tree",
-        codonAlignment = "Families/family_{fam}_dir/M01237/family_{fam}.codon.phylip"
+        M01237_tree="Families/family_{fam}_dir/M01237/family_{fam}.tree",
+        M01237_codonAlignment = "Families/family_{fam}_dir/M01237/family_{fam}.codon.phylip",
+        M8_tree = "Families/family_{fam}_dir/M01237/family_{fam}.tree",
+        M8_codonAlignment = "Families/family_{fam}_dir/M01237/family_{fam}.codon.phylip"
     output:
-        "Families/family_{fam}_dir/M01237/family_{fam}.mcl"
+        "Families/family_{fam}_dir/M01237/family_{fam}.mcl","Families/family_{fam}_dir/M8/family_{fam}.mcl"
     run:
 
         M8_cml = codeml.Codeml()
-        M8_cml.alignment = input.codonAlignment
-        M8_cml.tree = input.tree
+        M8_cml.alignment = input.M8_codonAlignment
+        M8_cml.tree = input.M8_tree
         M8_cml.out_file = output[0]
         M8_cml.working_dir = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
 
@@ -949,8 +951,8 @@ rule makeCodmlFile:
         M01237_cml = codeml.Codeml()
         M01237_cml.alignment = input.codonAlignment
         M01237_cml.tree = input.tree
-        M01237_cml.out_file = output[0]
-        M01237_cml.working_dir = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
+        M01237_cml.out_file = output[1]
+        M01237_cml.working_dir = output[1].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
 
 
         M01237_cml.set_options(noisy = 9)	         # 0,1,2,3,9: how much rubbish on the screen
