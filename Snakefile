@@ -1,6 +1,7 @@
 from itertools import groupby
 from itertools import (takewhile,repeat)
 from Bio.Phylo.PAML import codeml
+from Bio.Phylo.PAML.chi2 import cdf_chi2
 from Bio.Align.Applications import MafftCommandline
 from io import StringIO
 from Bio import AlignIO
