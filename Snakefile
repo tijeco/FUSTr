@@ -979,7 +979,7 @@ rule makeCodmlFile:
 
 
         M01237_results = M01237_cml.run(verbose=True)
-            """
+        """
         M0_lnL = M01237_results.get("NSsites").get(0).get("lnL")
         M0_np = len(M01237_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
 
@@ -1049,7 +1049,7 @@ rule makeCodmlFile:
 
             out.write(lineToWrite+'\n')
 
-                """
+            """
 
 
 
