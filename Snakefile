@@ -933,11 +933,11 @@ rule makeCodmlFile:
 
 
         M8_results=M8_cml.run(verbose=True)
-
+        """
         M8a_lnL=M8_results.get("NSsites").get(8).get("lnL")
         M8a_paramList= M8_results.get("NSsites").get(8).get("parameters").get("parameter list").split()
         M8a_np = len(M8a_paramList)
-
+        """
 
 
             #
