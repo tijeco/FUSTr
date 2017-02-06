@@ -4,7 +4,7 @@ Families Under Selection in Transcriptomes
 Fuster is a pipeline that clusters coding sequences from transcriptomes into protein families, and then analyzes those families for positive selection.
 
 #Getting started text
-
+ 
 First you will need [pip3](http://stackoverflow.com/questions/6587507/how-to-install-pip-with-python-3/6587528#6587528) installed.
 Using pip3 you can install miniconda3 in order to get conda so that you can set up the environment with all other dependencies.
 ```bash
