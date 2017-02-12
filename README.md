@@ -39,5 +39,5 @@ snakemake
 Once that finishes you can end the conda session using
 
 ```bash
-source deactivate Fuster
+source deactivate Fuster 
 ```
