@@ -1,6 +1,6 @@
 # FUSTr
 Families Under Selection in Transcriptomes
-#Introduction 
+#Introduction  
 Fuster is a pipeline that clusters coding sequences from transcriptomes into protein families, and then analyzes those families for positive selection.
 
 #Getting started text
