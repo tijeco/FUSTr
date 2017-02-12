@@ -1,12 +1,15 @@
 from itertools import groupby
 from itertools import (takewhile,repeat)
 from Bio.Phylo.PAML import codeml
+from Bio.Phylo.PAML.chi2 import cdf_chi2
 from Bio.Align.Applications import MafftCommandline
 from io import StringIO
 from Bio import AlignIO
 from Bio import SeqIO
 import sys
+import re
 
+"NW_005081559.1"
 
 def fasta_iter(fasta_name):
 
@@ -17,7 +20,7 @@ def fasta_iter(fasta_name):
     faiter = (x[1] for x in groupby(fh, lambda line: line[0] == ">"))
 
     for header in faiter:
-        headerStr = header.__next__()[1:].strip().split()[0]
+        headerStr = header.__next__()[1:].strip()#Entire line, add .split[0] for just first column
         # print(header)
 
 
@@ -32,11 +35,38 @@ def isTrinity(header):
         sys.exit()
         """
         Remove this nonsense, just return False
-        
+
         """
 
 
-
+# def find_left_right_anchor(String,pattern1,pattern2):
+#     left_anchor = ""
+#     right_anchor = ""
+#     firstPosition = False
+#     splitPattern =  String.split(pattern1)
+#     if len(splitPattern) == 2:
+#         for i in range(len(splitPattern)):
+#             otherSplit = splitPattern[i].split(pattern2)
+#             if len(otherSplit) ==1:
+#
+#                 if i == 0:
+#                     left_anchor = splitPattern[i]
+#                     #print pattern1, " is first"
+#                     firstPosition = True
+#
+#                 else:
+#                     right_anchor = splitPattern[i]
+#                     #print pattern1, " is second"
+#
+#             else:
+#                 if i == 0:
+#                     left_anchor = otherSplit[1]
+#                 else:
+#                     right_anchor = otherSplit[0]
+#     else:
+#
+#         sys.exit()
+#     return {"left":left_anchor,"right":right_anchor,"first":firstPosition}
 SAMPLES, = glob_wildcards("{sample}.fasta")
 #TESTTT, = glob_wildcards("OG{sample}.fa")
 
@@ -56,7 +86,15 @@ SAMPLES, = glob_wildcards("{sample}.fasta")
 #FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
 #print(FAMILIES)
 rule final:
-    input:dynamic("Families/family_{fam}_dir/family_{fam}.codon.phylip")
+    input: dynamic("Families/family_{fam}_dir/M8/family_{fam}.mcl")
+    #input: "Temp/all.pep.combined"
+    #input: expand("{sample}.new_headers", sample=SAMPLES)
+    #input: dynamic("Families/family_{fam}_dir/family_{fam}.codon.phylip")
+    #input: expand("{sample}.fasta.clean.new_headers.transdecoder.pep",sample=SAMPLES)
+    #input:"Temp/all.pep.combined"
+    #input:dynamic("Families/family_{fam}.aln")
+    #input:expand("{sample}.fasta.clean", sample = SAMPLES),expand("{sample}.fasta.clean.new_headers", sample = SAMPLES)
+    #input:dynamic("Families/family_{fam}_dir/family_{fam}.codon.phylip")
     #input:dynamic("Families/family_{fam}.aln")
     #input:dynamic("Families/family_{fam}_dir/M01237/family_{fam}.mcl")
     #input: expand("{sample}.trinity",sample=SAMPLES)
@@ -102,29 +140,347 @@ rule final:
     For now we will just have transdecoder 2.0 as a requirements, since only 1.0 is on bioconda, until
         I find a workaround
 """
-
-rule checkTrinity:
+#
+# rule checkTrinity:
+#     input:
+#         "{sample}.fasta"
+#     output:
+#         "{sample}.trinity"
+#     run:
+#         for currentFile in range(len(output)):
+#             with open(output[currentFile], "w") as out:
+#                 with open(input[currentFile]) as f:
+#                     for line in f:
+#                         if line[0] ==">":
+#                             isTrinity(line[1:-1])
+#                         out.write(line)
+#
+rule cleanFasta:
     input:
         "{sample}.fasta"
     output:
-        "{sample}.trinity"
+        "{sample}.clean"
     run:
-        for currentFile in range(len(output)):
-            with open(output[currentFile], "w") as out:
-                with open(input[currentFile]) as f:
-                    for line in f:
-                        if line[0] ==">":
-                            isTrinity(line[1:-1])
-                        out.write(line)
+        sequence_iterator = fasta_iter(input[0])
+        fileLength = 0
+        columnCountDict={}
+        wordDict = {}
+        rowMembers = 1
+        with open(output[0],"w") as out:
+            for ff in sequence_iterator:
 
+                headerStr, seq = ff
+                min = -1
+                max = 0
+                for i in range(len(seq)):
+                    if seq[i] not in "ATCGNatcgn":
+                        if  i!= 0:
+                            if min == -1:
+                                min = i
+                        else:
+                            min = 0
+                        if i > max:
+                            max = i
+                if min != -1 and max!= 0:
+                    new_seq = seq[0:min] + seq[max+1:]
+                else:
+                    new_seq = seq
+
+                allNbool = False
+                if "n" in seq or "N" in seq:
+                    if len(set(seq)) == 2:
+                        if "N" in set(seq) and "n" in set(seq):
+                            allNbool = True
+                            #print(seq, "will be removed")
+                    if len(set(seq)) == 1:
+                        if "N" in set(seq) or "n" in set(seq):
+                            #print(seq,"is just Ns")
+                            allNbool = True
+                if not allNbool:
+                    out.write(">"+headerStr+'\n')
+                    out.write(new_seq +"\n")
+                    fileLength+=1
+                    row = headerStr.strip().split()
+                    columnCount = len(row)
+                    if len(row) not in columnCountDict:
+
+                        columnCountDict[len(row)] = 1
+                    else:
+                        columnCountDict[len(row)] += 1
+                    try:
+                        if len(columnCountDict)>rowMembers:
+                            #print "columnCount has changed"
+                            rowMembers+=1
+                    except:
+                        None
+                    subString = ""
+                    wordColumn = 1
+                    RecentAlpha = False
+                    #print line
+                    for j in headerStr:
+                        try:
+                            if specialCharacterBool != (not j.isdigit() and not j.isalpha() and j!='-'):
+                                if wordColumn not in wordDict:
+                                    wordDict[wordColumn] = []
+                                    wordDict[wordColumn].append(subString)
+                                else:
+                                    if subString not in wordDict[wordColumn]:
+
+                                        wordDict[wordColumn].append(subString)
+                                #print wordColumn, subString
+                                wordColumn+=1
+                                #print subString
+                                subString = ""
+
+                            specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
+                        except:
+                            specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
+                        if specialCharacterBool:
+                            subString+=j
+                        else:
+                            subString += j
+                    if wordColumn not in wordDict:
+                        wordDict[wordColumn] = []
+                        wordDict[wordColumn].append(subString)
+                    else:
+                        if subString not in wordDict[wordColumn]:
+                            wordDict[wordColumn].append(subString)
+        pattern= ""
+        numIsoformIDs = 0
+        for i in wordDict.keys():
+            #print len(wordDict[i])
+            if len(wordDict[i]) == 1:
+                pattern+=wordDict[i][0]
+            else:
+                if len(wordDict[i]) == fileLength:
+
+                    pattern +="{unique_id}"
+                else:
+                    pattern += "{isoform_id}"
+                    numIsoformIDs+=1
+        print("Patern for",input[0],"is:", pattern)
+        with open("headerPatterns.txt","a") as out:
+            out.write(input[0].split('.')[0]+"@@@"+pattern+'\n')
+        #sample = input[0].split('.')[0]
+
+
+
+
+
+
+
+
+
+
+rule newHeaders:
+    input:
+        "{sample}.clean"
+    output:
+        "{sample}.new_headers"
+    run:
+        patternDict = {}
+        with open("headerPatterns.txt") as f:
+            for line in f:
+                row = line.strip().split("@@@")
+                patternDict[row[0]] = row[1]
+        with open(output[0],"w") as out:
+            pattern = patternDict[input[0].split('.')[0]]
+            sequence_iterator = fasta_iter(input[0])
+            for ff in sequence_iterator:
+
+                headerStr, seq = ff
+                #first_pattern = ""
+
+                if True: #replace with num {isoform} == 1
+                    #print(headerStr)
+
+                    if "{isoform_id}" in pattern.split("{unique_id}")[1]:
+                        first_constant = pattern.split("{unique_id}")[0]
+                        second_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[0]
+                        third_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[1]
+
+                        identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
+                        #print(identifiers)
+                        new_header = identifiers.group(1) +"___" + identifiers.group(2)
+
+                    else:
+                        first_constant = pattern.split("{isoform_id}")[0]
+                        second_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[0]
+                        third_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[1]
+
+                        identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
+
+                        new_header =  identifiers.group(2) + "___" + identifiers.group(1)
+
+                out.write( ">"+new_header+'\n')
+                out.write(seq+'\n')
+
+
+        # with open(output[0], "w") as out:
+        #     with open(input[0]) as f:
+        #         for line in f:
+        #             if line[0] == ">":
+        #                 out.write(line.strip(">"))
+
+        #"grep '^>' {input} | sed -e 's/>//g' > {output}"
+"""
+rule determineHeaderPattern:
+    input:
+        "{sample}.headers.txt"
+    output:
+        "{sample}.fasta.new_headers"
+    run:
+        with open(input[0]) as f:
+            fileLength = 0
+            columnCountDict={}
+            wordDict = {}
+            rowMembers = 1
+            for line in f:
+                fileLength+=1
+                row = line.strip().split()
+                columnCount = len(row)
+                if len(row) not in columnCountDict:
+
+                    columnCountDict[len(row)] = 1
+                else:
+                    columnCountDict[len(row)] += 1
+                try:
+                    if len(columnCountDict)>rowMembers:
+                        #print "columnCount has changed"
+                        rowMembers+=1
+                except:
+                    None
+                #print columnCount
+                #wordDict = {1:{1:"g",2:"e"},2:{1:"i",2:"d"}}
+                numTypes = 0
+                #print line.strip()
+                subString = ""
+                wordColumn = 1
+                RecentAlpha = False
+                #print line
+                for j in line.strip():
+                    try:
+                        if specialCharacterBool != (not j.isdigit() and not j.isalpha() and j!='-'):
+                            if wordColumn not in wordDict:
+                                wordDict[wordColumn] = []
+                                wordDict[wordColumn].append(subString)
+                            else:
+                                if subString not in wordDict[wordColumn]:
+
+                                    wordDict[wordColumn].append(subString)
+                            #print wordColumn, subString
+                            wordColumn+=1
+                            #print subString
+                            subString = ""
+
+                        specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
+                    except:
+                        specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
+                    if specialCharacterBool:
+                        subString+=j
+                    else:
+                        subString += j
+                #print subString
+                #print '*************'
+                if wordColumn not in wordDict:
+                    wordDict[wordColumn] = []
+                    wordDict[wordColumn].append(subString)
+                else:
+                    if subString not in wordDict[wordColumn]:
+                        wordDict[wordColumn].append(subString)
+        pattern= ""
+        numIsoformIDs = 0
+        for i in wordDict.keys():
+            #print len(wordDict[i])
+            if len(wordDict[i]) == 1:
+                pattern+=wordDict[i][0]
+            else:
+                if len(wordDict[i]) == fileLength:
+
+                    pattern +="{unique_id}"
+                else:
+                    pattern += "{isoform_id}"
+                    numIsoformIDs+=1
+        print("Patern for",input[0],"is:", pattern)
+
+
+
+
+        # unique_Dict = find_left_right_anchor(pattern,"{unique_id}","{isoform_id}")
+        # isoformDict = find_left_right_anchor(pattern,"{isoform_id}","{unique_id}")
+        sample = input[0].split('.')[0]
+        with open(output[0],"w") as out:
+            sequence_iterator = fasta_iter(sample+".fasta")
+            for ff in sequence_iterator:
+
+                headerStr, seq = ff
+                #first_pattern = ""
+
+                if True: #replace with num {isoform} == 1
+                    #print(headerStr)
+
+                    if "{isoform_id}" in pattern.split("{unique_id}")[1]:
+                        first_constant = pattern.split("{unique_id}")[0]
+                        second_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[0]
+                        third_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[1]
+
+                        identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
+                        #print(identifiers)
+                        new_header = identifiers.group(1) +"___" + identifiers.group(2)
+
+                    else:
+                        first_constant = pattern.split("{isoform_id}")[0]
+                        second_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[0]
+                        third_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[1]
+
+                        identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
+
+                        new_header =  identifiers.group(2) + "___" + identifiers.group(1)
+
+                out.write( ">"+new_header+'\n')
+                out.write(seq+'\n')
+
+
+
+            # second_pattern= ""
+            # for i in [unique_Dict,isoformDict]:
+            #     if i["first"]:
+            #         #print headerStr
+            #         ##print i["left"]
+            #         if i["left"] !="" and i["right"] != "":
+            #             #print headerStr.split(i["left"])[1].split(i["right"])[0]
+            #             first_pattern = headerStr.split(i["left"])[1].split(i["right"])[0]
+            #         elif i["left"] == "":
+            #             #print headerStr.split(i["right"])[0]
+            #             first_pattern = headerStr.split(i["right"])[0]
+            #         else:
+            #             #print headerStr.split(i["left"])[1]
+            #             first_pattern = headerStr.split(i["left"])[1]
+            #     else:
+            #         if i["left"] !="" and i["right"] != "":
+            #             #print headerStr.split(i["left"])[1].split(i["right"])[0]
+            #             second_pattern = headerStr.split(i["left"])[1].split(i["right"])[0]
+            #         elif i["left"] == "":
+            #             #print headerStr.split(i["right"])[0]
+            #             second_pattern = headerStr.split(i["right"])[0]
+            #         else:
+            #             print("Prepare for Errors!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            #             #print headerStr.split(i["left"])[1]
+            #             second_pattern = headerStr.split(i["left"])[1]
+
+
+
+
+
+"""
 
 rule transdecoder:
     input:
-        "{sample}.trinity"
+        "{sample}.new_headers"
     output:
-        "{sample}.transdecoder.pep"
+        "{sample}.new_headers.transdecoder.pep","{sample}.new_headers.transdecoder.cds"
     shell:
-        "TransDecoder.LongOrfs -t {input} -m 30;TransDecoder.Predict -t {input} --single_best_orf"
+        "~/transcriptome_programs/TransDecoder-3.0.0/TransDecoder.LongOrfs -t {input} -m 30;~/transcriptome_programs/TransDecoder-3.0.0/TransDecoder.Predict -t {input} --single_best_orf"
 longIsoform_CDS_combined = {}
 #THIS RULE WORKS, hopefully correctly.....
 
@@ -132,12 +488,16 @@ longIsoform_CDS_combined = {}
 From here down the transdecoder extension is wrong and needs to be changes to {sample}.transdecoder.pep
 
 """
+
+
+
+
 rule longestIsoform:
     input:
-        pep_before = expand("{sample}.pep.transdecoder",sample=SAMPLES),
-        cds_before = expand("{sample}.cds.transdecoder",sample=SAMPLES)
+        pep_before = expand("{sample}.new_headers.transdecoder.pep",sample=SAMPLES),
+        cds_before = expand("{sample}.new_headers.transdecoder.cds",sample=SAMPLES)
     output:
-        pep_after = expand("Temp/{sample}.longestIsoform.pep.fasta",sample=SAMPLES),
+        pep_after = expand("Temp/{sample}.longestIsoform.pep",sample=SAMPLES),
         cds_after = expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
     run:
 
@@ -158,7 +518,8 @@ rule longestIsoform:
                 for ff in sequence_iterator:
 
                     headerStr, seq = ff
-                    GeneID = headerStr.split('::')[1][:-2]
+                    #GeneID = headerStr.split('::')[1][:-2]
+                    GeneID=headerStr.split('___')[1].split('::')[0]
 
                     if GeneID not in longIsoform:
                         longIsoform[GeneID] = [len(seq),headerStr,seq]
@@ -186,7 +547,8 @@ rule longestIsoform:
                 for ff in sequence_iterator:
 
                     headerStr, seq = ff
-                    GeneID = headerStr.split('::')[1][:-2]
+                    #GeneID = headerStr.split('::')[1][:-2]
+                    GeneID=headerStr.split('___')[1].split('::')[0]
 
                     if GeneID not in longIsoform_CDS:
                         longIsoform_CDS[GeneID] = [len(seq),headerStr,seq]
@@ -206,7 +568,7 @@ rule longestIsoform:
 
 rule combine_pep:
     input:
-        expand("Temp/{sample}.longestIsoform.pep.fasta",sample=SAMPLES)
+        expand("Temp/{sample}.longestIsoform.pep",sample=SAMPLES)
     output:
         "Temp/all.pep.combined"
 
@@ -229,10 +591,11 @@ rule blastall:
     output:
         "Temp/all.pep.combined.blastall.out"
     shell:
-        """
-        makeblastdb -in {input} -out {input}.seq.db -dbtype prot
-        blastp -db {input}.seq.db -query {input} -outfmt 6 -out {output} -num_threads 13 -evalue 1E-5
-        """
+        "cp {output}.copy {output}"
+        # """
+        # makeblastdb -in {input} -out {input}.seq.db -dbtype prot
+        # blastp -db {input}.seq.db -query {input} -outfmt 6 -out {output} -num_threads 13 -evalue 1E-5
+        # """
 
 rule silix:
     input:
@@ -256,7 +619,7 @@ This is the first appearance of {fam} from dynamic,
 """
 
 
-
+#NOTE this rule made a random .fasta file that was blank, all should be .fa or .aln
 
 rule node2families:
     input:
@@ -289,7 +652,7 @@ rule node2families:
 
             for i in famDict.keys():
                 if len(famDict[i])>14:
-                    String = "Families/family_"+i+".fasta"
+                    String = "Families/family_"+i+".fa"
                     print(String)
 
                     with open(String, "w") as out:
@@ -316,7 +679,7 @@ rule node2families:
                             number+=1
                     colsWithGaps = len(gapPos)
                     if colsWithGaps < alignLength:
-                        AlignOut = String[0:-5]+"aln"
+                        AlignOut = String[0:-5]+".aln"
                         count = SeqIO.write(align, AlignOut, "fasta")
 
 
@@ -377,6 +740,7 @@ rule aln2phy:
                     out.write(seq +"\n")
 
 #print(longIsoform_CDS_combined)
+longIsoform_CDS_combined={}
 rule phy2codon:
     input:
         untrimmed="Families/family_{fam}.phy",
@@ -392,7 +756,9 @@ rule phy2codon:
         print(output)
         if longIsoform_CDS_combined == {}:
             print("making cds dictionary")
+            #print(input.nucleotide)
             for currentFile in input.nucleotide:
+                #print(currentFile)
                 #with open(output.cds_after[currentFile], "w") as out:
                     # longIsoform_CDS ={}
 
@@ -406,7 +772,8 @@ rule phy2codon:
                     if GeneID not in longIsoform_CDS_combined:
                             longIsoform_CDS_combined[GeneID] = seq
         #Open outout
-        #print(longIsoform_CDS_combined)
+        print(len(longIsoform_CDS_combined))
+
         with open(output[0], "w") as out:
 
 
@@ -436,7 +803,10 @@ rule phy2codon:
                     header=row[0]
                     #print("Sequence:",sequence)
                     #print("Header:",header)
-                    sequence=longIsoform_CDS_combined[header]#original
+                    try:
+                        sequence=longIsoform_CDS_combined[header]#original
+                    except:
+                        print(header,"not in dict")
                     CodonPos={}
                     position=0
                     codon=""
@@ -479,7 +849,7 @@ rule phy2codon:
                     out.write(header+'   '+trimmed+'\n')
 rule FastTree:
     input:
-        "Families/family_{fam}.aln.trimmed"
+        "Families/family_{fam}.aln"
     output:
         "Families/family_{fam}_dir/family_{fam}.tree"
     shell:
@@ -525,15 +895,17 @@ for PAML rule,
 #####################################################################3
 rule makeCodmlFile:
     input:
-        tree="Families/family_{fam}_dir/M01237/family_{fam}.tree",
-        codonAlignment = "Families/family_{fam}_dir/M01237/family_{fam}.codon.phylip"
+        M01237_tree="Families/family_{fam}_dir/M01237/family_{fam}.tree",
+        M01237_codonAlignment = "Families/family_{fam}_dir/M01237/family_{fam}.codon.phylip",
+        M8_tree = "Families/family_{fam}_dir/M01237/family_{fam}.tree",
+        M8_codonAlignment = "Families/family_{fam}_dir/M01237/family_{fam}.codon.phylip"
     output:
-        "Families/family_{fam}_dir/M01237/family_{fam}.mcl"
+        "Families/family_{fam}_dir/M01237/family_{fam}.mcl","Families/family_{fam}_dir/M8/family_{fam}.mcl",
     run:
 
         M8_cml = codeml.Codeml()
-        M8_cml.alignment = input.codonAlignment
-        M8_cml.tree = input.tree
+        M8_cml.alignment = input.M8_codonAlignment
+        M8_cml.tree = input.M8_tree
         M8_cml.out_file = output[0]
         M8_cml.working_dir = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
 
@@ -561,11 +933,11 @@ rule makeCodmlFile:
 
 
         M8_results=M8_cml.run(verbose=True)
-
+        """
         M8a_lnL=M8_results.get("NSsites").get(8).get("lnL")
         M8a_paramList= M8_results.get("NSsites").get(8).get("parameters").get("parameter list").split()
         M8a_np = len(M8a_paramList)
-
+        """
 
 
             #
@@ -578,10 +950,10 @@ rule makeCodmlFile:
             #     with open(output[0], "w") as out:
             #         out.write("EMPTY alignment")
         M01237_cml = codeml.Codeml()
-        M01237_cml.alignment = input.codonAlignment
-        M01237_cml.tree = input.tree
-        M01237_cml.out_file = output[0]
-        M01237_cml.working_dir = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
+        M01237_cml.alignment = input.M01237_codonAlignment
+        M01237_cml.tree = input.M01237_tree
+        M01237_cml.out_file = output[1]
+        M01237_cml.working_dir = output[1].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
 
 
         M01237_cml.set_options(noisy = 9)	         # 0,1,2,3,9: how much rubbish on the screen
@@ -607,7 +979,7 @@ rule makeCodmlFile:
 
 
         M01237_results = M01237_cml.run(verbose=True)
-
+        """
         M0_lnL = M01237_results.get("NSsites").get(0).get("lnL")
         M0_np = len(M01237_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
 
@@ -627,38 +999,57 @@ rule makeCodmlFile:
         M8_np = len(M01237_results.get("NSsites").get(8).get("parameters").get("parameter list").split())
 
         ####test M3-M0
+        summaryFile = "selection_results.txt"
+        with open(summaryFile, "a") as out:
+            out.write("famliy\tM3-M0\tM2a-M1a\tM8-M7\tM8-M8a\n")
+            lineToWrite = output[0].split('/')[-1].split('.')[0]
+            M3_M0 = 2*(M3_lnL-M0_lnL)
+            df_M3_M0 = M3_np - M0_np
+            #print(M3_M0)
+            if M3_M0 >=0:
+                #print("P",cdf_chi2(df_M3_M0,M3_M0))
+                lineToWrite+= str(cdf_chi2(df_M3_M0,M3_M0)) +"\t"
+            else:
+                lineToWrite+="NA\t"
 
-        M3_M0 = 2*(M3_lnL-M0_lnL)
-        df_M3_M0 = M3_np - M0_np
-        print(M3_M0)
-        if M3_M0 >=0:
-            print("P",cdf_chi2(df_M3_M0,M3_M0))
 
-        ##test M2a-M1a
+            ##test M2a-M1a
 
-        M2a_M1a = 2*(M2a_lnL-M1a_lnL)
-        df_M2a_M1a = M2a_np - M1a_np
+            M2a_M1a = 2*(M2a_lnL-M1a_lnL)
+            df_M2a_M1a = M2a_np - M1a_np
 
-        print(M2a_M1a)
-        if M2a_M1a >=0:
-            print("P",cdf_chi2(df_M2a_M1a,M2a_M1a))
+            #print(M2a_M1a)
+            if M2a_M1a >=0:
+                #print("P",cdf_chi2(df_M2a_M1a,M2a_M1a))
+                lineToWrite+=str(cdf_chi2(df_M2a_M1a,M2a_M1a)) + "\t"
+            else:
+                lineToWrite+="NA\t"
 
-        ## test M8-M7
+            ## test M8-M7
 
-        M8_M7 = 2*(M8_lnL-M7_lnL)
-        df_M8_M7 = M8_np - M7_np
-        print(M8_M7)
-        if M8_M7 >= 0:
-            print("P",cdf_chi2(df_M8_M7,M8_M7))
+            M8_M7 = 2*(M8_lnL-M7_lnL)
+            df_M8_M7 = M8_np - M7_np
+            print(M8_M7)
+            if M8_M7 >= 0:
+                #print("P",cdf_chi2(df_M8_M7,M8_M7))
+                lineToWrite+=str(cdf_chi2(df_M8_M7,M8_M7)) +"\t"
+            else:
+                lineToWrite+="NA\t"
 
-        #test M8 - M8a
+            #test M8 - M8a
 
-        M8_M8a = 2*(M8_lnL-M8a_lnL)
-        df_M8_M8a = M8_np - M8a_np
-        print(M8_M8a)
-        if M8_M8a >=0:
-            print("P",cdf_chi2(df_M8_M8a,M8_M8a))
+            M8_M8a = 2*(M8_lnL-M8a_lnL)
+            df_M8_M8a = M8_np - M8a_np
+            print(M8_M8a)
+            if M8_M8a >=0:
+                #print("P",cdf_chi2(df_M8_M8a,M8_M8a))
+                lineToWrite+= str(cdf_chi2(df_M8_M8a,M8_M8a)) +"\t"
+            else:
+                lineToWrite+="NA\t"
 
+            out.write(lineToWrite+'\n')
+
+            """
 
 
 
