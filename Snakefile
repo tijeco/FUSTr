@@ -264,8 +264,8 @@ rule cleanFasta:
             print("WE CANNOT DETECT ISOFORMS!!!!!!!!!")
         else:
             print("WE COULD DETECT ISOFORMS????????????")
-        with open("headerPatterns.txt","a") as out:
-            out.write(input[0].split('.')[0]+"@@@"+pattern+'\n')
+            with open("headerPatterns.txt","a") as out:
+                out.write(input[0].split('.')[0]+"@@@"+pattern+'\n')
         #sample = input[0].split('.')[0]
 
 
@@ -283,42 +283,53 @@ rule newHeaders:
     output:
         "{sample}.new_headers"
     run:
-        patternDict = {}
-        with open("headerPatterns.txt") as f:
-            for line in f:
-                row = line.strip().split("@@@")
-                patternDict[row[0]] = row[1]
-        with open(output[0],"w") as out:
-            pattern = patternDict[input[0].split('.')[0]]
-            sequence_iterator = fasta_iter(input[0])
-            for ff in sequence_iterator:
+        try:
+            patternDict = {}
+            with open("headerPatterns.txt") as f:
+                for line in f:
+                    row = line.strip().split("@@@")
+                    patternDict[row[0]] = row[1]
+            with open(output[0],"w") as out:
+                pattern = patternDict[input[0].split('.')[0]]
+                sequence_iterator = fasta_iter(input[0])
+                for ff in sequence_iterator:
 
-                headerStr, seq = ff
-                #first_pattern = ""
+                    headerStr, seq = ff
+                    #first_pattern = ""
 
-                if True: #replace with num {isoform} == 1
-                    #print(headerStr)
+                    if True: #replace with num {isoform} == 1
+                        #print(headerStr)
 
-                    if "{isoform_id}" in pattern.split("{unique_id}")[1]:
-                        first_constant = pattern.split("{unique_id}")[0]
-                        second_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[0]
-                        third_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[1]
+                        if "{isoform_id}" in pattern.split("{unique_id}")[1]:
+                            first_constant = pattern.split("{unique_id}")[0]
+                            second_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[0]
+                            third_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[1]
 
-                        identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
-                        #print(identifiers)
-                        new_header = identifiers.group(1) +"___" + identifiers.group(2)
+                            identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
+                            #print(identifiers)
+                            new_header = identifiers.group(1) +"___" + identifiers.group(2)
 
-                    else:
-                        first_constant = pattern.split("{isoform_id}")[0]
-                        second_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[0]
-                        third_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[1]
+                        else:
+                            first_constant = pattern.split("{isoform_id}")[0]
+                            second_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[0]
+                            third_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[1]
 
-                        identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
+                            identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
 
-                        new_header =  identifiers.group(2) + "___" + identifiers.group(1)
+                            new_header =  identifiers.group(2) + "___" + identifiers.group(1)
 
-                out.write( ">"+new_header+'\n')
-                out.write(seq+'\n')
+                    out.write( ">"+new_header+'\n')
+                    out.write(seq+'\n')
+
+        except:
+            with open(output[0],"w") as out:
+                sequence_iterator = fasta_iter(input[0])
+                for ff in sequence_iterator:
+
+                    headerStr, seq = ff
+                    out.write( ">"+headerStr+'\n')
+                    out.write(seq+'\n')
+
 
 
         # with open(output[0], "w") as out:
