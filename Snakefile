@@ -527,6 +527,7 @@ rule longestIsoform:
         for currentFile in range(len(output.pep_after)):
 
             with open(output.pep_after[currentFile], "w") as out:
+
                 longIsoform={}
 
                 sequence_iterator = fasta_iter(input.pep_before[currentFile])
@@ -535,8 +536,13 @@ rule longestIsoform:
 
                     headerStr, seq = ff
                     #GeneID = headerStr.split('::')[1][:-2]
-                    GeneID=headerStr.split('___')[1].split('::')[0]
+                    try:
 
+                        GeneID=headerStr.split('___')[1].split('::')[0]
+                    except:
+                        out.write('>'+headerStr+'\n')
+                        out.write(seq + '\n')
+                        continue
                     if GeneID not in longIsoform:
                         longIsoform[GeneID] = [len(seq),headerStr,seq]
                     else:
