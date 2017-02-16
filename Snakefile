@@ -679,7 +679,7 @@ rule node2families:
             print("Step 3")
             for i in famDict.keys():
                 #print("Step 4",i,famDict[i])
-                print len(famDict[i])>14
+                print(len(famDict[i])>14)
                 if len(famDict[i])>14:
                     print("step 5")
                     String = "Families/family_"+i+".fa"
