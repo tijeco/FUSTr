@@ -262,7 +262,7 @@ rule cleanFasta:
         if "{isoform_id}" not in pattern:
             print("WE CANNOT DETECT ISOFORMS!!!!!!!!!")
         else:
-            print("WE COULD DETECT ISOFORMS????????????")
+            print("WE COULD DETECT ISOFORMS????????????") 
         with open("headerPatterns.txt","a") as out:
             out.write(input[0].split('.')[0]+"@@@"+pattern+'\n')
         #sample = input[0].split('.')[0]
