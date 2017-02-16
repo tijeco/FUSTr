@@ -670,13 +670,13 @@ rule node2families:
                         famDict[row[0]].append(row[1])
 
             sequence_iterator = fasta_iter(input.sequence_file)
-
+            print("Step 2")
             for ff in sequence_iterator:
                 headerStr, seq = ff
 
                 seqDict[headerStr] = seq
 
-
+            print("Step 3")
             for i in famDict.keys():
                 if len(famDict[i])>14:
                     String = "Families/family_"+i+".fa"
