@@ -542,7 +542,6 @@ rule longestIsoform:
                     except:
                         out.write('>'+headerStr+'\n')
                         out.write(seq + '\n')
-                        isoformPresent = False
                         continue
                     if GeneID not in longIsoform:
                         longIsoform[GeneID] = [len(seq),headerStr,seq]
@@ -560,33 +559,39 @@ rule longestIsoform:
 
 
 
-        if isoformPresent:
-            for currentFile in range(len(output.cds_after)):
-                with open(output.cds_after[currentFile], "w") as out:
-                    longIsoform_CDS ={}
 
-                    sequence_iterator = fasta_iter(input.cds_before[currentFile])
-                    sample = input.cds_before[currentFile].split('.')[0]
-                    for ff in sequence_iterator:
+        for currentFile in range(len(output.cds_after)):
+            with open(output.cds_after[currentFile], "w") as out:
+                longIsoform_CDS ={}
 
-                        headerStr, seq = ff
-                        #GeneID = headerStr.split('::')[1][:-2]
+                sequence_iterator = fasta_iter(input.cds_before[currentFile])
+                sample = input.cds_before[currentFile].split('.')[0]
+                for ff in sequence_iterator:
+
+                    headerStr, seq = ff
+                    #GeneID = headerStr.split('::')[1][:-2]
+                    try:
+
                         GeneID=headerStr.split('___')[1].split('::')[0]
+                    except:
+                        out.write('>'+headerStr+'\n')
+                        out.write(seq + '\n')
+                        continue
 
-                        if GeneID not in longIsoform_CDS:
+                    if GeneID not in longIsoform_CDS:
+                        longIsoform_CDS[GeneID] = [len(seq),headerStr,seq]
+                    else:
+                        if longIsoform_CDS[GeneID][0] < len(seq):
                             longIsoform_CDS[GeneID] = [len(seq),headerStr,seq]
-                        else:
-                            if longIsoform_CDS[GeneID][0] < len(seq):
-                                longIsoform_CDS[GeneID] = [len(seq),headerStr,seq]
-                    for i in longIsoform_CDS.keys():
-                        #print("things")
-                        #print(i)
-                        #print(longIsoform[i][1])
-                        out.write('>'+sample+'_'+longIsoform_CDS[i][1].split("::")[0]+'\n')
-                        out.write(longIsoform_CDS[i][2]+'\n')
-                        Header = sample+'_'+longIsoform_CDS[i][1].split("::")[0]
-                        #this thing may be too unreasonably huge, but it will save time in the later rule
-                        longIsoform_CDS_combined[Header]=longIsoform_CDS[i][2]
+                for i in longIsoform_CDS.keys():
+                    #print("things")
+                    #print(i)
+                    #print(longIsoform[i][1])
+                    out.write('>'+sample+'_'+longIsoform_CDS[i][1].split("::")[0]+'\n')
+                    out.write(longIsoform_CDS[i][2]+'\n')
+                    Header = sample+'_'+longIsoform_CDS[i][1].split("::")[0]
+                    #this thing may be too unreasonably huge, but it will save time in the later rule
+                    longIsoform_CDS_combined[Header]=longIsoform_CDS[i][2]
 
 
 rule combine_pep:
