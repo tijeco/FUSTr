@@ -677,6 +677,8 @@ rule node2families:
                 seqDict[headerStr] = seq
 
             print("Step 3")
+            print(seqDict)
+            print(famDict)
             for i in famDict.keys():
                 #print("Step 4",i,famDict[i])
                 print(len(famDict[i])>14)
