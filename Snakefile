@@ -710,7 +710,7 @@ rule node2families:
                         number+=1
                 colsWithGaps = len(gapPos)
                 if colsWithGaps < alignLength:
-                    AlignOut = String[0:-5]+".aln"
+                    AlignOut = String.split('.')[0]+".aln"
                     print(String)
                     print("Step 6")
                     print(String.split('.')[0]+".aln")
