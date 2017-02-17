@@ -938,7 +938,7 @@ rule makeCodmlFile:
         M8_tree = "Families/family_{fam}_dir/M01237/family_{fam}.tree",
         M8_codonAlignment = "Families/family_{fam}_dir/M01237/family_{fam}.codon.phylip"
     output:
-        "Families/family_{fam}_dir/M01237/family_{fam}.mcl","Families/family_{fam}_dir/M8/family_{fam}.mcl",
+        "Families/family_{fam}_dir/M8/family_{fam}.mcl","Families/family_{fam}_dir/M01237/family_{fam}.mcl"
     run:
 
         M8_cml = codeml.Codeml()
