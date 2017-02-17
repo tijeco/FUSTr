@@ -653,7 +653,7 @@ rule node2families:
         node_file="Temp/all.pep.combined_r90_SLX.fnodes",
         sequence_file="Temp/all.pep.combined"
     output:
-        dynamic("Families/family_{fam}.aln")
+        "Families/family_{fam}.aln"
     run:
 
 
