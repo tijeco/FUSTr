@@ -540,7 +540,7 @@ rule longestIsoform:
 
                         GeneID=headerStr.split('___')[1].split('::')[0]
                     except:
-                        out.write('>'+headerStr+'\n')
+                        out.write('>'+headerStr.split()[0]+'\n')
                         out.write(seq + '\n')
                         continue
                     if GeneID not in longIsoform:
@@ -574,7 +574,7 @@ rule longestIsoform:
 
                         GeneID=headerStr.split('___')[1].split('::')[0]
                     except:
-                        out.write('>'+headerStr+'\n')
+                        out.write('>'+headerStr.split()[0]+'\n')
                         out.write(seq + '\n')
                         continue
 
