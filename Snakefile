@@ -711,6 +711,7 @@ rule node2families:
                 colsWithGaps = len(gapPos)
                 if colsWithGaps < alignLength:
                     AlignOut = String[0:-5]+".aln"
+                    print(AlignOut)
                     count = SeqIO.write(align, AlignOut, "fasta")
 
 
