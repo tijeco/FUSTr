@@ -496,7 +496,7 @@ rule transdecoder:
     output:
         "{sample}.new_headers.transdecoder.pep","{sample}.new_headers.transdecoder.cds"
     shell:
-        "TransDecoder.LongOrfs -t {input} -m 30;TransDecoder.Predict -t {input} --single_best_orf"
+        "TransDecoder.LongOrfs -t {input} -S -m 30;TransDecoder.Predict -t {input} --single_best_orf"
 longIsoform_CDS_combined = {}
 #THIS RULE WORKS, hopefully correctly.....
 
