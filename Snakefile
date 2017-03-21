@@ -1017,28 +1017,25 @@ rule makeCodmlFile:
 
 
         M01237_results = M01237_cml.run(verbose=True)
-        try:
+        """
+        M0_lnL = M01237_results.get("NSsites").get(0).get("lnL")
+        M0_np = len(M01237_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
 
-            M0_lnL = M01237_results.get("NSsites").get(0).get("lnL")
-            M0_np = len(M01237_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
+        M1a_lnL = M01237_results.get("NSsites").get(1).get("lnL")
+        M1a_np = len(M01237_results.get("NSsites").get(1).get("parameters").get("parameter list").split())
 
-            M1a_lnL = M01237_results.get("NSsites").get(1).get("lnL")
-            M1a_np = len(M01237_results.get("NSsites").get(1).get("parameters").get("parameter list").split())
+        M2a_lnL = M01237_results.get("NSsites").get(2).get("lnL")
+        M2a_np = len(M01237_results.get("NSsites").get(2).get("parameters").get("parameter list").split())
 
-            M2a_lnL = M01237_results.get("NSsites").get(2).get("lnL")
-            M2a_np = len(M01237_results.get("NSsites").get(2).get("parameters").get("parameter list").split())
+        M3_lnL = M01237_results.get("NSsites").get(3).get("lnL")
+        M3_np = len(M01237_results.get("NSsites").get(3).get("parameters").get("parameter list").split())
 
-            M3_lnL = M01237_results.get("NSsites").get(3).get("lnL")
-            M3_np = len(M01237_results.get("NSsites").get(3).get("parameters").get("parameter list").split())
+        M7_lnL = M01237_results.get("NSsites").get(7).get("lnL")
+        M7_np = len(M01237_results.get("NSsites").get(7).get("parameters").get("parameter list").split())
 
-            M7_lnL = M01237_results.get("NSsites").get(7).get("lnL")
-            M7_np = len(M01237_results.get("NSsites").get(7).get("parameters").get("parameter list").split())
+        M8_lnL = M01237_results.get("NSsites").get(8).get("lnL")
+        M8_np = len(M01237_results.get("NSsites").get(8).get("parameters").get("parameter list").split())
 
-            M8_lnL = M01237_results.get("NSsites").get(8).get("lnL")
-            M8_np = len(M01237_results.get("NSsites").get(8).get("parameters").get("parameter list").split())
-        except:
-            print("That failed epically, so we had to continue !!!!!!!!!!!!!!!!!!!!!!")
-"""
         ####test M3-M0
         summaryFile = "selection_results.txt"
         with open(summaryFile, "a") as out:
