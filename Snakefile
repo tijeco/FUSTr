@@ -140,21 +140,7 @@ rule final:
     For now we will just have transdecoder 2.0 as a requirements, since only 1.0 is on bioconda, until
         I find a workaround
 """
-#
-# rule checkTrinity:
-#     input:
-#         "{sample}.fasta"
-#     output:
-#         "{sample}.trinity"
-#     run:
-#         for currentFile in range(len(output)):
-#             with open(output[currentFile], "w") as out:
-#                 with open(input[currentFile]) as f:
-#                     for line in f:
-#                         if line[0] ==">":
-#                             isTrinity(line[1:-1])
-#                         out.write(line)
-#
+
 rule cleanFasta:
     input:
         "{sample}.fasta"
@@ -339,156 +325,6 @@ rule newHeaders:
         #                 out.write(line.strip(">"))
 
         #"grep '^>' {input} | sed -e 's/>//g' > {output}"
-"""
-rule determineHeaderPattern:
-    input:
-        "{sample}.headers.txt"
-    output:
-        "{sample}.fasta.new_headers"
-    run:
-        with open(input[0]) as f:
-            fileLength = 0
-            columnCountDict={}
-            wordDict = {}
-            rowMembers = 1
-            for line in f:
-                fileLength+=1
-                row = line.strip().split()
-                columnCount = len(row)
-                if len(row) not in columnCountDict:
-
-                    columnCountDict[len(row)] = 1
-                else:
-                    columnCountDict[len(row)] += 1
-                try:
-                    if len(columnCountDict)>rowMembers:
-                        #print "columnCount has changed"
-                        rowMembers+=1
-                except:
-                    None
-                #print columnCount
-                #wordDict = {1:{1:"g",2:"e"},2:{1:"i",2:"d"}}
-                numTypes = 0
-                #print line.strip()
-                subString = ""
-                wordColumn = 1
-                RecentAlpha = False
-                #print line
-                for j in line.strip():
-                    try:
-                        if specialCharacterBool != (not j.isdigit() and not j.isalpha() and j!='-'):
-                            if wordColumn not in wordDict:
-                                wordDict[wordColumn] = []
-                                wordDict[wordColumn].append(subString)
-                            else:
-                                if subString not in wordDict[wordColumn]:
-
-                                    wordDict[wordColumn].append(subString)
-                            #print wordColumn, subString
-                            wordColumn+=1
-                            #print subString
-                            subString = ""
-
-                        specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
-                    except:
-                        specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
-                    if specialCharacterBool:
-                        subString+=j
-                    else:
-                        subString += j
-                #print subString
-                #print '*************'
-                if wordColumn not in wordDict:
-                    wordDict[wordColumn] = []
-                    wordDict[wordColumn].append(subString)
-                else:
-                    if subString not in wordDict[wordColumn]:
-                        wordDict[wordColumn].append(subString)
-        pattern= ""
-        numIsoformIDs = 0
-        for i in wordDict.keys():
-            #print len(wordDict[i])
-            if len(wordDict[i]) == 1:
-                pattern+=wordDict[i][0]
-            else:
-                if len(wordDict[i]) == fileLength:
-
-                    pattern +="{unique_id}"
-                else:
-                    pattern += "{isoform_id}"
-                    numIsoformIDs+=1
-        print("Patern for",input[0],"is:", pattern)
-
-
-
-
-        # unique_Dict = find_left_right_anchor(pattern,"{unique_id}","{isoform_id}")
-        # isoformDict = find_left_right_anchor(pattern,"{isoform_id}","{unique_id}")
-        sample = input[0].split('.')[0]
-        with open(output[0],"w") as out:
-            sequence_iterator = fasta_iter(sample+".fasta")
-            for ff in sequence_iterator:
-
-                headerStr, seq = ff
-                #first_pattern = ""
-
-                if True: #replace with num {isoform} == 1
-                    #print(headerStr)
-
-                    if "{isoform_id}" in pattern.split("{unique_id}")[1]:
-                        first_constant = pattern.split("{unique_id}")[0]
-                        second_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[0]
-                        third_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[1]
-
-                        identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
-                        #print(identifiers)
-                        new_header = identifiers.group(1) +"___" + identifiers.group(2)
-
-                    else:
-                        first_constant = pattern.split("{isoform_id}")[0]
-                        second_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[0]
-                        third_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[1]
-
-                        identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
-
-                        new_header =  identifiers.group(2) + "___" + identifiers.group(1)
-
-                out.write( ">"+new_header+'\n')
-                out.write(seq+'\n')
-
-
-
-            # second_pattern= ""
-            # for i in [unique_Dict,isoformDict]:
-            #     if i["first"]:
-            #         #print headerStr
-            #         ##print i["left"]
-            #         if i["left"] !="" and i["right"] != "":
-            #             #print headerStr.split(i["left"])[1].split(i["right"])[0]
-            #             first_pattern = headerStr.split(i["left"])[1].split(i["right"])[0]
-            #         elif i["left"] == "":
-            #             #print headerStr.split(i["right"])[0]
-            #             first_pattern = headerStr.split(i["right"])[0]
-            #         else:
-            #             #print headerStr.split(i["left"])[1]
-            #             first_pattern = headerStr.split(i["left"])[1]
-            #     else:
-            #         if i["left"] !="" and i["right"] != "":
-            #             #print headerStr.split(i["left"])[1].split(i["right"])[0]
-            #             second_pattern = headerStr.split(i["left"])[1].split(i["right"])[0]
-            #         elif i["left"] == "":
-            #             #print headerStr.split(i["right"])[0]
-            #             second_pattern = headerStr.split(i["right"])[0]
-            #         else:
-            #             print("Prepare for Errors!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            #             #print headerStr.split(i["left"])[1]
-            #             second_pattern = headerStr.split(i["left"])[1]
-
-
-
-
-
-"""
 
 rule transdecoder:
     input:
@@ -680,16 +516,17 @@ rule node2families:
         for i in famDict.keys():
             #print("Step 4",i,famDict[i])
             print(len(famDict[i])>14)
+            String = "Families/family_"+i+".fa"
+
+            print(String)
+
+            with open(String, "w") as out:
+                for j in famDict[i]:
+                    out.write('>'+j+'\n')
+                    out.write(seqDict[j]+'\n')
             if len(famDict[i])>14:
                 print("step 5")
-                String = "Families/family_"+i+".fa"
 
-                print(String)
-
-                with open(String, "w") as out:
-                    for j in famDict[i]:
-                        out.write('>'+j+'\n')
-                        out.write(seqDict[j]+'\n')
 
 
                 mafft_cline = MafftCommandline(input=String,auto=True)
