@@ -555,13 +555,6 @@ rule node2families:
                     count = SeqIO.write(align, AlignOut, "fasta")
 
 
-
-
-
-
-
-
-
 rule trimAln:
     input:
         "Families/family_{fam}.aln"
@@ -570,9 +563,6 @@ rule trimAln:
         column_file="Families/family_{fam}.aln.trimmed.column_file"
     shell:
         "trimal -in {input} -out {output.trimmed_file} -nogaps -colnumbering > {output.column_file}"##
-
-
-
 
 rule aln2phy:
     input:
@@ -727,15 +717,35 @@ rule copyTreeAln:
         tree_before="Families/family_{fam}_dir/family_{fam}.tree",
         aln_before="Families/family_{fam}_dir/family_{fam}.codon.phylip"
     output:
-        treeM8= "Families/family_{fam}_dir/M8/family_{fam}.tree",
-        treeM01237="Families/family_{fam}_dir/M01237/family_{fam}.tree",
-        alnM8 = "Families/family_{fam}_dir/M8/family_{fam}.codon.phylip",
-        alnM01237="Families/family_{fam}_dir/M01237/family_{fam}.codon.phylip"
+        treeM8a= "Families/family_{fam}_dir/M8a/family_{fam}.tree",
+        treeM0="Families/family_{fam}_dir/M0/family_{fam}.tree",
+        treeM1="Families/family_{fam}_dir/M1/family_{fam}.tree",
+        treeM2="Families/family_{fam}_dir/M2/family_{fam}.tree",
+        treeM3="Families/family_{fam}_dir/M3/family_{fam}.tree",
+        treeM7="Families/family_{fam}_dir/M7/family_{fam}.tree",
+        treeM8="Families/family_{fam}_dir/M8/family_{fam}.tree",
+        alnM8a = "Families/family_{fam}_dir/M8a/family_{fam}.codon.phylip",
+        alnM0="Families/family_{fam}_dir/M0/family_{fam}.codon.phylip",
+        alnM1="Families/family_{fam}_dir/M1/family_{fam}.codon.phylip",
+        alnM2="Families/family_{fam}_dir/M2/family_{fam}.codon.phylip",
+        alnM3="Families/family_{fam}_dir/M3/family_{fam}.codon.phylip",
+        alnM7="Families/family_{fam}_dir/M7/family_{fam}.codon.phylip"
     shell:
-        """cp {input.tree_before} {output.treeM8}
-        cp {input.tree_before} {output.treeM01237}
+        """cp {input.aln_before} {output.alnM8a}
+        cp {input.aln_before} {output.alnM0}
+        cp {input.aln_before} {output.alnM1}
+        cp {input.aln_before} {output.alnM2}
+        cp {input.aln_before} {output.alnM3}
+        cp {input.aln_before} {output.alnM7}
         cp {input.aln_before} {output.alnM8}
-        cp {input.aln_before} {output.alnM01237}
+
+        cp {input.tree_before} {output.treeM8a}
+        cp {input.tree_before} {output.treeM0}
+        cp {input.tree_before} {output.treeM1}
+        cp {input.tree_before} {output.treeM2}
+        cp {input.tree_before} {output.treeM3}
+        cp {input.tree_before} {output.treeM7}
+        cp {input.tree_before} {output.treeM8}
         """
 
 
@@ -760,6 +770,14 @@ for PAML rule,
 
 
 #####################################################################3
+
+rule M0:
+
+
+
+
+
+
 rule makeCodmlFile:
     input:
         M01237_tree="Families/family_{fam}_dir/M01237/family_{fam}.tree",
