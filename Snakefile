@@ -812,7 +812,6 @@ rule M0:
 
 
 rule M1:
-
     input:
         "Families/family_{fam}_dir/M1/family_{fam}.tree",
         "Families/family_{fam}_dir/M1/family_{fam}.codon.phylip"
@@ -852,7 +851,6 @@ rule M1:
 
 
 rule M2:
-
     input:
         "Families/family_{fam}_dir/M2/family_{fam}.tree",
         "Families/family_{fam}_dir/M2/family_{fam}.codon.phylip"
@@ -891,7 +889,6 @@ rule M2:
         M2_results = M2_cml.run(verbose=True)
 
 rule M3:
-
     input:
         "Families/family_{fam}_dir/M3/family_{fam}.tree",
         "Families/family_{fam}_dir/M3/family_{fam}.codon.phylip"
@@ -930,7 +927,6 @@ rule M3:
         M3_results = M3_cml.run(verbose=True)
 
 rule M7:
-
     input:
         "Families/family_{fam}_dir/M7/family_{fam}.tree",
         "Families/family_{fam}_dir/M7/family_{fam}.codon.phylip"
@@ -969,7 +965,6 @@ rule M7:
         M7_results = M7_cml.run(verbose=True)
 
 rule M8:
-
     input:
         "Families/family_{fam}_dir/M8/family_{fam}.tree",
         "Families/family_{fam}_dir/M8/family_{fam}.codon.phylip"
