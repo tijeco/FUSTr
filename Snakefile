@@ -809,8 +809,8 @@ rule M0:
 
 
         M0_results = M0_cml.run(verbose=True)
-        M0_lnL = M01237_results.get("NSsites").get(0).get("lnL")
-        M0_np = len(M01237_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
+        M0_lnL = M0_results.get("NSsites").get(0).get("lnL")
+        M0_np = len(M0_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
         print("@@@@@@@@@@@@@@@@@@@@")
         print(M0_lnL,M0_np)
 
