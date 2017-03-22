@@ -812,7 +812,7 @@ rule M0:
         M0_lnL = M0_results.get("NSsites").get(0).get("lnL")
         M0_np = len(M0_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
         print("@@@@@@@@@@@@@@@@@@@@")
-        print(M0_lnL,M0_np)
+        print(M0_lnL,M0_np,M0_cml.working_dir)
 
         # M1a_lnL = M01237_results.get("NSsites").get(1).get("lnL")
         # M1a_np = len(M01237_results.get("NSsites").get(1).get("parameters").get("parameter list").split())
