@@ -782,8 +782,8 @@ rule M0:
         M0_cml = codeml.Codeml()
         M0_cml.alignment = input[1]
         M0_cml.tree = input[0]
-        M0_cml.out_file = output[1]
-        M0_cml.working_dir = output[1].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
+        M0_cml.out_file = output[0]
+        M0_cml.working_dir = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
 
 
         M0_cml.set_options(noisy = 9)	         # 0,1,2,3,9: how much rubbish on the screen
@@ -822,8 +822,8 @@ rule M1:
         M1_cml = codeml.Codeml()
         M1_cml.alignment = input[1]
         M1_cml.tree = input[0]
-        M1_cml.out_file = output[1]
-        M1_cml.working_dir = output[1].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
+        M1_cml.out_file = output[0]
+        M1_cml.working_dir = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
 
 
         M1_cml.set_options(noisy = 9)	         # 0,1,2,3,9: how much rubbish on the screen
@@ -861,8 +861,8 @@ rule M2:
         M2_cml = codeml.Codeml()
         M2_cml.alignment = input[1]
         M2_cml.tree = input[0]
-        M2_cml.out_file = output[1]
-        M2_cml.working_dir = output[1].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
+        M2_cml.out_file = output[0]
+        M2_cml.working_dir = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
 
 
         M2_cml.set_options(noisy = 9)	         # 0,1,2,3,9: how much rubbish on the screen
@@ -899,8 +899,8 @@ rule M3:
         M3_cml = codeml.Codeml()
         M3_cml.alignment = input[1]
         M3_cml.tree = input[0]
-        M3_cml.out_file = output[1]
-        M3_cml.working_dir = output[1].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
+        M3_cml.out_file = output[0]
+        M3_cml.working_dir = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
 
 
         M3_cml.set_options(noisy = 9)	         # 0,1,2,3,9: how much rubbish on the screen
@@ -937,8 +937,8 @@ rule M7:
         M7_cml = codeml.Codeml()
         M7_cml.alignment = input[1]
         M7_cml.tree = input[0]
-        M7_cml.out_file = output[1]
-        M7_cml.working_dir = output[1].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
+        M7_cml.out_file = output[0]
+        M7_cml.working_dir = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
 
 
         M7_cml.set_options(noisy = 9)	         # 0,1,2,3,9: how much rubbish on the screen
@@ -975,8 +975,8 @@ rule M8:
         M8_cml = codeml.Codeml()
         M8_cml.alignment = input[1]
         M8_cml.tree = input[0]
-        M8_cml.out_file = output[1]
-        M8_cml.working_dir = output[1].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
+        M8_cml.out_file = output[0]
+        M8_cml.working_dir = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
 
 
         M8_cml.set_options(noisy = 9)	         # 0,1,2,3,9: how much rubbish on the screen
