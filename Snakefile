@@ -729,7 +729,8 @@ rule copyTreeAln:
         alnM1="Families/family_{fam}_dir/M1/family_{fam}.codon.phylip",
         alnM2="Families/family_{fam}_dir/M2/family_{fam}.codon.phylip",
         alnM3="Families/family_{fam}_dir/M3/family_{fam}.codon.phylip",
-        alnM7="Families/family_{fam}_dir/M7/family_{fam}.codon.phylip"
+        alnM7="Families/family_{fam}_dir/M7/family_{fam}.codon.phylip",
+        alnM8 = "Families/family_{fam}_dir/M8/family_{fam}.codon.phylip"
     shell:
         """cp {input.aln_before} {output.alnM8a}
         cp {input.aln_before} {output.alnM0}
