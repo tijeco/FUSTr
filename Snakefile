@@ -1122,13 +1122,13 @@ rule ChiSq:
         "Families/family_{fam}_dir/M8a/family_{fam}.mcl"
     output:
         "statsfile.txt",
-        "Families/family_{fam}_dir/M0/statfile.txt",
-        "Families/family_{fam}_dir/M1/statfile.txt",
-        "Families/family_{fam}_dir/M2/statfile.txt",
-        "Families/family_{fam}_dir/M3/statfile.txt",
-        "Families/family_{fam}_dir/M7/statfile.txt",
-        "Families/family_{fam}_dir/M8/statfile.txt",
-        "Families/family_{fam}_dir/M8a/statfile.txt"
+        "Families/family_{fam}_dir/M0/statsfile.txt",
+        "Families/family_{fam}_dir/M1/statsfile.txt",
+        "Families/family_{fam}_dir/M2/statsfile.txt",
+        "Families/family_{fam}_dir/M3/statsfile.txt",
+        "Families/family_{fam}_dir/M7/statsfile.txt",
+        "Families/family_{fam}_dir/M8/statsfile.txt",
+        "Families/family_{fam}_dir/M8a/statsfile.txt"
     run:
         working_dir = input[0].split('/')[:-1][0] +'/'+input[0].split('/')[:-1][1]+'/'+input[0].split('/')[:-1][2]+'/'
         models = ["M0","M1","M2","M3","M7","M8","M8a"]
