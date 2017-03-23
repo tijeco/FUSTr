@@ -1132,7 +1132,7 @@ rule ChiSq:
     run:
         #working_dir = input[0].split('/')[:-1][0] +'/'+input[0].split('/')[:-1][1]+'/'+input[0].split('/')[:-1][2]+'/'
         print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-        print(working_dir)
+        #print(working_dir)
         models = ["M0","M1","M2","M3","M7","M8","M8a"]
         with open("finalStatsfile.txt","a") as out:
 
