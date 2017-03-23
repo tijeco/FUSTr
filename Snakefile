@@ -1113,16 +1113,23 @@ rule M8a:
 
 rule ChiSq:
     input:
-    dynamic(
+
         "Families/family_{fam}_dir/M0/family_{fam}.mcl",
         "Families/family_{fam}_dir/M1/family_{fam}.mcl",
         "Families/family_{fam}_dir/M2/family_{fam}.mcl",
         "Families/family_{fam}_dir/M3/family_{fam}.mcl",
         "Families/family_{fam}_dir/M7/family_{fam}.mcl",
         "Families/family_{fam}_dir/M8/family_{fam}.mcl",
-        "Families/family_{fam}_dir/M8a/family_{fam}.mcl")
+        "Families/family_{fam}_dir/M8a/family_{fam}.mcl"
     output:
-        "statsfile.txt"
+        "statsfile.txt",
+        "Families/family_{fam}_dir/M0/family_{fam}.mcl",
+        "Families/family_{fam}_dir/M1/family_{fam}.mcl",
+        "Families/family_{fam}_dir/M2/family_{fam}.mcl",
+        "Families/family_{fam}_dir/M3/family_{fam}.mcl",
+        "Families/family_{fam}_dir/M7/family_{fam}.mcl",
+        "Families/family_{fam}_dir/M8/family_{fam}.mcl",
+        "Families/family_{fam}_dir/M8a/family_{fam}.mcl"
     run:
         working_dir = input[0].split('/')[:-1][0] +'/'+input[0].split('/')[:-1][1]+'/'+input[0].split('/')[:-1][2]+'/'
         models = ["M0","M1","M2","M3","M7","M8","M8a"]
