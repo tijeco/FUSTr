@@ -809,6 +809,7 @@ rule M0:
 
 
         M0_results = M0_cml.run(verbose=True)
+
         M0_lnL = M0_results.get("NSsites").get(0).get("lnL")
         M0_np = len(M0_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
         print("@@@@@@@@@@@@@@@@@@@@")
@@ -870,6 +871,13 @@ rule M1:
 
         M1_results = M1_cml.run(verbose=True)
 
+        M1_lnL = M1_results.get("NSsites").get(0).get("lnL")
+        M1_np = len(M1_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
+        print("@@@@@@@@@@@@@@@@@@@@")
+        print(M1_lnL,M1_np,M1_cml.working_dir)
+        with open(M1_cml.working_dir+"statsfile.txt","a") as out:
+            out.write(M1_cml.working_dir.strip("_dir/M1").strip("Families/")+"\tM1\t"+str(M1_np)+"\t"+str(M1_lnL)+"\n")
+
 
 rule M2:
     input:
@@ -909,6 +917,13 @@ rule M2:
 
         M2_results = M2_cml.run(verbose=True)
 
+        M2_lnL = M2_results.get("NSsites").get(0).get("lnL")
+        M2_np = len(M2_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
+        print("@@@@@@@@@@@@@@@@@@@@")
+        print(M2_lnL,M2_np,M2_cml.working_dir)
+        with open(M2_cml.working_dir+"statsfile.txt","a") as out:
+            out.write(M2_cml.working_dir.strip("_dir/M2").strip("Families/")+"\tM2\t"+str(M2_np)+"\t"+str(M2_lnL)+"\n")
+
 rule M3:
     input:
         "Families/family_{fam}_dir/M3/family_{fam}.tree",
@@ -946,6 +961,13 @@ rule M3:
 
 
         M3_results = M3_cml.run(verbose=True)
+
+        M3_lnL = M3_results.get("NSsites").get(0).get("lnL")
+        M3_np = len(M3_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
+        print("@@@@@@@@@@@@@@@@@@@@")
+        print(M3_lnL,M3_np,M3_cml.working_dir)
+        with open(M3_cml.working_dir+"statsfile.txt","a") as out:
+            out.write(M3_cml.working_dir.strip("_dir/M3").strip("Families/")+"\tM3\t"+str(M3_np)+"\t"+str(M3_lnL)+"\n")
 
 rule M7:
     input:
@@ -985,6 +1007,13 @@ rule M7:
 
         M7_results = M7_cml.run(verbose=True)
 
+        M7_lnL = M7_results.get("NSsites").get(0).get("lnL")
+        M7_np = len(M7_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
+        print("@@@@@@@@@@@@@@@@@@@@")
+        print(M7_lnL,M7_np,M7_cml.working_dir)
+        with open(M7_cml.working_dir+"statsfile.txt","a") as out:
+            out.write(M7_cml.working_dir.strip("_dir/M7").strip("Families/")+"\tM7\t"+str(M7_np)+"\t"+str(M7_lnL)+"\n")
+
 rule M8:
     input:
         "Families/family_{fam}_dir/M8/family_{fam}.tree",
@@ -1022,6 +1051,13 @@ rule M8:
 
 
         M8_results = M8_cml.run(verbose=True)
+
+        M8_lnL = M8_results.get("NSsites").get(0).get("lnL")
+        M8_np = len(M8_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
+        print("@@@@@@@@@@@@@@@@@@@@")
+        print(M8_lnL,M8_np,M8_cml.working_dir)
+        with open(M8_cml.working_dir+"statsfile.txt","a") as out:
+            out.write(M8_cml.working_dir.strip("_dir/M8").strip("Families/")+"\tM8\t"+str(M8_np)+"\t"+str(M8_lnL)+"\n")
 
 
 
@@ -1065,6 +1101,37 @@ rule M8a:
 
 
         M8a_results=M8a_cml.run(verbose=True)
+
+        M8a_lnL = M8a_results.get("NSsites").get(0).get("lnL")
+        M8a_np = len(M8a_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
+        print("@@@@@@@@@@@@@@@@@@@@")
+        print(M8a_lnL,M8a_np,M8a_cml.working_dir)
+        with open(M8a_cml.working_dir+"statsfile.txt","a") as out:
+            out.write(M8a_cml.working_dir.strip("_dir/M8a").strip("Families/")+"\tM8a\t"+str(M8a_np)+"\t"+str(M8a_lnL)+"\n")
+
+
+rule ChiSq:
+    input:
+        "Families/family_{fam}_dir/M0/family_{fam}.mcl",
+        "Families/family_{fam}_dir/M1/family_{fam}.mcl",
+        "Families/family_{fam}_dir/M2/family_{fam}.mcl",
+        "Families/family_{fam}_dir/M3/family_{fam}.mcl",
+        "Families/family_{fam}_dir/M7/family_{fam}.mcl",
+        "Families/family_{fam}_dir/M8/family_{fam}.mcl",
+        "Families/family_{fam}_dir/M8a/family_{fam}.mcl"
+    output:
+        "statsfile.txt"
+    run:
+        working_dir = input[0].split('/')[:-1][0] +'/'+input[0].split('/')[:-1][1]+'/'+input[0].split('/')[:-1][2]+'/'
+        models = ["M0","M1","M2","M3","M7","M8","M8a"]
+        with open(output[0],"a") as out:
+
+            for i in models:
+                with open(working_dir+i) as f:
+                    for line in f:
+                        out.write(line)
+
+
 #     """
 # rule makeCodmlFile:
 #     input:
