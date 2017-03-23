@@ -1,4 +1,4 @@
-from itertools import groupby
+from itertools import groupby 
 from itertools import (takewhile,repeat)
 from Bio.Phylo.PAML import codeml
 from Bio.Phylo.PAML.chi2 import cdf_chi2
@@ -744,10 +744,228 @@ rule M0:
 
 rule makeCodmlFile:
     input:
+<<<<<<< HEAD
         M01237_tree="Families/family_{fam}_dir/M01237/family_{fam}.tree",
         M01237_codonAlignment = "Families/family_{fam}_dir/M01237/family_{fam}.codon.phylip",
         M8_tree = "Families/family_{fam}_dir/M01237/family_{fam}.tree",
         M8_codonAlignment = "Families/family_{fam}_dir/M01237/family_{fam}.codon.phylip"
+=======
+        "Families/family_{fam}_dir/M0/family_{fam}.tree",
+        "Families/family_{fam}_dir/M0/family_{fam}.codon.phylip"
+    output:
+        "Families/family_{fam}_dir/M0/family_{fam}.mcl"
+    run:
+        M0_cml = codeml.Codeml()
+        M0_cml.alignment = input[1]
+        M0_cml.tree = input[0]
+        M0_cml.out_file = output[0]
+        M0_cml.working_dir = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
+
+
+        M0_cml.set_options(noisy = 9)	         # 0,1,2,3,9: how much rubbish on the screen
+        M0_cml.set_options(verbose = 1)	     # 1: detailed output, 0: concise output
+        M0_cml.set_options(runmode = 0)	     # 0: user tree;  1: semi-automatic;  2: automatic
+        M0_cml.set_options(seqtype = 1)	     # 1:codons; 2:AAs; 3:codons-->AAs
+        M0_cml.set_options(CodonFreq = 2)	     # 0:1/61 each, 1:F1X4, 2:F3X4, 3:codon table
+        M0_cml.set_options(clock = 0)	         # 0: no clock, unrooted tree, 1: clock, rooted tree
+        M0_cml.set_options(aaDist = 0)	         # 0:equal, +:geometric; -:linear, {1-5:G1974,Miyata,c,p,v}
+        M0_cml.set_options(model = 0)	         # models for codons:
+        M0_cml.set_options(NSsites = [0])	     # 0:one w; 1:NearlyNeutral; 2:PositiveSelection; 3:discrete; Needs to be array
+        M0_cml.set_options(icode = 0)	         # 0:standard genetic code; 1:mammalian mt; 2-10:see below
+        M0_cml.set_options(Mgene = 0)	         # 0:rates, 1:separate; 2:pi, 3:kappa, 4:all
+        M0_cml.set_options(fix_kappa = 0)	     # 1: kappa fixed, 0: kappa to be estimated
+        M0_cml.set_options(kappa = 2)	         # initial or fixed kappa
+        M0_cml.set_options(fix_omega = 0)	     # 1: omega or omega_1 fixed, 0: estimate
+        M0_cml.set_options(omega = 1)	         # initial or fixed omega, for codons or codon-based AAs
+        M0_cml.set_options(getSE = 0)	         # 0: don't want them, 1: want S.E.s of estimates
+        M0_cml.set_options(RateAncestor = 0)	 # (0,1,2): rates (alpha>0) or ancestral states (1 or 2)
+        M0_cml.set_options(Small_Diff = .45e-6) # Default value.
+        M0_cml.set_options(cleandata = 0)	     # remove sites with ambiguity data (1:yes, 0:no)?
+        M0_cml.set_options(fix_blength = 0)	 # 0: ignore, -1: random, 1: initial, 2: fixed
+
+
+        M0_results = M0_cml.run(verbose=True)
+        M0_lnL = M0_results.get("NSsites").get(0).get("lnL")
+        M0_np = len(M0_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
+        print("@@@@@@@@@@@@@@@@@@@@")
+        print(M0_lnL,M0_np,M0_cml.working_dir)
+        with open("statsfile.txt","a") as out:
+            out.write(M0_cml.working_dir.split("/M0")[0]+"\tM0\t"+str(M0_np)+"\t"+str(M0_lnL))
+        # M1a_lnL = M01237_results.get("NSsites").get(1).get("lnL")
+        # M1a_np = len(M01237_results.get("NSsites").get(1).get("parameters").get("parameter list").split())
+        #
+        # M2a_lnL = M01237_results.get("NSsites").get(2).get("lnL")
+        # M2a_np = len(M01237_results.get("NSsites").get(2).get("parameters").get("parameter list").split())
+        #
+        # M3_lnL = M01237_results.get("NSsites").get(3).get("lnL")
+        # M3_np = len(M01237_results.get("NSsites").get(3).get("parameters").get("parameter list").split())
+        #
+        # M7_lnL = M01237_results.get("NSsites").get(7).get("lnL")
+        #         M7_np = len(M01237_results.get("NSsites").get(7).get("parameters").get("parameter list").split())
+        #
+        # M8_lnL = M01237_results.get("NSsites").get(8).get("lnL")
+        # M8_np = len(M01237_results.get("NSsites").get(8).get("parameters").get("parameter list").split())
+
+
+
+rule M1:
+    input:
+        "Families/family_{fam}_dir/M1/family_{fam}.tree",
+        "Families/family_{fam}_dir/M1/family_{fam}.codon.phylip"
+    output:
+        "Families/family_{fam}_dir/M1/family_{fam}.mcl"
+    run:
+        M1_cml = codeml.Codeml()
+        M1_cml.alignment = input[1]
+        M1_cml.tree = input[0]
+        M1_cml.out_file = output[0]
+        M1_cml.working_dir = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
+
+
+        M1_cml.set_options(noisy = 9)	         # 0,1,2,3,9: how much rubbish on the screen
+        M1_cml.set_options(verbose = 1)	     # 1: detailed output, 0: concise output
+        M1_cml.set_options(runmode = 0)	     # 0: user tree;  1: semi-automatic;  2: automatic
+        M1_cml.set_options(seqtype = 1)	     # 1:codons; 2:AAs; 3:codons-->AAs
+        M1_cml.set_options(CodonFreq = 2)	     # 0:1/61 each, 1:F1X4, 2:F3X4, 3:codon table
+        M1_cml.set_options(clock = 0)	         # 0: no clock, unrooted tree, 1: clock, rooted tree
+        M1_cml.set_options(aaDist = 0)	         # 0:equal, +:geometric; -:linear, {1-5:G1974,Miyata,c,p,v}
+        M1_cml.set_options(model = 0)	         # models for codons:
+        M1_cml.set_options(NSsites = [1])	     # 0:one w; 1:NearlyNeutral; 2:PositiveSelection; 3:discrete; Needs to be array
+        M1_cml.set_options(icode = 0)	         # 0:standard genetic code; 1:mammalian mt; 2-10:see below
+        M1_cml.set_options(Mgene = 0)	         # 0:rates, 1:separate; 2:pi, 3:kappa, 4:all
+        M1_cml.set_options(fix_kappa = 0)	     # 1: kappa fixed, 0: kappa to be estimated
+        M1_cml.set_options(kappa = 2)	         # initial or fixed kappa
+        M1_cml.set_options(fix_omega = 0)	     # 1: omega or omega_1 fixed, 0: estimate
+        M1_cml.set_options(omega = 1)	         # initial or fixed omega, for codons or codon-based AAs
+        M1_cml.set_options(getSE = 0)	         # 0: don't want them, 1: want S.E.s of estimates
+        M1_cml.set_options(RateAncestor = 0)	 # (0,1,2): rates (alpha>0) or ancestral states (1 or 2)
+        M1_cml.set_options(Small_Diff = .45e-6) # Default value.
+        M1_cml.set_options(cleandata = 0)	     # remove sites with ambiguity data (1:yes, 0:no)?
+        M1_cml.set_options(fix_blength = 0)	 # 0: ignore, -1: random, 1: initial, 2: fixed
+
+
+        M1_results = M1_cml.run(verbose=True)
+
+
+rule M2:
+    input:
+        "Families/family_{fam}_dir/M2/family_{fam}.tree",
+        "Families/family_{fam}_dir/M2/family_{fam}.codon.phylip"
+    output:
+        "Families/family_{fam}_dir/M2/family_{fam}.mcl"
+    run:
+        M2_cml = codeml.Codeml()
+        M2_cml.alignment = input[1]
+        M2_cml.tree = input[0]
+        M2_cml.out_file = output[0]
+        M2_cml.working_dir = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
+
+
+        M2_cml.set_options(noisy = 9)	         # 0,1,2,3,9: how much rubbish on the screen
+        M2_cml.set_options(verbose = 1)	     # 1: detailed output, 0: concise output
+        M2_cml.set_options(runmode = 0)	     # 0: user tree;  1: semi-automatic;  2: automatic
+        M2_cml.set_options(seqtype = 1)	     # 1:codons; 2:AAs; 3:codons-->AAs
+        M2_cml.set_options(CodonFreq = 2)	     # 0:1/61 each, 1:F1X4, 2:F3X4, 3:codon table
+        M2_cml.set_options(clock = 0)	         # 0: no clock, unrooted tree, 1: clock, rooted tree
+        M2_cml.set_options(aaDist = 0)	         # 0:equal, +:geometric; -:linear, {1-5:G1974,Miyata,c,p,v}
+        M2_cml.set_options(model = 0)	         # models for codons:
+        M2_cml.set_options(NSsites = [2])	     # 0:one w; 1:NearlyNeutral; 2:PositiveSelection; 3:discrete; Needs to be array
+        M2_cml.set_options(icode = 0)	         # 0:standard genetic code; 1:mammalian mt; 2-10:see below
+        M2_cml.set_options(Mgene = 0)	         # 0:rates, 1:separate; 2:pi, 3:kappa, 4:all
+        M2_cml.set_options(fix_kappa = 0)	     # 1: kappa fixed, 0: kappa to be estimated
+        M2_cml.set_options(kappa = 2)	         # initial or fixed kappa
+        M2_cml.set_options(fix_omega = 0)	     # 1: omega or omega_1 fixed, 0: estimate
+        M2_cml.set_options(omega = 1)	         # initial or fixed omega, for codons or codon-based AAs
+        M2_cml.set_options(getSE = 0)	         # 0: don't want them, 1: want S.E.s of estimates
+        M2_cml.set_options(RateAncestor = 0)	 # (0,1,2): rates (alpha>0) or ancestral states (1 or 2)
+        M2_cml.set_options(Small_Diff = .45e-6) # Default value.
+        M2_cml.set_options(cleandata = 0)	     # remove sites with ambiguity data (1:yes, 0:no)?
+        M2_cml.set_options(fix_blength = 0)	 # 0: ignore, -1: random, 1: initial, 2: fixed
+
+
+        M2_results = M2_cml.run(verbose=True)
+
+rule M3:
+    input:
+        "Families/family_{fam}_dir/M3/family_{fam}.tree",
+        "Families/family_{fam}_dir/M3/family_{fam}.codon.phylip"
+    output:
+        "Families/family_{fam}_dir/M3/family_{fam}.mcl"
+    run:
+        M3_cml = codeml.Codeml()
+        M3_cml.alignment = input[1]
+        M3_cml.tree = input[0]
+        M3_cml.out_file = output[0]
+        M3_cml.working_dir = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
+
+
+        M3_cml.set_options(noisy = 9)	         # 0,1,2,3,9: how much rubbish on the screen
+        M3_cml.set_options(verbose = 1)	     # 1: detailed output, 0: concise output
+        M3_cml.set_options(runmode = 0)	     # 0: user tree;  1: semi-automatic;  2: automatic
+        M3_cml.set_options(seqtype = 1)	     # 1:codons; 2:AAs; 3:codons-->AAs
+        M3_cml.set_options(CodonFreq = 2)	     # 0:1/61 each, 1:F1X4, 2:F3X4, 3:codon table
+        M3_cml.set_options(clock = 0)	         # 0: no clock, unrooted tree, 1: clock, rooted tree
+        M3_cml.set_options(aaDist = 0)	         # 0:equal, +:geometric; -:linear, {1-5:G1974,Miyata,c,p,v}
+        M3_cml.set_options(model = 0)	         # models for codons:
+        M3_cml.set_options(NSsites = [3])	     # 0:one w; 1:NearlyNeutral; 2:PositiveSelection; 3:discrete; Needs to be array
+        M3_cml.set_options(icode = 0)	         # 0:standard genetic code; 1:mammalian mt; 2-10:see below
+        M3_cml.set_options(Mgene = 0)	         # 0:rates, 1:separate; 2:pi, 3:kappa, 4:all
+        M3_cml.set_options(fix_kappa = 0)	     # 1: kappa fixed, 0: kappa to be estimated
+        M3_cml.set_options(kappa = 2)	         # initial or fixed kappa
+        M3_cml.set_options(fix_omega = 0)	     # 1: omega or omega_1 fixed, 0: estimate
+        M3_cml.set_options(omega = 1)	         # initial or fixed omega, for codons or codon-based AAs
+        M3_cml.set_options(getSE = 0)	         # 0: don't want them, 1: want S.E.s of estimates
+        M3_cml.set_options(RateAncestor = 0)	 # (0,1,2): rates (alpha>0) or ancestral states (1 or 2)
+        M3_cml.set_options(Small_Diff = .45e-6) # Default value.
+        M3_cml.set_options(cleandata = 0)	     # remove sites with ambiguity data (1:yes, 0:no)?
+        M3_cml.set_options(fix_blength = 0)	 # 0: ignore, -1: random, 1: initial, 2: fixed
+
+
+        M3_results = M3_cml.run(verbose=True)
+
+rule M7:
+    input:
+        "Families/family_{fam}_dir/M7/family_{fam}.tree",
+        "Families/family_{fam}_dir/M7/family_{fam}.codon.phylip"
+    output:
+        "Families/family_{fam}_dir/M7/family_{fam}.mcl"
+    run:
+        M7_cml = codeml.Codeml()
+        M7_cml.alignment = input[1]
+        M7_cml.tree = input[0]
+        M7_cml.out_file = output[0]
+        M7_cml.working_dir = output[0].split('/')[:-1][0] +'/'+output[0].split('/')[:-1][1]+'/'+output[0].split('/')[:-1][2]+'/'
+
+
+        M7_cml.set_options(noisy = 9)	         # 0,1,2,3,9: how much rubbish on the screen
+        M7_cml.set_options(verbose = 1)	     # 1: detailed output, 0: concise output
+        M7_cml.set_options(runmode = 0)	     # 0: user tree;  1: semi-automatic;  2: automatic
+        M7_cml.set_options(seqtype = 1)	     # 1:codons; 2:AAs; 3:codons-->AAs
+        M7_cml.set_options(CodonFreq = 2)	     # 0:1/61 each, 1:F1X4, 2:F3X4, 3:codon table
+        M7_cml.set_options(clock = 0)	         # 0: no clock, unrooted tree, 1: clock, rooted tree
+        M7_cml.set_options(aaDist = 0)	         # 0:equal, +:geometric; -:linear, {1-5:G1974,Miyata,c,p,v}
+        M7_cml.set_options(model = 0)	         # models for codons:
+        M7_cml.set_options(NSsites = [7])	     # 0:one w; 1:NearlyNeutral; 2:PositiveSelection; 3:discrete; Needs to be array
+        M7_cml.set_options(icode = 0)	         # 0:standard genetic code; 1:mammalian mt; 2-10:see below
+        M7_cml.set_options(Mgene = 0)	         # 0:rates, 1:separate; 2:pi, 3:kappa, 4:all
+        M7_cml.set_options(fix_kappa = 0)	     # 1: kappa fixed, 0: kappa to be estimated
+        M7_cml.set_options(kappa = 2)	         # initial or fixed kappa
+        M7_cml.set_options(fix_omega = 0)	     # 1: omega or omega_1 fixed, 0: estimate
+        M7_cml.set_options(omega = 1)	         # initial or fixed omega, for codons or codon-based AAs
+        M7_cml.set_options(getSE = 0)	         # 0: don't want them, 1: want S.E.s of estimates
+        M7_cml.set_options(RateAncestor = 0)	 # (0,1,2): rates (alpha>0) or ancestral states (1 or 2)
+        M7_cml.set_options(Small_Diff = .45e-6) # Default value.
+        M7_cml.set_options(cleandata = 0)	     # remove sites with ambiguity data (1:yes, 0:no)?
+        M7_cml.set_options(fix_blength = 0)	 # 0: ignore, -1: random, 1: initial, 2: fixed
+
+
+        M7_results = M7_cml.run(verbose=True)
+
+rule M8:
+    input:
+        "Families/family_{fam}_dir/M8/family_{fam}.tree",
+        "Families/family_{fam}_dir/M8/family_{fam}.codon.phylip"
+>>>>>>> 7cac9c7d936ec111a3c27ced7ea3b69b0766b138
     output:
         "Families/family_{fam}_dir/M8/family_{fam}.mcl","Families/family_{fam}_dir/M01237/family_{fam}.mcl"
     run:
