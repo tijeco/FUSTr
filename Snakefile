@@ -814,7 +814,7 @@ rule M0:
         print("@@@@@@@@@@@@@@@@@@@@")
         print(M0_lnL,M0_np,M0_cml.working_dir)
         with open(M0_cml.working_dir+"statsfile.txt","a") as out:
-            out.write(M0_cml.working_dir.strip("/M0")+"\tM0\t"+str(M0_np)+"\t"+str(M0_lnL)+"\n")
+            out.write(M0_cml.working_dir.strip("_dir/M0").strip("Families/")+"\tM0\t"+str(M0_np)+"\t"+str(M0_lnL)+"\n")
         # M1a_lnL = M01237_results.get("NSsites").get(1).get("lnL")
         # M1a_np = len(M01237_results.get("NSsites").get(1).get("parameters").get("parameter list").split())
         #
