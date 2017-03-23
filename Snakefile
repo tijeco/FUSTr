@@ -1113,7 +1113,6 @@ rule M8a:
 
 rule ChiSq:
     input:
-
         "Families/family_{fam}_dir/M0/family_{fam}.mcl",
         "Families/family_{fam}_dir/M1/family_{fam}.mcl",
         "Families/family_{fam}_dir/M2/family_{fam}.mcl",
