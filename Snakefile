@@ -1131,6 +1131,8 @@ rule ChiSq:
         "Families/family_{fam}_dir/M8a/statsfile.txt"
     run:
         working_dir = input[0].split('/')[:-1][0] +'/'+input[0].split('/')[:-1][1]+'/'+input[0].split('/')[:-1][2]+'/'
+        print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+        print(working_dir)
         models = ["M0","M1","M2","M3","M7","M8","M8a"]
         with open(output[0],"a") as out:
 
