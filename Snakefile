@@ -1121,7 +1121,6 @@ rule ChiSq:
         "Families/family_{fam}_dir/M8/family_{fam}.mcl",
         "Families/family_{fam}_dir/M8a/family_{fam}.mcl"
     output:
-        "statsfile.txt",
         "Families/family_{fam}_dir/M0/statsfile.txt",
         "Families/family_{fam}_dir/M1/statsfile.txt",
         "Families/family_{fam}_dir/M2/statsfile.txt",
