@@ -816,7 +816,7 @@ rule M0:
         M0_np = len(M0_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
         print("@@@@@@@@@@@@@@@@@@@@")
         print(M0_lnL,M0_np,M0_cml.working_dir)
-        with open(M0_cml.working_dir+"statsfile.txt","a") as out:
+        with open(M0_cml.working_dir+"statsfile.txt","w") as out:
             out.write(M0_cml.working_dir.strip("_dir/M0").strip("Families/")+"\tM0\t"+str(M0_np)+"\t"+str(M0_lnL)+"\n")
         # M1a_lnL = M01237_results.get("NSsites").get(1).get("lnL")
         # M1a_np = len(M01237_results.get("NSsites").get(1).get("parameters").get("parameter list").split())
@@ -877,7 +877,7 @@ rule M1:
         M1_np = len(M1_results.get("NSsites").get(1).get("parameters").get("parameter list").split())
         print("@@@@@@@@@@@@@@@@@@@@")
         print(M1_lnL,M1_np,M1_cml.working_dir)
-        with open(M1_cml.working_dir+"statsfile.txt","a") as out:
+        with open(M1_cml.working_dir+"statsfile.txt","w") as out:
             out.write(M1_cml.working_dir.strip("_dir/M1").strip("Families/")+"\tM1\t"+str(M1_np)+"\t"+str(M1_lnL)+"\n")
 
 
@@ -923,7 +923,7 @@ rule M2:
         M2_np = len(M2_results.get("NSsites").get(2).get("parameters").get("parameter list").split())
         print("@@@@@@@@@@@@@@@@@@@@")
         print(M2_lnL,M2_np,M2_cml.working_dir)
-        with open(M2_cml.working_dir+"statsfile.txt","a") as out:
+        with open(M2_cml.working_dir+"statsfile.txt","w") as out:
             out.write(M2_cml.working_dir.strip("_dir/M2").strip("Families/")+"\tM2\t"+str(M2_np)+"\t"+str(M2_lnL)+"\n")
 
 rule M3:
@@ -968,7 +968,7 @@ rule M3:
         M3_np = len(M3_results.get("NSsites").get(3).get("parameters").get("parameter list").split())
         print("@@@@@@@@@@@@@@@@@@@@")
         print(M3_lnL,M3_np,M3_cml.working_dir)
-        with open(M3_cml.working_dir+"statsfile.txt","a") as out:
+        with open(M3_cml.working_dir+"statsfile.txt","w") as out:
             out.write(M3_cml.working_dir.strip("_dir/M3").strip("Families/")+"\tM3\t"+str(M3_np)+"\t"+str(M3_lnL)+"\n")
 
 rule M7:
@@ -1013,7 +1013,7 @@ rule M7:
         M7_np = len(M7_results.get("NSsites").get(7).get("parameters").get("parameter list").split())
         print("@@@@@@@@@@@@@@@@@@@@")
         print(M7_lnL,M7_np,M7_cml.working_dir)
-        with open(M7_cml.working_dir+"statsfile.txt","a") as out:
+        with open(M7_cml.working_dir+"statsfile.txt","w") as out:
             out.write(M7_cml.working_dir.strip("_dir/M7").strip("Families/")+"\tM7\t"+str(M7_np)+"\t"+str(M7_lnL)+"\n")
 
 rule M8:
@@ -1058,7 +1058,7 @@ rule M8:
         M8_np = len(M8_results.get("NSsites").get(8).get("parameters").get("parameter list").split())
         print("@@@@@@@@@@@@@@@@@@@@")
         print(M8_lnL,M8_np,M8_cml.working_dir)
-        with open(M8_cml.working_dir+"statsfile.txt","a") as out:
+        with open(M8_cml.working_dir+"statsfile.txt","w") as out:
             out.write(M8_cml.working_dir.strip("_dir/M8").strip("Families/")+"\tM8\t"+str(M8_np)+"\t"+str(M8_lnL)+"\n")
 
 
@@ -1108,7 +1108,7 @@ rule M8a:
         M8a_np = len(M8a_results.get("NSsites").get(8).get("parameters").get("parameter list").split())
         print("@@@@@@@@@@@@@@@@@@@@")
         print(M8a_lnL,M8a_np,M8a_cml.working_dir)
-        with open(M8a_cml.working_dir+"statsfile.txt","a") as out:
+        with open(M8a_cml.working_dir+"statsfile.txt","w") as out:
             out.write(M8a_cml.working_dir.strip("_dir/M8a").strip("Families/")+"\tM8a\t"+str(M8a_np)+"\t"+str(M8a_lnL)+"\n")
 
 
