@@ -1137,7 +1137,7 @@ rule ChiSq:
         with open("finalStatsfile.txt","a") as out:
 
             for i in output:
-                with open(i) as f:
+                with open(i.replace("tmp","statsfile")) as f:
                     for line in f:
                         out.write(line)
         with open(output[6], "w") as out:
