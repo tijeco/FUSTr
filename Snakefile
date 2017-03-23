@@ -1113,13 +1113,14 @@ rule M8a:
 
 rule ChiSq:
     input:
+    dynamic(
         "Families/family_{fam}_dir/M0/family_{fam}.mcl",
         "Families/family_{fam}_dir/M1/family_{fam}.mcl",
         "Families/family_{fam}_dir/M2/family_{fam}.mcl",
         "Families/family_{fam}_dir/M3/family_{fam}.mcl",
         "Families/family_{fam}_dir/M7/family_{fam}.mcl",
         "Families/family_{fam}_dir/M8/family_{fam}.mcl",
-        "Families/family_{fam}_dir/M8a/family_{fam}.mcl"
+        "Families/family_{fam}_dir/M8a/family_{fam}.mcl")
     output:
         "statsfile.txt"
     run:
