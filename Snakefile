@@ -873,8 +873,8 @@ rule M1:
 
         M1_results = M1_cml.run(verbose=True)
 
-        M1_lnL = M1_results.get("NSsites").get(0).get("lnL")
-        M1_np = len(M1_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
+        M1_lnL = M1_results.get("NSsites").get(1).get("lnL")
+        M1_np = len(M1_results.get("NSsites").get(1).get("parameters").get("parameter list").split())
         print("@@@@@@@@@@@@@@@@@@@@")
         print(M1_lnL,M1_np,M1_cml.working_dir)
         with open(M1_cml.working_dir+"statsfile.txt","a") as out:
@@ -919,8 +919,8 @@ rule M2:
 
         M2_results = M2_cml.run(verbose=True)
 
-        M2_lnL = M2_results.get("NSsites").get(0).get("lnL")
-        M2_np = len(M2_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
+        M2_lnL = M2_results.get("NSsites").get(2).get("lnL")
+        M2_np = len(M2_results.get("NSsites").get(2).get("parameters").get("parameter list").split())
         print("@@@@@@@@@@@@@@@@@@@@")
         print(M2_lnL,M2_np,M2_cml.working_dir)
         with open(M2_cml.working_dir+"statsfile.txt","a") as out:
@@ -964,8 +964,8 @@ rule M3:
 
         M3_results = M3_cml.run(verbose=True)
 
-        M3_lnL = M3_results.get("NSsites").get(0).get("lnL")
-        M3_np = len(M3_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
+        M3_lnL = M3_results.get("NSsites").get(3).get("lnL")
+        M3_np = len(M3_results.get("NSsites").get(3).get("parameters").get("parameter list").split())
         print("@@@@@@@@@@@@@@@@@@@@")
         print(M3_lnL,M3_np,M3_cml.working_dir)
         with open(M3_cml.working_dir+"statsfile.txt","a") as out:
@@ -1009,8 +1009,8 @@ rule M7:
 
         M7_results = M7_cml.run(verbose=True)
 
-        M7_lnL = M7_results.get("NSsites").get(0).get("lnL")
-        M7_np = len(M7_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
+        M7_lnL = M7_results.get("NSsites").get(7).get("lnL")
+        M7_np = len(M7_results.get("NSsites").get(7).get("parameters").get("parameter list").split())
         print("@@@@@@@@@@@@@@@@@@@@")
         print(M7_lnL,M7_np,M7_cml.working_dir)
         with open(M7_cml.working_dir+"statsfile.txt","a") as out:
@@ -1054,8 +1054,8 @@ rule M8:
 
         M8_results = M8_cml.run(verbose=True)
 
-        M8_lnL = M8_results.get("NSsites").get(0).get("lnL")
-        M8_np = len(M8_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
+        M8_lnL = M8_results.get("NSsites").get(8).get("lnL")
+        M8_np = len(M8_results.get("NSsites").get(8).get("parameters").get("parameter list").split())
         print("@@@@@@@@@@@@@@@@@@@@")
         print(M8_lnL,M8_np,M8_cml.working_dir)
         with open(M8_cml.working_dir+"statsfile.txt","a") as out:
@@ -1104,8 +1104,8 @@ rule M8a:
 
         M8a_results=M8a_cml.run(verbose=True)
 
-        M8a_lnL = M8a_results.get("NSsites").get(0).get("lnL")
-        M8a_np = len(M8a_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
+        M8a_lnL = M8a_results.get("NSsites").get(8).get("lnL")
+        M8a_np = len(M8a_results.get("NSsites").get(8).get("parameters").get("parameter list").split())
         print("@@@@@@@@@@@@@@@@@@@@")
         print(M8a_lnL,M8a_np,M8a_cml.working_dir)
         with open(M8a_cml.working_dir+"statsfile.txt","a") as out:
