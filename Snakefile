@@ -86,7 +86,8 @@ SAMPLES, = glob_wildcards("{sample}.fasta")
 #FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
 #print(FAMILIES)
 rule final:
-    input:"statsfile.txt"
+    #input:"statsfile.txt"
+    input:dynamic("Families/family_{fam}_dir/M8a/statsfile.txt")
     #input: dynamic("Families/family_{fam}_dir/M0/family_{fam}.mcl")
     #input: "Temp/all.pep.combined"
     #input: expand("{sample}.new_headers", sample=SAMPLES)
