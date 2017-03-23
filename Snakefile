@@ -715,7 +715,7 @@ rule FastTree:
 rule copyTreeAln:
     input:
         tree_before="Families/family_{fam}_dir/family_{fam}.tree",
-        aln_before="Families/family_{fam}_dir/family_{fam}.codon.phylip"
+        aln_before="Families/family_{fam}_dir/family_{fam}.codon.phylip" 
     output:
         treeM8a= "Families/family_{fam}_dir/M8a/family_{fam}.tree",
         treeM0="Families/family_{fam}_dir/M0/family_{fam}.tree",
