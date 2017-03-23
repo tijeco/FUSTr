@@ -1107,7 +1107,7 @@ rule M8a:
         M8a_lnL = M8a_results.get("NSsites").get(8).get("lnL")
         M8a_np = len(M8a_results.get("NSsites").get(8).get("parameters").get("parameter list").split())
         print("@@@@@@@@@@@@@@@@@@@@")
-        print(M8a_lnL,M8a_np,M8a_cml.working_dir)
+        print(M8a_lnL,M8a_np,M8a_cml.working_dir+"statsfile.txt")
         with open(M8a_cml.working_dir+"statsfile.txt","w") as out:
             out.write(M8a_cml.working_dir.strip("_dir/M8a").strip("Families/")+"\tM8a\t"+str(M8a_np)+"\t"+str(M8a_lnL)+"\n")
 
