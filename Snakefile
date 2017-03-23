@@ -1140,8 +1140,8 @@ rule ChiSq:
                 with open(i.replace("tmp","statsfile")) as f:
                     for line in f:
                         out.write(line)
-        with open(output[6], "w") as out:
-            out.write("")
+                with open(i, "w") as tmp:
+                    tmp.write("")
 
 #     """
 # rule makeCodmlFile:
