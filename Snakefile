@@ -87,7 +87,7 @@ SAMPLES, = glob_wildcards("{sample}.fasta")
 #print(FAMILIES)
 rule final:
     #input:"statsfile.txt"
-    input:dynamic("Families/family_{fam}_dir/M8a/statsfile.txt")
+    input:dynamic("Families/family_{fam}_dir/M8a/tmp.txt")
     #input: dynamic("Families/family_{fam}_dir/M0/family_{fam}.mcl")
     #input: "Temp/all.pep.combined"
     #input: expand("{sample}.new_headers", sample=SAMPLES)
@@ -1122,13 +1122,13 @@ rule ChiSq:
         "Families/family_{fam}_dir/M8/family_{fam}.mcl",
         "Families/family_{fam}_dir/M8a/family_{fam}.mcl"
     output:
-        "Families/family_{fam}_dir/M0/statsfile.txt",
-        "Families/family_{fam}_dir/M1/statsfile.txt",
-        "Families/family_{fam}_dir/M2/statsfile.txt",
-        "Families/family_{fam}_dir/M3/statsfile.txt",
-        "Families/family_{fam}_dir/M7/statsfile.txt",
-        "Families/family_{fam}_dir/M8/statsfile.txt",
-        "Families/family_{fam}_dir/M8a/statsfile.txt"
+        "Families/family_{fam}_dir/M0/tmp.txt",
+        "Families/family_{fam}_dir/M1/tmp.txt",
+        "Families/family_{fam}_dir/M2/tmp.txt",
+        "Families/family_{fam}_dir/M3/tmp.txt",
+        "Families/family_{fam}_dir/M7/tmp.txt",
+        "Families/family_{fam}_dir/M8/tmp.txt",
+        "Families/family_{fam}_dir/M8a/tmp.txt"
     run:
         #working_dir = input[0].split('/')[:-1][0] +'/'+input[0].split('/')[:-1][1]+'/'+input[0].split('/')[:-1][2]+'/'
         print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
@@ -1140,7 +1140,8 @@ rule ChiSq:
                 with open(i) as f:
                     for line in f:
                         out.write(line)
-
+        with open(output[6], "w") as out:
+            out.write("")
 
 #     """
 # rule makeCodmlFile:
