@@ -715,7 +715,7 @@ rule FastTree:
 rule copyTreeAln:
     input:
         tree_before="Families/family_{fam}_dir/family_{fam}.tree",
-        aln_before="Families/family_{fam}_dir/family_{fam}.codon.phylip" 
+        aln_before="Families/family_{fam}_dir/family_{fam}.codon.phylip"
     output:
         treeM8a= "Families/family_{fam}_dir/M8a/family_{fam}.tree",
         treeM0="Families/family_{fam}_dir/M0/family_{fam}.tree",
@@ -813,7 +813,7 @@ rule M0:
         M0_np = len(M0_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
         print("@@@@@@@@@@@@@@@@@@@@")
         print(M0_lnL,M0_np,M0_cml.working_dir)
-        with open("statsfile.txt","a") as out:
+        with open(M0_cml.working_dir+"statsfile.txt","a") as out:
             out.write(M0_cml.working_dir.split("/M0")[0]+"\tM0\t"+str(M0_np)+"\t"+str(M0_lnL)+"\n")
         # M1a_lnL = M01237_results.get("NSsites").get(1).get("lnL")
         # M1a_np = len(M01237_results.get("NSsites").get(1).get("parameters").get("parameter list").split())
