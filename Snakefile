@@ -85,6 +85,7 @@ SAMPLES, = glob_wildcards("{sample}.fasta")
 #print(ORTHOGROUP)
 #FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
 #print(FAMILIES)
+counter = 0
 rule final:
     #input:"statsfile.txt"
     input:dynamic("Families/family_{fam}_dir/M8a/tmp.txt")
@@ -771,7 +772,7 @@ for PAML rule,
 
 
 
-global counter = 0
+counter = 0
 #####################################################################3
 
 rule M0:
