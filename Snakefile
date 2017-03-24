@@ -837,13 +837,13 @@ rule M0:
 
 
 rule M1:
-    counter+=1
     input:
         "Families/family_{fam}_dir/M1/family_{fam}.tree",
         "Families/family_{fam}_dir/M1/family_{fam}.codon.phylip"
     output:
         "Families/family_{fam}_dir/M1/family_{fam}.mcl"
     run:
+        counter+=1
         M1_cml = codeml.Codeml()
         M1_cml.alignment = input[1]
         M1_cml.tree = input[0]
@@ -884,13 +884,13 @@ rule M1:
 
 
 rule M2:
-    counter+=1
     input:
         "Families/family_{fam}_dir/M2/family_{fam}.tree",
         "Families/family_{fam}_dir/M2/family_{fam}.codon.phylip"
     output:
         "Families/family_{fam}_dir/M2/family_{fam}.mcl"
     run:
+        counter+=1
         M2_cml = codeml.Codeml()
         M2_cml.alignment = input[1]
         M2_cml.tree = input[0]
@@ -930,13 +930,13 @@ rule M2:
             out.write(M2_cml.working_dir.strip("_dir/M2").strip("Families/")+"\tM2\t"+str(M2_np)+"\t"+str(M2_lnL)+"\n")
 
 rule M3:
-    counter+=1
     input:
         "Families/family_{fam}_dir/M3/family_{fam}.tree",
         "Families/family_{fam}_dir/M3/family_{fam}.codon.phylip"
     output:
         "Families/family_{fam}_dir/M3/family_{fam}.mcl"
     run:
+        counter+=1
         M3_cml = codeml.Codeml()
         M3_cml.alignment = input[1]
         M3_cml.tree = input[0]
@@ -976,13 +976,13 @@ rule M3:
             out.write(M3_cml.working_dir.strip("_dir/M3").strip("Families/")+"\tM3\t"+str(M3_np)+"\t"+str(M3_lnL)+"\n")
 
 rule M7:
-    counter+=1
     input:
         "Families/family_{fam}_dir/M7/family_{fam}.tree",
         "Families/family_{fam}_dir/M7/family_{fam}.codon.phylip"
     output:
         "Families/family_{fam}_dir/M7/family_{fam}.mcl"
     run:
+        counter+=1
         M7_cml = codeml.Codeml()
         M7_cml.alignment = input[1]
         M7_cml.tree = input[0]
@@ -1022,13 +1022,13 @@ rule M7:
             out.write(M7_cml.working_dir.strip("_dir/M7").strip("Families/")+"\tM7\t"+str(M7_np)+"\t"+str(M7_lnL)+"\n")
 
 rule M8:
-    counter+=1
     input:
         "Families/family_{fam}_dir/M8/family_{fam}.tree",
         "Families/family_{fam}_dir/M8/family_{fam}.codon.phylip"
     output:
         "Families/family_{fam}_dir/M8/family_{fam}.mcl"
     run:
+        counter+=1
         M8_cml = codeml.Codeml()
         M8_cml.alignment = input[1]
         M8_cml.tree = input[0]
@@ -1073,13 +1073,13 @@ rule M8:
 
 
 rule M8a:
-    counter+=1
     input:
         "Families/family_{fam}_dir/M8a/family_{fam}.tree",
         "Families/family_{fam}_dir/M8a/family_{fam}.codon.phylip"
     output:
         "Families/family_{fam}_dir/M8a/family_{fam}.mcl"
     run:
+        counter+=1
         M8a_cml = codeml.Codeml()
         M8a_cml.alignment = input[1]
         M8a_cml.tree = input[0]
@@ -1118,7 +1118,7 @@ rule M8a:
         with open(M8a_cml.working_dir+"statsfile.txt","w") as out:
             out.write(M8a_cml.working_dir.strip("_dir/M8a").strip("Families/")+"\tM8a\t"+str(M8a_np)+"\t"+str(M8a_lnL)+"\n")
 
-print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
 print(counter)
 rule ChiSq:
     input:
