@@ -12,7 +12,7 @@ counter = 0
 "NW_005081559.1"
 
 def fasta_iter(fasta_name):
-    global counter = 0
+    global counter 
 
 
     fh = open(fasta_name)
