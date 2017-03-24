@@ -8,10 +8,11 @@ from Bio import AlignIO
 from Bio import SeqIO
 import sys
 import re
-
+counter = 0
 "NW_005081559.1"
 
 def fasta_iter(fasta_name):
+    global counter = 0
 
 
     fh = open(fasta_name)
@@ -85,7 +86,7 @@ SAMPLES, = glob_wildcards("{sample}.fasta")
 #print(ORTHOGROUP)
 #FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
 #print(FAMILIES)
-counter = 0
+
 rule final:
     #input:"statsfile.txt"
     input:dynamic("Families/family_{fam}_dir/M8a/tmp.txt")
