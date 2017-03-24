@@ -1119,8 +1119,7 @@ rule M8a:
         with open(M8a_cml.working_dir+"statsfile.txt","w") as out:
             out.write(M8a_cml.working_dir.strip("_dir/M8a").strip("Families/")+"\tM8a\t"+str(M8a_np)+"\t"+str(M8a_lnL)+"\n")
 
-print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
-print(COUNTER)
+
 rule ChiSq:
     input:
         "Families/family_{fam}_dir/M0/family_{fam}.mcl",
@@ -1141,6 +1140,8 @@ rule ChiSq:
     run:
         #working_dir = input[0].split('/')[:-1][0] +'/'+input[0].split('/')[:-1][1]+'/'+input[0].split('/')[:-1][2]+'/'
         print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+        print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+        print(COUNTER)
         #print(working_dir)
         models = ["M0","M1","M2","M3","M7","M8","M8a"]
         with open("finalStatsfile.txt","a") as out:
