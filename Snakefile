@@ -8,11 +8,9 @@ from Bio import AlignIO
 from Bio import SeqIO
 import sys
 import re
-counter = 0
 "NW_005081559.1"
 
 def fasta_iter(fasta_name):
-    global counter 
 
 
     fh = open(fasta_name)
@@ -69,6 +67,7 @@ def isTrinity(header):
 #         sys.exit()
 #     return {"left":left_anchor,"right":right_anchor,"first":firstPosition}
 SAMPLES, = glob_wildcards("{sample}.fasta")
+COUNTER = []
 #TESTTT, = glob_wildcards("OG{sample}.fa")
 
 #print(TESTTT)
@@ -783,7 +782,7 @@ rule M0:
     output:
         "Families/family_{fam}_dir/M0/family_{fam}.mcl"
     run:
-        counter+=1
+        COUNTER.append(True)
         M0_cml = codeml.Codeml()
         M0_cml.alignment = input[1]
         M0_cml.tree = input[0]
@@ -845,7 +844,7 @@ rule M1:
     output:
         "Families/family_{fam}_dir/M1/family_{fam}.mcl"
     run:
-        counter+=1
+        COUNTER.append(True)
         M1_cml = codeml.Codeml()
         M1_cml.alignment = input[1]
         M1_cml.tree = input[0]
@@ -892,7 +891,7 @@ rule M2:
     output:
         "Families/family_{fam}_dir/M2/family_{fam}.mcl"
     run:
-        counter+=1
+        COUNTER.append(True)
         M2_cml = codeml.Codeml()
         M2_cml.alignment = input[1]
         M2_cml.tree = input[0]
@@ -938,7 +937,7 @@ rule M3:
     output:
         "Families/family_{fam}_dir/M3/family_{fam}.mcl"
     run:
-        counter+=1
+        COUNTER.append(True)
         M3_cml = codeml.Codeml()
         M3_cml.alignment = input[1]
         M3_cml.tree = input[0]
@@ -984,7 +983,7 @@ rule M7:
     output:
         "Families/family_{fam}_dir/M7/family_{fam}.mcl"
     run:
-        counter+=1
+        COUNTER.append(True)
         M7_cml = codeml.Codeml()
         M7_cml.alignment = input[1]
         M7_cml.tree = input[0]
@@ -1030,7 +1029,7 @@ rule M8:
     output:
         "Families/family_{fam}_dir/M8/family_{fam}.mcl"
     run:
-        counter+=1
+        COUNTER.append(True)
         M8_cml = codeml.Codeml()
         M8_cml.alignment = input[1]
         M8_cml.tree = input[0]
@@ -1081,7 +1080,7 @@ rule M8a:
     output:
         "Families/family_{fam}_dir/M8a/family_{fam}.mcl"
     run:
-        counter+=1
+        COUNTER.append(True)
         M8a_cml = codeml.Codeml()
         M8a_cml.alignment = input[1]
         M8a_cml.tree = input[0]
@@ -1121,7 +1120,7 @@ rule M8a:
             out.write(M8a_cml.working_dir.strip("_dir/M8a").strip("Families/")+"\tM8a\t"+str(M8a_np)+"\t"+str(M8a_lnL)+"\n")
 
 print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
-print(counter)
+print(COUNTER)
 rule ChiSq:
     input:
         "Families/family_{fam}_dir/M0/family_{fam}.mcl",
