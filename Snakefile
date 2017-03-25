@@ -186,7 +186,8 @@ rule cleanFasta:
                             #print(seq,"is just Ns")
                             allNbool = True
                 if not allNbool:
-                    out.write(">"+headerStr+'\n')
+                    new_header = re.sub('[^a-zA-Z0-9\n\.]', '_', headerStr)
+                    out.write(">"+new_header+'\n')
                     out.write(new_seq +"\n")
                     fileLength+=1
                     row = headerStr.strip().split()
@@ -307,7 +308,7 @@ rule newHeaders:
 
                             new_header =  identifiers.group(2) + "___" + identifiers.group(1)
 
-                    out.write( ">"+new_header+"((((((((((((()))))))))))))"+'\n')
+                    out.write( ">"+new_header+'\n')
                     out.write(seq+'\n')
 
         except:
@@ -316,8 +317,8 @@ rule newHeaders:
                 for ff in sequence_iterator:
 
                     headerStr, seq = ff
-                    new_header = re.sub('[^a-zA-Z0-9\n\.]', '_', headerStr)
-                    out.write( ">"+ new_header +'\n')
+
+                    out.write( ">"+ headerStr +'\n')
                     out.write(seq+'\n')
 
 
