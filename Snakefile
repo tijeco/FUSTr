@@ -1166,7 +1166,7 @@ rule ChiSq:
 
 rule FUBAR:
     input:
-        tmp="Families/family_{fam}_dir/M8a/tmp.txt"
+        tmp="Families/family_{fam}_dir/M8a/tmp.txt",
         align="Families/family_{fam}_dir/family_{fam}.codon.aln",
         tree="Families/family_{fam}_dir/family_{fam}.tree"
     output:
