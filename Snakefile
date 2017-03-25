@@ -1144,7 +1144,7 @@ rule ChiSq:
         print(COUNTER)
         #print(working_dir)
         models = ["M0","M1","M2","M3","M7","M8","M8a"]
-        with open("finalStatsfile.txt","a") as out:
+        with open("finalStatsfile.txt","w") as out:
 
             for i in output:
                 with open(i.replace("tmp","statsfile")) as f:
