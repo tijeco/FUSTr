@@ -716,7 +716,7 @@ rule phy2codon:
                             first_line=False
                         out.write(header+'   '+trimmed+'\n')
                         out2.write(">"+header+"\n")
-                        out2.write(trimmed)
+                        out2.write(trimmed+"\n")
 rule FastTree:
     input:
         "Families/family_{fam}.aln"
