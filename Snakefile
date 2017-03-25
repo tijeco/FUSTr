@@ -307,7 +307,7 @@ rule newHeaders:
 
                             new_header =  identifiers.group(2) + "___" + identifiers.group(1)
 
-                    out.write( ">"+new_header+'\n')
+                    out.write( ">"+new_header+"((((((((((((()))))))))))))"+'\n')
                     out.write(seq+'\n')
 
         except:
