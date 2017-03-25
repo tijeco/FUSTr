@@ -412,7 +412,7 @@ rule longestIsoform:
                     #GeneID = headerStr.split('::')[1][:-2]
                     try:
 
-                        GeneID=headerStr.split('___')[1].split('::')[0]+
+                        GeneID=headerStr.split('___')[1].split('::')[0]
                     except:
                         reduced_header = headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1]
                         new_header = reduced_header.translate ({ord(c): "_" for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
