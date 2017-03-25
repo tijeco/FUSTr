@@ -316,7 +316,8 @@ rule newHeaders:
                 for ff in sequence_iterator:
 
                     headerStr, seq = ff
-                    out.write( ">"+headerStr.replace(".","_")+'\n')
+                    new_header = re.sub('[^a-zA-Z0-9\n\.]', '_', headerStr)
+                    out.write( ">"+ new_header +'\n')
                     out.write(seq+'\n')
 
 
