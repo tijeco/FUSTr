@@ -316,7 +316,7 @@ rule newHeaders:
                 for ff in sequence_iterator:
 
                     headerStr, seq = ff
-                    out.write( ">"+headerStr+'\n')
+                    out.write( ">"+headerStr.replace(".","_")+'\n')
                     out.write(seq+'\n')
 
 
@@ -1153,6 +1153,13 @@ rule ChiSq:
                 with open(i, "w") as tmp:
                     tmp.write("")
 
+rule FUBAR:
+    input:
+        "Families/family_{fam}_dir/"
+    output:
+        "Families/family_{fam}_dir/"
+    shell:
+        "(echo 1; echo 1;echo /media/BigRAID/JeffTemp/TestHYPHY/new.aln; echo /media/BigRAID/JeffTemp/TestHYPHY/new.tree; echo 20;echo echo 5; echo 2000000; echo 1000000;echo 100;echo 0.5 )|HYPHYMP /usr/local/lib/hyphy/TemplateBatchFiles/FUBAR.bf"
 #     """
 # rule makeCodmlFile:
 #     input:
