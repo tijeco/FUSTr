@@ -612,7 +612,9 @@ rule phy2codon:
         column_file="Families/family_{fam}.aln.trimmed.column_file",
         nucleotide=expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
     output:
-        "Families/family_{fam}_dir/family_{fam}.codon.phylip"
+        "Families/family_{fam}_dir/family_{fam}.codon.phylip",
+        "Families/family_{fam}_dir/family_{fam}.codon.aln"
+
     run:
         cut = ""
         print(input.untrimmed)
@@ -640,78 +642,81 @@ rule phy2codon:
         print(len(longIsoform_CDS_combined))
 
         with open(output[0], "w") as out:
+            with open(output[1],"w") as out2:
 
 
-            #Get  column cut file
-            with open(input.column_file) as f:
-                for line in f:
-                    cut  +=line.strip()
-                cut = cut.split(',')
-                cut = list(map(int, cut))
-            #print(cut)
+                #Get  column cut file
+                with open(input.column_file) as f:
+                    for line in f:
+                        cut  +=line.strip()
+                    cut = cut.split(',')
+                    cut = list(map(int, cut))
+                #print(cut)
 
-            #Get corresponding untrimmed Alignments, as original, line by line
-            line1=True
-            first_line=True
-            with open(input.untrimmed) as f:
-                for line in f:
-                    if line1:
+                #Get corresponding untrimmed Alignments, as original, line by line
+                line1=True
+                first_line=True
+                with open(input.untrimmed) as f:
+                    for line in f:
+                        if line1:
 
-                        line1=False
-                        continue
+                            line1=False
+                            continue
 
-                    row =line.strip().split()
-                    # print("***********")
-                    # print(row)
-                    # print("____________")
-                    original=row[1]#cds
-                    header=row[0]
-                    #print("Sequence:",sequence)
-                    #print("Header:",header)
-                    try:
-                        sequence=longIsoform_CDS_combined[header]#original
-                    except:
-                        print(header,"not in dict")
-                    CodonPos={}
-                    position=0
-                    codon=""
-                    number=1
-                    for i in sequence:
+                        row =line.strip().split()
+                        # print("***********")
+                        # print(row)
+                        # print("____________")
+                        original=row[1]#cds
+                        header=row[0]
+                        #print("Sequence:",sequence)
+                        #print("Header:",header)
+                        try:
+                            sequence=longIsoform_CDS_combined[header]#original
+                        except:
+                            print(header,"not in dict")
+                        CodonPos={}
+                        position=0
+                        codon=""
+                        number=1
+                        for i in sequence:
 
-                        codon +=i
-                        #print i,position%3,codon
-                        if position%3==2:
-                            #print codon
-                            #print codonTable[codon]
-                            CodonPos[number]=codon
-                            number+=1
-                            #protein+=codonTable[codon]
-                        position +=1
+                            codon +=i
+                            #print i,position%3,codon
+                            if position%3==2:
+                                #print codon
+                                #print codonTable[codon]
+                                CodonPos[number]=codon
+                                number+=1
+                                #protein+=codonTable[codon]
+                            position +=1
 
-                        if position%3==0:
-                            #print codon
-                            codon=""
-                    aaPos=0
-                    firstAA=True
-                    alnPos=0
-                    prot=""
-                    trimmed=""
-                    for i in original:
-                        if i!="-":
-                            aaPos+=1
+                            if position%3==0:
+                                #print codon
+                                codon=""
+                        aaPos=0
+                        firstAA=True
+                        alnPos=0
+                        prot=""
+                        trimmed=""
+                        for i in original:
+                            if i!="-":
+                                aaPos+=1
 
-                        if alnPos in cut:
-                            prot+=i
-                            if i != "-":
-                                trimmed+=CodonPos[aaPos]
-                            else:
-                                trimmed+="---"
-                        alnPos+=1
-                    num_lines = sum(1 for line in open(input.untrimmed) )
-                    if first_line:
-                        out.write(str(num_lines-1) + " " + str(len(trimmed)) + '\n')
-                        first_line=False
-                    out.write(header+'   '+trimmed+'\n')
+                            if alnPos in cut:
+                                prot+=i
+                                if i != "-":
+                                    trimmed+=CodonPos[aaPos]
+                                else:
+                                    trimmed+="---"
+                            alnPos+=1
+                        num_lines = sum(1 for line in open(input.untrimmed) )
+                        if first_line:
+                            out.write(str(num_lines-1) + " " + str(len(trimmed)) + '\n')
+                            first_line=False
+                        out.write(header+'   '+trimmed+'\n')
+                        out2.write(">"+header+"\n")
+                        out2.write(trimmed)
 rule FastTree:
     input:
         "Families/family_{fam}.aln"
