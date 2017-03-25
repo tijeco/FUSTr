@@ -416,7 +416,7 @@ rule longestIsoform:
                     except:
                         reduced_header = headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1]
                         new_header = re.sub('[^a-zA-Z0-9\n\.]', '_', reduced_header)
-                        out.write('>'+new_header+'\n')
+                        out.write('>'+new_header+"UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU"+'\n')
                         out.write(seq + '\n')
                         continue
 
