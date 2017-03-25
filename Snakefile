@@ -88,7 +88,8 @@ COUNTER = []
 
 rule final:
     #input:"statsfile.txt"
-    input:dynamic("Families/family_{fam}_dir/M8a/tmp.txt")
+    input:dynamic("Families/family_{fam}_dir/family_{fam}.tree.fubar.csv")
+    #input:dynamic("Families/family_{fam}_dir/M8a/tmp.txt")
     #input: dynamic("Families/family_{fam}_dir/M0/family_{fam}.mcl")
     #input: "Temp/all.pep.combined"
     #input: expand("{sample}.new_headers", sample=SAMPLES)
@@ -1165,11 +1166,13 @@ rule ChiSq:
 
 rule FUBAR:
     input:
-        "Families/family_{fam}_dir/"
+        tmp="Families/family_{fam}_dir/M8a/tmp.txt"
+        align="Families/family_{fam}_dir/family_{fam}.codon.aln",
+        tree="Families/family_{fam}_dir/family_{fam}.tree"
     output:
-        "Families/family_{fam}_dir/"
+        "Families/family_{fam}_dir/family_{fam}.tree.fubar.csv"
     shell:
-        "(echo 1; echo 1;echo /media/BigRAID/JeffTemp/TestHYPHY/new.aln; echo /media/BigRAID/JeffTemp/TestHYPHY/new.tree; echo 20;echo echo 5; echo 2000000; echo 1000000;echo 100;echo 0.5 )|HYPHYMP /usr/local/lib/hyphy/TemplateBatchFiles/FUBAR.bf"
+        "(echo 1; echo 1;echo {input.align}; echo {input.tree}; echo 20;echo echo 5; echo 2000000; echo 1000000;echo 100;echo 0.5 )|HYPHYMP /usr/local/lib/hyphy/TemplateBatchFiles/FUBAR.bf"
 
 
 
