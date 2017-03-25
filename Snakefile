@@ -380,7 +380,9 @@ rule longestIsoform:
 
                         GeneID=headerStr.split('___')[1].split('::')[0]
                     except:
-                        out.write('>'+headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1]+'\n')
+                        reduced_header = headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1]
+                        new_header = reduced_header.translate ({ord(c): "_" for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
+                        out.write('>'+new_header+'\n')
                         out.write(seq + '\n')
                         continue
                     if GeneID not in longIsoform:
