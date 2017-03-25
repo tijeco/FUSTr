@@ -614,7 +614,7 @@ rule phy2codon:
         nucleotide=expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
     output:
         "Families/family_{fam}_dir/family_{fam}.codon.phylip",
-        "Families/family_{fam}_dir/family_{fam}.codon.aln"
+        "Families/family_{fam}_dir/family_{fam}.aln.codon"
 
     run:
         cut = ""
@@ -1167,7 +1167,7 @@ rule ChiSq:
 rule FUBAR:
     input:
         tmp="Families/family_{fam}_dir/M8a/tmp.txt",
-        align="Families/family_{fam}_dir/family_{fam}.codon.aln",
+        align="Families/family_{fam}_dir/family_{fam}.aln.codon",
         tree="Families/family_{fam}_dir/family_{fam}.tree"
     output:
         "Families/family_{fam}_dir/family_{fam}.tree.fubar.csv"
