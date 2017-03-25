@@ -186,8 +186,7 @@ rule cleanFasta:
                             #print(seq,"is just Ns")
                             allNbool = True
                 if not allNbool:
-                    new_header = re.sub('[^a-zA-Z0-9\n\.]', '_', headerStr)
-                    out.write(">"+new_header+'\n')
+                    out.write(">"+headerStr+'\n')
                     out.write(new_seq +"\n")
                     fileLength+=1
                     row = headerStr.strip().split()
@@ -415,7 +414,9 @@ rule longestIsoform:
 
                         GeneID=headerStr.split('___')[1].split('::')[0]
                     except:
-                        out.write('>'+headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1]+'\n')
+                        reduced_header = headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1]
+                        new_header = re.sub('[^a-zA-Z0-9\n\.]', '_', original_string)
+                        out.write('>'+new_header+'\n')
                         out.write(seq + '\n')
                         continue
 
