@@ -337,7 +337,7 @@ rule transdecoder:
     output:
         "{sample}.new_headers.transdecoder.pep","{sample}.new_headers.transdecoder.cds"
     shell:
-        "TransDecoder.LongOrfs -t {input} -S -m 30;TransDecoder.Predict -t {input} --single_best_orf"
+            "TransDecoder.LongOrfs -t {input} -S -m 30;TransDecoder.Predict -t {input} --single_best_orf"
 longIsoform_CDS_combined = {}
 #THIS RULE WORKS, hopefully correctly.....
 
@@ -649,7 +649,7 @@ rule phy2codon:
                 #Get  column cut file
                 with open(input.column_file) as f:
                     for line in f:
-                        cut  +=line.strip()
+                        cut  +=line.strip().split[1]
                     cut = cut.split(',')
                     cut = list(map(int, cut))
                 #print(cut)
