@@ -834,7 +834,7 @@ rule M0:
                 out.write(M0_cml.working_dir.strip("_dir/M0").strip("Families/")+"\tM0\t"+str(M0_np)+"\t"+str(M0_lnL)+"\n")
         except:
             with open(M0_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M0_cml.working_dir.strip("_dir/M0").strip("Families/")+"\tM0\tNA\tNA\n"
+                out.write(M0_cml.working_dir.strip("_dir/M0").strip("Families/")+"\tM0\tNA\tNA\n")
         # M1a_lnL = M01237_results.get("NSsites").get(1).get("lnL")
         # M1a_np = len(M01237_results.get("NSsites").get(1).get("parameters").get("parameter list").split())
         #
@@ -900,7 +900,7 @@ rule M1:
                 out.write(M1_cml.working_dir.strip("_dir/M1").strip("Families/")+"\tM1\t"+str(M1_np)+"\t"+str(M1_lnL)+"\n")
         except:
             with open(M1_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M1_cml.working_dir.strip("_dir/M1").strip("Families/")+"\tM1\tNA\tNA\n"
+                out.write(M1_cml.working_dir.strip("_dir/M1").strip("Families/")+"\tM1\tNA\tNA\n")
 
 
 rule M2:
@@ -951,7 +951,7 @@ rule M2:
                 out.write(M2_cml.working_dir.strip("_dir/M2").strip("Families/")+"\tM2\t"+str(M2_np)+"\t"+str(M2_lnL)+"\n")
         except:
             with open(M2_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M2_cml.working_dir.strip("_dir/M2").strip("Families/")+"\tM2\tNA\tNA\n"
+                out.write(M2_cml.working_dir.strip("_dir/M2").strip("Families/")+"\tM2\tNA\tNA\n")
 
 rule M3:
     input:
@@ -1001,7 +1001,7 @@ rule M3:
                 out.write(M3_cml.working_dir.strip("_dir/M3").strip("Families/")+"\tM3\t"+str(M3_np)+"\t"+str(M3_lnL)+"\n")
         except:
             with open(M3_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M3_cml.working_dir.strip("_dir/M3").strip("Families/")+"\tM3\tNA\tNA\n"
+                out.write(M3_cml.working_dir.strip("_dir/M3").strip("Families/")+"\tM3\tNA\tNA\n")
 
 rule M7:
     input:
@@ -1051,7 +1051,7 @@ rule M7:
                 out.write(M7_cml.working_dir.strip("_dir/M7").strip("Families/")+"\tM7\t"+str(M7_np)+"\t"+str(M7_lnL)+"\n")
         except:
             with open(M7_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M7_cml.working_dir.strip("_dir/M7").strip("Families/")+"\tM7\tNA\tNA\n"
+                out.write(M7_cml.working_dir.strip("_dir/M7").strip("Families/")+"\tM7\tNA\tNA\n")
 
 rule M8:
     input:
@@ -1101,7 +1101,7 @@ rule M8:
                 out.write(M8_cml.working_dir.strip("_dir/M8").strip("Families/")+"\tM8\t"+str(M8_np)+"\t"+str(M8_lnL)+"\n")
         except:
             with open(M8_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M8_cml.working_dir.strip("_dir/M8").strip("Families/")+"\tM8\tNA\tNA\n"
+                out.write(M8_cml.working_dir.strip("_dir/M8").strip("Families/")+"\tM8\tNA\tNA\n")
 
 
 
@@ -1156,7 +1156,7 @@ rule M8a:
                 out.write(M8a_cml.working_dir.strip("_dir/M8a").strip("Families/")+"\tM8a\t"+str(M8a_np)+"\t"+str(M8a_lnL)+"\n")
         except:
             with open(M8a_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M8a_cml.working_dir.strip("_dir/M8a").strip("Families/")+"\tM8a\tNA\tNA\n"
+                out.write(M8a_cml.working_dir.strip("_dir/M8a").strip("Families/")+"\tM8a\tNA\tNA\n")
 
 
 rule ChiSq:
