@@ -8,7 +8,7 @@
 #
 transdecoder=3.0.1
 biopython=1.68
-
+trimal=1.4.1
 #bcftools=1.3.1
 #bwa=0.7.12
 graphviz=2.38.0
