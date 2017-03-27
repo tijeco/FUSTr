@@ -1160,7 +1160,7 @@ rule M8a:
 
 print("SSSSSSSSSSSSSSSSSSSSSSSSSSS")
 THINGS=,glob_wildcards("Families/family_{fam}_dir/M1/tmp.txt")
-print(things)
+print(THINGS)
 rule ChiSq:
     input:
         "Families/family_{fam}_dir/M0/family_{fam}.mcl",
