@@ -1183,7 +1183,7 @@ rule ChiSq:
         print(COUNTER)
         #print(working_dir)
         models = ["M0","M1","M2","M3","M7","M8","M8a"]
-        print output
+        print(output)
         with open("finalStatsfile.txt","w") as out:
 
             for i in output[0]:
