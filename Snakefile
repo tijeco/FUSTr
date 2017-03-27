@@ -1169,13 +1169,7 @@ rule ChiSq:
         "Families/family_{fam}_dir/M8/family_{fam}.mcl",
         "Families/family_{fam}_dir/M8a/family_{fam}.mcl"
     output:
-        "Families/family_{fam}_dir/M0/tmp.txt",
-        "Families/family_{fam}_dir/M1/tmp.txt",
-        "Families/family_{fam}_dir/M2/tmp.txt",
-        "Families/family_{fam}_dir/M3/tmp.txt",
-        "Families/family_{fam}_dir/M7/tmp.txt",
-        "Families/family_{fam}_dir/M8/tmp.txt",
-        "Families/family_{fam}_dir/M8a/tmp.txt"
+        dynamic("Families/family_{fam}_dir/M8a/tmp.txt")
     run:
         #working_dir = input[0].split('/')[:-1][0] +'/'+input[0].split('/')[:-1][1]+'/'+input[0].split('/')[:-1][2]+'/'
         print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
