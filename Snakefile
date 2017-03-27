@@ -1185,12 +1185,14 @@ rule ChiSq:
         models = ["M0","M1","M2","M3","M7","M8","M8a"]
         with open("finalStatsfile.txt","w") as out:
 
-            for i in output:
-                with open(i.replace("tmp","statsfile")) as f:
-                    for line in f:
-                        out.write(line)
-                with open(i, "w") as tmp:
-                    tmp.write("")
+            for i in output[0]:
+                for j in models:
+
+                    with open(i.replace("M0/tmp",j+"/statsfile")) as f:
+                        for line in f:
+                            out.write(line)
+                    with open(i, "w") as tmp:
+                        tmp.write("")
 
 rule FUBAR:
     input:
