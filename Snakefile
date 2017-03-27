@@ -1169,7 +1169,7 @@ rule ChiSq:
         "Families/family_{fam}_dir/M8/family_{fam}.mcl",
         "Families/family_{fam}_dir/M8a/family_{fam}.mcl"
     output:
-        dynamic("Families/family_{fam}_dir/M0/tmp.txt"),
+        expand("Families/family_{fam}_dir/M0/tmp.txt"),
         "Families/family_{fam}_dir/M1/tmp.txt",
         "Families/family_{fam}_dir/M2/tmp.txt",
         "Families/family_{fam}_dir/M3/tmp.txt",
