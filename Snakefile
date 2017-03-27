@@ -1187,7 +1187,7 @@ rule ChiSq:
         print(output)
         with open("finalStatsfile.txt","w") as out:
 
-            for i in FAMILIES
+            for i in FAMILIES:
                 for j in models:
                     file_string = "Families/family_"+str(i)+"_dir/"+str(j)
 
