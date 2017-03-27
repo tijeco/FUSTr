@@ -1159,7 +1159,7 @@ rule M8a:
                 out.write(M8a_cml.working_dir.strip("_dir/M8a").strip("Families/")+"\tM8a\tNA\tNA\n")
 
 print("SSSSSSSSSSSSSSSSSSSSSSSSSSS")
-THINGS,=glob_wildcards("Families/family_{fam}_dir/M1/tmp.txt")
+THINGS,=glob_wildcards("Families/family_{fam}_dir/M1/family_{fam}.mcl")
 print(THINGS)
 rule ChiSq:
     input:
