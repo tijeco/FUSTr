@@ -1160,6 +1160,7 @@ rule M8a:
 
 print("SSSSSSSSSSSSSSSSSSSSSSSSSSS")
 print(expand(dynamic("Families/family_{fam}_dir/M1/tmp.txt")))
+print(glob_wildcards("Families/family_{fam}_dir/M1/tmp.txt"))
 rule ChiSq:
     input:
         "Families/family_{fam}_dir/M0/family_{fam}.mcl",
