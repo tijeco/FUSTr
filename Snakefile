@@ -1158,7 +1158,8 @@ rule M8a:
             with open(M8a_cml.working_dir+"statsfile.txt","w") as out:
                 out.write(M8a_cml.working_dir.strip("_dir/M8a").strip("Families/")+"\tM8a\tNA\tNA\n")
 
-
+print("SSSSSSSSSSSSSSSSSSSSSSSSSSS")
+print(dynamic("Families/family_{fam}_dir/M1/tmp.txt"))
 rule ChiSq:
     input:
         "Families/family_{fam}_dir/M0/family_{fam}.mcl",
