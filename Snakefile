@@ -1159,8 +1159,7 @@ rule M8a:
                 out.write(M8a_cml.working_dir.strip("_dir/M8a").strip("Families/")+"\tM8a\tNA\tNA\n")
 
 print("SSSSSSSSSSSSSSSSSSSSSSSSSSS")
-THINGS,=glob_wildcards("Families/family_{fam}_dir/M1/")
-print(THINGS)
+FAMILIES,=glob_wildcards("Families/family_{fam}_dir/M1/")
 rule ChiSq:
     input:
         "Families/family_{fam}_dir/M0/family_{fam}.mcl",
@@ -1188,13 +1187,14 @@ rule ChiSq:
         print(output)
         with open("finalStatsfile.txt","w") as out:
 
-            for i in output[0]:
+            for i in FAMILIES
                 for j in models:
+                    file_string = "Families/family_"+str(i)+"_dir/"+str(j)
 
-                    with open(i.replace("M0/tmp",j+"/statsfile")) as f:
+                    with open(file_string+"/statsfile.txt") as f:
                         for line in f:
                             out.write(line)
-                    with open(i, "w") as tmp:
+                    with open(file_string+"/tmp.txt", "w") as tmp:
                         tmp.write("")
 
 rule FUBAR:
