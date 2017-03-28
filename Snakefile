@@ -335,13 +335,25 @@ rule newHeaders:
 
         #"grep '^>' {input} | sed -e 's/>//g' > {output}"
 
-rule transdecoder:
+rule transdecoderLongIsoforms:
     input:
         "{sample}.new_headers"
     output:
-        "{sample}.new_headers.transdecoder.pep","{sample}.new_headers.transdecoder.cds"
+        "{sample}.new_headers.transdecoder_dir/longest_orfs.pep"
     shell:
-            "TransDecoder.LongOrfs -t {input} -S -m 30;TransDecoder.Predict -t {input} --single_best_orf"
+            "TransDecoder.LongOrfs -t {input} -S -m 30"
+
+
+rule transdecoderPredict:
+    input:
+        fastaFile="{sample}.new_headers",LongOrfs="{sample}.new_headers.transdecoder_dir/longest_orfs.pep"
+    output:
+        "{sample}.new_headers.transdecoder.pep"
+    shell:
+            "TransDecoder.Predict -t {input.fastaFile} --single_best_orf"
+
+
+
 longIsoform_CDS_combined = {}
 #THIS RULE WORKS, hopefully correctly.....
 
