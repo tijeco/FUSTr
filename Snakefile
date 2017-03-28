@@ -514,7 +514,7 @@ rule node2families:
         node_file="Temp/all.pep.combined_r90_SLX.fnodes",
         sequence_file="Temp/all.pep.combined"
     output:
-        "Families/family_{fam}.aln"
+        dynamic("Families/family_{fam}.aln")
     run:
         famDict = {}
         seqDict={}
