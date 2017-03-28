@@ -320,10 +320,10 @@ rule newHeaders:
                     for ff in sequence_iterator:
 
                         headerStr, seq = ff
-                        tmp.write(headerStr+"\t"+str(new_id)+'\n')
-                        out.write( ">"+ "fusterID_"+str(new_id) +'\n')
+                        out.write( ">"+headerStr.split()[0] +'\n')
                         out.write(seq+'\n')
                         new_id+=1
+
 
 
 
@@ -514,7 +514,7 @@ rule node2families:
         node_file="Temp/all.pep.combined_r90_SLX.fnodes",
         sequence_file="Temp/all.pep.combined"
     output:
-        dynamic("Families/family_{fam}.aln")
+        "Families/family_{fam}.aln"
     run:
         famDict = {}
         seqDict={}
