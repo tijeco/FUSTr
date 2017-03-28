@@ -313,13 +313,17 @@ rule newHeaders:
 
         except:
             with open(output[0],"w") as out:
-                sequence_iterator = fasta_iter(input[0])
-                for ff in sequence_iterator:
+                with open(output[0]+".txt") as tmp:
 
-                    headerStr, seq = ff
+                    sequence_iterator = fasta_iter(input[0])
+                    new_id = 0
+                    for ff in sequence_iterator:
 
-                    out.write( ">"+ headerStr +'\n')
-                    out.write(seq+'\n')
+                        headerStr, seq = ff
+                        tmp.write(headerStr+"\t"+str(new_id)+'\n')
+                        out.write( ">"+ "fusterID_"+str(new_id) +'\n')
+                        out.write(seq+'\n')
+                        new_id+=1
 
 
 
