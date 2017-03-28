@@ -514,7 +514,7 @@ rule node2families:
         node_file="Temp/all.pep.combined_r90_SLX.fnodes",
         sequence_file="Temp/all.pep.combined"
     output:
-        dynamic("Families/family_{fam}.aln")
+        "Families/family_{fam}.aln"
     run:
         famDict = {}
         seqDict={}
@@ -1179,13 +1179,7 @@ print("SSSSSSSSSSSSSSSSSSSSSSSSSSS")
 FAMILIES,=glob_wildcards("Families/family_{fam}_dir/M1/")
 rule ChiSq:
     input:
-        "Families/family_{fam}_dir/M0/family_{fam}.mcl",
-        "Families/family_{fam}_dir/M1/family_{fam}.mcl",
-        "Families/family_{fam}_dir/M2/family_{fam}.mcl",
-        "Families/family_{fam}_dir/M3/family_{fam}.mcl",
-        "Families/family_{fam}_dir/M7/family_{fam}.mcl",
-        "Families/family_{fam}_dir/M8/family_{fam}.mcl",
-        "Families/family_{fam}_dir/M8a/family_{fam}.mcl"
+        dynamic("Families/family_{fam}_dir")
     output:
         "Families/family_{fam}_dir/M0/tmp.txt",
         "Families/family_{fam}_dir/M1/tmp.txt",
