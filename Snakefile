@@ -38,103 +38,15 @@ def isTrinity(header):
         """
 
 
-# def find_left_right_anchor(String,pattern1,pattern2):
-#     left_anchor = ""
-#     right_anchor = ""
-#     firstPosition = False
-#     splitPattern =  String.split(pattern1)
-#     if len(splitPattern) == 2:
-#         for i in range(len(splitPattern)):
-#             otherSplit = splitPattern[i].split(pattern2)
-#             if len(otherSplit) ==1:
-#
-#                 if i == 0:
-#                     left_anchor = splitPattern[i]
-#                     #print pattern1, " is first"
-#                     firstPosition = True
-#
-#                 else:
-#                     right_anchor = splitPattern[i]
-#                     #print pattern1, " is second"
-#
-#             else:
-#                 if i == 0:
-#                     left_anchor = otherSplit[1]
-#                 else:
-#                     right_anchor = otherSplit[0]
-#     else:
-#
-#         sys.exit()
-#     return {"left":left_anchor,"right":right_anchor,"first":firstPosition}
 SAMPLES, = glob_wildcards("{sample}.fasta")
 COUNTER = []
-#TESTTT, = glob_wildcards("OG{sample}.fa")
 
-#print(TESTTT)
-#SAMPLES2, = glob_wildcards("all.pep.combined_{sample}.fasta")
-#RESULTS, = glob_wildcards("Little/Results_{date}")
-#ORTHOGROUP, = glob_wildcards("Alignments/OG{orthogroup}.fa")
-
-
-#ORTHOGROUP, = glob_wildcards("Little/Results_"+RESULTS[0]+"/Alignments/OG{orthogroup}.fa")
-#ORTHOGROUP, = glob_wildcards("Little/OG{orthogroup}.fa")
-
-#place4File = "sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out"
-#print(expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP))
-#print(RESULTS)
-#print(ORTHOGROUP)
-#FAMILIES, = glob_wildcards("Families/family_{fam}.fasta")
-#print(FAMILIES)
 
 rule final:
     #input:"statsfile.txt"
     #input:dynamic("Families/family_{fam}_dir/family_{fam}.tree.fubar.csv")
     input:dynamic("Families/family_{fam}_dir/M8a/tmp.txt")
-    #input: dynamic("Families/family_{fam}_dir/M0/family_{fam}.mcl")
-    #input: "Temp/all.pep.combined"
-    #input: expand("{sample}.new_headers", sample=SAMPLES)
-    #input: dynamic("Families/family_{fam}_dir/family_{fam}.codon.phylip")
-    #input: expand("{sample}.fasta.clean.new_headers.transdecoder.pep",sample=SAMPLES)
-    #input:"Temp/all.pep.combined"
-    #input:dynamic("Families/family_{fam}.aln")
-    #input:expand("{sample}.fasta.clean", sample = SAMPLES),expand("{sample}.fasta.clean.new_headers", sample = SAMPLES)
-    #input:dynamic("Families/family_{fam}_dir/family_{fam}.codon.phylip")
-    #input:dynamic("Families/family_{fam}.aln")
-    #input:dynamic("Families/family_{fam}_dir/M01237/family_{fam}.mcl")
-    #input: expand("{sample}.trinity",sample=SAMPLES)
 
-    #input:"Families/family_3523_dir/M8_family_3523.mcl"
-    #input: dynamic("Families/family_{fam}.fasta")
-
-    #input:
-    #    dynamic("Families/family_{fam}.phy.trimmed"),
-    #    dynamic("Families/family_{fam}.phy")
-    #input:
-        #trimmedFile=dynamic("Families/family_{fam}.aln.trimmed"),
-        #columnFile=dynamic("Families/family_{fam}.aln.trimmed.column_file")
-    #input:dynamic("Families/family_{fam}.fasta")
-
-    #input:expand("Families/family_{fam}.aln",fam=FAMILIES)
-    #input: "Families/"
-    #input:"Temp/all.pep.combined_r90_SLX.fnodes"
-    #input: "Temp/all.pep.combined.blastall.out"
-    #input:expand("Temp/{sample}.longestIsoform.pep.fasta", sample=SAMPLES),expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
-#        input:"LittleAlignments/"
-
-    #input:expand("OrthoDir/{sample}.longestIsoform.newer.fasta",sample=SAMPLES)
-    #input:expand("Alignments/OG{orthogroup}.phy",orthogroup=ORTHOGROUP)
-
-    #input: "combined.txt"
-
-    #input:expand("Alignments/OG{orthogroup}.fa",orthogroup=ORTHOGROUP)
-
-    #input: expand("sequenceDir/"+OrthoFinderDir+"/Alignments/OG{orthogroup}.out", orthogroup=ORTHOGROUP)
-
-    #input: expand("sequenceDir/{sample}.longestIsoform.pep.fasta", sample=SAMPLES)
-    #input:expand("all.pep.combined_{sample2}.RAXML.out.tre", sample2=SAMPLES2)
-    #Aqinput:
-
-    #input: "all.pep.combined.blastall.out"
 
 #NOTE
 """
@@ -257,12 +169,6 @@ rule cleanFasta:
             with open("headerPatterns.txt","a") as out:
                 out.write(input[0].split('.')[0]+"@@@"+pattern+'\n')
         #sample = input[0].split('.')[0]
-
-
-
-
-
-
 
 
 
@@ -1181,7 +1087,7 @@ rule ChiSq:
     input:
         expand("Families/family_{FAM}_dir" ,FAM=FAMILIES)
     output:
-        "Families/family_{fam}_dir/M8a/tmp.txt"
+        dynamic("Families/family_{fam}_dir/M8a/tmp.txt")
     run:
         #working_dir = input[0].split('/')[:-1][0] +'/'+input[0].split('/')[:-1][1]+'/'+input[0].split('/')[:-1][2]+'/'
         print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
