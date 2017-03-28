@@ -43,9 +43,9 @@ COUNTER = []
 
 
 rule final:
-    #input:"statsfile.txt"
+    input:"finalStatsfile.txt"
     #input:dynamic("Families/family_{fam}_dir/family_{fam}.tree.fubar.csv")
-    input:dynamic("Families/family_{fam}_dir/M8a/tmp.txt")
+    #input:dynamic("Families/family_{fam}_dir/M8a/tmp.txt")
 
 
 #NOTE
@@ -1082,31 +1082,51 @@ rule M8a:
                 out.write(M8a_cml.working_dir.strip("_dir/M8a").strip("Families/")+"\tM8a\tNA\tNA\n")
 
 print("SSSSSSSSSSSSSSSSSSSSSSSSSSS")
-FAMILIES,=glob_wildcards("Families/family_{fam}_dir/M1/")
+
+
+
 rule ChiSq:
     input:
-        expand("Families/family_{FAM}_dir" ,FAM=FAMILIES)
+        dynamic("Families/family_{fam}_dir/M0/family_{fam}.mcl"),
+        dynamic("Families/family_{fam}_dir/M1/family_{fam}.mcl"),
+        dynamic("Families/family_{fam}_dir/M2/family_{fam}.mcl"),
+        dynamic("Families/family_{fam}_dir/M3/family_{fam}.mcl"),
+        dynamic("Families/family_{fam}_dir/M7/family_{fam}.mcl"),
+        dynamic("Families/family_{fam}_dir/M8/family_{fam}.mcl"),
+        dynamic("Families/family_{fam}_dir/M8a/family_{fam}.mcl")
     output:
-        dynamic("Families/family_{fam}_dir/M8a/tmp.txt")
+        "finalStatsfile.txt"
     run:
-        #working_dir = input[0].split('/')[:-1][0] +'/'+input[0].split('/')[:-1][1]+'/'+input[0].split('/')[:-1][2]+'/'
-        print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-        print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
-        print(COUNTER)
-        #print(working_dir)
-        models = ["M0","M1","M2","M3","M7","M8","M8a"]
-        print(output)
-        with open("finalStatsfile.txt","w") as out:
+        with open(output[0],"w") as out:
+            for i in input:
+                dir_1 = i.split('/')[0]
+                dir_2 = i.split('/')[1]
+                dir_3 = i.split('/')[2]
 
-            for i in FAMILIES:
-                for j in models:
-                    file_string = "Families/family_"+str(i)+"_dir/"+str(j)
+                for line in open(dir_1+"/"+dir_2+"/"+dir_3+"/"+"statsfile.txt"):
+                    out.write(line)
 
-                    with open(file_string+"/statsfile.txt") as f:
-                        for line in f:
-                            out.write(line)
-                    with open(file_string+"/tmp.txt", "w") as tmp:
-                        tmp.write("")
+
+
+
+        # #working_dir = input[0].split('/')[:-1][0] +'/'+input[0].split('/')[:-1][1]+'/'+input[0].split('/')[:-1][2]+'/'
+        # print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+        # print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+        # print(COUNTER)
+        # #print(working_dir)
+        # models = ["M0","M1","M2","M3","M7","M8","M8a"]
+        # print(output)
+        # with open("finalStatsfile.txt","w") as out:
+        #
+        #     for i in FAMILIES:
+        #         for j in models:
+        #             file_string = "Families/family_"+str(i)+"_dir/"+str(j)
+        #
+        #             with open(file_string+"/statsfile.txt") as f:
+        #                 for line in f:
+        #                     out.write(line)
+        #             with open(file_string+"/tmp.txt", "w") as tmp:
+        #                 tmp.write("")
 
 rule FUBAR:
     input:
