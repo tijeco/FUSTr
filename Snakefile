@@ -313,7 +313,7 @@ rule newHeaders:
 
         except:
             with open(output[0],"w") as out:
-                with open(output[0]+".txt") as tmp:
+                with open(output[0]+".txt","w") as tmp:
 
                     sequence_iterator = fasta_iter(input[0])
                     new_id = 0
