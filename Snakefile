@@ -348,7 +348,7 @@ rule transdecoderPredict:
     input:
         fastaFile="{sample}.new_headers",LongOrfs="{sample}.new_headers.transdecoder_dir/longest_orfs.pep"
     output:
-        "{sample}.new_headers.transdecoder.pep"
+        "{sample}.new_headers.transdecoder.pep","{sample}.new_headers.transdecoder.cds"
     shell:
             "TransDecoder.Predict -t {input.fastaFile} --single_best_orf"
 
