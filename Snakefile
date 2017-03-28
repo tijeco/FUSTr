@@ -550,35 +550,48 @@ rule node2families:
                     out.write('>'+j+'\n')
                     out.write(seqDict[j]+'\n')
             if len(famDict[i])>14:
-                print("step 5")
-                print(famDict[i])
+                with open(output[0],"w") as out:
+                    for j in famDict[i]:
+                        out.write('>'+j+'\n')
+                        out.write(seqDict[j]+'\n')
 
 
 
-                mafft_cline = MafftCommandline(input=String,auto=True)
-                stdout, stderr = mafft_cline()
-                align = AlignIO.read(StringIO(stdout), "fasta")
 
-                sequence={}
-                alignLength = align.get_alignment_length()
-                gapPos = {}
 
-                for i in range(len(align._records)):
-                    sequence[i]=""
-                    number = 0
-                    for j in align._records[i]:
-                        sequence[i]+=j
-                        if j == "-":
-                            gapPos[number]= True
-                        number+=1
-                colsWithGaps = len(gapPos)
-                if colsWithGaps < alignLength:
-                    AlignOut = String.split('.')[0]+".aln"
-                    print(String)
-                    print("Step 6")
-                    print(String.split('.')[0]+".aln")
-                    print(AlignOut)
-                    count = SeqIO.write(align, AlignOut, "fasta")
+
+
+
+
+                # print("step 5")
+                # print(famDict[i])
+                #
+                #
+                #
+                # mafft_cline = MafftCommandline(input=String,auto=True)
+                # stdout, stderr = mafft_cline()
+                # align = AlignIO.read(StringIO(stdout), "fasta")
+                #
+                # sequence={}
+                # alignLength = align.get_alignment_length()
+                # gapPos = {}
+                #
+                # for i in range(len(align._records)):
+                #     sequence[i]=""
+                #     number = 0
+                #     for j in align._records[i]:
+                #         sequence[i]+=j
+                #         if j == "-":
+                #             gapPos[number]= True
+                #         number+=1
+                # colsWithGaps = len(gapPos)
+                # if colsWithGaps < alignLength:
+                #     AlignOut = String.split('.')[0]+".aln"
+                #     print(String)
+                #     print("Step 6")
+                #     print(String.split('.')[0]+".aln")
+                #     print(AlignOut)
+                #     count = SeqIO.write(align, AlignOut, "fasta")
 
 
 rule trimAln:
