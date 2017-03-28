@@ -1179,14 +1179,8 @@ print("SSSSSSSSSSSSSSSSSSSSSSSSSSS")
 FAMILIES,=glob_wildcards("Families/family_{fam}_dir/M1/")
 rule ChiSq:
     input:
-        dynamic("Families/family_{fam}_dir")
+        expand("Families/family_{FAM}_dir" ,FAM=FAMILIES)
     output:
-        "Families/family_{fam}_dir/M0/tmp.txt",
-        "Families/family_{fam}_dir/M1/tmp.txt",
-        "Families/family_{fam}_dir/M2/tmp.txt",
-        "Families/family_{fam}_dir/M3/tmp.txt",
-        "Families/family_{fam}_dir/M7/tmp.txt",
-        "Families/family_{fam}_dir/M8/tmp.txt",
         "Families/family_{fam}_dir/M8a/tmp.txt"
     run:
         #working_dir = input[0].split('/')[:-1][0] +'/'+input[0].split('/')[:-1][1]+'/'+input[0].split('/')[:-1][2]+'/'
