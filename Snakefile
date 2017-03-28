@@ -551,6 +551,7 @@ rule node2families:
                     out.write(seqDict[j]+'\n')
             if len(famDict[i])>14:
                 print("step 5")
+                print famDict[i]
 
 
 
