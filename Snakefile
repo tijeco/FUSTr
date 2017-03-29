@@ -219,27 +219,16 @@ rule newHeaders:
 
         except:
             with open(output[0],"w") as out:
-                with open(output[0]+".txt","w") as tmp:
 
-                    sequence_iterator = fasta_iter(input[0])
-                    new_id = 0
-                    for ff in sequence_iterator:
+                sequence_iterator = fasta_iter(input[0])
+                for ff in sequence_iterator:
 
-                        headerStr, seq = ff
-                        out.write( ">"+headerStr.split()[0] +'\n')
-                        out.write(seq+'\n')
-                        new_id+=1
+                    headerStr, seq = ff
+                    out.write( ">"+headerStr.split()[0] +'\n')
+                    out.write(seq+'\n')
 
 
 
-
-        # with open(output[0], "w") as out:
-        #     with open(input[0]) as f:
-        #         for line in f:
-        #             if line[0] == ">":
-        #                 out.write(line.strip(">"))
-
-        #"grep '^>' {input} | sed -e 's/>//g' > {output}"
 
 rule transdecoderLongIsoforms:
     input:
@@ -305,7 +294,7 @@ rule longestIsoform:
                     except:
                         reduced_header = headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1]
                         new_header = reduced_header.translate ({ord(c): "_" for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
-                        out.write('>'+new_header+'\n')
+                        out.write('>'+sample+"_"+new_header+'\n')
                         out.write(seq + '\n')
                         continue
                     if GeneID not in longIsoform:
@@ -711,8 +700,8 @@ for PAML rule,
 
 rule M0:
     input:
-        "Families/family_{fam}_dir/M0/family_{fam}.tree",
-        "Families/family_{fam}_dir/M0/family_{fam}.codon.phylip"
+        "Families/family_{fam}_dir/family_{fam}.tree",
+        "Families/family_{fam}_dir/family_{fam}.codon.phylip"
     output:
         "Families/family_{fam}_dir/M0/family_{fam}.mcl"
     run:
