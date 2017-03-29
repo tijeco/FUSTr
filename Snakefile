@@ -330,7 +330,7 @@ rule longestIsoform:
                     except:
                         reduced_header = headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1]
                         new_header = reduced_header.translate ({ord(c): "_" for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
-                        out.write('>'+sample+new_header+'\n')
+                        out.write('>'+sample+"_"+new_header+'\n')
                         out.write(seq + '\n')
                         continue
 
