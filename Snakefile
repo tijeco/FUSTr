@@ -702,8 +702,8 @@ for PAML rule,
 
 rule M0:
     input:
-        "Families/family_{fam}_dir/family_{fam}.tree",
-        "Families/family_{fam}_dir/family_{fam}.codon.phylip"
+        "Families/family_{fam}_dir/M0/family_{fam}.tree",
+        "Families/family_{fam}_dir/M0/family_{fam}.codon.phylip"
     output:
         "Families/family_{fam}_dir/M0/family_{fam}.mcl"
     run:
