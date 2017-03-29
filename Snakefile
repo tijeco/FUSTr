@@ -584,10 +584,12 @@ rule phy2codon:
                         header=row[0]
                         #print("Sequence:",sequence)
                         #print("Header:",header)
+                        #NOTE, potetintal bug below, if exception then sequence isn't declared and it can't go forward, use continue probably
                         try:
                             sequence=longIsoform_CDS_combined[header]#original
                         except:
                             print(header,"not in dict")
+                            continue
                         CodonPos={}
                         position=0
                         codon=""
