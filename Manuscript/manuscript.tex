@@ -1,0 +1,272 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\PassOptionsToPackage{hyphens}{url} % url is loaded by hyperref
+\usepackage[unicode=true]{hyperref}
+\hypersetup{
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{longtable,booktabs}
+% Fix footnotes in tables (requires footnote package)
+\IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{long table}}{}
+\usepackage[normalem]{ulem}
+% avoid problems with \sout in headers with hyperref:
+\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+
+\date{}
+
+\begin{document}
+
+FUSTr: a tool to find gene Families Under Selection in Transcriptomes
+
+\textbf{Background}
+
+Recent advances in RNA-Seq technologies have allowed for an abundance of
+protein coding sequence data to be generated across all levels of
+biodiversity {[}1--4{]}. In non-model eukaryotic study systems,
+transcriptomic experiments have become the de facto approach for
+functional genomics in lieu of whole genome resequencing. This is due
+largely in part to lower costs {[}5{]}, better targeting of coding
+sequences {[}6{]}, exploration of posttranscriptional modifications and
+differential gene expression {[}7,8{]}, \sout{These experiments have
+allowed research in functional genomics to be extended to non-model
+organisms with a broad range of phenotypic diversity ~(i.e.
+morphological, behavioral, physiological, etc.) ~that has never before
+been possible.} This influx of transcriptomic data has resulted in an
+ever-expanding need for scalable tools capable of \sout{elucidating
+patterns and processes involved in the adaptive evolution of genes and
+genomes of organisms throughout the tree of life.}
+
+It is important to be able toelucidating patterns and processes involved
+in the adaptive evolution of genes and genomes of \emph{organisms} in
+order to understand the vast phenotypic diversity found in nature.
+~Speciation events \sout{forming gene orthologs} along with frequent
+whole genome duplications \sout{forming gene paralogs} has given rise to
+a myriad of multigene families that span a broad range of biochemical
+properties. There are several families adaptive and fitness familes
+contain genes that contribute to organisms fitness and adaptive in
+\emph{ways.} with \emph{various} biochemical properties that contribute
+the vast phenotypic diversity\sout{which has contriuted to the vast
+phenotypic diversity found across all domains of life} (i.e
+~{[}9--11{]}.
+
+\begin{itemize}
+\item
+\item
+  \begin{quote}
+  phenotypic diversity ~(i.e. morphological, behavioral, physiological,
+  etc.)
+  \end{quote}
+\item
+  \begin{quote}
+  elucidating patterns and processes involved in the adaptive evolution
+  of genes and genomes of organisms throughout the tree of life.
+  \end{quote}
+\end{itemize}
+
+Grouping protein encoding genes into their respective families de novo
+has remained a difficult task computationally \sout{that has been shown
+to be an NP-hard problem.} This typically entails homology searches in
+large amino acid sequence similarity networks with graph partitioning
+algorithms in order to cluster coding sequences into \emph{transitive}
+groups {[}12--14{]}\emph{.} This is further complicated in eukaryotic
+transcriptome datasets that contain several isoforms via alternative
+splicing, which cannot be treated as phylogenetically independent
+homologs, \emph{more words} {[}\textbf{??{]}}. Further analysis of these
+gene families is also non-trivial, as it requires multiple sequence
+alignment followed by phylogenetic inference\sout{, both of which has
+been demonstrated to be NP-complete problems} {[}15--18{]}. Further
+exploration of patterns of molecular evolution in these families is also
+computationally intensive, requiring robust phylogenetic analysis using
+codon substitution models with random or mixed effects likelihood
+methods in addition to MCMC Bayesian statistical frameworks, in order to
+determine patterns of pervasive diversifying selection or episodic
+lineage based diversifying selection {[}19, 20{]}.
+
+~~~~~~~ Here we present FUSTr, a tool to address the aforementioned
+difficulties of characterizing molecular evolution in large biodiversity
+transcriptomic datasets in a pipeline capable of scaling to multicore
+high-performance computational facilities. FUStr can be used to
+characterizing selective regimes on homologous groups of
+phylogenetically independent coding sequences in transcriptomic datasets
+and has been verified using Arachnoserver and simulated datasets. The
+presented pipeline implements simplified user experience with minimized
+third-party dependencies, in an environment robust to breaking changes
+to maximize reproducibility over a long-term time scale. ~
+
+FUSTr is freely available under a GNU license and can be downloaded at
+\href{https://github.com/tijeco/Fuster}{\emph{https://github.com/tijeco/Fuster}}
+
+\emph{\textbf{P4}}
+
+\begin{itemize}
+\item
+  Here we present things that do stuff
+
+  \begin{itemize}
+  \item
+    Deal with complexities in the previous stated issues
+  \end{itemize}
+\item
+  What it is
+\item
+  What it does
+\item
+  Why its useful?
+\item
+  How it performs/accuracy
+\item
+  Where it is
+\end{itemize}
+
+\textbf{Implementation}
+
+FUSTr is available as a Snakefile using snakemake, to ensure scalbility
+and reproducibility. In order to further increase the reproducibility,
+all necessary dependencies have been wrapped up in an Anaconda
+environment. ~
+
+\textbf{Pre-filter data}
+
+Input data consists of assembled transcriptome fasta files, nucleotide
+data. These files are first filtered to remove sequences just containing
+Ns as well as to removing any haphazard text found in sequences (that
+may be artifacts of previous assembling procedures) to ensure proper
+downstream analysis. Header patterns in the inputs are simulteneosly
+autodetected to sort out all unique and redundant identifiers for
+downstream isofom filtration.
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+gene & AOXIE & id=a\tabularnewline
+\midrule
+\endhead
+gene & 111 & id=b\tabularnewline
+gene & 2342 & id=a\tabularnewline
+gene & 2342 & id=b\tabularnewline
+gene & 2342 & id=c\tabularnewline
+\bottomrule
+\end{longtable}
+
+\begin{itemize}
+\item
+  Algorithms, bitches and money, layout of typical gene and isoform
+  header patterns
+\end{itemize}
+
+\textbf{Predict coding sequences}
+
+Coding sequences are determined using Transdecoder, which predicts orfs
+using all 6 possible reading frames, keeping the best orf per
+transcript. Genes containing several isoforms will only keep longest
+isoform for downstream stuff. protein sequences, stuff. Keep only
+longest isoform.
+
+\textbf{Group by homology}
+
+Sequence homology networks are determined using an all against all BLAST
+search of the amino acid sequences. Sequences are grouped into
+homologous groups using Silix, only adding sequences to a group that
+have at least \#\#\# sequence coverage, \#\#\# sequence identity,
+\&\&\&\& other stuff. All against all blast. Silix. Families.
+
+\textbf{Multiple-sequence alignment and phylogenetic inference}
+
+Homologous groups containing at least 15 amino acid sequences are
+aligned using Mafft (accurate and fast, auto), and then trimmed using
+trimal. Fastree is used to infer phylogenetic tree (accurate and fast)
+Mafft, trimal, codon masking. Codon sequences are masked over amino acid
+alignment.
+
+\textbf{Pervasive positive selection}
+
+Codon alignments. CODEML, pervasive positive selection.Codeml and
+FUBAR??
+
+\sout{There are several established phylogenetic frameworks to then test
+the families for various forms of selection utilizing ~rates of
+nonsysnonymous to synonymous substitution. Determining selective regimes
+of specific amino acid \emph{residue} sites that \emph{may be adaptive}
+~involves tests of pervasive positive selection within a gene family
+using either fixed or random effects likelihood models to help
+ellucidate specific amino acid residue sites undergoing diversifying or
+purifying selection (FUBAR, M8). Finding specific lineages that may have
+undergone \emph{adaptive surges} (niche diffenertiation, sexual
+selection, predator prey arms races, novel innovations, lots of
+evolution terms) requires tests for episodically diversifying lineages
+(MEME,BUSTED,CodemlBranchSpecific) or evolution along specific branches
+in gene family\ldots{} }
+
+\textbf{Episodic positive selection}
+
+Hyphy/MEME, FUBAR, BUSTED
+
+\textbf{Validation}
+
+Simulations, GLOve??? Bacteria stuff (POTION), and arachnoserver
+(compare to young clade paper).
+
+Results
+
+\textbf{Simulations}
+
+We did stuff, yeah.
+
+\textbf{Empirical results}
+
+Arachnoserver, toxinbase, bacteriashit, goldenstandard.
+
+\textbf{Conclusions}
+
+\sout{An influx of \emph{terabytes} of transcriptomic data has resulted
+in an ever expanding need for scalable} tools capable of elucidating
+broad patterns of molecular evolution within the genomic architecture of
+taxa spanning throughout the tree of life.
+
+\end{document}
