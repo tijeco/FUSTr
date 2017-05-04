@@ -409,7 +409,7 @@ rule node2families:
         node_file="Temp/all.pep.combined_r90_SLX.fnodes",
         sequence_file="Temp/all.pep.combined"
     output:
-        dynamic("Families/family_{fam}.aln")
+        dynamic("Families/family_{fam}.fa")
     run:
         famDict = {}
         seqDict={}
@@ -436,45 +436,65 @@ rule node2families:
         for i in famDict.keys():
             #print("Step 4",i,famDict[i])
             print(len(famDict[i])>14)
-            String = "Families/family_"+i+".fa"
+
+            String = "Families/family_"+i+".too_small.fas"
 
             print(String)
-
+            #This makes all families as a .fa file, regardless of how small
             with open(String, "w") as out:
                 for j in famDict[i]:
                     out.write('>'+j+'\n')
                     out.write(seqDict[j]+'\n')
+
             if len(famDict[i])>14:
                 print("step 5")
                 print(famDict[i])
+                with open(String, "w") as out:
+                    for j in famDict[i]:
+                        out.write('>'+j+'\n')
+                        out.write(seqDict[j]+'\n')
+
+            else:
+                with open(output[0], "w") as out:
+                    for j in famDict[i]:
+                        out.write('>'+j+'\n')
+                        out.write(seqDict[j]+'\n')
 
 
+            #######None of this
+                # mafft_cline = MafftCommandline(input=String,auto=True)
+                # stdout, stderr = mafft_cline()
+                # align = AlignIO.read(StringIO(stdout), "fasta")
+                #
+                # sequence={}
+                # alignLength = align.get_alignment_length()
+                # gapPos = {}
+                #
+                # for i in range(len(align._records)):
+                #     sequence[i]=""
+                #     number = 0
+                #     for j in align._records[i]:
+                #         sequence[i]+=j
+                #         if j == "-":
+                #             gapPos[number]= True
+                #         number+=1
+                # colsWithGaps = len(gapPos)
+                # if colsWithGaps < alignLength:
+                #     AlignOut = String.split('.')[0]+".aln"
+                #     print(String)
+                #     print("Step 6")
+                #     print(String.split('.')[0]+".aln")
+                #     print(AlignOut)
+                #     count = SeqIO.write(align, AlignOut, "fasta")
 
-                mafft_cline = MafftCommandline(input=String,auto=True)
-                stdout, stderr = mafft_cline()
-                align = AlignIO.read(StringIO(stdout), "fasta")
 
-                sequence={}
-                alignLength = align.get_alignment_length()
-                gapPos = {}
-
-                for i in range(len(align._records)):
-                    sequence[i]=""
-                    number = 0
-                    for j in align._records[i]:
-                        sequence[i]+=j
-                        if j == "-":
-                            gapPos[number]= True
-                        number+=1
-                colsWithGaps = len(gapPos)
-                if colsWithGaps < alignLength:
-                    AlignOut = String.split('.')[0]+".aln"
-                    print(String)
-                    print("Step 6")
-                    print(String.split('.')[0]+".aln")
-                    print(AlignOut)
-                    count = SeqIO.write(align, AlignOut, "fasta")
-
+rule mafft:
+    input:
+        "Families/family_{fam}.fa"
+    output:
+        "Families/family_{fam}.aln"
+    shell:
+        "mafft --auto --thread -1 {input} > {output}"
 
 rule trimAln:
     input:
@@ -483,7 +503,7 @@ rule trimAln:
         trimmed_file="Families/family_{fam}.aln.trimmed",
         column_file="Families/family_{fam}.aln.trimmed.column_file"
     shell:
-        "trimal -in {input} -out {output.trimmed_file} -nogaps -colnumbering > {output.column_file}"##
+        "trimal -in {input} -out {output.trimmed_file} -gappyout -colnumbering > {output.column_file}"##
 
 rule aln2phy:
     input:
