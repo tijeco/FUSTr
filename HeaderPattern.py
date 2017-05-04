@@ -111,6 +111,7 @@ for i in newDict.keys():
     if len(newDict[i]) == 1:
         for j in newDict[i].keys():
             print(newDict[i][j])
+            print(j)
 
 
 #print(pattern)
