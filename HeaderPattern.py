@@ -110,10 +110,10 @@ for i in newDict.keys():
     print(len(newDict[i]))
     if len(newDict[i]) == 1:
         for j in newDict[i].keys():
-            print(newDict[i][j])
-            print(j)
+            patternDict[i] = j
 
 
+print patternDict
 #print(pattern)
 #print(fileLength)
 print(pattern)
