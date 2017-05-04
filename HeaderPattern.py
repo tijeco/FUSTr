@@ -77,7 +77,7 @@ for ff in sequence_iterator:
             wordDict[wordColumn].append(subString)
     subString= ""
 
-#print(wordDict)
+print(wordDict)
 
 pattern= ""
 numIsoformIDs = 0
