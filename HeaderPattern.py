@@ -61,7 +61,7 @@ for ff in sequence_iterator:
     colNum = len(splitHeader)
 
 
-    for i in range(len(splitHeader)):
+    for i in range(colNum):
         if i not in newDict:
             newDict[i] = {}
         newDict[i][splitHeader[i]] = True
