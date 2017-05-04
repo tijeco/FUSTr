@@ -112,7 +112,7 @@ for i in newDict.keys():
         for j in newDict[i].keys():
             patternDict[i] = j
     elif len(newDict[i]) == fileLength:
-        patternDict[i] == "{unique_id}"
+        patternDict[i] = "{unique_id}"
 
 
 print(patternDict)
