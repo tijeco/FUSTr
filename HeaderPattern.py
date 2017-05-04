@@ -31,6 +31,7 @@ sequence_iterator = fasta_iter(fileName)
 fileLength = 0
 columnCountDict={}
 wordDict = {}
+newDict = {}
 rowMembers = 1
 subString = ""
 
@@ -53,10 +54,14 @@ for ff in sequence_iterator:
                 if wordColumn not in wordDict:
                     wordDict[wordColumn] = []
                     wordDict[wordColumn].append(subString)
+                    newDict = {}
+                    newDict[wordColumn][subString] = True
                 else:
                     if subString not in wordDict[wordColumn]:
 
                         wordDict[wordColumn].append(subString)
+
+                        newDict[wordColumn][subString] = True
                 #print wordColumn, subString
                 wordColumn+=1
                 #print subString
@@ -72,12 +77,17 @@ for ff in sequence_iterator:
     if wordColumn not in wordDict:
         wordDict[wordColumn] = []
         wordDict[wordColumn].append(subString)
+        newDict = {}
+        newDict[wordColumn][subString] = True
     else:
         if subString not in wordDict[wordColumn]:
             wordDict[wordColumn].append(subString)
+
+            newDict[wordColumn][subString] = True
     subString= ""
 
 print(wordDict)
+print(newDict)
 
 pattern= ""
 numIsoformIDs = 0
