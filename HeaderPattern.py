@@ -67,7 +67,8 @@ for ff in sequence_iterator:
         newDict[i][splitHeader[i]] = True
 for i in range(usableColumns):
     if len(newDict[i]) == 1:
-        pattern +=newDict[i]
+        for j in newDict[i].keys():
+            patternDict+= j
     elif len(newDict[i]) == fileLength:
         pattern+="{unique_id}"
     else:
