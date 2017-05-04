@@ -162,3 +162,5 @@ if patternExists:
             pattern+="{isoform_id}"
 else:
     print("this requires a pattern")
+
+print(pattern)
