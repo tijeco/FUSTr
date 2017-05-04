@@ -65,10 +65,17 @@ for ff in sequence_iterator:
         if i not in newDict:
             newDict[i] = {}
         newDict[i][splitHeader[i]] = True
+for i in range(usableColumns):
+    if len(newDict[i]) == 1:
+        pattern +=newDict[i]
+    elif len(newDict[i]) == fileLength:
+        pattern+="{unique_id}"
+    else:
+        pattern +="{isoform_id}"
 
 print(newDict)
 print(usableColumns)
-
+print(pattern)
 
 #
 #
