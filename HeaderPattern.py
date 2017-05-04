@@ -54,7 +54,7 @@ for ff in sequence_iterator:
                 if wordColumn not in wordDict:
                     wordDict[wordColumn] = []
                     wordDict[wordColumn].append(subString)
-                    newDict = {}
+                    newDict[wordColumn] = {}
                     newDict[wordColumn][subString] = True
                 else:
                     if subString not in wordDict[wordColumn]:
@@ -77,7 +77,7 @@ for ff in sequence_iterator:
     if wordColumn not in wordDict:
         wordDict[wordColumn] = []
         wordDict[wordColumn].append(subString)
-        newDict = {}
+        newDict[wordColumn] = {}
         newDict[wordColumn][subString] = True
     else:
         if subString not in wordDict[wordColumn]:
