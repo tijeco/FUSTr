@@ -462,7 +462,7 @@ rule node2families:
                     famDict[row[0]]= [row[1]]
                 else:
                     famDict[row[0]].append(row[1])
-            print(famDict)
+            #print(famDict)
 
         sequence_iterator = fasta_iter(input.sequence_file)
         for ff in sequence_iterator:
@@ -472,6 +472,7 @@ rule node2families:
         for i in famDict.keys():
             if len(famDict[i])>14:
                 FileName = "Families/family_"+i+".fa"
+                print(FileName)
                 with open(FileName, "w") as out:
                     for j in famDict[i]:
                         out.write('>'+j+'\n')
