@@ -37,7 +37,7 @@ rowMembers = 1
 subString = ""
 RecentAlpha = False
 usableColumns = 0
-
+pattern = ""
 for ff in sequence_iterator:
     fileLength+=1
     headerStr, seq = ff
