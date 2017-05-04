@@ -137,20 +137,7 @@ for ff in sequence_iterator:
 pattern= ""
 numIsoformIDs = 0
 if patternExists:
-    # for i in wordDict.keys():
-    #     #print len(wordDict[i])
-    #     if len(wordDict[i]) == 1:
-    #         pattern+=wordDict[i][0]
-    #     else:
-    #         if len(wordDict[i]) == fileLength:
-    #
-    #             pattern +="{unique_id}"
-    #         else:
-    #             pattern += "{isoform_id}"
-    #             numIsoformIDs+=1
-    # print(pattern)
-    # patternDict = {}
-    # pattern = ""
+
     for i in newDict.keys():
         # print(len(newDict[i]))
         if len(newDict[i]) == 1:
@@ -160,8 +147,15 @@ if patternExists:
             pattern+= "{unique_id}"
         else:
             pattern+="{isoform_id}"
-    if pattern == "{isoform_id}|{isoform_id}_{isoform_id}_{isoform_id} len={isoform_id}" or pattern == "TRINITY_{isoform_id}_{isoform_id}_{isoform_id}_{isoform_id} len={isoform_id}":
-        print("this is a trinity assembly")
+    if pattern.count("{isoform_id}") >1:
+
+        if pattern == "{isoform_id}|{isoform_id}_{isoform_id}_{isoform_id} len={isoform_id}" or pattern == "TRINITY_{isoform_id}_{isoform_id}_{isoform_id}_{isoform_id} len={isoform_id}":
+            print("this is a trinity assembly")
+        else:
+            print("too many possible isoforms")
+    elif pattern.count("{isoform_id}") == 0:
+        print("No isoform indication detected")
+
 else:
     print("this requires a pattern")
 
