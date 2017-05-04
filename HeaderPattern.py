@@ -35,8 +35,8 @@ wordDict = {}
 newDict = {}
 rowMembers = 1
 subString = ""
-
 RecentAlpha = False
+usableColumns = 0
 
 for ff in sequence_iterator:
     fileLength+=1
@@ -50,76 +50,94 @@ for ff in sequence_iterator:
     #print(headerStr.split()[0])
     wordColumn = 1
     print(re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', headerStr))
-    for j in headerStr:
+    splitHeader = re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', headerStr)
+    try:
+        if colNum < usableColumns:
+            usableColumns = colNum
 
-        try:
-            if specialCharacterBool != (not j.isdigit() and not j.isalpha() and j!='-'):
-                if wordColumn not in wordDict:
-                    wordDict[wordColumn] = []
-                    wordDict[wordColumn].append(subString)
-                    newDict[wordColumn] = {}
-                    newDict[wordColumn][subString] = True
-                else:
-                    newDict[wordColumn][subString] = True
-                    if subString not in wordDict[wordColumn]:
+    except:
+        colNum = len(splitHeader)
+        usableColumns = colNum
+    for i in range(colNum):
+        if i not in newDict:
+            newDict[i] = {}
+        newDict[i][splitHeader[i]] = True
 
-                        wordDict[wordColumn].append(subString)
-
-
-                #print wordColumn, subString
-                wordColumn+=1
-                #print subString
-                subString = ""
-
-            specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
-        except:
-            specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
-        if specialCharacterBool:
-            subString+=j
-        else:
-            subString += j
-    print(wordColumn)
-    if wordColumn not in wordDict:
-        wordDict[wordColumn] = []
-        wordDict[wordColumn].append(subString)
-        newDict[wordColumn] = {}
-        newDict[wordColumn][subString] = True
-    else:
-        newDict[wordColumn][subString] = True
-        if subString not in wordDict[wordColumn]:
-            wordDict[wordColumn].append(subString)
-
-
-    subString= ""
-
-print(wordDict)
 print(newDict)
 
-pattern= ""
-numIsoformIDs = 0
-for i in wordDict.keys():
-    #print len(wordDict[i])
-    if len(wordDict[i]) == 1:
-        pattern+=wordDict[i][0]
-    else:
-        if len(wordDict[i]) == fileLength:
 
-            pattern +="{unique_id}"
-        else:
-            pattern += "{isoform_id}"
-            numIsoformIDs+=1
-print(pattern)
-patternDict = {}
-for i in newDict.keys():
-    print(len(newDict[i]))
-    if len(newDict[i]) == 1:
-        for j in newDict[i].keys():
-            patternDict[i] = j
-    elif len(newDict[i]) == fileLength:
-        patternDict[i] = "{unique_id}"
-
-
-print(patternDict)
-#print(pattern)
-#print(fileLength)
-print(pattern)
+#
+#
+#     for j in headerStr:
+#
+#         try:
+#             if specialCharacterBool != (not j.isdigit() and not j.isalpha() and j!='-'):
+#                 if wordColumn not in wordDict:
+#                     wordDict[wordColumn] = []
+#                     wordDict[wordColumn].append(subString)
+#                     newDict[wordColumn] = {}
+#                     newDict[wordColumn][subString] = True
+#                 else:
+#                     newDict[wordColumn][subString] = True
+#                     if subString not in wordDict[wordColumn]:
+#
+#                         wordDict[wordColumn].append(subString)
+#
+#
+#                 #print wordColumn, subString
+#                 wordColumn+=1
+#                 #print subString
+#                 subString = ""
+#
+#             specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
+#         except:
+#             specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
+#         if specialCharacterBool:
+#             subString+=j
+#         else:
+#             subString += j
+#     print(wordColumn)
+#     if wordColumn not in wordDict:
+#         wordDict[wordColumn] = []
+#         wordDict[wordColumn].append(subString)
+#         newDict[wordColumn] = {}
+#         newDict[wordColumn][subString] = True
+#     else:
+#         newDict[wordColumn][subString] = True
+#         if subString not in wordDict[wordColumn]:
+#             wordDict[wordColumn].append(subString)
+#
+#
+#     subString= ""
+#
+# print(wordDict)
+# print(newDict)
+#
+# pattern= ""
+# numIsoformIDs = 0
+# for i in wordDict.keys():
+#     #print len(wordDict[i])
+#     if len(wordDict[i]) == 1:
+#         pattern+=wordDict[i][0]
+#     else:
+#         if len(wordDict[i]) == fileLength:
+#
+#             pattern +="{unique_id}"
+#         else:
+#             pattern += "{isoform_id}"
+#             numIsoformIDs+=1
+# print(pattern)
+# patternDict = {}
+# for i in newDict.keys():
+#     print(len(newDict[i]))
+#     if len(newDict[i]) == 1:
+#         for j in newDict[i].keys():
+#             patternDict[i] = j
+#     elif len(newDict[i]) == fileLength:
+#         patternDict[i] = "{unique_id}"
+#
+#
+# print(patternDict)
+# #print(pattern)
+# #print(fileLength)
+# print(pattern)
