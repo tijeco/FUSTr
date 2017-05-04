@@ -109,7 +109,8 @@ patternDict = {}
 for i in newDict.keys():
     print(len(newDict[i]))
     if len(newDict[i]) == 1:
-        print(newDict[i].keys())
+        for j in newDict[i].keys():
+            print newDict[i][j]
 
 
 #print(pattern)
