@@ -1,4 +1,5 @@
 import sys
+import re
 
 def getOptionValue(option):
     optionPos = [i for i, j in enumerate(sys.argv) if j == option][0]
@@ -49,6 +50,7 @@ for ff in sequence_iterator:
     #print(headerStr.split()[0])
     wordColumn = 1
     for j in headerStr:
+        print(re.split(r'[`\=~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', headerStr))
         try:
             if specialCharacterBool != (not j.isdigit() and not j.isalpha() and j!='-'):
                 if wordColumn not in wordDict:
