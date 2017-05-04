@@ -52,6 +52,7 @@ for ff in sequence_iterator:
     print(re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', headerStr))
     splitHeader = re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', headerStr)
     try:
+        print usableColumns
         if colNum < usableColumns:
             usableColumns = colNum
 
@@ -65,6 +66,9 @@ for ff in sequence_iterator:
         if i not in newDict:
             newDict[i] = {}
         newDict[i][splitHeader[i]] = True
+
+
+
 for i in range(usableColumns):
     if len(newDict[i]) == 1:
         for j in newDict[i].keys():
