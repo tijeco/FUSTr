@@ -160,6 +160,8 @@ if patternExists:
             pattern+= "{unique_id}"
         else:
             pattern+="{isoform_id}"
+    if pattern == "{isoform_id}|{isoform_id}_{isoform_id}_{isoform_id} len={isoform_id}" or pattern == "TRINITY_{isoform_id}_{isoform_id}_{isoform_id}_{isoform_id} len={isoform_id}":
+        print("this is a trinity assembly")
 else:
     print("this requires a pattern")
 
