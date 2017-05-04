@@ -49,8 +49,9 @@ for ff in sequence_iterator:
 
     #print(headerStr.split()[0])
     wordColumn = 1
+    print(re.split(r'[`\=~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', headerStr))
     for j in headerStr:
-        print(re.split(r'[`\=~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', headerStr))
+
         try:
             if specialCharacterBool != (not j.isdigit() and not j.isalpha() and j!='-'):
                 if wordColumn not in wordDict:
