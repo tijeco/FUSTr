@@ -137,20 +137,20 @@ for ff in sequence_iterator:
 pattern= ""
 numIsoformIDs = 0
 if patternExists:
-    for i in wordDict.keys():
-        #print len(wordDict[i])
-        if len(wordDict[i]) == 1:
-            pattern+=wordDict[i][0]
-        else:
-            if len(wordDict[i]) == fileLength:
-
-                pattern +="{unique_id}"
-            else:
-                pattern += "{isoform_id}"
-                numIsoformIDs+=1
-    print(pattern)
-    patternDict = {}
-    pattern = ""
+    # for i in wordDict.keys():
+    #     #print len(wordDict[i])
+    #     if len(wordDict[i]) == 1:
+    #         pattern+=wordDict[i][0]
+    #     else:
+    #         if len(wordDict[i]) == fileLength:
+    #
+    #             pattern +="{unique_id}"
+    #         else:
+    #             pattern += "{isoform_id}"
+    #             numIsoformIDs+=1
+    # print(pattern)
+    # patternDict = {}
+    # pattern = ""
     for i in newDict.keys():
         print(len(newDict[i]))
         if len(newDict[i]) == 1:
@@ -160,12 +160,5 @@ if patternExists:
             pattern+= "{unique_id}"
         else:
             pattern+="{isoform_id}"
-    print(pattern)
-
-
-    print(patternDict)
-    #print(pattern)
-    #print(fileLength)
-    print(pattern)
 else:
     print("this requires a pattern")
