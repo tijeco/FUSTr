@@ -64,6 +64,7 @@ for ff in sequence_iterator:
         newDict[i][splitHeader[i]] = True
 
 print(newDict)
+print(usableColumns)
 
 
 #
