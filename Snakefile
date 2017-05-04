@@ -160,13 +160,15 @@ rule cleanFasta:
 
                         if pattern == "{isoform_id}|{isoform_id}_{isoform_id}_{isoform_id} len={isoform_id}" or pattern == "TRINITY_{isoform_id}_{isoform_id}_{isoform_id}_{isoform_id} len={isoform_id}":
                             print("this is a trinity assembly")
+                            patternExists == False
                         else:
                             print("too many possible isoforms")
+                            patternExists == False
                     elif pattern.count("{isoform_id}") == 0:
                         print("No isoform indication detected")
-                    else:
-                        with open("headerPatterns.txt","a") as out:
-                            out.write(input[0].split('.')[0]+"@@@"+pattern+'\n')
+                        patternExists == False
+                    # else:
+
 
                 else:
                     print("this requires a pattern")
@@ -223,6 +225,8 @@ rule cleanFasta:
         #     print("WE COULD DETECT ISOFORMS????????????")
         #     with open("headerPatterns.txt","a") as out:
         #         out.write(input[0].split('.')[0]+"@@@"+pattern+'\n')
+        with open("headerPatterns.txt","a") as out:
+            out.write(input[0].split('.')[0]+"@@@"+pattern+'\n')
         #sample = input[0].split('.')[0]
 
 
