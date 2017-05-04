@@ -91,16 +91,16 @@ for ff in sequence_iterator:
 
             try:
                 if specialCharacterBool != (not j.isdigit() and not j.isalpha() and j!='-'):
-                    if wordColumn not in wordDict:
-                        wordDict[wordColumn] = []
-                        wordDict[wordColumn].append(subString)
+                    if wordColumn not in newDict:
+                        # wordDict[wordColumn] = []
+                        # wordDict[wordColumn].append(subString)
                         newDict[wordColumn] = {}
                         newDict[wordColumn][subString] = True
                     else:
                         newDict[wordColumn][subString] = True
-                        if subString not in wordDict[wordColumn]:
-
-                            wordDict[wordColumn].append(subString)
+                        # if subString not in wordDict[wordColumn]:
+                        #
+                        #     wordDict[wordColumn].append(subString)
 
 
                     #print wordColumn, subString
@@ -116,21 +116,21 @@ for ff in sequence_iterator:
             else:
                 subString += j
         print(wordColumn)
-        if wordColumn not in wordDict:
-            wordDict[wordColumn] = []
-            wordDict[wordColumn].append(subString)
+        if wordColumn not in newDict:
+            # wordDict[wordColumn] = []
+            # wordDict[wordColumn].append(subString)
             newDict[wordColumn] = {}
             newDict[wordColumn][subString] = True
         else:
             newDict[wordColumn][subString] = True
-            if subString not in wordDict[wordColumn]:
-                wordDict[wordColumn].append(subString)
+            # if subString not in wordDict[wordColumn]:
+            #     wordDict[wordColumn].append(subString)
 
 
         subString= ""
 
-        print(wordDict)
-        print(newDict)
+        # print(wordDict)
+        # print(newDict)
     else:
         print("There is no pattern")
 
@@ -152,7 +152,7 @@ if patternExists:
     # patternDict = {}
     # pattern = ""
     for i in newDict.keys():
-        print(len(newDict[i]))
+        # print(len(newDict[i]))
         if len(newDict[i]) == 1:
             for j in newDict[i].keys():
                 pattern+= j
