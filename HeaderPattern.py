@@ -113,7 +113,7 @@ for i in newDict.keys():
             patternDict[i] = j
 
 
-print patternDict
+print(patternDict)
 #print(pattern)
 #print(fileLength)
 print(pattern)
