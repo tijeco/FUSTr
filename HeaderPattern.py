@@ -67,7 +67,7 @@ for ff in sequence_iterator:
                 wordColumn+=1
                 #print subString
                 subString = ""
-            print(wordColumn)
+
             specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
         except:
             specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
@@ -75,6 +75,7 @@ for ff in sequence_iterator:
             subString+=j
         else:
             subString += j
+    print(wordColumn)
     if wordColumn not in wordDict:
         wordDict[wordColumn] = []
         wordDict[wordColumn].append(subString)
