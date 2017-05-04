@@ -104,6 +104,10 @@ for i in wordDict.keys():
         else:
             pattern += "{isoform_id}"
             numIsoformIDs+=1
+print(pattern)
+pattern = ""
+for i in newDict.keys():
+    print(len(newDict[i]))
 
 #print(pattern)
 #print(fileLength)
