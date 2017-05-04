@@ -470,6 +470,7 @@ rule node2families:
             seqDict[headerStr] = seq
 
         for i in famDict.keys():
+            print(len(famDict[i]))
             if len(famDict[i])>14:
                 FileName = "Families/family_"+i+".fa"
                 print(FileName)
