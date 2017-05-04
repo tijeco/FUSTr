@@ -1,90 +1,98 @@
+import sys
 
-with open("sample.txt") as f:
-    columnCountDict={}
-    wordDict = {}
-    rowMembers = 1
-    for line in f:
-        row = line.strip().split()
-        columnCount = len(row)
-        if len(row) not in columnCountDict:
+def getOptionValue(option):
+    optionPos = [i for i, j in enumerate(sys.argv) if j == option][0]
+    optionValue = sys.argv[optionPos + 1]
+    return optionValue
+if "-i" in sys.argv:
+    fileName = getOptionValue("-i")
+else:
+    print("\nplease specify input file name using -i <file_name> \n")
+    sys.exit()
+from itertools import groupby
 
-            columnCountDict[len(row)] = 1
-        else:
-            columnCountDict[len(row)] += 1
+def fasta_iter(fasta_name):
+
+
+    fh = open(fasta_name)
+
+
+    faiter = (x[1] for x in groupby(fh, lambda line: line[0] == ">"))
+
+    for header in faiter:
+        headerStr = header.__next__()[1:].strip()#Entire line, add .split[0] for just first column
+        # print(header)
+
+
+        seq = "".join(s.strip() for s in faiter.__next__())
+
+        yield (headerStr, seq)
+sequence_iterator = fasta_iter(fileName)
+fileLength = 0
+columnCountDict={}
+wordDict = {}
+rowMembers = 1
+subString = ""
+
+RecentAlpha = False
+
+for ff in sequence_iterator:
+    fileLength+=1
+    headerStr, seq = ff
+    try:
+
+        headerStr = headerStr.split()[0]+" " + headerStr.split()[1]
+    except:
+        headerStr = headerStr.split()[0]
+
+    #print(headerStr.split()[0])
+    wordColumn = 1
+    for j in headerStr:
         try:
-            if len(columnCountDict)>rowMembers:
-                print "columnCount has changed"
-                rowMembers+=1
+            if specialCharacterBool != (not j.isdigit() and not j.isalpha() and j!='-'):
+                if wordColumn not in wordDict:
+                    wordDict[wordColumn] = []
+                    wordDict[wordColumn].append(subString)
+                else:
+                    if subString not in wordDict[wordColumn]:
+
+                        wordDict[wordColumn].append(subString)
+                #print wordColumn, subString
+                wordColumn+=1
+                #print subString
+                subString = ""
+
+            specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
         except:
-            None
-        print columnCount
-        #wordDict = {1:{1:"g",2:"e"},2:{1:"i",2:"d"}}
-        numTypes = 0
-        for i in range(columnCount):
-            if i + 1 not in wordDict:
-                wordDict[i+1] = {}
-            for j in range(len(row[i])):
-                # if j not in wordDict[i +1]:
-                #     wordDict[i +1][j]=True
-                if numTypes == 0:
-                    numTypes = 1
-                    # try:
-                    #     int(row[i][j])
-                    #     wordDict[numTypes] = {1:{1:{"g"}}}
+            specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
+        if specialCharacterBool:
+            subString+=j
+        else:
+            subString += j
+    if wordColumn not in wordDict:
+        wordDict[wordColumn] = []
+        wordDict[wordColumn].append(subString)
+    else:
+        if subString not in wordDict[wordColumn]:
+            wordDict[wordColumn].append(subString)
+    subString= ""
 
-                if wordDict[i+1]=={}:
-                    wordDict[i+1][j]=row[i][j]
-                try:
-                    wordDict[i +1][j]
-                except:
-                    wordDict[i +1][j]=row[i][j]
+#print(wordDict)
 
+pattern= ""
+numIsoformIDs = 0
+for i in wordDict.keys():
+    #print len(wordDict[i])
+    if len(wordDict[i]) == 1:
+        pattern+=wordDict[i][0]
+    else:
+        if len(wordDict[i]) == fileLength:
 
+            pattern +="{unique_id}"
+        else:
+            pattern += "{isoform_id}"
+            numIsoformIDs+=1
 
-print "this file has", rowMembers,"pattern/s per row"
-for i in columnCountDict.keys():
-    print columnCountDict[i],"row/s follow this pattern:",
-    for j in range(i):
-        print "{column"+str(j+1)+"}",
-    print
-print columnCountDict.keys()
-print wordDict
-print int("0")
-
-
-
-from difflib import SequenceMatcher
-
-string1 = "one_gene_one_"
-string2 = "four_gene_four_"
-
-
-
-match = SequenceMatcher(None, string1, string2).find_longest_match(0, len(string1), 0, len(string2))
-# if match.size == 0:
-#     pattern = "{string}"
-# else:
-#     if match.a == 0 and match.b == 0:
-#         if match.size == len(string1) and match.size == len(string2):
-#             pattern = string1[match.a: match.a + match.size]
-#         else:
-#             pattern = string1[match.a: match.a + match.size]+" {string}"
-#     else:
-#         0
-
-
-print(match)  # -> Match(a=0, b=15, size=9)
-print(string1[match.a: match.a + match.size])  # -> apple pie
-print(string2[match.b: match.b + match.size])  # -> apple pie
-
-print string1[0:match.a]
-print string1[match.a + match.size:len(string1)]
-print string1.split(string1[match.a: match.a + match.size])
-variableStrings1 = string1.split(string1[match.a: match.a + match.size])
-variableStrings2 = string2.split(string2[match.b: match.b + match.size])
-print variableStrings1
-print variableStrings2
-if len(variableStrings1) == 2:
-    for i in range(len(variableStrings1)):
-        match = SequenceMatcher(None, variableStrings1[i], variableStrings2[i]).find_longest_match(0, len(variableStrings1[i]), 0, len(variableStrings2[i]))
-        print(string1[match.a: match.a + match.size])
+#print(pattern)
+#print(fileLength)
+print(pattern)
