@@ -159,7 +159,7 @@ if patternExists:
         elif len(newDict[i]) == fileLength:
             pattern+= "{unique_id}"
         else:
-            pattern+="{isoform_id+" + str(float(len(newDict[i]/fileLength)))+"}"
+            pattern+="{isoform_id+" + str(float(len(newDict[i]))/fileLength)+"}"
 else:
     print("this requires a pattern")
 
