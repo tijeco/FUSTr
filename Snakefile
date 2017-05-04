@@ -1,41 +1,22 @@
 from itertools import groupby
-from itertools import (takewhile,repeat)
+from itertools import (takewhile,repeat) #no longer needed 5.3.17
 from Bio.Phylo.PAML import codeml
 from Bio.Phylo.PAML.chi2 import cdf_chi2
-from Bio.Align.Applications import MafftCommandline
-from io import StringIO
-from Bio import AlignIO
-from Bio import SeqIO
-import sys
+from Bio.Align.Applications import MafftCommandline #no longer needed 5.3.17
+from io import StringIO #no longer needed 5.3.17
+from Bio import AlignIO #no longer needed 5.3.17
+from Bio import SeqIO #no longer needed 5.3.17
+import sys #no longer needed 5.3.17
 import re
-"NW_005081559.1"
 
 def fasta_iter(fasta_name):
-
-
     fh = open(fasta_name)
-
-
     faiter = (x[1] for x in groupby(fh, lambda line: line[0] == ">"))
-
     for header in faiter:
         headerStr = header.__next__()[1:].strip()#Entire line, add .split[0] for just first column
-        # print(header)
-
-
         seq = "".join(s.strip() for s in faiter.__next__())
-
         yield (headerStr, seq)
-def isTrinity(header):
-    if all([header[0:2] == "TR","|c" in header,"_g" in header,"_i" in header]):
-        return True
-    else:
-        print("Sorry, we only support Trinity assemblies as of now\nExiting now")
-        sys.exit()
-        """
-        Remove this nonsense, just return False
 
-        """
 
 
 SAMPLES, = glob_wildcards("{sample}.fasta")
@@ -48,14 +29,7 @@ rule final:
     #input:dynamic("Families/family_{fam}_dir/M8a/tmp.txt")
 
 
-#NOTE
-"""
-    Before this we need to check the headers of the fasta file, clean them up, and determine if they are from
-        Trinity
 
-    For now we will just have transdecoder 2.0 as a requirements, since only 1.0 is on bioconda, until
-        I find a workaround
-"""
 
 rule cleanFasta:
     input:
@@ -74,6 +48,7 @@ rule cleanFasta:
                 headerStr, seq = ff
                 min = -1
                 max = 0
+                #go through and find non-nucleotides, cut  out spurious strings in sequences
                 for i in range(len(seq)):
                     if seq[i] not in "ATCGNatcgn":
                         if  i!= 0:
@@ -89,6 +64,8 @@ rule cleanFasta:
                     new_seq = seq
 
                 allNbool = False
+                # go through remove sequences entirely made up of Ns
+                #NOTE may be  unnecessary
                 if "n" in seq or "N" in seq:
                     if len(set(seq)) == 2:
                         if "N" in set(seq) and "n" in set(seq):
@@ -111,14 +88,15 @@ rule cleanFasta:
                         columnCountDict[len(row)] += 1
                     try:
                         if len(columnCountDict)>rowMembers:
-                            #print "columnCount has changed"
                             rowMembers+=1
                     except:
                         None
                     subString = ""
                     wordColumn = 1
                     RecentAlpha = False
-                    #print line
+
+
+                    #begin looking for header patterns, while we're at it.
                     for j in headerStr:
                         try:
                             if specialCharacterBool != (not j.isdigit() and not j.isalpha() and j!='-'):
@@ -127,13 +105,9 @@ rule cleanFasta:
                                     wordDict[wordColumn].append(subString)
                                 else:
                                     if subString not in wordDict[wordColumn]:
-
                                         wordDict[wordColumn].append(subString)
-                                #print wordColumn, subString
                                 wordColumn+=1
-                                #print subString
                                 subString = ""
-
                             specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
                         except:
                             specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
@@ -250,12 +224,8 @@ rule transdecoderPredict:
 
 
 longIsoform_CDS_combined = {}
-#THIS RULE WORKS, hopefully correctly.....
 
-"""
-From here down the transdecoder extension is wrong and needs to be changes to {sample}.transdecoder.pep
 
-"""
 
 
 
@@ -389,20 +359,6 @@ rule silix:
     shell:
         "silix -r 0.9 {input.sequence_file} {input.blast_file} > {output} || true"
 
-"""
-
-This is the first appearance of {fam} from dynamic,
-
-    Since not all families are kept for downstream analysis, we should only keep the ones that don't become empty after nogaps
-        the empty ones are determined from mafft,so that would probably have to be in this rule under some os() thingy
-            the fasta files can be written as a side effect with "EMPTYALIGNMENt" or something in the node2families
-                so that the sequences are still there physically
-                put in log file that these families suck
-
-"""
-
-
-#NOTE this rule made a random .fasta file that was blank, all should be .fa or .aln
 
 rule node2families:
     input:
@@ -419,75 +375,27 @@ rule node2families:
                 row = line.split()
                 if row[0] not in famDict:
                     famDict[row[0]]= [row[1]]
-
                 else:
                     famDict[row[0]].append(row[1])
 
         sequence_iterator = fasta_iter(input.sequence_file)
-        print("Step 2")
         for ff in sequence_iterator:
             headerStr, seq = ff
-
             seqDict[headerStr] = seq
 
-        print("Step 3")
-        # print(seqDict)
-        # print(famDict)
         for i in famDict.keys():
-            #print("Step 4",i,famDict[i])
-            print(len(famDict[i])>14)
-
-            String = "Families/family_"+i+".too_small.fas"
-
-            # print(String)
-            #This makes all families as a .fa file, regardless of how small
-            # with open(String, "w") as out:
-            #     for j in famDict[i]:
-            #         out.write('>'+j+'\n')
-            #         out.write(seqDict[j]+'\n')
-
             if len(famDict[i])>14:
                 FileName = "Families/family_"+i+".fa"
-                print("step 5")
-                print(famDict[i])
                 with open(FileName, "w") as out:
                     for j in famDict[i]:
                         out.write('>'+j+'\n')
                         out.write(seqDict[j]+'\n')
-
             else:
                 FileName = "Families/family_"+i+".too_small.fas"
                 with open(FileName, "w") as out:
                     for j in famDict[i]:
                         out.write('>'+j+'\n')
                         out.write(seqDict[j]+'\n')
-
-
-            #######None of this
-                # mafft_cline = MafftCommandline(input=String,auto=True)
-                # stdout, stderr = mafft_cline()
-                # align = AlignIO.read(StringIO(stdout), "fasta")
-                #
-                # sequence={}
-                # alignLength = align.get_alignment_length()
-                # gapPos = {}
-                #
-                # for i in range(len(align._records)):
-                #     sequence[i]=""
-                #     number = 0
-                #     for j in align._records[i]:
-                #         sequence[i]+=j
-                #         if j == "-":
-                #             gapPos[number]= True
-                #         number+=1
-                # colsWithGaps = len(gapPos)
-                # if colsWithGaps < alignLength:
-                #     AlignOut = String.split('.')[0]+".aln"
-                #     print(String)
-                #     print("Step 6")
-                #     print(String.split('.')[0]+".aln")
-                #     print(AlignOut)
-                #     count = SeqIO.write(align, AlignOut, "fasta")
 
 
 rule mafft:
