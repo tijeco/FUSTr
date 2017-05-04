@@ -58,7 +58,7 @@ for ff in sequence_iterator:
     except:
         colNum = len(splitHeader)
         usableColumns = colNum
-    for i in range(colNum):
+    for i in range(len(splitHeader)):
         if i not in newDict:
             newDict[i] = {}
         newDict[i][splitHeader[i]] = True
