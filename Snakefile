@@ -42,12 +42,19 @@ rule cleanFasta:
         columnCountDict={}
         wordDict = {}
         rowMembers = 1
+        fileLength = 0
+        newDict = {}
+        subString = ""
+        usableColumns = 0
+        pattern = ""
+        patternExists = True
         with open(output[0],"w") as out:
             for ff in sequence_iterator:
 
                 headerStr, seq = ff
                 min = -1
                 max = 0
+
                 #go through and find non-nucleotides, cut  out spurious strings in sequences
                 for i in range(len(seq)):
                     if seq[i] not in "ATCGNatcgn":
@@ -95,53 +102,127 @@ rule cleanFasta:
                     wordColumn = 1
                     RecentAlpha = False
 
+                    splitHeader = re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', headerStr)
+                    try:
 
+                        if colNum < usableColumns:
+                            print("Unable to detect isoforms")
+                            patternExists = False
+                            usableColumns = colNum
+
+                    except:
+                        colNum = len(splitHeader)
+                        usableColumns = colNum
+                    colNum = len(splitHeader)
                     #begin looking for header patterns, while we're at it.
-                    for j in headerStr:
-                        try:
-                            if specialCharacterBool != (not j.isdigit() and not j.isalpha() and j!='-'):
-                                if wordColumn not in wordDict:
-                                    wordDict[wordColumn] = []
-                                    wordDict[wordColumn].append(subString)
-                                else:
-                                    if subString not in wordDict[wordColumn]:
-                                        wordDict[wordColumn].append(subString)
-                                wordColumn+=1
-                                subString = ""
-                            specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
-                        except:
-                            specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
-                        if specialCharacterBool:
-                            subString+=j
+                    if patternExists:
+                        for j in headerStr:
+                            try:
+                                if specialCharacterBool != (not j.isdigit() and not j.isalpha() and j!='-'):
+                                    if wordColumn not in newDict:
+                                        newDict[wordColumn] = {}
+                                        newDict[wordColumn][subString] = True
+                                    else:
+                                        newDict[wordColumn][subString] = True
+                                    wordColumn+=1
+                                    subString = ""
+
+                                specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
+                            except:
+                                specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
+                            if specialCharacterBool:
+                                subString+=j
+                            else:
+                                subString += j
+                        if wordColumn not in newDict:
+                            newDict[wordColumn] = {}
+                            newDict[wordColumn][subString] = True
                         else:
-                            subString += j
-                    if wordColumn not in wordDict:
-                        wordDict[wordColumn] = []
-                        wordDict[wordColumn].append(subString)
+                            newDict[wordColumn][subString] = True
+                        subString= ""
                     else:
-                        if subString not in wordDict[wordColumn]:
-                            wordDict[wordColumn].append(subString)
-        pattern= ""
-        numIsoformIDs = 0
-        for i in wordDict.keys():
-            #print len(wordDict[i])
-            if len(wordDict[i]) == 1:
-                pattern+=wordDict[i][0]
-            else:
-                if len(wordDict[i]) == fileLength:
+                        print("There is no pattern")
 
+                pattern= ""
+                numIsoformIDs = 0
+                if patternExists:
 
-                    pattern +="{unique_id}"
+                    for i in newDict.keys():
+                        # print(len(newDict[i]))
+                        if len(newDict[i]) == 1:
+                            for j in newDict[i].keys():
+                                pattern+= j
+                        elif len(newDict[i]) == fileLength:
+                            pattern+= "{unique_id}"
+                        else:
+                            pattern+="{isoform_id}"
+                    if pattern.count("{isoform_id}") >1:
+
+                        if pattern == "{isoform_id}|{isoform_id}_{isoform_id}_{isoform_id} len={isoform_id}" or pattern == "TRINITY_{isoform_id}_{isoform_id}_{isoform_id}_{isoform_id} len={isoform_id}":
+                            print("this is a trinity assembly")
+                        else:
+                            print("too many possible isoforms")
+                    elif pattern.count("{isoform_id}") == 0:
+                        print("No isoform indication detected")
+                    else:
+                        with open("headerPatterns.txt","a") as out:
+                            out.write(input[0].split('.')[0]+"@@@"+pattern+'\n')
+
                 else:
-                    pattern += "{isoform_id}"
-                    numIsoformIDs+=1
-        print("Patern for",input[0],"is:", pattern)
-        if "{isoform_id}" not in pattern:
-            print("WE CANNOT DETECT ISOFORMS!!!!!!!!!")
-        else:
-            print("WE COULD DETECT ISOFORMS????????????")
-            with open("headerPatterns.txt","a") as out:
-                out.write(input[0].split('.')[0]+"@@@"+pattern+'\n')
+                    print("this requires a pattern")
+
+                print(pattern)
+
+
+
+        #                 try:
+        #                     if specialCharacterBool != (not j.isdigit() and not j.isalpha() and j!='-'):
+        #                         if wordColumn not in wordDict:
+        #                             wordDict[wordColumn] = []
+        #                             wordDict[wordColumn].append(subString)
+        #                         else:
+        #                             if subString not in wordDict[wordColumn]:
+        #                                 wordDict[wordColumn].append(subString)
+        #                         wordColumn+=1
+        #                         subString = ""
+        #                     specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
+        #                 except:
+        #                     specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
+        #                 if specialCharacterBool:
+        #                     subString+=j
+        #                 else:
+        #                     subString += j
+        #             if wordColumn not in wordDict:
+        #                 wordDict[wordColumn] = []
+        #                 wordDict[wordColumn].append(subString)
+        #             else:
+        #                 if subString not in wordDict[wordColumn]:
+        #                     wordDict[wordColumn].append(subString)
+        # pattern= ""
+        # numIsoformIDs = 0
+        # for i in wordDict.keys():
+        #     #print len(wordDict[i])
+        #     if len(wordDict[i]) == 1:
+        #         pattern+=wordDict[i][0]
+        #     else:
+        #         if len(wordDict[i]) == fileLength:
+        #
+        #
+        #             pattern +="{unique_id}"
+        #         else:
+        #             pattern += "{isoform_id}"
+        #             numIsoformIDs+=1
+        # print("Patern for",input[0],"is:", pattern)
+
+
+
+
+        # if "{isoform_id}" not in pattern:
+        #     print("WE CANNOT DETECT ISOFORMS!!!!!!!!!")
+        # else:
+        #     print("WE COULD DETECT ISOFORMS????????????")
+        #     with open("headerPatterns.txt","a") as out:
+        #         out.write(input[0].split('.')[0]+"@@@"+pattern+'\n')
         #sample = input[0].split('.')[0]
 
 
