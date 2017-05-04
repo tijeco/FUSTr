@@ -52,7 +52,7 @@ for ff in sequence_iterator:
     print(re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', headerStr))
     splitHeader = re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', headerStr)
     try:
-        print usableColumns
+        print(usableColumns)
         if colNum < usableColumns:
             usableColumns = colNum
 
