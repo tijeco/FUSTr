@@ -150,13 +150,17 @@ if patternExists:
                 numIsoformIDs+=1
     print(pattern)
     patternDict = {}
+    pattern = ""
     for i in newDict.keys():
         print(len(newDict[i]))
         if len(newDict[i]) == 1:
             for j in newDict[i].keys():
-                patternDict[i] = j
+                pattern+= j
         elif len(newDict[i]) == fileLength:
-            patternDict[i] = "{unique_id}"
+            pattern+= "{unique_id}"
+        else:
+            pattern+="{isoform_id}"
+    print(pattern)
 
 
     print(patternDict)
