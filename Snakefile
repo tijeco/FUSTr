@@ -439,14 +439,15 @@ rule node2families:
 
             String = "Families/family_"+i+".too_small.fas"
 
-            print(String)
+            # print(String)
             #This makes all families as a .fa file, regardless of how small
-            with open(String, "w") as out:
-                for j in famDict[i]:
-                    out.write('>'+j+'\n')
-                    out.write(seqDict[j]+'\n')
+            # with open(String, "w") as out:
+            #     for j in famDict[i]:
+            #         out.write('>'+j+'\n')
+            #         out.write(seqDict[j]+'\n')
 
             if len(famDict[i])>14:
+                String = "Families/family_"+i+".fa"
                 print("step 5")
                 print(famDict[i])
                 with open(String, "w") as out:
@@ -455,6 +456,7 @@ rule node2families:
                         out.write(seqDict[j]+'\n')
 
             else:
+                String = "Families/family_"+i+".too_small.fas"
                 with open(output[0], "w") as out:
                     for j in famDict[i]:
                         out.write('>'+j+'\n')
