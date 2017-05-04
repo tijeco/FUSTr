@@ -50,7 +50,7 @@ for ff in sequence_iterator:
 
     #print(headerStr.split()[0])
     wordColumn = 1
-    print(re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', headerStr))
+    # print(re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', headerStr))
     splitHeader = re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', headerStr)
     try:
 
@@ -115,7 +115,7 @@ for ff in sequence_iterator:
                 subString+=j
             else:
                 subString += j
-        print(wordColumn)
+        # print(wordColumn)
         if wordColumn not in newDict:
             # wordDict[wordColumn] = []
             # wordDict[wordColumn].append(subString)
