@@ -57,11 +57,12 @@ for ff in sequence_iterator:
                     newDict[wordColumn] = {}
                     newDict[wordColumn][subString] = True
                 else:
+                    newDict[wordColumn][subString] = True
                     if subString not in wordDict[wordColumn]:
 
                         wordDict[wordColumn].append(subString)
 
-                        newDict[wordColumn][subString] = True
+
                 #print wordColumn, subString
                 wordColumn+=1
                 #print subString
@@ -80,10 +81,11 @@ for ff in sequence_iterator:
         newDict[wordColumn] = {}
         newDict[wordColumn][subString] = True
     else:
+        newDict[wordColumn][subString] = True
         if subString not in wordDict[wordColumn]:
             wordDict[wordColumn].append(subString)
 
-            newDict[wordColumn][subString] = True
+
     subString= ""
 
 print(wordDict)
