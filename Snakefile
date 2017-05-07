@@ -16,7 +16,19 @@ def fasta_iter(fasta_name):
         headerStr = header.__next__()[1:].strip()#Entire line, add .split[0] for just first column
         seq = "".join(s.strip() for s in faiter.__next__())
         yield (headerStr, seq)
-
+def stringSplitter(string):
+    finalString = ""
+    numSpecialChar = 0
+    for i in string:
+        specialCharacterBool= (not i.isdigit() and not i.isalpha() and i!='-')
+        if specialCharacterBool:
+            numSpecialChar+=1
+        else:
+            if numSpecialChar > 0:
+                finalString+="_"
+            finalString+=i
+            numSpecialChar = 0
+    return finalString
 
 
 SAMPLES, = glob_wildcards("{sample}.fasta")
@@ -37,6 +49,9 @@ rule cleanFasta:
     output:
         "{sample}.clean"
     run:
+        Trinity_bool = False
+        signature = ""
+        sample = input[0].split('.')[0]
         sequence_iterator = fasta_iter(input[0])
         fileLength = 0
         columnCountDict={}
@@ -52,6 +67,9 @@ rule cleanFasta:
             for ff in sequence_iterator:
 
                 headerStr, seq = ff
+                trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
+                if trinity_identifiers !=None:
+                    Trinity_bool = True
                 min = -1
                 max = 0
 
@@ -66,6 +84,7 @@ rule cleanFasta:
                         if i > max:
                             max = i
                 if min != -1 and max!= 0:
+                    #modified_header = headerStr+".modified"
                     new_seq = seq[0:min] + seq[max+1:]
                 else:
                     new_seq = seq
@@ -86,94 +105,139 @@ rule cleanFasta:
                     out.write(">"+headerStr+'\n')
                     out.write(new_seq +"\n")
                     fileLength+=1
-                    row = headerStr.strip().split()
-                    columnCount = len(row)
-                    if len(row) not in columnCountDict:
-
-                        columnCountDict[len(row)] = 1
-                    else:
-                        columnCountDict[len(row)] += 1
-                    try:
-                        if len(columnCountDict)>rowMembers:
-                            rowMembers+=1
-                    except:
-                        None
-                    subString = ""
-                    wordColumn = 1
-                    RecentAlpha = False
+                    # row = headerStr.strip().split()
+                    # columnCount = len(row)
+                    # if len(row) not in columnCountDict:
+                    #
+                    #     columnCountDict[len(row)] = 1
+                    # else:
+                    #     columnCountDict[len(row)] += 1
+                    # try:
+                    #     if len(columnCountDict)>rowMembers:
+                    #         rowMembers+=1
+                    # except:
+                    #     None
+                    # subString = ""
+                    # wordColumn = 1
+                    # RecentAlpha = False
 
                     splitHeader = re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', headerStr)
-                    try:
-
-                        if colNum < usableColumns:
-                            print("Unable to detect isoforms")
-                            patternExists = False
-                            usableColumns = colNum
-
-                    except:
-                        colNum = len(splitHeader)
-                        usableColumns = colNum
                     colNum = len(splitHeader)
-                    #begin looking for header patterns, while we're at it.
-                    if patternExists:
-                        for j in headerStr:
-                            try:
-                                if specialCharacterBool != (not j.isdigit() and not j.isalpha() and j!='-'):
-                                    if wordColumn not in newDict:
-                                        newDict[wordColumn] = {}
-                                        newDict[wordColumn][subString] = True
-                                    else:
-                                        newDict[wordColumn][subString] = True
-                                    wordColumn+=1
-                                    subString = ""
-
-                                specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
-                            except:
-                                specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
-                            if specialCharacterBool:
-                                subString+=j
-                            else:
-                                subString += j
-                        if wordColumn not in newDict:
-                            newDict[wordColumn] = {}
-                            newDict[wordColumn][subString] = True
-                        else:
-                            newDict[wordColumn][subString] = True
-                        subString= ""
-                    else:
-                        print("There is no pattern")
-
-                pattern= ""
-                numIsoformIDs = 0
-                if patternExists:
-
-                    for i in newDict.keys():
-                        # print(len(newDict[i]))
-                        if len(newDict[i]) == 1:
-                            for j in newDict[i].keys():
-                                pattern+= j
-                        elif len(newDict[i]) == fileLength:
-                            pattern+= "{unique_id}"
-                        else:
-                            pattern+="{isoform_id}"
-                    if pattern.count("{isoform_id}") >1:
-
-                        if pattern == "{isoform_id}|{isoform_id}_{isoform_id}_{isoform_id} len={isoform_id}" or pattern == "TRINITY_{isoform_id}_{isoform_id}_{isoform_id}_{isoform_id} len={isoform_id}":
-                            print("this is a trinity assembly")
-                            patternExists == False
-                        else:
-                            print("too many possible isoforms")
-                            patternExists == False
-                    elif pattern.count("{isoform_id}") == 0:
-                        print("No isoform indication detected")
-                        patternExists == False
-                    # else:
+                    #print(splitHeader)
+                    try:
+                        usableColumns = min(colNum, usableColumns)
+                    except:
+                        usableColumns = colNum
+                    for i in range(usableColumns):
+                        #print(splitHeader[i])
+                        #print(i)
+                        try:
+                            wordDict[i][splitHeader[i]] = True
+                        except:
+                            wordDict[i] = {}
+                            wordDict[i][splitHeader[i]] = True
 
 
+            for i in range(usableColumns):
+                #print(len(wordDict[i].keys()))
+                if len(wordDict[i].keys()) == fileLength:
+                    #print("unique_id:", i)
+                    signature+="{unique_id}:"
+                elif len(wordDict[i].keys()) == 1:
+                    for j in wordDict[i].keys():
+                        signature+=j + ":"
                 else:
-                    print("this requires a pattern")
+                    signature+="{isoform_id}:"
+                #print(i)
+            signature = signature[:-1]
 
-                print(pattern)
+            print(signature)
+
+
+        with open("headerPatterns.txt","a") as out:
+            #NOTE
+                #1. if trinity, write file
+                #2. if unique_id, try writing file
+                    #*** a. if only one isoform_id, write file
+                    #*** b. otherwise, just unique_id will be used in next rule
+            if Trinity_bool:
+                out.write(sample+"\t"+"TRINITY")
+            elif "{unique_id}" in signature:
+                #if signature.count("{isoform_id}") == 1:
+                out.write(sample+"\t"+signature)
+
+
+                    # try:
+                    #     #when this happens, I literally cannot find meaningful patterns
+                    #     if colNum < usableColumns:
+                    #         print("Unable to detect isoforms")
+                    #         patternExists = False
+                    #         usableColumns = colNum
+                    #
+                    # except:
+                    #     colNum = len(splitHeader)
+                    #     usableColumns = colNum
+                    # colNum = len(splitHeader)
+                    #begin looking for header patterns, while we're at it.
+                #     if patternExists:
+                #         for j in headerStr:
+                #             try:
+                #                 if specialCharacterBool != (not j.isdigit() and not j.isalpha() and j!='-'):
+                #                     if wordColumn not in newDict:
+                #                         newDict[wordColumn] = {}
+                #                         newDict[wordColumn][subString] = True
+                #                     else:
+                #                         newDict[wordColumn][subString] = True
+                #                     wordColumn+=1
+                #                     subString = ""
+                #
+                #                 specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
+                #             except:
+                #                 specialCharacterBool= (not j.isdigit() and not j.isalpha() and j!='-')
+                #             if specialCharacterBool:
+                #                 subString+=j
+                #             else:
+                #                 subString += j
+                #         if wordColumn not in newDict:
+                #             newDict[wordColumn] = {}
+                #             newDict[wordColumn][subString] = True
+                #         else:
+                #             newDict[wordColumn][subString] = True
+                #         subString= ""
+                #     else:
+                #         print("There is no pattern")
+                #
+                # pattern= ""
+                # numIsoformIDs = 0
+                # if patternExists:
+                #
+                #     for i in newDict.keys():
+                #         # print(len(newDict[i]))
+                #         if len(newDict[i]) == 1:
+                #             for j in newDict[i].keys():
+                #                 pattern+= j
+                #         elif len(newDict[i]) == fileLength:
+                #             pattern+= "{unique_id}"
+                #         else:
+                #             pattern+="{isoform_id}"
+                #     if pattern.count("{isoform_id}") >1:
+                #
+                #         if pattern == "{isoform_id}|{isoform_id}_{isoform_id}_{isoform_id} len={isoform_id}" or pattern == "TRINITY_{isoform_id}_{isoform_id}_{isoform_id}_{isoform_id} len={isoform_id}":
+                #             print("this is a trinity assembly")
+                #             patternExists == False
+                #         else:
+                #             print("too many possible isoforms")
+                #             patternExists == False
+                #     elif pattern.count("{isoform_id}") == 0:
+                #         print("No isoform indication detected")
+                #         patternExists == False
+                #     # else:
+                #
+                #
+                # else:
+                #     print("this requires a pattern")
+                #
+                # print(pattern)
 
 
 
@@ -225,9 +289,9 @@ rule cleanFasta:
         #     print("WE COULD DETECT ISOFORMS????????????")
         #     with open("headerPatterns.txt","a") as out:
         #         out.write(input[0].split('.')[0]+"@@@"+pattern+'\n')
-        with open("headerPatterns.txt","a") as out:
-            out.write(input[0].split('.')[0]+"@@@"+pattern+'\n')
-        #sample = input[0].split('.')[0]
+        # with open("headerPatterns.txt","a") as out:
+        #     out.write(input[0].split('.')[0]+"@@@"+pattern+'\n')
+        # #sample = input[0].split('.')[0]
 
 
 
@@ -242,36 +306,63 @@ rule newHeaders:
             patternDict = {}
             with open("headerPatterns.txt") as f:
                 for line in f:
-                    row = line.strip().split("@@@")
+                    row = line.strip().split()
                     patternDict[row[0]] = row[1]
+
+
+
+
+
             with open(output[0],"w") as out:
                 pattern = patternDict[input[0].split('.')[0]]
+
+                if "{unique_id}" in pattern:
+                    if pattern.count("{isoform_id}") == 1:
+                        pattern_list = pattern.split(":")
+                        for i in range(len(pattern_list)):
+                            if pattern_list[i] == "{isoform_id}":
+                                isoform_pos =  i
+                                continue
+                            elif:
+                                pattern_list[i] == "{unique_id}":
+                                    unique_pos =  i
+                                    continue
+
                 sequence_iterator = fasta_iter(input[0])
                 for ff in sequence_iterator:
 
                     headerStr, seq = ff
+                    if pattern == "TRINITY":
+                        trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
+                        new_header = stringSplitter(headerStr)[:trinity_identifiers.span()[1]]
+                    if "{unique_id}" in pattern:
+                        splitHeader = re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', stringSplitter(headerStr))
+                        if pattern.count("{isoform_id}") == 1:
+                            new_header = splitHeader[unique_pos] + "___" + splitHeader[isoform_pos]
+                        else:
+                            new_header = splitHeader[unique_pos]
                     #first_pattern = ""
 
-                    if True: #replace with num {isoform} == 1
-                        #print(headerStr)
-
-                        if "{isoform_id}" in pattern.split("{unique_id}")[1]:
-                            first_constant = pattern.split("{unique_id}")[0]
-                            second_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[0]
-                            third_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[1]
-
-                            identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
-                            #print(identifiers)
-                            new_header = identifiers.group(1) +"___" + identifiers.group(2)
-
-                        else:
-                            first_constant = pattern.split("{isoform_id}")[0]
-                            second_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[0]
-                            third_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[1]
-
-                            identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
-
-                            new_header =  identifiers.group(2) + "___" + identifiers.group(1)
+                    # if True: #replace with num {isoform} == 1
+                    #     #print(headerStr)
+                    #
+                    #     if "{isoform_id}" in pattern.split("{unique_id}")[1]:
+                    #         first_constant = pattern.split("{unique_id}")[0]
+                    #         second_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[0]
+                    #         third_constant = pattern.split("{unique_id}")[1].split("{isoform_id}")[1]
+                    #
+                    #         identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
+                    #         #print(identifiers)
+                    #         new_header = identifiers.group(1) +"___" + identifiers.group(2)
+                    #
+                    #     else:
+                    #         first_constant = pattern.split("{isoform_id}")[0]
+                    #         second_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[0]
+                    #         third_constant = pattern.split("{isoform_id}")[1].split("{unique_id}")[1]
+                    #
+                    #         identifiers = re.search(first_constant+"(.*)"+second_constant+"(.*)"+third_constant,headerStr)
+                    #
+                    #         new_header =  identifiers.group(2) + "___" + identifiers.group(1)
 
                     out.write( ">"+new_header+'\n')
                     out.write(seq+'\n')
@@ -283,7 +374,7 @@ rule newHeaders:
                 for ff in sequence_iterator:
 
                     headerStr, seq = ff
-                    out.write( ">"+headerStr.split()[0] +'\n')
+                    out.write( ">"+stringSplitter(headerStr).split()[0] +'\n')
                     out.write(seq+'\n')
 
 
@@ -315,94 +406,128 @@ longIsoform_CDS_combined = {}
 
 
 
-rule longestIsoform:
+rule longestIsoformPep:
     input:
-        pep_before = expand("{sample}.new_headers.transdecoder.pep",sample=SAMPLES),
-        cds_before = expand("{sample}.new_headers.transdecoder.cds",sample=SAMPLES)
+        "{sample}.new_headers.transdecoder.pep"
     output:
-        pep_after = expand("Temp/{sample}.longestIsoform.pep",sample=SAMPLES),
-        cds_after = expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
+        "Temp/{sample}.longestIsoform.pep"
     run:
 
+        with open(output[0], "w") as out:
 
-        #print(input.pep_before)
-        #print (output.pep_after)
+            longIsoform={}
 
+            sequence_iterator = fasta_iter(input.pep_before[currentFile])
+            sample = input.pep_before[currentFile].split('.')[0]
+            for ff in sequence_iterator:
 
-        isoformPresent = True
-        #print(input.pep_before)
-        for currentFile in range(len(output.pep_after)):
+                headerStr, seq = ff
+                trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",signature)
+                if trinity_identifiers != None:
+                    GeneID = headerStr.[:trinity_identifiers.span()[1]].split("::")[1]
+                #GeneID = headerStr.split('::')[1][:-2]
+                try:
 
-            with open(output.pep_after[currentFile], "w") as out:
-
-                longIsoform={}
-
-                sequence_iterator = fasta_iter(input.pep_before[currentFile])
-                sample = input.pep_before[currentFile].split('.')[0]
-                for ff in sequence_iterator:
-
-                    headerStr, seq = ff
-                    #GeneID = headerStr.split('::')[1][:-2]
-                    try:
-
-                        GeneID=headerStr.split('___')[1].split('::')[0]
-                    except:
-                        reduced_header = headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1]
-                        new_header = reduced_header.translate ({ord(c): "_" for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
-                        out.write('>'+sample+"_"+new_header+'\n')
-                        out.write(seq + '\n')
-                        continue
-                    if GeneID not in longIsoform:
+                    GeneID=headerStr.split('___')[1].split('::')[0]
+                except:
+                    reduced_header = stringSplitter(headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1])
+                    #new_header = reduced_header.translate ({ord(c): "_" for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
+                    out.write('>'+sample+"_"+new_header+'\n')
+                    out.write(seq + '\n')
+                    continue
+                if GeneID not in longIsoform:
+                    longIsoform[GeneID] = [len(seq),headerStr,seq]
+                else:
+                    if longIsoform[GeneID][0] < len(seq):
                         longIsoform[GeneID] = [len(seq),headerStr,seq]
-                    else:
-                        if longIsoform[GeneID][0] < len(seq):
-                            longIsoform[GeneID] = [len(seq),headerStr,seq]
-                for i in longIsoform.keys():
-                    #print("things")
-                    #print(i)
-                    #print(longIsoform[i][1])
+            for i in longIsoform.keys():
+                #print("things")
+                #print(i)
+                #print(longIsoform[i][1])
 
-                    out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
-                    out.write(longIsoform[i][2]+'\n')
+                out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
+                out.write(longIsoform[i][2]+'\n')
 
 
 
+        #
+        # #NOTE this section needs to be changed too.....
+        # for currentFile in range(len(output.cds_after)):
+        #     with open(output.cds_after[currentFile], "w") as out:
+        #         longIsoform_CDS ={}
+        #
+        #         sequence_iterator = fasta_iter(input.cds_before[currentFile])
+        #         sample = input.cds_before[currentFile].split('.')[0]
+        #         for ff in sequence_iterator:
+        #
+        #             headerStr, seq = ff
+        #             #GeneID = headerStr.split('::')[1][:-2]
+        #             try:
+        #
+        #                 GeneID=headerStr.split('___')[1].split('::')[0]
+        #             except:
+        #                 reduced_header = headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1]
+        #                 new_header = reduced_header.translate ({ord(c): "_" for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
+        #                 out.write('>'+sample+"_"+new_header+'\n')
+        #                 out.write(seq + '\n')
+        #                 continue
+        #
+        #             if GeneID not in longIsoform_CDS:
+        #                 longIsoform_CDS[GeneID] = [len(seq),headerStr,seq]
+        #             else:
+        #                 if longIsoform_CDS[GeneID][0] < len(seq):
+        #                     longIsoform_CDS[GeneID] = [len(seq),headerStr,seq]
+        #         for i in longIsoform_CDS.keys():
+        #             #print("things")
+        #             #print(i)
+        #             #print(longIsoform[i][1])
+        #             out.write('>'+sample+'_'+longIsoform_CDS[i][1].split("::")[0]+'\n')
+        #             out.write(longIsoform_CDS[i][2]+'\n')
+        #             Header = sample+'_'+longIsoform_CDS[i][1].split("::")[0]
+        #             #this thing may be too unreasonably huge, but it will save time in the later rule
+        #             longIsoform_CDS_combined[Header]=longIsoform_CDS[i][2]
 
+rule longestIsoformCDS:
+    input:
+        "{sample}.new_headers.transdecoder.cds"
+    output:
+        "Temp/{sample}.longestIsoform.cds"
+    run:
+        with open(output[0], "w") as out:
 
-        for currentFile in range(len(output.cds_after)):
-            with open(output.cds_after[currentFile], "w") as out:
-                longIsoform_CDS ={}
+            longIsoform={}
 
-                sequence_iterator = fasta_iter(input.cds_before[currentFile])
-                sample = input.cds_before[currentFile].split('.')[0]
-                for ff in sequence_iterator:
+            sequence_iterator = fasta_iter(input.pep_before[currentFile])
+            sample = input.pep_before[currentFile].split('.')[0]
+            for ff in sequence_iterator:
 
-                    headerStr, seq = ff
-                    #GeneID = headerStr.split('::')[1][:-2]
-                    try:
+                headerStr, seq = ff
+                trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",signature)
+                if trinity_identifiers != None:
+                    GeneID = headerStr.[:trinity_identifiers.span()[1]].split("::")[1]
+                #GeneID = headerStr.split('::')[1][:-2]
+                try:
 
-                        GeneID=headerStr.split('___')[1].split('::')[0]
-                    except:
-                        reduced_header = headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1]
-                        new_header = reduced_header.translate ({ord(c): "_" for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
-                        out.write('>'+sample+"_"+new_header+'\n')
-                        out.write(seq + '\n')
-                        continue
+                    GeneID=headerStr.split('___')[1].split('::')[0]
+                except:
+                    reduced_header = stringSplitter(headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1])
+                    #new_header = reduced_header.translate ({ord(c): "_" for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
+                    out.write('>'+sample+"_"+new_header+'\n')
+                    out.write(seq + '\n')
+                    continue
+                if GeneID not in longIsoform:
+                    longIsoform[GeneID] = [len(seq),headerStr,seq]
+                else:
+                    if longIsoform[GeneID][0] < len(seq):
+                        longIsoform[GeneID] = [len(seq),headerStr,seq]
+            for i in longIsoform.keys():
+                #print("things")
+                #print(i)
+                #print(longIsoform[i][1])
 
-                    if GeneID not in longIsoform_CDS:
-                        longIsoform_CDS[GeneID] = [len(seq),headerStr,seq]
-                    else:
-                        if longIsoform_CDS[GeneID][0] < len(seq):
-                            longIsoform_CDS[GeneID] = [len(seq),headerStr,seq]
-                for i in longIsoform_CDS.keys():
-                    #print("things")
-                    #print(i)
-                    #print(longIsoform[i][1])
-                    out.write('>'+sample+'_'+longIsoform_CDS[i][1].split("::")[0]+'\n')
-                    out.write(longIsoform_CDS[i][2]+'\n')
-                    Header = sample+'_'+longIsoform_CDS[i][1].split("::")[0]
-                    #this thing may be too unreasonably huge, but it will save time in the later rule
-                    longIsoform_CDS_combined[Header]=longIsoform_CDS[i][2]
+                out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
+                out.write(longIsoform[i][2]+'\n')
+
 
 
 rule combine_pep:
@@ -470,7 +595,6 @@ rule node2families:
             seqDict[headerStr] = seq
 
         for i in famDict.keys():
-            print(len(famDict[i]))
             if len(famDict[i])>14:
                 FileName = "Families/family_"+i+".fa"
                 print(FileName)
