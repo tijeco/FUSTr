@@ -543,8 +543,8 @@ rule combine_pep:
                     sample = i.split('.')[0]
                     for line in open(i):
                         if ">" in line:
-                            out.write(">"+sample+"_"+fusterID+"\n")
-                            id_out.write(fusterID + line.strip(">"))
+                            out.write(">"+sample+"_"+str(fusterID)+"\n")
+                            id_out.write(str(fusterID) + line.strip(">"))
                             fusterID+=1
                         else:
                             out.write(line)
