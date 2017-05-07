@@ -48,7 +48,7 @@ patternExists = True
 for ff in sequence_iterator:
     fileLength+=1
     headerStr, seq = ff
-    dentifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
+    identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
     if identifiers !=None:
         Trinity_bool = True
     try:
