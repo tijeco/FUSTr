@@ -36,7 +36,7 @@ def stringSplitter(string):
             finalString+=i
             numSpecialChar = 0
     return finalString
-
+Trinity_bool = False
 
 #print(stringSplitter("d=';8\ouuiuuu.."))
 sequence_iterator = fasta_iter(fileName)
@@ -48,6 +48,9 @@ patternExists = True
 for ff in sequence_iterator:
     fileLength+=1
     headerStr, seq = ff
+    dentifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",signature)
+    if identifiers !=None:
+        Trinity_bool = True
     try:
         headerStr = headerStr.split()[0]+" " + headerStr.split()[1]
     except:
@@ -85,4 +88,10 @@ for i in range(usableColumns):
 signature = signature[:-1]
 
 print(signature)
+signature = "TR2|c0_g1_i1 len=243"
+signature = "rna0 gene=LOC102060483"
+identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",signature)
+print(identifiers==None)
+if Trinity_bool:
+    print("This is a trinity file!")
 #print(wordDict)
