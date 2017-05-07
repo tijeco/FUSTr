@@ -161,7 +161,7 @@ rule cleanFasta:
                     #*** a. if only one isoform_id, write file
                     #*** b. otherwise, just unique_id will be used in next rule
             if Trinity_bool:
-                out.write(sample+"\t"+"TRINITY")
+                out.write(sample+"\t"+"TRINITY%%%%%%%%%%%%%")
             elif "{unique_id}" in signature:
                 #if signature.count("{isoform_id}") == 1:
                 out.write(sample+"\t"+signature+"$$$$$$$$$$$\n")
