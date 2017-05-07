@@ -533,18 +533,21 @@ rule combine_pep:
     input:
         expand("Temp/{sample}.longestIsoform.pep",sample=SAMPLES)
     output:
-        "Temp/all.pep.combined"
+        "Temp/all.pep.combined","Temp/fusterID.txt"
 
     run:
-
-        with open(output[0], "w") as out:
-            for i in input:
-                sample = i.split('.')[0]
-                for line in open(i):
-                    # if ">" in line:
-                    #     out.write(">"+sample+"_"+line.strip(">"))
-                    # else:
-                    out.write(line)
+        fusterID = 1
+        with open(output[1]."w") as id_out:
+            with open(output[0], "w") as out:
+                for i in input:
+                    sample = i.split('.')[0]
+                    for line in open(i):
+                        if ">" in line:
+                            out.write(">"+sample+"_"+fusterID+"\n")
+                            id_out.write(fusterID + line.strip(">"))
+                            fusterID+=1
+                        else:
+                            out.write(line)
 
 
 
