@@ -164,7 +164,7 @@ rule cleanFasta:
                 out.write(sample+"\t"+"TRINITY")
             elif "{unique_id}" in signature:
                 #if signature.count("{isoform_id}") == 1:
-                out.write(sample+"\t"+signature+"\n")
+                out.write(sample+"\t"+signature+"$$$$$$$$$$$\n")
 
 
                     # try:
