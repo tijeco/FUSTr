@@ -274,13 +274,11 @@ rule longestIsoformCDS:
                 trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
                 if trinity_identifiers != None:
                     GeneID = headerStr[:trinity_identifiers.span()[1]].split("::")[1]
-                #GeneID = headerStr.split('::')[1][:-2]
                 try:
 
                     GeneID=headerStr.split('___')[1].split('::')[0]
                 except:
                     reduced_header = stringSplitter(headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1])
-                    #new_header = reduced_header.translate ({ord(c): "_" for c in "!@#$%^&*()[]{};:,./<>?\|`~-=_+"})
                     out.write('>'+sample+"_"+stringSplitter(headerStr.split()[0])+'\n')
                     out.write(seq + '\n')
                     continue
@@ -290,9 +288,6 @@ rule longestIsoformCDS:
                     if longIsoform[GeneID][0] < len(seq):
                         longIsoform[GeneID] = [len(seq),headerStr,seq]
             for i in longIsoform.keys():
-                #print("things")
-                #print(i)
-                #print(longIsoform[i][1])
 
                 out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
                 out.write(longIsoform[i][2]+'\n')
@@ -314,7 +309,7 @@ rule combine_pep:
                     for line in open(i):
                         if ">" in line:
                             out.write(">fusterID_"+str(fusterID)+"\n")
-                            id_out.write(str(fusterID) + line.strip(">"))
+                            id_out.write("fusterID_"+str(fusterID) + "\t"+line.strip(">"))
                             fusterID+=1
                         else:
                             out.write(line)
