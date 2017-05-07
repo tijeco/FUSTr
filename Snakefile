@@ -503,7 +503,7 @@ rule longestIsoformCDS:
                 headerStr, seq = ff
                 trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",signature)
                 if trinity_identifiers != None:
-                    GeneID = headerStr.[:trinity_identifiers.span()[1]].split("::")[1]
+                    GeneID = headerStr[:trinity_identifiers.span()[1]].split("::")[1]
                 #GeneID = headerStr.split('::')[1][:-2]
                 try:
 
