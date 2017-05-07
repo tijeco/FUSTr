@@ -563,7 +563,6 @@ rule combine_cds:
                 for line in open(i):
                     if ">" in line:
                         out.write(">fusterID_"+str(fusterID)+"\n")
-                        id_out.write(str(fusterID) + line.strip(">"))
                         fusterID+=1
                     else:
                         out.write(line)
