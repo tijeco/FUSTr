@@ -703,7 +703,7 @@ rule phy2codon:
             #with open(output.cds_after[currentFile], "w") as out:
                 # longIsoform_CDS ={}
 
-        sequence_iterator = fasta_iter(input.nucleotide[0])
+        sequence_iterator = fasta_iter(input.nucleotide)
             #sample = input.cds_before[currentFile].split('.')[0]
         for ff in sequence_iterator:
 
