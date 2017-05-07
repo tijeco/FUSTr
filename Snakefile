@@ -323,7 +323,7 @@ rule newHeaders:
                             if pattern_list[i] == "{isoform_id}":
                                 isoform_pos =  i
                                 continue
-                            elif pattern_list[i] == "{unique_id}"
+                            elif pattern_list[i] == "{unique_id}":
                                 unique_pos =  i
                                 continue
 
