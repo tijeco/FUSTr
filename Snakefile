@@ -537,7 +537,7 @@ rule combine_pep:
 
     run:
         fusterID = 1
-        with open(output[1]."w") as id_out:
+        with open(output[1],"w") as id_out:
             with open(output[0], "w") as out:
                 for i in input:
                     sample = i.split('.')[0]
