@@ -543,11 +543,30 @@ rule combine_pep:
                     sample = i.strip("Temp/").split('.')[0]
                     for line in open(i):
                         if ">" in line:
-                            out.write(">"+sample+"_"+str(fusterID)+"\n")
+                            out.write("fusterID_"+str(fusterID)+"\n")
                             id_out.write(str(fusterID) + line.strip(">"))
                             fusterID+=1
                         else:
                             out.write(line)
+rule combine_cds:
+    input:
+        expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
+    output:
+        "Temp/all.cds.combined"
+
+    run:
+        fusterID = 1
+
+        with open(output[0], "w") as out:
+            for i in input:
+                sample = i.strip("Temp/").split('.')[0]
+                for line in open(i):
+                    if ">" in line:
+                        out.write("fusterID_"+str(fusterID)+"\n")
+                        id_out.write(str(fusterID) + line.strip(">"))
+                        fusterID+=1
+                    else:
+                        out.write(line)
 
 
 
@@ -662,12 +681,11 @@ rule aln2phy:
                     out.write(seq +"\n")
 
 #print(longIsoform_CDS_combined)
-longIsoform_CDS_combined={}
 rule phy2codon:
     input:
         untrimmed="Families/family_{fam}.phy",
         column_file="Families/family_{fam}.aln.trimmed.column_file",
-        nucleotide=expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
+        nucleotide="Temp/all.cds.combined"
     output:
         "Families/family_{fam}_dir/family_{fam}.codon.phylip",
         "Families/family_{fam}_dir/family_{fam}.aln.codon"
@@ -678,23 +696,23 @@ rule phy2codon:
         print(input.column_file)
         print(input.nucleotide)
         print(output)
-        if longIsoform_CDS_combined == {}:
-            print("making cds dictionary")
-            #print(input.nucleotide)
-            for currentFile in input.nucleotide:
-                #print(currentFile)
-                #with open(output.cds_after[currentFile], "w") as out:
-                    # longIsoform_CDS ={}
+        print("making cds dictionary")
+        longIsoform_CDS_combined ={}
+        #print(input.nucleotide)
+        for currentFile in input.nucleotide:
+            #print(currentFile)
+            #with open(output.cds_after[currentFile], "w") as out:
+                # longIsoform_CDS ={}
 
-                sequence_iterator = fasta_iter(currentFile)
-                    #sample = input.cds_before[currentFile].split('.')[0]
-                for ff in sequence_iterator:
+        sequence_iterator = fasta_iter(input.nucleotide[0])
+            #sample = input.cds_before[currentFile].split('.')[0]
+        for ff in sequence_iterator:
 
-                    headerStr, seq = ff
-                    GeneID = headerStr
+            headerStr, seq = ff
+            GeneID = headerStr
 
-                    if GeneID not in longIsoform_CDS_combined:
-                            longIsoform_CDS_combined[GeneID] = seq
+            if GeneID not in longIsoform_CDS_combined:
+                    longIsoform_CDS_combined[GeneID] = seq
         #Open outout
         print(len(longIsoform_CDS_combined))
 
