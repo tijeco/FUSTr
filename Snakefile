@@ -543,7 +543,7 @@ rule combine_pep:
                     sample = i.strip("Temp/").split('.')[0]
                     for line in open(i):
                         if ">" in line:
-                            out.write("fusterID_"+str(fusterID)+"\n")
+                            out.write(">fusterID_"+str(fusterID)+"\n")
                             id_out.write(str(fusterID) + line.strip(">"))
                             fusterID+=1
                         else:
@@ -562,7 +562,7 @@ rule combine_cds:
                 sample = i.strip("Temp/").split('.')[0]
                 for line in open(i):
                     if ">" in line:
-                        out.write("fusterID_"+str(fusterID)+"\n")
+                        out.write(">fusterID_"+str(fusterID)+"\n")
                         id_out.write(str(fusterID) + line.strip(">"))
                         fusterID+=1
                     else:
