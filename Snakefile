@@ -540,7 +540,7 @@ rule combine_pep:
         with open(output[1],"w") as id_out:
             with open(output[0], "w") as out:
                 for i in input:
-                    sample = i.split('.')[0]
+                    sample = i.strip("Temp/").split('.')[0]
                     for line in open(i):
                         if ">" in line:
                             out.write(">"+sample+"_"+str(fusterID)+"\n")
