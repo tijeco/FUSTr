@@ -640,6 +640,8 @@ rule M0:
 
 
         M0_results = M0_cml.run(verbose=True)
+        identifiers = re.search("Families/"+"(.*)"+"_dir",output[0])
+        family=identifiers.groups()[0]
         try:
 
             M0_lnL = M0_results.get("NSsites").get(0).get("lnL")
@@ -647,10 +649,10 @@ rule M0:
             print("@@@@@@@@@@@@@@@@@@@@")
             print(M0_lnL,M0_np,M0_cml.working_dir)
             with open(M0_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M0_cml.working_dir.strip("_dir/M0").strip("Families/")+"\tM0\t"+str(M0_np)+"\t"+str(M0_lnL)+"\n")
+                out.write(family+"\tM0\t"+str(M0_np)+"\t"+str(M0_lnL)+"\n")
         except:
             with open(M0_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M0_cml.working_dir.strip("_dir/M0").strip("Families/")+"\tM0\tNA\tNA\n")
+                out.write(family+"\tM0\tNA\tNA\n")
 
 
 
@@ -692,6 +694,8 @@ rule M1:
 
 
         M1_results = M1_cml.run(verbose=True)
+        identifiers = re.search("Families/"+"(.*)"+"_dir",output[0])
+        family=identifiers.groups()[0]
         try:
 
             M1_lnL = M1_results.get("NSsites").get(1).get("lnL")
@@ -699,10 +703,10 @@ rule M1:
             print("@@@@@@@@@@@@@@@@@@@@")
             print(M1_lnL,M1_np,M1_cml.working_dir)
             with open(M1_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M1_cml.working_dir.strip("_dir/M1").strip("Families/")+"\tM1\t"+str(M1_np)+"\t"+str(M1_lnL)+"\n")
+                out.write(family+"\tM1\t"+str(M1_np)+"\t"+str(M1_lnL)+"\n")
         except:
             with open(M1_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M1_cml.working_dir.strip("_dir/M1").strip("Families/")+"\tM1\tNA\tNA\n")
+                out.write(family+"\tM1\tNA\tNA\n")
 
 
 rule M2:
@@ -743,6 +747,8 @@ rule M2:
 
 
         M2_results = M2_cml.run(verbose=True)
+        identifiers = re.search("Families/"+"(.*)"+"_dir",output[0])
+        family=identifiers.groups()[0]
         try:
 
             M2_lnL = M2_results.get("NSsites").get(2).get("lnL")
@@ -750,10 +756,10 @@ rule M2:
             print("@@@@@@@@@@@@@@@@@@@@")
             print(M2_lnL,M2_np,M2_cml.working_dir)
             with open(M2_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M2_cml.working_dir.strip("_dir/M2").strip("Families/")+"\tM2\t"+str(M2_np)+"\t"+str(M2_lnL)+"\n")
+                out.write(family+"\tM2\t"+str(M2_np)+"\t"+str(M2_lnL)+"\n")
         except:
             with open(M2_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M2_cml.working_dir.strip("_dir/M2").strip("Families/")+"\tM2\tNA\tNA\n")
+                out.write(family+"\tM2\tNA\tNA\n")
 
 rule M3:
     input:
@@ -793,6 +799,8 @@ rule M3:
 
 
         M3_results = M3_cml.run(verbose=True)
+        identifiers = re.search("Families/"+"(.*)"+"_dir",output[0])
+        family=identifiers.groups()[0]
         try:
 
             M3_lnL = M3_results.get("NSsites").get(3).get("lnL")
@@ -800,10 +808,10 @@ rule M3:
             print("@@@@@@@@@@@@@@@@@@@@")
             print(M3_lnL,M3_np,M3_cml.working_dir)
             with open(M3_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M3_cml.working_dir.strip("_dir/M3").strip("Families/")+"\tM3\t"+str(M3_np)+"\t"+str(M3_lnL)+"\n")
+                out.write(family+"\tM3\t"+str(M3_np)+"\t"+str(M3_lnL)+"\n")
         except:
             with open(M3_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M3_cml.working_dir.strip("_dir/M3").strip("Families/")+"\tM3\tNA\tNA\n")
+                out.write(family+"\tM3\tNA\tNA\n")
 
 rule M7:
     input:
@@ -843,6 +851,8 @@ rule M7:
 
 
         M7_results = M7_cml.run(verbose=True)
+        identifiers = re.search("Families/"+"(.*)"+"_dir",output[0])
+        family=identifiers.groups()[0]
         try:
 
             M7_lnL = M7_results.get("NSsites").get(7).get("lnL")
@@ -850,10 +860,10 @@ rule M7:
             print("@@@@@@@@@@@@@@@@@@@@")
             print(M7_lnL,M7_np,M7_cml.working_dir)
             with open(M7_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M7_cml.working_dir.strip("_dir/M7").strip("Families/")+"\tM7\t"+str(M7_np)+"\t"+str(M7_lnL)+"\n")
+                out.write(family+"\tM7\t"+str(M7_np)+"\t"+str(M7_lnL)+"\n")
         except:
             with open(M7_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M7_cml.working_dir.strip("_dir/M7").strip("Families/")+"\tM7\tNA\tNA\n")
+                out.write(family+"\tM7\tNA\tNA\n")
 
 rule M8:
     input:
@@ -893,6 +903,8 @@ rule M8:
 
 
         M8_results = M8_cml.run(verbose=True)
+        identifiers = re.search("Families/"+"(.*)"+"_dir",output[0])
+        family=identifiers.groups()[0]
         try:
 
             M8_lnL = M8_results.get("NSsites").get(8).get("lnL")
@@ -900,10 +912,10 @@ rule M8:
             print("@@@@@@@@@@@@@@@@@@@@")
             print(M8_lnL,M8_np,M8_cml.working_dir)
             with open(M8_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M8_cml.working_dir.strip("_dir/M8").strip("Families/")+"\tM8\t"+str(M8_np)+"\t"+str(M8_lnL)+"\n")
+                out.write(family+"\tM8\t"+str(M8_np)+"\t"+str(M8_lnL)+"\n")
         except:
             with open(M8_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M8_cml.working_dir.strip("_dir/M8").strip("Families/")+"\tM8\tNA\tNA\n")
+                out.write(family+"\tM8\tNA\tNA\n")
 
 
 
@@ -948,6 +960,8 @@ rule M8a:
 
 
         M8a_results=M8a_cml.run(verbose=True)
+        identifiers = re.search("Families/"+"(.*)"+"_dir",output[0])
+        family=identifiers.groups()[0]
         try:
 
             M8a_lnL = M8a_results.get("NSsites").get(8).get("lnL")
@@ -955,10 +969,10 @@ rule M8a:
             print("@@@@@@@@@@@@@@@@@@@@")
             print(M8a_lnL,M8a_np,M8a_cml.working_dir+"statsfile.txt")
             with open(M8a_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M8a_cml.working_dir.strip("_dir/M8a").strip("Families/")+"\tM8a\t"+str(M8a_np)+"\t"+str(M8a_lnL)+"\n")
+                out.write(family+"\tM8a\t"+str(M8a_np)+"\t"+str(M8a_lnL)+"\n")
         except:
             with open(M8a_cml.working_dir+"statsfile.txt","w") as out:
-                out.write(M8a_cml.working_dir.strip("_dir/M8a").strip("Families/")+"\tM8a\tNA\tNA\n")
+                out.write(family+"\tM8a\tNA\tNA\n")
 
 
 
