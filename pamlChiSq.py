@@ -13,7 +13,7 @@ else:
     print("\nplease specify input directory name using -d <directory_name> \n")
     sys.exit()
 
-finalStatsfile = working_dir.split("/")[1] + "/finalStatsfile.txt"
+finalStatsfile = working_dir + "/finalStatsfile.txt"
 
 ChiSq_dict = {}
 if os.path.exists(finalStatsfile):
