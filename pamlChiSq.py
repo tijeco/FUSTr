@@ -37,7 +37,7 @@ if os.path.exists(finalStatsfile):
                 #     ChiSq_dict[row[0]] = {}
                 #     ChiSq_dict[row[0]][row[1]] = (row[2],row[3])
 
-#print(ChiSq_dict)
+print(ChiSq_dict)
 
 for i in ChiSq_dict.keys():
     print(i,ChiSq_dict[i]["M8"],ChiSq_dict[i]["M8a"])
