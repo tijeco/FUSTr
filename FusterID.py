@@ -26,7 +26,7 @@ if os.path.exists(fusterID_file):
             for line in f:
                 row = line.strip().split()
                 id_dict[row[0]] = row[1]
-        with open("familyFile.txt","w") as out:
+        with open(working_dir+"_familyFile.txt","w") as out:
             with open(family_file) as f:
                 for line in f:
                     row = line.strip().split()
