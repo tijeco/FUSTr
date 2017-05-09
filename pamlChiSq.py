@@ -24,6 +24,9 @@ if os.path.exists(finalStatsfile):
                 #ChiSq_dict[row[0]] = True
                 try:
                     print(row[0])
+                    if row[0] not in ChiSq_dict:
+                        ChiSq_dict[row[0]] = {}
+                    ChiSq_dict[row[0]][row[1]] = (row[2],row[3])
                 except:
                     None
                 # try:
