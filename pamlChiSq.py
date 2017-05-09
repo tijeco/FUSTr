@@ -22,7 +22,7 @@ if os.path.exists(finalStatsfile):
             for line in f:
                 row = line.strip().split()
                 #ChiSq_dict[row[0]] = True
-                row[0]
+                print(row)
                 # try:
                 #
                 #     ChiSq_dict[row[0]][row[1]] = (row[2],row[3])
