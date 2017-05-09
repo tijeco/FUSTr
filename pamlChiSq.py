@@ -21,6 +21,7 @@ if os.path.exists(finalStatsfile):
         with open(finalStatsfile) as f:
             for line in f:
                 row = line.strip().split()
+                print(row)
                 if row[0] not in ChiSq_dict:
                     ChiSq_dict[row[0]] = {}
                 ChiSq_dict[row[0]][row[1]] = (row[2],row[3])
