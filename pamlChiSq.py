@@ -21,10 +21,11 @@ if os.path.exists(finalStatsfile):
         with open(finalStatsfile) as f:
             for line in f:
                 row = line.strip().split()
-                try: 
+                try:
 
                     ChiSq_dict[row[0]][row[1]] = (row[2],row[3])
                 except:
+                    print(row[0])
                     ChiSq_dict[row[0]] = {}
                     ChiSq_dict[row[0]][row[1]] = (row[2],row[3])
 
