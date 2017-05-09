@@ -42,4 +42,4 @@ print(ChiSq_dict)
 for i in ChiSq_dict.keys():
     # print(i,ChiSq_dict[i]["M8"],ChiSq_dict[i]["M8a"])
     print(i)
-    ChiSq_dict[i]
+    print(ChiSq_dict[i])
