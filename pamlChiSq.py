@@ -106,7 +106,7 @@ for i in ChiSq_dict.keys():
     # print(cdf_chi2(1, 5.74))
     if M8_M8a_chiSq>=0:
         print(True)
-        print(stats.chi2.sf(M8_M8a_df,M8_M8a_chiSq))
+        print(stats.chi2.sf(M8_M8a_chiSq,M8_M8a_df))
         # print(cdf_chi2(M8_M8a_df,M8_M8a_chiSq))
         # print(stats.chi2.sf(3.84, 1))
 
