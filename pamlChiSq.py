@@ -28,7 +28,12 @@ if os.path.exists(finalStatsfile):
                     # print(row[0])
                     if row[0] not in ChiSq_dict:
                         ChiSq_dict[row[0]] = {}
-                    ChiSq_dict[row[0]][row[1]] = (float(row[2]),float(row[3]))
+                    try:
+                        ChiSq_dict[row[0]][row[1]] = (float(row[2]),float(row[3]))
+
+                    except:
+                        ChiSq_dict[row[0]][row[1]] = (None,None) 
+
                 except:
                     None
                 # try:
