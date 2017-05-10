@@ -48,7 +48,7 @@ for i in ChiSq_dict.keys():
     M3_M0_df = ChiSq_dict[i]["M3"][0]-ChiSq_dict[i]["M0"][0]
     # try:
 
-
+    print(M3_M0_chiSq>0) 
     if M3_M0_chiSq > 0:
         print( cdf_chi2(M3_M0_df, M3_M0_chiSq))
 
@@ -65,7 +65,7 @@ for i in ChiSq_dict.keys():
     M2_M1_df = ChiSq_dict[i]["M2"][0]-ChiSq_dict[i]["M1"][0]
     # try:
 
-
+    print(M2_M1_chiSq>0) 
     if M2_M1_chiSq > 0:
         print( cdf_chi2(M2_M1_df, M2_M1_chiSq))
 
@@ -80,7 +80,7 @@ for i in ChiSq_dict.keys():
     M8_M7_df = ChiSq_dict[i]["M8"][0]-ChiSq_dict[i]["M7"][0]
     # try:
 
-
+    print(M8_M7_chiSq>0) 
     if M8_M7_chiSq > 0:
         print( cdf_chi2(M8_M7_df, M8_M7_chiSq))
 
@@ -95,7 +95,7 @@ for i in ChiSq_dict.keys():
     M8_M8a_df = ChiSq_dict[i]["M8"][0]-ChiSq_dict[i]["M8a"][0]
     # try:
 
-
+    print(M8_M8a_chiSq>0) 
     if M8_M8a_chiSq > 0:
         print( cdf_chi2(M8_M8a_df, M8_M8a_chiSq))
 
