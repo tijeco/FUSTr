@@ -42,16 +42,16 @@ print(ChiSq_dict)
 for i in ChiSq_dict.keys():
 
 
-    print("M3 - M0",i,(ChiSq_dict[i]["M3"][1]-ChiSq_dict[i]["M0"][1]))
+    print("M3-M0",i,2*ChiSq_dict[i]["M3"][1]-ChiSq_dict[i]["M0"][1]))
 
 
-    print("M2 -M1",i,(ChiSq_dict[i]["M2"][1]-ChiSq_dict[i]["M1"][1]))
+    print("M2-M1",i,2*(ChiSq_dict[i]["M2"][1]-ChiSq_dict[i]["M1"][1]))
 
 
-    print("M8 - M7",i,(ChiSq_dict[i]["M8"][1]-ChiSq_dict[i]["M7"][1]))
+    print("M8-M7",i,2*(ChiSq_dict[i]["M8"][1]-ChiSq_dict[i]["M7"][1]))
 
 
 
-    print("M8 - M8a",i,(ChiSq_dict[i]["M8"][1]-ChiSq_dict[i]["M8a"][1]))
+    print("M8 M8a",i,2*(ChiSq_dict[i]["M8"][1]-ChiSq_dict[i]["M8a"][1]))
     # print(i)
     # print(ChiSq_dict[i])
