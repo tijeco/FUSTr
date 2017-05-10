@@ -19,7 +19,7 @@ finalStatsfile = working_dir + "/finalStatsfile.txt"
 
 ChiSq_dict = {}
 if os.path.exists(finalStatsfile):
-    with open(working_dir+"/ChiSq.txt","w") as out:
+    with open("simChiSq.txt","w") as out:
         with open(finalStatsfile) as f:
             for line in f:
                 row = line.strip().split()
