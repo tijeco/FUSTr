@@ -19,7 +19,7 @@ finalStatsfile = working_dir + "/finalStatsfile.txt"
 
 ChiSq_dict = {}
 if os.path.exists(finalStatsfile):
-    with open(working_dir+"simChiSq.txt","w") as out:
+    with open(working_dir+"_ChiSq.txt","w") as out:
         with open(finalStatsfile) as f:
             for line in f:
                 row = line.strip().split()
@@ -32,7 +32,7 @@ if os.path.exists(finalStatsfile):
                         ChiSq_dict[row[0]][row[1]] = (float(row[2]),float(row[3]))
 
                     except:
-                        ChiSq_dict[row[0]][row[1]] = (0,0) 
+                        ChiSq_dict[row[0]][row[1]] = (0,0)
 
                 except:
                     None
