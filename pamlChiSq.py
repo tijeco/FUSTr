@@ -44,86 +44,23 @@ if os.path.exists(finalStatsfile):
 for i in ChiSq_dict.keys():
 
 
-    # print("M3-M0",i,2*(ChiSq_dict[i]["M3"][1]-ChiSq_dict[i]["M0"][1]),ChiSq_dict[i]["M3"][0]-ChiSq_dict[i]["M0"][0])
     M3_M0_chiSq = 2*(ChiSq_dict[i]["M3"][1]-ChiSq_dict[i]["M0"][1])
     M3_M0_df = ChiSq_dict[i]["M3"][0]-ChiSq_dict[i]["M0"][0]
-    # try:
-
-    # print(M3_M0_chiSq>0)
-    if M3_M0_chiSq>0:
-        # print(True)
-        None
-    # if M3_M0_chiSq > 0:
-        # print( cdf_chi2(M3_M0_df, M3_M0_chiSq))
-
-    # except:
-        #  M3_M0_pvalue = None
-        #  print(M3_M0_chiSq,"M3_M0_pvalue")
-        # None
+    M3_M0_pvalue = stats.chi2.sf(M3_M0_chiSq,M3_M0_df)
+    print(M3_M0_pvalue)
 
 
-
-
-    # print("M2-M1",i,2*(ChiSq_dict[i]["M2"][1]-ChiSq_dict[i]["M1"][1]),ChiSq_dict[i]["M2"][0]-ChiSq_dict[i]["M1"][0])
     M2_M1_chiSq = 2*(ChiSq_dict[i]["M2"][1]-ChiSq_dict[i]["M1"][1])
     M2_M1_df = ChiSq_dict[i]["M2"][0]-ChiSq_dict[i]["M1"][0]
-    # try:
+    M2_M1_pvalue = stats.chi2.sf(M2_M1_chiSq,M2_M1_df)
+    print(M2_M1_pvalue)
 
-    # print(M2_M1_chiSq>0)
-    if M2_M1_chiSq>0:
-        # print(True)
-        None
-    # if M2_M1_chiSq > 0:
-        # print( cdf_chi2(M2_M1_df, M2_M1_chiSq))
-
-    # except:
-        #  M2_M1_pvalue = None
-        #  print(M2_M1_chiSq,"M2_M1_pvalue")
-        # None
-
-
-    # print("M8-M7",i,2*(ChiSq_dict[i]["M8"][1]-ChiSq_dict[i]["M7"][1]),ChiSq_dict[i]["M8"][0]-ChiSq_dict[i]["M7"][0])
     M8_M7_chiSq = 2*(ChiSq_dict[i]["M8"][1]-ChiSq_dict[i]["M7"][1])
     M8_M7_df = ChiSq_dict[i]["M8"][0]-ChiSq_dict[i]["M7"][0]
-    # try:
+    M8_M7_pvalue = stats.chi2.sf(M8_M7_chiSq,M8_M7_df)
+    print(M8_M7_pvalue)
 
-    # print(M8_M7_chiSq>0)
-    if M8_M7_chiSq>0:
-        # print(True)
-        None
-    # if M8_M7_chiSq > 0:
-        # print( cdf_chi2(M8_M7_df, M8_M7_chiSq))
-
-    # except:
-        #  M8_M7_pvalue = None
-        #  print(M8_M7_chiSq,"M8_M7_pvalue")
-        # None
-
-
-    # print("M8 M8a",i,2*(ChiSq_dict[i]["M8"][1]-ChiSq_dict[i]["M8a"][1]),    ChiSq_dict[i]["M8"][0]-ChiSq_dict[i]["M8a"][0])
     M8_M8a_chiSq = 2*(ChiSq_dict[i]["M8"][1]-ChiSq_dict[i]["M8a"][1])
     M8_M8a_df = ChiSq_dict[i]["M8"][0]-ChiSq_dict[i]["M8a"][0]
-    # try:
-
-    # print(M8_M8a_chiSq>0)
-    # print(cdf_chi2(1, 5.74))
-    if M8_M8a_chiSq>=0:
-        # print(True)
-        None
-        # print(stats.chi2.sf(M8_M8a_chiSq,M8_M8a_df))
-    else:
-        print(stats.chi2.sf(M8_M8a_chiSq,M8_M8a_df))
-        # print(cdf_chi2(M8_M8a_df,M8_M8a_chiSq))
-        # print(stats.chi2.sf(3.84, 1))
-
-    # if M8_M8a_chiSq > 0:
-        # print( cdf_chi2(M8_M8a_df, M8_M8a_chiSq))
-
-    # except:
-        #  M8_M8a_pvalue = None
-        #  print(M8_M8a_chiSq,"M8_M8a_pvalue")
-        # None
-
-
-    # print(i)
-    # print(ChiSq_dict[i])
+    M8_M8a_pvalue = stats.chi2.sf(M8_M8a_chiSq,M8_M8a_df)
+    print(M8_M8a_pvalue)
