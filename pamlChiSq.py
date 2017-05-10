@@ -50,7 +50,7 @@ for i in ChiSq_dict.keys():
         M3_M0_pvalue = cdf_chi2(M3_M0_df, M3_M0_chiSq)
 
     except:
-         M3_M0_pvalue = "NaN"
+         M3_M0_pvalue = None
          print(M3_M0_chiSq)
 
 
@@ -63,7 +63,7 @@ for i in ChiSq_dict.keys():
         M2_M1_pvalue = cdf_chi2(M2_M1_df, M2_M1_chiSq)
 
     except:
-         M2_M1_pvalue = "NaN"
+         M2_M1_pvalue = None
          print(M2_M1_chiSq)
 
 
@@ -74,7 +74,7 @@ for i in ChiSq_dict.keys():
         M8_M7_pvalue = cdf_chi2(M8_M7_df, M8_M7_chiSq)
 
     except:
-         M8_M7_pvalue = "NaN"
+         M8_M7_pvalue = None
          print(M8_M7_chiSq)
 
 
@@ -85,7 +85,7 @@ for i in ChiSq_dict.keys():
         M8_M8a_pvalue = cdf_chi2(M8_M8a_df, M8_M8a_chiSq)
 
     except:
-         M8_M8a_pvalue = "NaN"
+         M8_M8a_pvalue = None
          print(M8_M8a_chiSq)
 
 
