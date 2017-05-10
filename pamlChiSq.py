@@ -42,7 +42,7 @@ print(ChiSq_dict)
 for i in ChiSq_dict.keys():
 
 
-    print("M3-M0",i,2*ChiSq_dict[i]["M3"][1]-ChiSq_dict[i]["M0"][1]))
+    print("M3-M0",i,2*(ChiSq_dict[i]["M3"][1]-ChiSq_dict[i]["M0"][1]))
 
 
     print("M2-M1",i,2*(ChiSq_dict[i]["M2"][1]-ChiSq_dict[i]["M1"][1]))
