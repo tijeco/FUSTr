@@ -1,7 +1,8 @@
 import sys
 import os.path
-from Bio.Phylo.PAML.chi2 import cdf_chi2
-print(cdf_chi2(2, 7.21))
+from scipy import stats
+
+# print(cdf_chi2(2, 7.21))
 
 def getOptionValue(option):
     optionPos = [i for i, j in enumerate(sys.argv) if j == option][0]
@@ -102,7 +103,7 @@ for i in ChiSq_dict.keys():
     # try:
 
     # print(M8_M8a_chiSq>0)
-    print(cdf_chi2(1, 5.74))
+    # print(cdf_chi2(1, 5.74))
     if M8_M8a_chiSq>=0:
         print(True)
         print(M8_M8a_df,M8_M8a_chiSq)
