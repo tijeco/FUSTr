@@ -70,53 +70,53 @@ rule cleanFasta:
                 trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
                 if trinity_identifiers !=None:
                     Trinity_bool = True
-                min = -1
-                max = 0
-
-                #go through and find non-nucleotides, cut  out spurious strings in sequences
-                for i in range(len(seq)):
-                    if seq[i] not in "ATCGNatcgn":
-                        if  i!= 0:
-                            if min == -1:
-                                min = i
-                        else:
-                            min = 0
-                        if i > max:
-                            max = i
-                if min != -1 and max!= 0:
-                    #modified_header = headerStr+".modified"
-                    new_seq = seq[0:min] + seq[max+1:]
-                else:
-                    new_seq = seq
-
-                allNbool = False
-                # go through remove sequences entirely made up of Ns
-                #NOTE may be  unnecessary
-                if "n" in seq or "N" in seq:
-                    if len(set(seq)) == 2:
-                        if "N" in set(seq) and "n" in set(seq):
-                            allNbool = True
-                            #print(seq, "will be removed")
-                    if len(set(seq)) == 1:
-                        if "N" in set(seq) or "n" in set(seq):
-                            #print(seq,"is just Ns")
-                            allNbool = True
-                if not allNbool:
-                    out.write(">"+headerStr+'\n')
-                    out.write(new_seq +"\n")
-                    fileLength+=1
-                    splitHeader = re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', headerStr)
-                    colNum = len(splitHeader)
+                # min = -1
+                # max = 0
+                #
+                # #go through and find non-nucleotides, cut  out spurious strings in sequences
+                # for i in range(len(seq)):
+                #     if seq[i] not in "ATCGNatcgn":
+                #         if  i!= 0:
+                #             if min == -1:
+                #                 min = i
+                #         else:
+                #             min = 0
+                #         if i > max:
+                #             max = i
+                # if min != -1 and max!= 0:
+                #     #modified_header = headerStr+".modified"
+                #     new_seq = seq[0:min] + seq[max+1:]
+                # else:
+                #     new_seq = seq
+                #
+                # allNbool = False
+                # # go through remove sequences entirely made up of Ns
+                # #NOTE may be  unnecessary
+                # if "n" in seq or "N" in seq:
+                #     if len(set(seq)) == 2:
+                #         if "N" in set(seq) and "n" in set(seq):
+                #             allNbool = True
+                #             #print(seq, "will be removed")
+                #     if len(set(seq)) == 1:
+                #         if "N" in set(seq) or "n" in set(seq):
+                #             #print(seq,"is just Ns")
+                #             allNbool = True
+                # if not allNbool:
+                out.write(">"+headerStr+'\n')
+                out.write(seq +"\n")
+                fileLength+=1
+                splitHeader = re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', headerStr)
+                colNum = len(splitHeader)
+                try:
+                    usableColumns = min(colNum, usableColumns)
+                except:
+                    usableColumns = colNum
+                for i in range(usableColumns):
                     try:
-                        usableColumns = min(colNum, usableColumns)
+                        wordDict[i][splitHeader[i]] = True
                     except:
-                        usableColumns = colNum
-                    for i in range(usableColumns):
-                        try:
-                            wordDict[i][splitHeader[i]] = True
-                        except:
-                            wordDict[i] = {}
-                            wordDict[i][splitHeader[i]] = True
+                        wordDict[i] = {}
+                        wordDict[i][splitHeader[i]] = True
             for i in range(usableColumns):
                 if len(wordDict[i].keys()) == fileLength:
                     signature+="{unique_id}:"
@@ -977,7 +977,7 @@ rule M8a:
 
 
 
-rule ChiSq:
+rule statsfile:
     input:
         dynamic("Families/family_{fam}_dir/M0/family_{fam}.mcl"),
         dynamic("Families/family_{fam}_dir/M1/family_{fam}.mcl"),
@@ -997,6 +997,7 @@ rule ChiSq:
 
                 for line in open(dir_1+"/"+dir_2+"/"+dir_3+"/"+"statsfile.txt"):
                     out.write(line)
+
 
 
 rule FUBAR:
