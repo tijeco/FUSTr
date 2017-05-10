@@ -50,7 +50,8 @@ for i in ChiSq_dict.keys():
         M3_M0_pvalue = cdf_chi2(M3_M0_df, M3_M0_chiSq)
     except:
         #  M3_M0_pvalue = None
-         print(M3_M0_chiSq,"M3_M0_pvalue")
+        #  print(M3_M0_chiSq,"M3_M0_pvalue")
+        None
 
 
 
@@ -62,7 +63,8 @@ for i in ChiSq_dict.keys():
         M2_M1_pvalue = cdf_chi2(M2_M1_df, M2_M1_chiSq)
     except:
         #  M2_M1_pvalue = None
-         print(M2_M1_chiSq,"M2_M1_pvalue")
+        #  print(M2_M1_chiSq,"M2_M1_pvalue")
+        None
 
 
     # print("M8-M7",i,2*(ChiSq_dict[i]["M8"][1]-ChiSq_dict[i]["M7"][1]),ChiSq_dict[i]["M8"][0]-ChiSq_dict[i]["M7"][0])
@@ -72,7 +74,8 @@ for i in ChiSq_dict.keys():
         M8_M7_pvalue = cdf_chi2(M8_M7_df, M8_M7_chiSq)
     except:
         #  M8_M7_pvalue = None
-         print(M8_M7_chiSq,"M8_M7_pvalue")
+        #  print(M8_M7_chiSq,"M8_M7_pvalue")
+        None
 
 
     # print("M8 M8a",i,2*(ChiSq_dict[i]["M8"][1]-ChiSq_dict[i]["M8a"][1]),    ChiSq_dict[i]["M8"][0]-ChiSq_dict[i]["M8a"][0])
@@ -82,7 +85,8 @@ for i in ChiSq_dict.keys():
         M8_M8a_pvalue = cdf_chi2(M8_M8a_df, M8_M8a_chiSq)
     except:
         #  M8_M8a_pvalue = None
-         print(M8_M8a_chiSq,"M8_M8a_pvalue")
+        #  print(M8_M8a_chiSq,"M8_M8a_pvalue")
+        None
 
 
     # print(i)
