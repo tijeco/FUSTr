@@ -43,23 +43,23 @@ for i in ChiSq_dict.keys():
 
 
     print("M3-M0",i,2*(ChiSq_dict[i]["M3"][1]-ChiSq_dict[i]["M0"][1]),ChiSq_dict[i]["M3"][0]-ChiSq_dict[i]["M0"][0])
-    M3.M0_chiSq = 2*(ChiSq_dict[i]["M3"][1]-ChiSq_dict[i]["M0"][1])
-    M3.M0_df = ChiSq_dict[i]["M3"][0]-ChiSq_dict[i]["M0"][0]
+    M3_M0_chiSq = 2*(ChiSq_dict[i]["M3"][1]-ChiSq_dict[i]["M0"][1])
+    M3_M0_df = ChiSq_dict[i]["M3"][0]-ChiSq_dict[i]["M0"][0]
 
 
     print("M2-M1",i,2*(ChiSq_dict[i]["M2"][1]-ChiSq_dict[i]["M1"][1]),ChiSq_dict[i]["M2"][0]-ChiSq_dict[i]["M1"][0])
-    M2.M1_chiSq = 2*(ChiSq_dict[i]["M2"][1]-ChiSq_dict[i]["M1"][1])
-    M2.M1_df = ChiSq_dict[i]["M2"][0]-ChiSq_dict[i]["M1"][0]
+    M2_M1_chiSq = 2*(ChiSq_dict[i]["M2"][1]-ChiSq_dict[i]["M1"][1])
+    M2_M1_df = ChiSq_dict[i]["M2"][0]-ChiSq_dict[i]["M1"][0]
 
 
     print("M8-M7",i,2*(ChiSq_dict[i]["M8"][1]-ChiSq_dict[i]["M7"][1]),ChiSq_dict[i]["M8"][0]-ChiSq_dict[i]["M7"][0])
-    M8.M7_chiSq = 2*(ChiSq_dict[i]["M8"][1]-ChiSq_dict[i]["M7"][1])
-    M8.M7_df = ChiSq_dict[i]["M8"][0]-ChiSq_dict[i]["M7"][0]
+    M8_M7_chiSq = 2*(ChiSq_dict[i]["M8"][1]-ChiSq_dict[i]["M7"][1])
+    M8_M7_df = ChiSq_dict[i]["M8"][0]-ChiSq_dict[i]["M7"][0]
 
 
     print("M8 M8a",i,2*(ChiSq_dict[i]["M8"][1]-ChiSq_dict[i]["M8a"][1]),    ChiSq_dict[i]["M8"][0]-ChiSq_dict[i]["M8a"][0])
-    M8.M8a_chiSq = 2*(ChiSq_dict[i]["M8"][1]-ChiSq_dict[i]["M8a"][1])
-    M8.M8a_df = ChiSq_dict[i]["M8"][0]-ChiSq_dict[i]["M8a"][0]  
+    M8_M8a_chiSq = 2*(ChiSq_dict[i]["M8"][1]-ChiSq_dict[i]["M8a"][1])
+    M8_M8a_df = ChiSq_dict[i]["M8"][0]-ChiSq_dict[i]["M8a"][0]
 
 
     # print(i)
