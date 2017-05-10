@@ -1,7 +1,7 @@
 import sys
 import os.path
 from Bio.Phylo.PAML.chi2 import cdf_chi2
-print(cdf_chi2(1, 6.2))
+print(cdf_chi2(1, 7.21))
 
 def getOptionValue(option):
     optionPos = [i for i, j in enumerate(sys.argv) if j == option][0]
