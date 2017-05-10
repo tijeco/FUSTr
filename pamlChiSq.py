@@ -40,6 +40,18 @@ if os.path.exists(finalStatsfile):
 print(ChiSq_dict)
 
 for i in ChiSq_dict.keys():
+
+    print("M3 - M0"),
+    print(i,ChiSq_dict[i]["M3"],ChiSq_dict[i]["M0"])
+
+    print("M2 -M1"),
+    print(i,ChiSq_dict[i]["M2"],ChiSq_dict[i]["M1"])
+
+    print("M8 - M7"),
+    print(i,ChiSq_dict[i]["M8"],ChiSq_dict[i]["M7"])
+
+
+    print("M8 - M8a"),
     print(i,ChiSq_dict[i]["M8"],ChiSq_dict[i]["M8a"])
     # print(i)
     # print(ChiSq_dict[i])
