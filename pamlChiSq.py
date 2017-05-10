@@ -48,23 +48,23 @@ if os.path.exists(finalStatsfile):
             M3_M0_df = ChiSq_dict[i]["M3"][0]-ChiSq_dict[i]["M0"][0]
             M3_M0_pvalue = stats.chi2.sf(M3_M0_chiSq,M3_M0_df)
             print(i,"M3_M0",M3_M0_pvalue)
-            out.write(i+"\tM3_M0\t"+str(M3_M0_pvalue))
+            out.write(i+"\tM3_M0\t"+str(M3_M0_pvalue)+"\n")
 
 
             M2_M1_chiSq = 2*(ChiSq_dict[i]["M2"][1]-ChiSq_dict[i]["M1"][1])
             M2_M1_df = ChiSq_dict[i]["M2"][0]-ChiSq_dict[i]["M1"][0]
             M2_M1_pvalue = stats.chi2.sf(M2_M1_chiSq,M2_M1_df)
             print(i,"M2_M1",M2_M1_pvalue)
-            out.write(i+"\tM2_M1\t"+str(M2_M1_pvalue))
+            out.write(i+"\tM2_M1\t"+str(M2_M1_pvalue)+"\n")
 
             M8_M7_chiSq = 2*(ChiSq_dict[i]["M8"][1]-ChiSq_dict[i]["M7"][1])
             M8_M7_df = ChiSq_dict[i]["M8"][0]-ChiSq_dict[i]["M7"][0]
             M8_M7_pvalue = stats.chi2.sf(M8_M7_chiSq,M8_M7_df)
             print(i,"M8_M7",M8_M7_pvalue)
-            out.write(i+"\tM8_M7\t"+str(M8_M7_pvalue))
+            out.write(i+"\tM8_M7\t"+str(M8_M7_pvalue)+"\n")
 
             M8_M8a_chiSq = 2*(ChiSq_dict[i]["M8"][1]-ChiSq_dict[i]["M8a"][1])
             M8_M8a_df = ChiSq_dict[i]["M8"][0]-ChiSq_dict[i]["M8a"][0]
             M8_M8a_pvalue = stats.chi2.sf(M8_M8a_chiSq,M8_M8a_df)
             print(i,"M8_M8a",M8_M8a_pvalue)
-            out.write(i+"\tM8_M8a\t"+str(M8_M8a_pvalue))
+            out.write(i+"\tM8_M8a\t"+str(M8_M8a_pvalue)+"\n")
