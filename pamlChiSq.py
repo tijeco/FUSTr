@@ -30,7 +30,7 @@ if os.path.exists(finalStatsfile):
                         ChiSq_dict[row[0]] = {}
                     ChiSq_dict[row[0]][row[1]] = (float(row[2]),float(row[3]))
                 except:
-                    None
+                    None 
                 # try:
                 #
                 #     ChiSq_dict[row[0]][row[1]] = (row[2],row[3])
