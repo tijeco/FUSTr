@@ -103,7 +103,7 @@ rule cleanFasta:
                 #             allNbool = True
                 # if not allNbool:
                 out.write(">"+headerStr+'\n')
-                out.write(seq +"\n")
+                out.write(  seq +"\n")
                 fileLength+=1
                 splitHeader = re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', headerStr)
                 colNum = len(splitHeader)
