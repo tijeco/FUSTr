@@ -974,7 +974,7 @@ rule M8a:
             with open(M8a_cml.working_dir+"statsfile.txt","w") as out:
                 out.write(family+"\tM8a\tNA\tNA\n")
 
-
+ 
 
 
 rule statsfile:
