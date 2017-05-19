@@ -388,7 +388,7 @@ rule node2families:
                         out.write('>'+j+'\n')
                         out.write(seqDict[j]+'\n')
             else:
-                FileName = "Families/family_"+i+".too_small.fas"
+                FileName = "Families/family_"+i+".only_"+str(len(famDict[i]))+"_seqs.fas"
                 with open(FileName, "w") as out:
                     for j in famDict[i]:
                         out.write('>'+j+'\n')
@@ -974,7 +974,7 @@ rule M8a:
             with open(M8a_cml.working_dir+"statsfile.txt","w") as out:
                 out.write(family+"\tM8a\tNA\tNA\n")
 
- 
+
 
 
 rule statsfile:
