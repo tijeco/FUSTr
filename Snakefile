@@ -36,8 +36,8 @@ COUNTER = []
 
 
 rule final:
-    input:"finalStatsfile.txt"
-    #input:dynamic("Families/family_{fam}_dir/family_{fam}.tree.fubar.csv")
+    #input:"finalStatsfile.txt"
+    input:dynamic("Families/family_{fam}_dir/family_{fam}.tree.fubar.csv")
     #input:dynamic("Families/family_{fam}_dir/M8a/tmp.txt")
 
 
@@ -1002,7 +1002,7 @@ rule statsfile:
 
 rule FUBAR:
     input:
-        tmp="Families/family_{fam}_dir/M8a/tmp.txt",
+        stat="finalStatsfile.txt"
         align="Families/family_{fam}_dir/family_{fam}.aln.codon",
         tree="Families/family_{fam}_dir/family_{fam}.tree"
     output:
