@@ -31,7 +31,7 @@ def stringSplitter(string):
     return finalString
 
 
-SAMPLES, = glob_wildcards("{sample}.fasta")  
+SAMPLES, = glob_wildcards("{sample}.fasta")
 COUNTER = []
 
 
@@ -1002,7 +1002,7 @@ rule statsfile:
 
 rule FUBAR:
     input:
-        stat="finalStatsfile.txt"
+        stat="finalStatsfile.txt",
         align="Families/family_{fam}_dir/family_{fam}.aln.codon",
         tree="Families/family_{fam}_dir/family_{fam}.tree"
     output:
