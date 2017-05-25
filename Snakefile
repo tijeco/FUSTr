@@ -31,7 +31,7 @@ def stringSplitter(string):
     return finalString
 
 
-SAMPLES, = glob_wildcards("{sample}.fasta") 
+SAMPLES, = glob_wildcards("{sample}.fasta")  
 COUNTER = []
 
 
