@@ -998,6 +998,22 @@ rule statsfile:
                 for line in open(dir_1+"/"+dir_2+"/"+dir_3+"/"+"statsfile.txt"):
                     out.write(line)
 
+rule codon2aln:
+    input:
+        "Families/family_{fam}_dir/family_{fam}.codon.phylip"
+    output:
+        "Families/family_{fam}_dir/family_{fam}.aln.codon"
+    run:
+        first_line = True
+        with open(output[0],"w") as out:
+            with open(input[0]) as f:
+                for line in f:
+                    if first_line:
+                        first_line = False
+                    else:
+                        out.write(">"+line.strip().split()[0]+"\n")
+                        out.write(line.strip()[1]+"\n")
+
 
 
 rule FUBAR:
