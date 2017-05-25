@@ -31,11 +31,11 @@ def stringSplitter(string):
     return finalString
 
 
-SAMPLES, = glob_wildcards("{sample}.fasta")
+SAMPLES, = glob_wildcards("{sample}.fasta") 
 COUNTER = []
 
 
-rule final: 
+rule final:
     #input:"finalStatsfile.txt"
     input:dynamic("Families/family_{fam}_dir/family_{fam}.tree.fubar.csv")
     #input:dynamic("Families/family_{fam}_dir/M8a/tmp.txt")
