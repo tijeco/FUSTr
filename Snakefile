@@ -8,6 +8,8 @@ from Bio import AlignIO #no longer needed 5.3.17
 from Bio import SeqIO #no longer needed 5.3.17
 import sys #no longer needed 5.3.17
 import re
+from scipy import stats
+
 
 def fasta_iter(fasta_name):
     fh = open(fasta_name)
@@ -70,38 +72,6 @@ rule cleanFasta:
                 trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
                 if trinity_identifiers !=None:
                     Trinity_bool = True
-                # min = -1
-                # max = 0
-                #
-                # #go through and find non-nucleotides, cut  out spurious strings in sequences
-                # for i in range(len(seq)):
-                #     if seq[i] not in "ATCGNatcgn":
-                #         if  i!= 0:
-                #             if min == -1:
-                #                 min = i
-                #         else:
-                #             min = 0
-                #         if i > max:
-                #             max = i
-                # if min != -1 and max!= 0:
-                #     #modified_header = headerStr+".modified"
-                #     new_seq = seq[0:min] + seq[max+1:]
-                # else:
-                #     new_seq = seq
-                #
-                # allNbool = False
-                # # go through remove sequences entirely made up of Ns
-                # #NOTE may be  unnecessary
-                # if "n" in seq or "N" in seq:
-                #     if len(set(seq)) == 2:
-                #         if "N" in set(seq) and "n" in set(seq):
-                #             allNbool = True
-                #             #print(seq, "will be removed")
-                #     if len(set(seq)) == 1:
-                #         if "N" in set(seq) or "n" in set(seq):
-                #             #print(seq,"is just Ns")
-                #             allNbool = True
-                # if not allNbool:
                 out.write(">"+headerStr+'\n')
                 out.write(  seq +"\n")
                 fileLength+=1
@@ -977,7 +947,7 @@ rule M8a:
 
 
 
-rule statsfile:
+rule codemlModels:
     input:
         dynamic("Families/family_{fam}_dir/M0/family_{fam}.mcl"),
         dynamic("Families/family_{fam}_dir/M1/family_{fam}.mcl"),
@@ -985,9 +955,9 @@ rule statsfile:
         dynamic("Families/family_{fam}_dir/M3/family_{fam}.mcl"),
         dynamic("Families/family_{fam}_dir/M7/family_{fam}.mcl"),
         dynamic("Families/family_{fam}_dir/M8/family_{fam}.mcl"),
-        dynamic("Families/family_{fam}_dir/M8a/family_{fam}.mcl") 
+        dynamic("Families/family_{fam}_dir/M8a/family_{fam}.mcl")
     output:
-        "finalStatsfile.txt"
+        "codmlLiklihood.txt"
     run:
         with open(output[0],"w") as out:
             for i in input:
@@ -997,6 +967,82 @@ rule statsfile:
 
                 for line in open(dir_1+"/"+dir_2+"/"+dir_3+"/"+"statsfile.txt"):
                     out.write(line)
+rule revertFusterIDFams:
+    input:
+        fusterID = "Temp/fusterID.txt",
+        family_file = "Temp/all.pep.combined_r90_SLX.fnodes"
+    output:
+        "FusterFamilies.txt"
+    run:
+        id_dict = {}
+        with open(input.fusterID) as f:
+            for line in f:
+                row = line.strip().split()
+                id_dict[row[0]] = row[1]
+        with open(output[0],"w") as out:
+            with open(input.family_file) as f:
+                for line in f:
+                    row = line.strip().split()
+                    out.write(row[0]+"\t"+id_dict[row[1]]+"\n")
+
+rule codmlStats:
+    input:
+        codemlFile="codmlLiklihood.txt",
+        family_file="FusterFamilies.txt"
+    output:
+        "finalStatsfile.txt"
+    run:
+        ChiSq_dict = {}
+        with open(output[0],"w") as out:
+            with open(input.codemlFile) as f:
+                for line in f:
+                    row = line.strip().split()
+                    #ChiSq_dict[row[0]] = True
+                    try:
+                        # print(row[0])
+                        if row[0] not in ChiSq_dict:
+                            ChiSq_dict[row[0]] = {}
+                        try:
+                            ChiSq_dict[row[0]][row[1]] = (float(row[2]),float(row[3]))
+
+                        except:
+                            ChiSq_dict[row[0]][row[1]] = (0,0)
+
+                    except:
+                        None
+
+            # print(ChiSq_dict)
+
+            for i in ChiSq_dict.keys():
+
+
+                M3_M0_chiSq = 2*(ChiSq_dict[i]["M3"][1]-ChiSq_dict[i]["M0"][1])
+                M3_M0_df = ChiSq_dict[i]["M3"][0]-ChiSq_dict[i]["M0"][0]
+                M3_M0_pvalue = stats.chi2.sf(M3_M0_chiSq,M3_M0_df)
+                # print(i,"M3_M0",M3_M0_pvalue)
+                out.write(i+"\tM3_M0\t"+str(M3_M0_pvalue)+"\n")
+
+
+                M2_M1_chiSq = 2*(ChiSq_dict[i]["M2"][1]-ChiSq_dict[i]["M1"][1])
+                M2_M1_df = ChiSq_dict[i]["M2"][0]-ChiSq_dict[i]["M1"][0]
+                M2_M1_pvalue = stats.chi2.sf(M2_M1_chiSq,M2_M1_df)
+                # print(i,"M2_M1",M2_M1_pvalue)
+                out.write(i+"\tM2_M1\t"+str(M2_M1_pvalue)+"\n")
+
+                M8_M7_chiSq = 2*(ChiSq_dict[i]["M8"][1]-ChiSq_dict[i]["M7"][1])
+                M8_M7_df = ChiSq_dict[i]["M8"][0]-ChiSq_dict[i]["M7"][0]
+                M8_M7_pvalue = stats.chi2.sf(M8_M7_chiSq,M8_M7_df)
+                # print(i,"M8_M7",M8_M7_pvalue)
+                out.write(i+"\tM8_M7\t"+str(M8_M7_pvalue)+"\n")
+
+                M8_M8a_chiSq = 2*(ChiSq_dict[i]["M8"][1]-ChiSq_dict[i]["M8a"][1])
+                M8_M8a_df = ChiSq_dict[i]["M8"][0]-ChiSq_dict[i]["M8a"][0]
+                M8_M8a_pvalue = stats.chi2.sf(M8_M8a_chiSq,M8_M8a_df)
+                # print(i,"M8_M8a",M8_M8a_pvalue)
+                out.write(i+"\tM8_M8a\t"+str(M8_M8a_pvalue)+"\n")
+
+
+
 
 
 rule FUBAR:
