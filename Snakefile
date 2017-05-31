@@ -144,7 +144,6 @@ rule newHeaders:
                     if pattern == "TRINITY":
                         trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
                         new_header = stringSplitter(headerStr)[:trinity_identifiers.span()[1]+1]
-                        print("\n\n\n\n\TRINITY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n\n\n\n")
                     if "{unique_id}" in pattern:
                         splitHeader = re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', stringSplitter(headerStr))
                         if pattern.count("{isoform_id}") == 1:
