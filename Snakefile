@@ -1040,6 +1040,7 @@ rule codmlStats:
                 M8_M8a_pvalue = stats.chi2.sf(M8_M8a_chiSq,M8_M8a_df)
                 # print(i,"M8_M8a",M8_M8a_pvalue)
                 out.write(i+"\tM8_M8a\t"+str(M8_M8a_pvalue)+"\n")
+        #NOTE add here a print statement summarizing Families, number, avg size, singletons etc..
 
 
 
