@@ -228,7 +228,8 @@ rule longestIsoformPep:
                     if longIsoform[GeneID][0] < len(seq):
                         longIsoform[GeneID] = [len(seq),headerStr,seq]
             for i in longIsoform.keys():
-                out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
+                out.write('>'+sample+'_'+i+'\n')
+                # out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
                 out.write(longIsoform[i][2]+'\n')
 rule longestIsoformCDS:
     input:
