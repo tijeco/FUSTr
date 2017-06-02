@@ -174,7 +174,7 @@ rule transdecoderLongIsoforms:
     shell:
             "TransDecoder.LongOrfs -t {input}  -m 30"
 
- 
+  
 rule transdecoderPredict:
     input:
         fastaFile="{sample}.new_headers",LongOrfs="{sample}.new_headers.transdecoder_dir/longest_orfs.pep"
