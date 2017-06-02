@@ -143,7 +143,7 @@ rule newHeaders:
                     headerStr, seq = ff
                     if pattern == "TRINITY":
                         trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
-                        new_header = stringSplitter(headerStr)[:trinity_identifiers.span()[1]+1]
+                        new_header = stringSplitter(headerStr).split()[0]#[:trinity_identifiers.span()[1]+1]
                     if "{unique_id}" in pattern:
                         splitHeader = re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', stringSplitter(headerStr))
                         if pattern.count("{isoform_id}") == 1:
@@ -172,7 +172,7 @@ rule transdecoderLongIsoforms:
     output:
         "{sample}.new_headers.transdecoder_dir/longest_orfs.pep"
     shell:
-            "TransDecoder.LongOrfs -t {input} -S -m 30"
+            "TransDecoder.LongOrfs -t {input}  -m 30"
 
 
 rule transdecoderPredict:
@@ -209,7 +209,10 @@ rule longestIsoformPep:
                 headerStr, seq = ff
                 trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
                 if trinity_identifiers != None:
-                    GeneID = headerStr[:trinity_identifiers.span()[1]].split("::")[1]
+                    # GeneID = headerStr[:trinity_identifiers.span()[1]].split("::")[1]
+                    gene_header = headerStr.split("::")[1]
+                    trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",gene_header)
+                    GeneID = gene_header[:trinity_identifiers.span()[1]]
                 else:
                     try:
 
@@ -245,6 +248,7 @@ rule longestIsoformCDS:
                 trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
                 if trinity_identifiers != None:
                     GeneID = headerStr[:trinity_identifiers.span()[1]].split("::")[1]
+
                 try:
 
                     GeneID=headerStr.split('___')[1].split('::')[0]
