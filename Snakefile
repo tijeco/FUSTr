@@ -174,7 +174,7 @@ rule transdecoderLongIsoforms:
     shell:
             "TransDecoder.LongOrfs -t {input}  -m 30"
 
-  
+
 rule transdecoderPredict:
     input:
         fastaFile="{sample}.new_headers",LongOrfs="{sample}.new_headers.transdecoder_dir/longest_orfs.pep"
@@ -328,7 +328,7 @@ rule silix:
     output:
         "Temp/all.pep.combined_r90_SLX.fnodes"
     shell:
-        "silix -r 0.9 {input.sequence_file} {input.blast_file} > {output} || true"
+        "/opt/home/brewerlab/Jeffrey/fuster/silix-1.2.11/src/silix -r 0.9 {input.sequence_file} {input.blast_file} > {output} || true"
 
 
 rule node2families:
