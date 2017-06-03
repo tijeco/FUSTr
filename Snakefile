@@ -359,7 +359,7 @@ rule node2families:
         for i in famDict.keys():
             if len(famDict[i])>14:
                 FileName = "Families/family_"+i+".fa"
-                print(FileName)
+                print(FileName,output)
                 with open(FileName, "w") as out:
                     for j in famDict[i]:
                         out.write('>'+j+'\n')
