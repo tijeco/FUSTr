@@ -248,27 +248,28 @@ rule longestIsoformCDS:
                 headerStr, seq = ff
                 trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
                 if trinity_identifiers != None:
-                    GeneID = headerStr[:trinity_identifiers.span()[1]].split("::")[1]
+                    # GeneID = headerStr[:trinity_identifiers.span()[1]].split("::")[1]
+                    gene_header = headerStr.split("::")[1]
+                    trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",gene_header)
+                    GeneID = gene_header[:trinity_identifiers.span()[1]]
+                else:
+                    try:
 
-                try:
-
-                    GeneID=headerStr.split('___')[1].split('::')[0]
-                except:
-                    reduced_header = stringSplitter(headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1])
-                    out.write('>'+sample+"_"+stringSplitter(headerStr.split()[0])+'\n')
-                    out.write(seq + '\n')
-                    continue
+                        GeneID=headerStr.split('___')[1].split('::')[0]
+                    except:
+                        reduced_header = stringSplitter(headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1])
+                        out.write('>'+sample+"_"+reduced_header+'\n')
+                        out.write(seq + '\n')
+                        continue
                 if GeneID not in longIsoform:
                     longIsoform[GeneID] = [len(seq),headerStr,seq]
                 else:
                     if longIsoform[GeneID][0] < len(seq):
                         longIsoform[GeneID] = [len(seq),headerStr,seq]
             for i in longIsoform.keys():
-
-                out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
+                out.write('>'+sample+'_'+i+'\n')
+                # out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
                 out.write(longIsoform[i][2]+'\n')
-
-
 
 rule combine_pep:
     input:
