@@ -1,7 +1,7 @@
     # This file may be used to create an environment using:
 # $ conda create --name FUSTr -c bioconda --file FUSTr.requirements.txt
 # To activate this environment, use:
-# $ source activate FUSTr
+# $ source activate FUSTr 
 #
 # To deactivate this environment, use:
 # $ source deactivate
