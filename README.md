@@ -5,15 +5,15 @@ Fuster is a pipeline that clusters coding sequences from transcriptomes into pro
 
 # Getting started
 
-First you will need [pip3](http://stackoverflow.com/questions/6587507/how-to-install-pip-with-python-3/6587528#6587528) installed.
-Using pip3 you can install miniconda3 in order to get conda so that you can set up the environment with all other dependencies.
+First you will need to install miniconda3, available  [here](https://conda.io/miniconda.html) so that you can set up the environment with all other dependencies. **Note:** make sure to choose the Python 3.6 version.
+
+Alternatively, if you have pip3 installed, it is also possible to install miniconda using the following command.
 ```bash
 pip3 install miniconda3
 ```
-This program works by analyzing transcriptome assemblies.
+**Important:** The only dependency that is not avalaible in bioconda is SiLiX (v1.2.11), which needs to be installed on the system, and can be downloaded [here](http://lbbe.univ-lyon1.fr/Download,3009.html?lang=fr).
 
-
-Once you have conda installed,change in to the directory that has your transcriptomes and clone into this repository.
+Once you have conda and SiLiX installed, clone into this repository.
 
 ```bash
 git clone https://github.com/tijeco/FUSTr.git
@@ -28,7 +28,7 @@ conda create --name FUSTr -c bioconda --file FUSTr.requirements.txt
 source activate FUSTr
 ```
 
-The only dependency that is not avalaible in bioconda is SiLiX, which needs to be installed on the system, and can be downloaded [here](http://lbbe.univ-lyon1.fr/Download,3009.html?lang=fr)
+
 
 
 After that all you have to do is type the following command with the path to the directory containing all transcriptome assemblies (ending in .fasta) and the Snakefile will do the rest of the work!
