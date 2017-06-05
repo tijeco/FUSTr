@@ -24,7 +24,7 @@ Using conda, you can set up an environment that installs all dependencies in a l
 
 ```bash
 cd Fuster
-conda create --name Fuster -c bioconda --file Fuster.requirements.txt
+conda create --name FUSTr -c bioconda --file FUSTr.requirements.txt
 source activate Fuster
 ```
 
