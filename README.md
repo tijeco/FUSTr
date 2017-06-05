@@ -16,7 +16,7 @@ This program works by analyzing transcriptome assemblies.
 Once you have conda installed,change in to the directory that has your transcriptomes and clone into this repository.
 
 ```bash
-git clone https://github.com/tijeco/Fuster.git
+git clone https://github.com/tijeco/FUSTr.git
 ```
 
 
