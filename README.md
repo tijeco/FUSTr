@@ -23,10 +23,12 @@ git clone https://github.com/tijeco/FUSTr.git
 Using conda, you can set up an environment that installs all dependencies in a local session
 
 ```bash
-cd Fuster
+cd FUSTr
 conda create --name FUSTr -c bioconda --file FUSTr.requirements.txt
 source activate FUSTr
 ```
+
+The only dependency that is not avalaible in bioconda is SiLiX, which needs to be installed on the system, and can be downloaded [here](http://lbbe.univ-lyon1.fr/Download,3009.html?lang=fr)
 
 
 After that all you have to do is type the following command with the path to the directory containing all transcriptome assemblies (ending in .fasta) and the Snakefile will do the rest of the work!
