@@ -18,16 +18,16 @@ def fasta_iter(fasta_name):
         headerStr = header.__next__()[1:].strip()#Entire line, add .split[0] for just first column
         seq = "".join(s.strip() for s in faiter.__next__())
         yield (headerStr, seq)
-def stringSplitter(string):
+def stringSplitter(string,delimiter,avoid):
     finalString = ""
     numSpecialChar = 0
     for i in string:
-        specialCharacterBool= (not i.isdigit() and not i.isalpha() and i!='-')
+        specialCharacterBool= (not i.isdigit() and not i.isalpha() and i!=avoid)
         if specialCharacterBool:
             numSpecialChar+=1
         else:
             if numSpecialChar > 0:
-                finalString+="_"
+                finalString+=delimiter
             finalString+=i
             numSpecialChar = 0
     return finalString
@@ -143,9 +143,9 @@ rule newHeaders:
                     headerStr, seq = ff
                     if pattern == "TRINITY":
                         trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
-                        new_header = stringSplitter(headerStr.split()[0])#[:trinity_identifiers.span()[1]+1]
+                        new_header = stringSplitter(headerStr.split()[0],"_","-")#[:trinity_identifiers.span()[1]+1]
                     if "{unique_id}" in pattern:
-                        splitHeader = re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', stringSplitter(headerStr))
+                        splitHeader = re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', stringSplitter(headerStr,"_","-"))
                         if pattern.count("{isoform_id}") == 1:
                             new_header = splitHeader[unique_pos] + "___" + splitHeader[isoform_pos]
                         else:
@@ -160,7 +160,7 @@ rule newHeaders:
                 for ff in sequence_iterator:
 
                     headerStr, seq = ff
-                    out.write( ">"+stringSplitter(headerStr).split()[0] +'\n')
+                    out.write( ">"+stringSplitter(headerStr,"_","-").split()[0] +'\n')
                     out.write(seq+'\n')
 
 
@@ -218,7 +218,7 @@ rule longestIsoformPep:
 
                         GeneID=headerStr.split('___')[1].split('::')[0]
                     except:
-                        reduced_header = stringSplitter(headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1])
+                        reduced_header = stringSplitter(headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1],"_","-")
                         out.write('>'+sample+"_"+reduced_header+'\n')
                         out.write(seq + '\n')
                         continue
@@ -257,7 +257,7 @@ rule longestIsoformCDS:
 
                         GeneID=headerStr.split('___')[1].split('::')[0]
                     except:
-                        reduced_header = stringSplitter(headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1])
+                        reduced_header = stringSplitter(headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1],"_","-")
                         out.write('>'+sample+"_"+reduced_header+'\n')
                         out.write(seq + '\n')
                         continue
@@ -329,7 +329,7 @@ rule silix:
     output:
         "Temp/all.pep.combined_r90_SLX.fnodes"
     shell:
-        "/opt/home/brewerlab/Jeffrey/fuster/silix-1.2.11/src/silix -r 0.9 {input.sequence_file} {input.blast_file} > {output} || true"
+        "silix -r 0.9 {input.sequence_file} {input.blast_file} > {output} || true"
 
 
 rule node2families:
