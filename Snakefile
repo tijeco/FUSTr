@@ -329,7 +329,7 @@ rule silix:
     output:
         "Temp/all.pep.combined_r90_SLX.fnodes"
     shell:
-        "silix -r 0.9 {input.sequence_file} {input.blast_file} > {output} || true"
+        "silix -r 0.9 {input.sequence_file} {input.blast_file} > {output} || true" 
 
 
 rule node2families:
