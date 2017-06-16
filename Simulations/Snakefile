@@ -1,0 +1,36 @@
+import os
+SEED, = glob_wildcards("seed{seed}.fa")
+BL = range(100)
+
+
+rule final:
+        input : expand("sequences/seed{seed}-family.fasta" ,seed=SEED)
+
+
+rule dos:
+        input:
+                "seed{seed}.fa"
+        output:
+                "seed{seed}_Unaligned.FASTA"
+        run:
+                print(output[0].split("_")[0])
+                print(output[0].split("_")[1].split('/')[0])
+                branchLength = input[0].split("BL_")[1].split(".fa")[0]
+                os.system("~/Cole/Fuster/SimulatedFams/EvolveAGene4-linux-x86-64 -f  "+input[0]+" -ss pos -n 16 -o Phy -b " + str(int(branchLength)/100.0))
+
+rule tres:
+        input:
+                "seed{seed}_Unaligned.FASTA"
+        output:
+                "sequences/seed{seed}-family.fasta"
+        run:
+                sampleID = input[0].split("_Una")[0]
+                with open(output[0],"w") as out:
+
+                        with open(input[0]) as f:
+                                for line in f:
+                                        if line[0] == ">":
+                                                print(line.strip().split('>')[1])
+                                                out.write(">"+sampleID+"_"+line.strip().split('>')[1]+'\n')
+                                        else:
+                                                out.write(line)
