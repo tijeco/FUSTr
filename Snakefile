@@ -109,6 +109,7 @@ rule cleanFasta:
             if Trinity_bool:
                 out.write(sample+"\t"+"TRINITY\n")
             elif "{unique_id}" in signature:
+                print("^^^^^^^^^^^^^^^^SIGNATURE************>>>>>>>>>",signature)
                 out.write(sample+"\t"+signature+"\n")
 
 rule newHeaders:
@@ -329,7 +330,7 @@ rule silix:
     output:
         "Temp/all.pep.combined_r90_SLX.fnodes"
     shell:
-        "silix -r 0.9 {input.sequence_file} {input.blast_file} > {output} || true" 
+        "silix -r 0.9 {input.sequence_file} {input.blast_file} > {output} || true"
 
 
 rule node2families:
