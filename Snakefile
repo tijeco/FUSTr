@@ -81,6 +81,7 @@ rule cleanFasta:
                     usableColumns = min(colNum, usableColumns)
                 except:
                     usableColumns = colNum
+                print(usableColumns)
                 for i in range(usableColumns):
                     try:
                         wordDict[i][splitHeader[i]] = True
