@@ -100,6 +100,7 @@ rule cleanFasta:
             print(signature)
 
         print("Is this Trinity?",Trinity_bool)
+        print("^^^^^^^^^^^^^^^^SIGNATURE************>>>>>>>>>",signature)
         with open("headerPatterns.txt","a") as out:
             #NOTE
                 #1. if trinity, write file
@@ -109,7 +110,7 @@ rule cleanFasta:
             if Trinity_bool:
                 out.write(sample+"\t"+"TRINITY\n")
             elif "{unique_id}" in signature:
-                print("^^^^^^^^^^^^^^^^SIGNATURE************>>>>>>>>>",signature)
+
                 out.write(sample+"\t"+signature+"\n")
 
 rule newHeaders:
