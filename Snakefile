@@ -79,10 +79,10 @@ rule cleanFasta:
 
                 colNum = len(splitHeader)
                 try:
-
+                    print("thing>>>>>>>>>>>>>>>>>>>>>>>")
                     usableColumns = min(colNum, usableColumns)
                 except:
-                    print(len(splitHeader), splitHeader)
+                    # print(len(splitHeader), splitHeader)
                     usableColumns = colNum
 
                 # print(usableColumns)
