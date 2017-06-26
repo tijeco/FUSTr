@@ -99,6 +99,7 @@ rule cleanFasta:
             signature = signature[:-1]
 
             print(signature)
+            print(wordDict.keys())
 
         print("Is this Trinity?",Trinity_bool)
         print("^^^^^^^^^^^^^^^^SIGNATURE************>>>>>>>>>",signature)
