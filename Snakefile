@@ -87,6 +87,7 @@ rule cleanFasta:
                     except:
                         wordDict[i] = {}
                         wordDict[i][splitHeader[i]] = True
+                    print(wordDict.keys())
             for i in range(usableColumns):
                 if len(wordDict[i].keys()) == fileLength:
                     signature+="{unique_id}:"
