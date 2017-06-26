@@ -95,6 +95,7 @@ rule cleanFasta:
                         signature+=j + ":"
                 else:
                     signature+="{isoform_id}:"
+            print(signature)
             signature = signature[:-1]
 
             print(signature)
