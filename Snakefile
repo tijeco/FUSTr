@@ -99,7 +99,7 @@ rule cleanFasta:
 
             print(signature)
 
-
+        print("Is this Trinity?",Trinity_bool)
         with open("headerPatterns.txt","a") as out:
             #NOTE
                 #1. if trinity, write file
