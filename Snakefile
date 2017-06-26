@@ -76,11 +76,13 @@ rule cleanFasta:
                 out.write(  seq +"\n")
                 fileLength+=1
                 splitHeader = re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', headerStr)
+                print(len(splitHeader), splitHeader)
                 colNum = len(splitHeader)
                 try:
                     usableColumns = min(colNum, usableColumns)
                 except:
                     usableColumns = colNum
+
                 print(usableColumns)
                 for i in range(usableColumns):
                     try:
