@@ -80,13 +80,13 @@ rule cleanFasta:
                 colNum = len(splitHeader)
                 #NOTE issue no1 lies here
                 try:
-                    print("thing>>>>>>>>>>>>>>>>>>>>>>>",len(splitHeader),splitHeader)
+                    # print("thing>>>>>>>>>>>>>>>>>>>>>>>",len(splitHeader),splitHeader)
                     usableColumns = min(colNum, usableColumns)
                 except:
-                    print("except>>>>>>>>>>>>>>>>>>>>>>>",len(splitHeader), splitHeader)
+                    # print("except>>>>>>>>>>>>>>>>>>>>>>>",len(splitHeader), splitHeader)
                     usableColumns = colNum
 
-                print("Usable columns",usableColumns)
+                # print("Usable columns",usableColumns)
                 #FIXME issue no2 lies here, wordDict ends up empty
 
                 for i in range(usableColumns):
