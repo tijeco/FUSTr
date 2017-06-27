@@ -108,11 +108,11 @@ rule cleanFasta:
             # print(signature)
             signature = signature[:-1]
 
-            print(signature)
-            print(wordDict.keys())
+            # print(signature)
+            # print(wordDict.keys())
 
-        print("Is this Trinity?",Trinity_bool)
-        print("^^^^^^^^^^^^^^^^SIGNATURE************>>>>>>>>>",signature)
+        # print("Is this Trinity?",Trinity_bool)
+        # print("^^^^^^^^^^^^^^^^SIGNATURE************>>>>>>>>>",signature)
         with open("headerPatterns.txt","a") as out:
             #NOTE
                 #1. if trinity, write file
@@ -390,7 +390,7 @@ rule node2families:
         for i in famDict.keys():
             if len(famDict[i])>14:
                 FileName = "Families/family_"+i+".fa"
-                print(FileName,output)
+                # print(FileName,output)
                 with open(FileName, "w") as out:
                     for j in famDict[i]:
                         out.write('>'+j+'\n')
@@ -432,7 +432,7 @@ rule aln2phy:
         #print(output,"is output")
         #print(input,"is input")
         for currentFile in range(len(output)):
-            print(output[currentFile],input[currentFile])
+            # print(output[currentFile],input[currentFile])
 
             with open(output[currentFile], "w") as out:
 
@@ -464,11 +464,11 @@ rule phy2codon:
 
     run:
         cut = ""
-        print(input.untrimmed)
-        print(input.column_file)
-        print(input.nucleotide)
-        print(output)
-        print("making cds dictionary")
+        # print(input.untrimmed)
+        # print(input.column_file)
+        # print(input.nucleotide)
+        # print(output)
+        # print("making cds dictionary")
         longIsoform_CDS_combined ={}
         sequence_iterator = fasta_iter(input.nucleotide)
         for ff in sequence_iterator:
@@ -477,7 +477,7 @@ rule phy2codon:
             if GeneID not in longIsoform_CDS_combined:
                     longIsoform_CDS_combined[GeneID] = seq
         #Open outout
-        print(len(longIsoform_CDS_combined))
+        # print(len(longIsoform_CDS_combined))
         with open(output[0], "w") as out:
             with open(output[1],"w") as out2:
                 #Get  column cut file
@@ -654,8 +654,8 @@ rule M0:
 
             M0_lnL = M0_results.get("NSsites").get(0).get("lnL")
             M0_np = len(M0_results.get("NSsites").get(0).get("parameters").get("parameter list").split())
-            print("@@@@@@@@@@@@@@@@@@@@")
-            print(M0_lnL,M0_np,M0_cml.working_dir)
+            # print("@@@@@@@@@@@@@@@@@@@@")
+            # print(M0_lnL,M0_np,M0_cml.working_dir)
             with open(M0_cml.working_dir+"statsfile.txt","w") as out:
                 out.write(family+"\tM0\t"+str(M0_np)+"\t"+str(M0_lnL)+"\n")
         except:
@@ -708,7 +708,7 @@ rule M1:
 
             M1_lnL = M1_results.get("NSsites").get(1).get("lnL")
             M1_np = len(M1_results.get("NSsites").get(1).get("parameters").get("parameter list").split())
-            print("@@@@@@@@@@@@@@@@@@@@")
+            # print("@@@@@@@@@@@@@@@@@@@@")
             print(M1_lnL,M1_np,M1_cml.working_dir)
             with open(M1_cml.working_dir+"statsfile.txt","w") as out:
                 out.write(family+"\tM1\t"+str(M1_np)+"\t"+str(M1_lnL)+"\n")
@@ -761,8 +761,8 @@ rule M2:
 
             M2_lnL = M2_results.get("NSsites").get(2).get("lnL")
             M2_np = len(M2_results.get("NSsites").get(2).get("parameters").get("parameter list").split())
-            print("@@@@@@@@@@@@@@@@@@@@")
-            print(M2_lnL,M2_np,M2_cml.working_dir)
+            # print("@@@@@@@@@@@@@@@@@@@@")
+            # print(M2_lnL,M2_np,M2_cml.working_dir)
             with open(M2_cml.working_dir+"statsfile.txt","w") as out:
                 out.write(family+"\tM2\t"+str(M2_np)+"\t"+str(M2_lnL)+"\n")
         except:
@@ -813,8 +813,8 @@ rule M3:
 
             M3_lnL = M3_results.get("NSsites").get(3).get("lnL")
             M3_np = len(M3_results.get("NSsites").get(3).get("parameters").get("parameter list").split())
-            print("@@@@@@@@@@@@@@@@@@@@")
-            print(M3_lnL,M3_np,M3_cml.working_dir)
+            # print("@@@@@@@@@@@@@@@@@@@@")
+            # print(M3_lnL,M3_np,M3_cml.working_dir)
             with open(M3_cml.working_dir+"statsfile.txt","w") as out:
                 out.write(family+"\tM3\t"+str(M3_np)+"\t"+str(M3_lnL)+"\n")
         except:
@@ -865,8 +865,8 @@ rule M7:
 
             M7_lnL = M7_results.get("NSsites").get(7).get("lnL")
             M7_np = len(M7_results.get("NSsites").get(7).get("parameters").get("parameter list").split())
-            print("@@@@@@@@@@@@@@@@@@@@")
-            print(M7_lnL,M7_np,M7_cml.working_dir)
+            # print("@@@@@@@@@@@@@@@@@@@@")
+            # print(M7_lnL,M7_np,M7_cml.working_dir)
             with open(M7_cml.working_dir+"statsfile.txt","w") as out:
                 out.write(family+"\tM7\t"+str(M7_np)+"\t"+str(M7_lnL)+"\n")
         except:
@@ -917,8 +917,8 @@ rule M8:
 
             M8_lnL = M8_results.get("NSsites").get(8).get("lnL")
             M8_np = len(M8_results.get("NSsites").get(8).get("parameters").get("parameter list").split())
-            print("@@@@@@@@@@@@@@@@@@@@")
-            print(M8_lnL,M8_np,M8_cml.working_dir)
+            # print("@@@@@@@@@@@@@@@@@@@@")
+            # print(M8_lnL,M8_np,M8_cml.working_dir)
             with open(M8_cml.working_dir+"statsfile.txt","w") as out:
                 out.write(family+"\tM8\t"+str(M8_np)+"\t"+str(M8_lnL)+"\n")
         except:
@@ -974,8 +974,8 @@ rule M8a:
 
             M8a_lnL = M8a_results.get("NSsites").get(8).get("lnL")
             M8a_np = len(M8a_results.get("NSsites").get(8).get("parameters").get("parameter list").split())
-            print("@@@@@@@@@@@@@@@@@@@@")
-            print(M8a_lnL,M8a_np,M8a_cml.working_dir+"statsfile.txt")
+            # print("@@@@@@@@@@@@@@@@@@@@")
+            # print(M8a_lnL,M8a_np,M8a_cml.working_dir+"statsfile.txt")
             with open(M8a_cml.working_dir+"statsfile.txt","w") as out:
                 out.write(family+"\tM8a\t"+str(M8a_np)+"\t"+str(M8a_lnL)+"\n")
         except:
