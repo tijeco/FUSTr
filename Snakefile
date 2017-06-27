@@ -62,7 +62,7 @@ rule cleanFasta:
         fileLength = 0
         newDict = {}
         subString = ""
-        usableColumns = 0
+        # usableColumns = 0
         pattern = ""
         patternExists = True
         with open(output[0],"w") as out:
