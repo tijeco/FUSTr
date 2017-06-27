@@ -211,7 +211,11 @@ rule longestIsoformPep:
     output:
         "Temp/{sample}.longestIsoform.pep"
     run:
-
+        with open("headerPatterns.txt") as f:
+            for line in f:
+                row = line.strip().split()
+                patternDict[row[0]] = row[1]
+        pattern = patternDict[input[0].split('.')[0]]
         with open(output[0], "w") as out:
 
             longIsoform={}
@@ -253,6 +257,12 @@ rule longestIsoformCDS:
     output:
         "Temp/{sample}.longestIsoform.cds"
     run:
+        with open("headerPatterns.txt") as f:
+            for line in f:
+                row = line.strip().split()
+                patternDict[row[0]] = row[1]
+        pattern = patternDict[input[0].split('.')[0]]
+        print(pattern)
         with open(output[0], "w") as out:
 
             longIsoform={}
