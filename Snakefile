@@ -217,6 +217,7 @@ rule longestIsoformPep:
                 row = line.strip().split()
                 patternDict[row[0]] = row[1]
         pattern = patternDict[input[0].split('.')[0]]
+        print(pattern)
         with open(output[0], "w") as out:
 
             longIsoform={}
@@ -264,7 +265,7 @@ rule longestIsoformCDS:
                 row = line.strip().split()
                 patternDict[row[0]] = row[1]
         pattern = patternDict[input[0].split('.')[0]]
-        print(pattern)
+
         with open(output[0], "w") as out:
 
             longIsoform={}
