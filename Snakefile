@@ -229,7 +229,7 @@ rule longestIsoformPep:
                 headerStr, seq = ff
                 trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
                 print("trinity_identifiers:",trinity_identifiers)
-                if trinity_identifiers != None:
+                if pattern =="TRINITY":
                     print("trinity_identifiers:",trinity_identifiers,"\n",headerStr)
                     # GeneID = headerStr[:trinity_identifiers.span()[1]].split("::")[1]
                     gene_header = headerStr.split("::")[1]
@@ -276,7 +276,7 @@ rule longestIsoformCDS:
 
                 headerStr, seq = ff
                 trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
-                if trinity_identifiers != None:
+                if pattern =="TRINITY":
                     # GeneID = headerStr[:trinity_identifiers.span()[1]].split("::")[1]
                     gene_header = headerStr.split("::")[1]
                     trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",gene_header)
