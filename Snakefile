@@ -217,7 +217,7 @@ rule longestIsoformPep:
                 row = line.strip().split()
                 patternDict[row[0]] = row[1]
         pattern = patternDict[input[0].split('.')[0]]
-        print(pattern)
+        # print(pattern)
         with open(output[0], "w") as out:
 
             longIsoform={}
@@ -227,10 +227,11 @@ rule longestIsoformPep:
             for ff in sequence_iterator:
 
                 headerStr, seq = ff
-                trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
-                print("trinity_identifiers:",trinity_identifiers)
+
+                # print("trinity_identifiers:",trinity_identifiers)
                 if pattern =="TRINITY":
-                    print("trinity_identifiers:",trinity_identifiers,"\n",headerStr)
+                    trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
+                    # print("trinity_identifiers:",trinity_identifiers,"\n",headerStr)
                     # GeneID = headerStr[:trinity_identifiers.span()[1]].split("::")[1]
                     gene_header = headerStr.split("::")[1]
                     trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",gene_header)
@@ -275,8 +276,9 @@ rule longestIsoformCDS:
             for ff in sequence_iterator:
 
                 headerStr, seq = ff
-                trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
+
                 if pattern =="TRINITY":
+                    trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
                     # GeneID = headerStr[:trinity_identifiers.span()[1]].split("::")[1]
                     gene_header = headerStr.split("::")[1]
                     trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",gene_header)
