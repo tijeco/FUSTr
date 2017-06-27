@@ -34,7 +34,7 @@ source activate FUSTr
 After that all you have to do is type the following command with the path to the directory containing all transcriptome assemblies (ending in .fasta) and the Snakefile will do the rest of the work!
 
 ```
-snakemake -d <path_to_fastas>
+snakemake -d <path_to_fastas> --cores <number_of_cores>
 ```
 Once that finishes you can end the conda session using
 
