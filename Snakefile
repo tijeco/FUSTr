@@ -78,21 +78,25 @@ rule cleanFasta:
                 splitHeader = re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', headerStr)
 
                 colNum = len(splitHeader)
+                #NOTE issue no1 lies here
                 try:
-                    print("thing>>>>>>>>>>>>>>>>>>>>>>>",len(splitHeader),splitHeader)
+                    # print("thing>>>>>>>>>>>>>>>>>>>>>>>",len(splitHeader),splitHeader)
                     usableColumns = min(colNum, usableColumns)
                 except:
                     # print(len(splitHeader), splitHeader)
                     usableColumns = colNum
 
-                # print(usableColumns)
+                print("Usable columns",usableColumns)
+                #FIXME issue no2 lies here, wordDict ends up empty
+
                 for i in range(usableColumns):
                     try:
                         wordDict[i][splitHeader[i]] = True
                     except:
                         wordDict[i] = {}
                         wordDict[i][splitHeader[i]] = True
-                    print(wordDict.keys())
+                    # print(wordDict.keys())
+            #FIXME issue no3, signature also ends up blank, resulting from blank wordDict
             for i in range(usableColumns):
                 if len(wordDict[i].keys()) == fileLength:
                     signature+="{unique_id}:"
@@ -101,7 +105,7 @@ rule cleanFasta:
                         signature+=j + ":"
                 else:
                     signature+="{isoform_id}:"
-            print(signature)
+            # print(signature)
             signature = signature[:-1]
 
             print(signature)
