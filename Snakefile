@@ -222,6 +222,7 @@ rule longestIsoformPep:
 
                 headerStr, seq = ff
                 trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
+                print("trinity_identifiers:",trinity_identifiers)
                 if trinity_identifiers != None:
                     # GeneID = headerStr[:trinity_identifiers.span()[1]].split("::")[1]
                     gene_header = headerStr.split("::")[1]
