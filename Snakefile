@@ -268,8 +268,10 @@ rule longestIsoformCDS:
             for line in f:
                 row = line.strip().split()
                 patternDict[row[0]] = row[1]
-        pattern = patternDict[input[0].split('.')[0]]
-
+        try:
+            pattern = patternDict[input[0].split('.')[0]]
+        except:
+            None
         with open(output[0], "w") as out:
 
             longIsoform={}
