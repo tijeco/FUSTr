@@ -219,7 +219,7 @@ rule longestIsoformPep:
         try:
             pattern = patternDict[input[0].split('.')[0]]
         except:
-            None
+            pattern = None
         # print(pattern)
         with open(output[0], "w") as out:
 
@@ -271,7 +271,7 @@ rule longestIsoformCDS:
         try:
             pattern = patternDict[input[0].split('.')[0]]
         except:
-            None
+            pattern = None
         with open(output[0], "w") as out:
 
             longIsoform={}
