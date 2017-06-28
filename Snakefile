@@ -352,10 +352,11 @@ rule blastall:
         "Temp/all.pep.combined"
     output:
         "Temp/all.pep.combined.blastall.out"
+    threads:99
     shell:
         """
         makeblastdb -in {input} -out {input}.seq.db -dbtype prot
-        blastp -db {input}.seq.db -query {input} -outfmt 6 -out {output} -num_threads 13 -evalue 1E-5
+        blastp -db {input}.seq.db -query {input} -outfmt 6 -out {output} -num_threads {threads} -evalue 1E-5
         """
 
 rule silix:
