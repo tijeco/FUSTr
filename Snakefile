@@ -333,15 +333,21 @@ rule combine_cds:
         "Temp/all.cds.combined"
 
     run:
-        fusterID = 1
+        # fusterID = 1
+        idDict = {}
+        with open("Temp/fusterID.txt") as f:
+            for line in f:
+                row = line.strip().split()
+                idDict[row[1]] = row[0]
+
 
         with open(output[0], "w") as out:
             for i in input:
                 sample = i.strip("Temp/").split('.')[0]
                 for line in open(i):
                     if ">" in line:
-                        out.write(">fusterID_"+str(fusterID)+"\n")
-                        fusterID+=1
+                        out.write(">fusterID_"+idDict[line.strip().strip(">")]+"\n")
+                        # fusterID+=1
                     else:
                         out.write(line)
 
