@@ -530,6 +530,7 @@ rule phy2codon:
                         alnPos=0
                         prot=""
                         trimmed=""
+                        print(CodonPos)
                         for i in original:
                             if i!="-":
                                 aaPos+=1
