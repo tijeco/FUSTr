@@ -530,7 +530,7 @@ rule phy2codon:
                         alnPos=0
                         prot=""
                         trimmed=""
-                        print(number,len(sequence))
+                        print(number,len(sequence),sequence,CodonPos)
                         for i in original:
                             if i!="-":
                                 aaPos+=1
