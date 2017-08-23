@@ -537,7 +537,7 @@ rule phy2codon:
                             if alnPos in cut:
                                 prot+=i
                                 if i != "-":
-                                    print(aaPos,aaPos in CodonPos)
+                                    print(aaPos,aaPos in CodonPos,CodonPos)
                                     trimmed+=CodonPos[aaPos]
                                 else:
                                     trimmed+="---"
