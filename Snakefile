@@ -407,12 +407,12 @@ rule node2families:
                     for j in famDict[i]:
                         out.write('>'+j+'\n')
                         out.write(seqDict[j]+'\n')
-            else:
-                FileName = "Families/family_"+i+".only_"+str(len(famDict[i]))+"_seqs.fas"
-                with open(FileName, "w") as out:
-                    for j in famDict[i]:
-                        out.write('>'+j+'\n')
-                        out.write(seqDict[j]+'\n')
+            # else:
+            #     FileName = "Families/family_"+i+".only_"+str(len(famDict[i]))+"_seqs.fas"
+            #     with open(FileName, "w") as out:
+            #         for j in famDict[i]:
+            #             out.write('>'+j+'\n')
+            #             out.write(seqDict[j]+'\n')
 
 
 rule mafft:
