@@ -324,7 +324,7 @@ rule combine_pep_and_cds:
                     for line in open(i):
                         if ">" in line:
                             pep_out.write(">fusterID_"+str(fusterID)+"\n")
-                            idDict["fusterID" + str(fusterID)] = line.strip().strip(">")
+                            idDict[line.strip().strip(">")] = "fusterID" + str(fusterID)
                             id_out.write("fusterID_"+str(fusterID) + "\t"+line.strip(">"))
                         else:
                             pep_out.write(line)
