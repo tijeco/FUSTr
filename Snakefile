@@ -346,7 +346,7 @@ rule combine_cds:
                 sample = i.strip("Temp/").split('.')[0]
                 for line in open(i):
                     if ">" in line:
-                        out.write(">fusterID_"+idDict[line.strip().strip(">")]+"\n")
+                        out.write(">"+idDict[line.strip().strip(">")]+"\n")
                         # fusterID+=1
                     else:
                         out.write(line)
