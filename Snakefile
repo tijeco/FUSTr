@@ -307,49 +307,79 @@ rule longestIsoformCDS:
                 # out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
                 out.write(longIsoform[i][2]+'\n')
 
-rule combine_pep:
+rule combine_pep_and_cds:
     input:
-        expand("Temp/{sample}.longestIsoform.pep",sample=SAMPLES)
+        pep=expand("Temp/{sample}.longestIsoform.pep",sample=SAMPLES)
+        cds=expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
     output:
-        "Temp/all.pep.combined","Temp/fusterID.txt"
+        "Temp/all.pep.combined","Temp/fusterID.txt","Temp/all.cds.combined"
 
     run:
         fusterID = 1
+        idDict = {}
+
         with open(output[1],"w") as id_out:
-            with open(output[0], "w") as out:
-                for i in input:
-                    sample = i.strip("Temp/").split('.')[0]
+            with open(output[0] ,"w") as pep_out:
+                for i in input.pep:
                     for line in open(i):
                         if ">" in line:
-                            out.write(">fusterID_"+str(fusterID)+"\n")
+                            pep_out.write(">fusterID_"+str(fusterID)+"\n")
+                            idDict["fusterID" + str(fusterID)] = line.strip().strip(">")
                             id_out.write("fusterID_"+str(fusterID) + "\t"+line.strip(">"))
-                            fusterID+=1
                         else:
-                            out.write(line)
-rule combine_cds:
-    input:
-        expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
-    output:
-        "Temp/all.cds.combined"
+                            pep_out.write(line)
+        with open(output[2],"w") as cds_out:
 
-    run:
-        # fusterID = 1
-        idDict = {}
-        with open("Temp/fusterID.txt") as f:
-            for line in f:
-                row = line.strip().split()
-                idDict[row[1]] = row[0]
-
-
-        with open(output[0], "w") as out:
-            for i in input:
-                sample = i.strip("Temp/").split('.')[0]
+            for i in input.cds:
                 for line in open(i):
-                    if ">" in line:
-                        out.write(">"+idDict[line.strip().strip(">")]+"\n")
-                        # fusterID+=1
+                    if  ">" in line:
+                        cds_out.write(">" + idDict[line.strip().strip(">")]+"\n")
+
                     else:
-                        out.write(line)
+                        cds_out.write(line)
+
+
+
+        # with open(output[1],"w") as id_out:
+        #     with open(output[0], "w") as out:
+        #
+        #
+        #         for i in input:
+        #             sample = i.strip("Temp/").split('.')[0]
+        #             for line in open(i):
+        #                 if ">" in line:
+        #                     out.write(">fusterID_"+str(fusterID)+"\n")
+        #                     id_out.write("fusterID_"+str(fusterID) + "\t"+line.strip(">"))
+        #                     fusterID+=1
+        #                 else:
+        #                     out.write(line)
+        #
+        # with open(output[2], "w") as out:
+
+# rule combine_cds:
+#     input:
+#         expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
+#     output:
+#         "Temp/all.cds.combined"
+#
+#     run:
+#         # fusterID = 1
+#         idDict = {}
+#         with open("Temp/fusterID.txt") as f:
+#             for line in f:
+#                 row = line.strip().split()
+#                 idDict[row[1]] = row[0]
+#
+#
+#         with open(output[0], "w") as out:
+#             for i in input:
+#                 sample = i.strip("Temp/").split('.')[0]
+#                 for line in open(i):
+#                     if ">" in line:
+#                         out.write(">"+idDict[line.strip().strip(">")]+"\n")
+#                         # fusterID+=1
+#                     else:
+#                         out.write(line)
 
 
 
