@@ -309,7 +309,7 @@ rule longestIsoformCDS:
 
 rule combine_pep_and_cds:
     input:
-        pep=expand("Temp/{sample}.longestIsoform.pep",sample=SAMPLES)
+        pep=expand("Temp/{sample}.longestIsoform.pep",sample=SAMPLES),
         cds=expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
     output:
         "Temp/all.pep.combined","Temp/fusterID.txt","Temp/all.cds.combined"
