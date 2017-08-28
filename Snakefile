@@ -324,8 +324,9 @@ rule combine_pep_and_cds:
                     for line in open(i):
                         if ">" in line:
                             pep_out.write(">fusterID_"+str(fusterID)+"\n")
-                            idDict[line.strip().strip(">")] = "fusterID" + str(fusterID)
+                            idDict[line.strip().strip(">")] = "fusterID_" + str(fusterID)
                             id_out.write("fusterID_"+str(fusterID) + "\t"+line.strip(">"))
+                            fusterID+=1
                         else:
                             pep_out.write(line)
         with open(output[2],"w") as cds_out:
@@ -422,7 +423,7 @@ rule node2families:
                     famDict[row[0]]= [row[1]]
                 else:
                     famDict[row[0]].append(row[1])
-                print(famDict)
+                # print(famDict)
 
         sequence_iterator = fasta_iter(input.sequence_file)
         for ff in sequence_iterator:
@@ -432,7 +433,7 @@ rule node2families:
         for i in famDict.keys():
             if len(famDict[i])>14:
                 FileName = "Families/family_"+i+".fa"
-                print(FileName,output)
+                # print(FileName,output)
                 with open(FileName, "w") as out:
                     for j in famDict[i]:
                         out.write('>'+j+'\n')
