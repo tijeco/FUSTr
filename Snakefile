@@ -422,7 +422,7 @@ rule node2families:
                     famDict[row[0]]= [row[1]]
                 else:
                     famDict[row[0]].append(row[1])
-            #print(famDict)
+            print(famDict)
 
         sequence_iterator = fasta_iter(input.sequence_file)
         for ff in sequence_iterator:
