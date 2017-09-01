@@ -3,8 +3,8 @@ rule final:
 
 rule hyphy:
     input:
-        tree:"test.tree",
-        aln:"test.fasta"
+        tree="test.tree",
+        align="test.fasta"
     output:
         "test.fasta.fubar.csv"
     shell:
