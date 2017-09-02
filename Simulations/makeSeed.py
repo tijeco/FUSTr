@@ -20,7 +20,7 @@ def makeSeed(numAA):
     seed+="TAA"
     return seed
 
-seedNum = sys.argv[1]
+seedNum = int(sys.argv[1])
 for i in range(seedNum):
     length = 100
     filename = "seeds/seed"+str(i)+"_len"+str(length)+"BL_10.fa"
