@@ -1,5 +1,123 @@
+from itertools import groupby
+from itertools import (takewhile,repeat) #no longer needed 5.3.17
+from Bio.Phylo.PAML import codeml
+from Bio.Phylo.PAML.chi2 import cdf_chi2
+from Bio.Align.Applications import MafftCommandline #no longer needed 5.3.17
+from io import StringIO #no longer needed 5.3.17
+from Bio import AlignIO #no longer needed 5.3.17
+from Bio import SeqIO #no longer needed 5.3.17
+import sys #no longer needed 5.3.17
+import re
+from scipy import stats
+
+def fasta_iter(fasta_name):
+    fh = open(fasta_name)
+    faiter = (x[1] for x in groupby(fh, lambda line: line[0] == ">"))
+    for header in faiter:
+        headerStr = header.__next__()[1:].strip()#Entire line, add .split[0] for just first column
+        seq = "".join(s.strip() for s in faiter.__next__())
+        yield (headerStr, seq)
+def stringSplitter(string,delimiter,avoid):
+    finalString = ""
+    numSpecialChar = 0
+    for i in string:
+        specialCharacterBool= (not i.isdigit() and not i.isalpha() and i!=avoid)
+        if specialCharacterBool:
+            numSpecialChar+=1
+        else:
+            if numSpecialChar > 0:
+                finalString+=delimiter
+            finalString+=i
+            numSpecialChar = 0
+    return finalString
+
+
+SAMPLES, = glob_wildcards("{sample}.fasta")
+
 rule final:
-    input:"test.fasta.fubar.csv"
+    input:"{sample}.clean"
+    # input:"test.fasta.fubar.csv"
+
+
+rule cleanFasta:
+    input:
+        "{sample}.fasta"
+    output:
+        "{sample}.clean"
+    run:
+        Trinity_bool = False
+        signature = ""
+        sample = input[0].split('.')[0]
+        sequence_iterator = fasta_iter(input[0])
+        fileLength = 0
+        columnCountDict={}
+        wordDict = {}
+        rowMembers = 1
+        fileLength = 0
+        newDict = {}
+        subString = ""
+        # usableColumns = 0
+        pattern = ""
+        patternExists = True
+        with open(output[0],"w") as out:
+            for ff in sequence_iterator:
+
+                headerStr, seq = ff
+                trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
+                if trinity_identifiers !=None:
+                    Trinity_bool = True
+                out.write(">"+headerStr+'\n')
+                out.write(  seq +"\n")
+                fileLength+=1
+                splitHeader = re.split(r'[`\ =~!@#$%^&*()_+\[\]{};\'\\:"|<,./<>?]', headerStr)
+
+                colNum = len(splitHeader)
+                #NOTE issue no1 lies here
+                try:
+                    # print("thing>>>>>>>>>>>>>>>>>>>>>>>",len(splitHeader),splitHeader)
+                    usableColumns = min(colNum, usableColumns)
+                except:
+                    # print("except>>>>>>>>>>>>>>>>>>>>>>>",len(splitHeader), splitHeader)
+                    usableColumns = colNum
+
+                # print("Usable columns",usableColumns)
+                #FIXME issue no2 lies here, wordDict ends up empty
+
+                for i in range(usableColumns):
+                    try:
+                        wordDict[i][splitHeader[i]] = True
+                    except:
+                        wordDict[i] = {}
+                        wordDict[i][splitHeader[i]] = True
+                    # print(wordDict.keys())
+            #FIXME issue no3, signature also ends up blank, resulting from blank wordDict
+            for i in range(usableColumns):
+                if len(wordDict[i].keys()) == fileLength:
+                    signature+="{unique_id}:"
+                elif len(wordDict[i].keys()) == 1:
+                    for j in wordDict[i].keys():
+                        signature+=j + ":"
+                else:
+                    signature+="{isoform_id}:"
+            # print(signature)
+            signature = signature[:-1]
+
+            # print(signature)
+            # print(wordDict.keys())
+
+        # print("Is this Trinity?",Trinity_bool)
+        # print("^^^^^^^^^^^^^^^^SIGNATURE************>>>>>>>>>",signature)
+        with open("headerPatterns.txt","a") as out:
+            #NOTE
+                #1. if trinity, write file
+                #2. if unique_id, try writing file
+                    #*** a. if only one isoform_id, write file
+                    #*** b. otherwise, just unique_id will be used in next rule
+            if Trinity_bool:
+                out.write(sample+"\t"+"TRINITY\n")
+            elif "{unique_id}" in signature:
+
+                out.write(sample+"\t"+signature+"\n")
 
 rule hyphy:
     input:
@@ -9,6 +127,8 @@ rule hyphy:
         "test.fasta.fubar.csv"
     shell:
         "(echo 1; echo 1;echo /home/usr/FUSTr/HYPHY_snake/{input.align}; echo /home/usr/FUSTr/HYPHY_snake/{input.tree}; echo 20;echo echo 5; echo 2000000; echo 1000000;echo 100;echo 0.5 )|HYPHYMP /home/usr/hyphy/res/TemplateBatchFiles/FUBAR.bf"
+
+
 # (echo 1; echo 1;echo test.fasta; echo test.tree; echo 20;echo echo 5; echo 2000000; echo 1000000;echo 100;echo 0.5 )|HYPHYMP /home/usr/hyphy/res/TemplateBatchFiles/FUBAR.bf
 # (echo 1; echo 1;echo /home/usr/HYPHY_snake/test.fasta; echo /home/usr/HYPHY_snake/test.tree; echo 20;echo echo 5; echo 2000000; echo 1000000;echo 100;echo 0.5 )|HYPHYMP /home/usr/hyphy/res/TemplateBatchFiles/FUBAR.bf
 
