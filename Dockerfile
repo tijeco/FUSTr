@@ -54,10 +54,12 @@ RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
     wget --quiet https://repo.continuum.io/miniconda/Miniconda3-4.3.14-Linux-x86_64.sh -O ~/miniconda.sh && \
     /bin/bash ~/miniconda.sh -b -p /opt/conda && \
     rm ~/miniconda.sh
-ENV PATH /opt/conda/bin:$PATH
+
 #RUN conda install numpy biopython scipy -y
 
 RUN pip install numpy biopython scipy
+##
+ENV PATH /opt/conda/bin:$PATH
 # RUN wget http://topaz.gatech.edu/GeneMark/tmp/GMtool_nNklB/gmst_linux_64.tar.gz
 
 ADD $package /home/usr/data
