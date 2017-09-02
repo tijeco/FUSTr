@@ -1,3 +1,4 @@
+import sys
 import random
 import os
 def makeCodon():
@@ -19,10 +20,13 @@ def makeSeed(numAA):
     seed+="TAA"
     return seed
 
-seedNum = 4
+seedNum = sys.argv[1]
 for i in range(seedNum):
     length = 100
     filename = "seeds/seed"+str(i)+"_len"+str(length)+"BL_10.fa"
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     with open(filename, "w") as out:
         out.write(makeSeed(length))
+        # seed0_len100BL_10_True.tre
+        # seed0_len100BL_10_True_alignment.FASTA
+        # home/usr/hyphy/res/TemplateBatchFiles/FUBAR.bf
