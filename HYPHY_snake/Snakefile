@@ -35,7 +35,7 @@ def stringSplitter(string,delimiter,avoid):
 SAMPLES, = glob_wildcards("{sample}.fasta")
 
 rule final:
-    input:expand("{sample}.new_headers",sample=SAMPLES)
+    input:expand("{sample}.new_headers.transdecoder_dir/longest_orfs.pep",sample=SAMPLES)
 
     # input:"test.fasta.fubar.csv"
 
