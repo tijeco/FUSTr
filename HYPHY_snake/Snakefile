@@ -249,7 +249,7 @@ rule longestIsoformPep:
 
 rule longestIsoformCDS:
     input:
-        "intermediate_files/{sample}.new_headers.transdecoder.cds"
+        "{sample}.new_headers.transdecoder.cds"
     output:
         "intermediate_files/{sample}.longestIsoform.cds"
     run:
