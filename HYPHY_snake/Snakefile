@@ -35,7 +35,7 @@ def stringSplitter(string,delimiter,avoid):
 SAMPLES, = glob_wildcards("{sample}.fasta")
 
 rule final:
-    input: dynamic("Families/family_{fam}.aln.trimmed")
+    input: dynamic("Families/family_{fam}.phy")
     # input: "intermediate_files/all.pep.combined_r90_SLX.fnodes"
     #input:expand("intermediate_files/all.pep.combined",sample=SAMPLES)
 
@@ -405,6 +405,39 @@ rule trimAln:
         "envs/trimal.yaml"
     shell:
         "trimal -in {input} -out {output.trimmed_file} -gappyout -colnumbering > {output.column_file}"
+
+rule aln2phy:
+    input:
+        "Families/family_{fam}.aln",
+        "Families/family_{fam}.aln.trimmed"
+    output:
+        "Families/family_{fam}.phy",
+        "Families/family_{fam}.phy.trimmed"
+    run:
+        seq_length=0
+        #print(output,"is output")
+        #print(input,"is input")
+        for currentFile in range(len(output)):
+            # print(output[currentFile],input[currentFile])
+
+            with open(output[currentFile], "w") as out:
+
+
+                sequence_iterator = fasta_iter(input[currentFile])
+                first_line =True
+                for ff in sequence_iterator:
+
+                    headerStr, seq = ff
+                    if first_line:
+                        seq_length = len(seq)
+                        num_lines = num_lines = sum(1 for line in open(input[currentFile]) if line[0]=='>')
+                        out.write(str(num_lines)+" "+str(seq_length)+"\n")
+                        first_line=False
+
+                    seq_length = len(seq)
+                    out.write(headerStr.strip('>')+"\t")
+                    out.write(seq +"\n")
+
 
 rule hyphy:
     input:
