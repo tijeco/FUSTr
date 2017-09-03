@@ -553,7 +553,7 @@ rule hyphy:
     output:
         "Families/family_{fam}_dir/family_{fam}.aln.codon.fubar.csv"
     shell:
-        "(echo 1; echo 1;echo " +srcdir("{input.align}")+"; echo "+ srcdir("{input.tree}")+"; echo 20;echo echo 5; echo 2000000; echo 1000000;echo 100;echo 0.5 )|HYPHYMP /home/usr/hyphy/res/TemplateBatchFiles/FUBAR.bf"
+        "(echo 1; echo 1;echo " +srcdir("{input.align}")+"; echo "+ srcdir("{input.tree}")+"; echo 20;echo 5; echo 2000000; echo 1000000;echo 100;echo 0.5 )|HYPHYMP /home/usr/hyphy/res/TemplateBatchFiles/FUBAR.bf"
 
 
 
@@ -563,4 +563,5 @@ rule hyphy:
 
 # (echo 1; echo 1;echo /home/usr/FUSTr/HYPHY_snake/test.fasta; echo /home/usr/FUSTr/HYPHY_snake/test.tree; echo 20;echo echo 5; echo 2000000; echo 1000000;echo 100;echo 0.5 )|HYPHYMP /home/usr/hyphy/res/TemplateBatchFiles/FUBAR.bf
 # (echo 1; echo 1;echo /home/usr/FUSTr/Simulations/seeds/sequencesFamilies/family_8_dir/family_8.aln.codon; echo /home/usr/FUSTr/Simulations/seeds/sequencesFamilies/family_8_dir/family_8.tree; echo 20;echo echo 5; echo 2000000; echo 1000000;echo 100;echo 0.5 )|HYPHYMP /home/usr/hyphy/res/TemplateBatchFiles/FUBAR.bf
-# (echo 1; echo 1;echo +/home/usr/FUSTr/Simulations/seeds/sequences/Families/family_8_dir/family_8.aln.codon; echo /home/usr/FUSTr/Simulations/seeds/sequences/Families/family_8_dir/family_8.tree; echo 20;echo echo 5; echo 2000000; echo 1000000;echo 100;echo 0.5 )|HYPHYMP /home/usr/hyphy/res/TemplateBatchFiles/FUBAR.bf
+# (echo 1; echo 1;echo /home/usr/FUSTr/Simulations/seeds/sequences/Families/family_3_dir/family_3.aln.codon; echo /home/usr/FUSTr/Simulations/seeds/sequences/Families/family_3_dir/family_3.tree; echo 20;echo 5; echo 2000000; echo 1000000;echo 100;echo 0.5 )|HYPHYMP /home/usr/hyphy/res/TemplateBatchFiles/FUBAR.bf
+# <Number of MCMC chains to run (permissible range = [2,20], default value = 5, integer)>
