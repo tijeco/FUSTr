@@ -35,7 +35,7 @@ def stringSplitter(string,delimiter,avoid):
 SAMPLES, = glob_wildcards("{sample}.fasta")
 
 rule final:
-    input:expand("{sample}.new_headers.transdecoder.pep",sample=SAMPLES)
+    input:expand("intermediate_files/{sample}.longestIsoform.pep",sample=SAMPLES)
 
     # input:"test.fasta.fubar.csv"
 
@@ -180,6 +180,8 @@ rule transdecoderLongIsoforms:
         "envs/transdecoder.yaml"
     shell:
             "TransDecoder.LongOrfs -t {input}  -m 30"
+
+
 rule transdecoderPredict:
     input:
         fastaFile="{sample}.new_headers",LongOrfs="{sample}.new_headers.transdecoder_dir/longest_orfs.pep"
@@ -189,6 +191,59 @@ rule transdecoderPredict:
         "envs/transdecoder.yaml"
     shell:
             "TransDecoder.Predict -t {input.fastaFile} --single_best_orf"
+
+rule longestIsoformPep:
+    input:
+        "{sample}.new_headers.transdecoder.pep"
+    output:
+        "intermediate_files/{sample}.longestIsoform.pep"
+    run:
+        patternDict = {}
+        with open("headerPatterns.txt") as f:
+            for line in f:
+                row = line.strip().split()
+                patternDict[row[0]] = row[1]
+        try:
+            pattern = patternDict[input[0].split('.')[0]]
+        except:
+            pattern = None
+        # print(pattern)
+        with open(output[0], "w") as out:
+
+            longIsoform={}
+
+            sequence_iterator = fasta_iter(input[0])
+            sample = input[0].split('.')[0]
+            for ff in sequence_iterator:
+
+                headerStr, seq = ff
+
+                # print("trinity_identifiers:",trinity_identifiers)
+                if pattern =="TRINITY":
+                    trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
+                    # print("trinity_identifiers:",trinity_identifiers,"\n",headerStr)
+                    # GeneID = headerStr[:trinity_identifiers.span()[1]].split("::")[1]
+                    gene_header = headerStr.split("::")[1]
+                    trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",gene_header)
+                    GeneID = gene_header[:trinity_identifiers.span()[1]]
+                else:
+                    try:
+
+                        GeneID=headerStr.split('___')[1].split('::')[0]
+                    except:
+                        reduced_header = stringSplitter(headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1],"_","-")
+                        out.write('>'+sample+"_"+reduced_header+'\n')
+                        out.write(seq + '\n')
+                        continue
+                if GeneID not in longIsoform:
+                    longIsoform[GeneID] = [len(seq),headerStr,seq]
+                else:
+                    if longIsoform[GeneID][0] < len(seq):
+                        longIsoform[GeneID] = [len(seq),headerStr,seq]
+            for i in longIsoform.keys():
+                out.write('>'+sample+'_'+i+'\n')
+                # out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
+                out.write(longIsoform[i][2]+'\n')
 
 
 
