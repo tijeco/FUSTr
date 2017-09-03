@@ -175,7 +175,7 @@ rule transdecoderLongIsoforms:
     input:
         "intermediate_files/{sample}.new_headers"
     output:
-        "intermediate_files/{sample}.new_headers.transdecoder_dir/longest_orfs.pep"
+        "{sample}.new_headers.transdecoder_dir/longest_orfs.pep"
     conda:
         "envs/transdecoder.yaml"
     shell:
