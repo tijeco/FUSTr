@@ -342,10 +342,7 @@ rule blastall:
     conda:
         "envs/diamond.yaml"
     shell:
-        """
-        diamond makedb --in {input} --out {input}.seq.db -d {input}
-        diamond blastp -d {input}.dmnd -q {input} -o {output} -p {threads} -e 1E-5
-        """
+        "diamond makedb --in {input} --out {input}.seq.db -d {input};diamond blastp -d {input}.dmnd -q {input} -o {output} -p {threads} -e 1E-5"
         # makeblastdb -in {input} -out {input}.seq.db -dbtype prot
         # blastp -db {input}.seq.db -query {input} -outfmt 6 -out {output} -num_threads {threads} -evalue 1E-5
         # """
