@@ -328,6 +328,20 @@ rule combine_pep_and_cds:
                     else:
                         cds_out.write(line)
 
+rule blastall:
+    input:
+        "Temp/all.pep.combined"
+    output:
+        "Temp/all.pep.combined.blastall.out"
+    threads:99
+    conda:
+        "envs/blast.yaml"
+    shell:
+        """
+        makeblastdb -in {input} -out {input}.seq.db -dbtype prot
+        blastp -db {input}.seq.db -query {input} -outfmt 6 -out {output} -num_threads {threads} -evalue 1E-5
+        """
+
 rule hyphy:
     input:
         tree="test.tree",
