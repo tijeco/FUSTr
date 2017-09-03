@@ -177,12 +177,7 @@ rule transdecoderLongIsoforms:
     output:
         "{sample}.new_headers.transdecoder_dir/longest_orfs.pep"
     conda:
-    """
-        channels:
-            - bioconda
-        dependencies:
-            - transdecoder=3.0.1
-    """
+        "envs/transdecoder.yaml"
     shell:
             "TransDecoder.LongOrfs -t {input}  -m 30"
 
