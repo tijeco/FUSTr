@@ -35,7 +35,7 @@ def stringSplitter(string,delimiter,avoid):
 SAMPLES, = glob_wildcards("{sample}.fasta")
 
 rule final:
-    input: "intermediate_files/all.pep.combined"
+    input: "intermediate_files/all.pep.combined.blastall.out"
     #input:expand("intermediate_files/all.pep.combined",sample=SAMPLES)
 
     # input:"test.fasta.fubar.csv"
@@ -330,9 +330,9 @@ rule combine_pep_and_cds:
 
 rule blastall:
     input:
-        "Temp/all.pep.combined"
+        "intermediate_files/all.pep.combined"
     output:
-        "Temp/all.pep.combined.blastall.out"
+        "intermediate_files/all.pep.combined.blastall.out"
     threads:99
     conda:
         "envs/blast.yaml"
