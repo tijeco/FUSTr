@@ -35,7 +35,7 @@ def stringSplitter(string,delimiter,avoid):
 SAMPLES, = glob_wildcards("{sample}.fasta")
 
 rule final:
-    input: dynamic("Families/family_{fam}.aln")
+    input: dynamic("Families/family_{fam}.aln.trimmed")
     # input: "intermediate_files/all.pep.combined_r90_SLX.fnodes"
     #input:expand("intermediate_files/all.pep.combined",sample=SAMPLES)
 
@@ -394,6 +394,17 @@ rule mafft:
         "envs/mafft.yaml"
     shell:
         "mafft --auto --thread -1 {input} > {output}"
+
+rule trimAln:
+    input:
+        "Families/family_{fam}.aln"
+    output:
+        trimmed_file="Families/family_{fam}.aln.trimmed",
+        column_file="Families/family_{fam}.aln.trimmed.column_file"
+    conda:
+        "envs/trimal.yaml"
+    shell:
+        "trimal -in {input} -out {output.trimmed_file} -gappyout -colnumbering > {output.column_file}"
 
 rule hyphy:
     input:
