@@ -35,7 +35,7 @@ def stringSplitter(string,delimiter,avoid):
 SAMPLES, = glob_wildcards("{sample}.fasta")
 
 rule final:
-    input:expand("Temp/all.pep.combined",sample=SAMPLES)
+    input:expand("intermediate_files/all.pep.combined",sample=SAMPLES)
 
     # input:"test.fasta.fubar.csv"
 
@@ -43,7 +43,7 @@ rule cleanFasta:
     input:
         "{sample}.fasta"
     output:
-        "{sample}.clean"
+        "intermediate_files/{sample}.clean"
     run:
         Trinity_bool = False
         signature = ""
@@ -121,9 +121,9 @@ rule cleanFasta:
 
 rule newHeaders:
     input:
-        "{sample}.clean"
+        "intermediate_files/{sample}.clean"
     output:
-        "{sample}.new_headers"
+        "intermediate_files/{sample}.new_headers"
     run:
         try:
             patternDict = {}
@@ -173,9 +173,9 @@ rule newHeaders:
 
 rule transdecoderLongIsoforms:
     input:
-        "{sample}.new_headers"
+        "intermediate_files/{sample}.new_headers"
     output:
-        "{sample}.new_headers.transdecoder_dir/longest_orfs.pep"
+        "intermediate_files/{sample}.new_headers.transdecoder_dir/longest_orfs.pep"
     conda:
         "envs/transdecoder.yaml"
     shell:
@@ -184,9 +184,9 @@ rule transdecoderLongIsoforms:
 
 rule transdecoderPredict:
     input:
-        fastaFile="{sample}.new_headers",LongOrfs="{sample}.new_headers.transdecoder_dir/longest_orfs.pep"
+        fastaFile="intermediate_files/{sample}.new_headers",LongOrfs="intermediate_files/{sample}.new_headers.transdecoder_dir/longest_orfs.pep"
     output:
-        "{sample}.new_headers.transdecoder.pep","{sample}.new_headers.transdecoder.cds"
+        "intermediate_files/{sample}.new_headers.transdecoder.pep","intermediate_files/{sample}.new_headers.transdecoder.cds"
     conda:
         "envs/transdecoder.yaml"
     shell:
@@ -248,7 +248,7 @@ rule longestIsoformPep:
 
 rule longestIsoformCDS:
     input:
-        "{sample}.new_headers.transdecoder.cds"
+        "intermediate_files/{sample}.new_headers.transdecoder.cds"
     output:
         "intermediate_files/{sample}.longestIsoform.cds"
     run:
@@ -297,10 +297,10 @@ rule longestIsoformCDS:
                 out.write(longIsoform[i][2]+'\n')
 rule combine_pep_and_cds:
     input:
-        pep=expand("Temp/{sample}.longestIsoform.pep",sample=SAMPLES),
-        cds=expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
+        pep=expand("intermediate_files/{sample}.longestIsoform.pep",sample=SAMPLES),
+        cds=expand("intermediate_files/{sample}.longestIsoform.cds",sample=SAMPLES)
     output:
-        "Temp/all.pep.combined","Temp/fusterID.txt","Temp/all.cds.combined"
+        "intermediate_files/all.pep.combined","intermediate_files/fusterID.txt","intermediate_files/all.cds.combined"
 
     run:
         fusterID = 1
