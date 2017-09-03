@@ -185,7 +185,7 @@ rule transdecoderLongIsoforms:
 
 rule transdecoderPredict:
     input:
-        fastaFile="intermediate_files/{sample}.new_headers",LongOrfs="intermediate_files/{sample}.new_headers.transdecoder_dir/longest_orfs.pep"
+        fastaFile="intermediate_files/{sample}.new_headers",LongOrfs="{sample}.new_headers.transdecoder_dir/longest_orfs.pep"
     output:
         "intermediate_files/{sample}.new_headers.transdecoder.pep","intermediate_files/{sample}.new_headers.transdecoder.cds"
     conda:
