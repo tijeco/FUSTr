@@ -35,7 +35,7 @@ def stringSplitter(string,delimiter,avoid):
 SAMPLES, = glob_wildcards("{sample}.fasta")
 
 rule final:
-    input: "intermediate_files/all.pep.combined.blastall.out"
+    input: "intermediate_files/all.pep.combined_r90_SLX.fnodes"
     #input:expand("intermediate_files/all.pep.combined",sample=SAMPLES)
 
     # input:"test.fasta.fubar.csv"
@@ -341,6 +341,15 @@ rule blastall:
         makeblastdb -in {input} -out {input}.seq.db -dbtype prot
         blastp -db {input}.seq.db -query {input} -outfmt 6 -out {output} -num_threads {threads} -evalue 1E-5
         """
+
+rule silix:
+    input:
+        sequence_file="intermediate_files/all.pep.combined",
+        blast_file = "intermediate_files/all.pep.combined.blastall.out"
+    output:
+        "intermediate_files/all.pep.combined_r90_SLX.fnodes"
+    shell:
+        "silix -r 0.9 {input.sequence_file} {input.blast_file} > {output} || true"
 
 rule hyphy:
     input:
