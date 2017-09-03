@@ -385,6 +385,16 @@ rule node2families:
                         out.write('>'+j+'\n')
                         out.write(seqDict[j]+'\n')
 
+rule mafft:
+    input:
+        "Families/family_{fam}.fa"
+    output:
+        "Families/family_{fam}.aln"
+    conda:
+        "envs/mafft.yaml"
+    shell:
+        "mafft --auto --thread -1 {input} > {output}"
+
 rule hyphy:
     input:
         tree="test.tree",
