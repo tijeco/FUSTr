@@ -35,7 +35,7 @@ def stringSplitter(string,delimiter,avoid):
 SAMPLES, = glob_wildcards("{sample}.fasta")
 
 rule final:
-    input:expand("{sample}.new_headers.transdecoder_dir/longest_orfs.pep",sample=SAMPLES)
+    input:expand("{sample}.new_headers.transdecoder.pep",sample=SAMPLES)
 
     # input:"test.fasta.fubar.csv"
 
@@ -180,6 +180,15 @@ rule transdecoderLongIsoforms:
         "envs/transdecoder.yaml"
     shell:
             "TransDecoder.LongOrfs -t {input}  -m 30"
+rule transdecoderPredict:
+    input:
+        fastaFile="{sample}.new_headers",LongOrfs="{sample}.new_headers.transdecoder_dir/longest_orfs.pep"
+    output:
+        "{sample}.new_headers.transdecoder.pep","{sample}.new_headers.transdecoder.cds"
+    conda:
+        "envs/transdecoder.yaml"
+    shell:
+            "TransDecoder.Predict -t {input.fastaFile} --single_best_orf"
 
 
 
