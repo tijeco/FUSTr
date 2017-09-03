@@ -35,7 +35,7 @@ def stringSplitter(string,delimiter,avoid):
 SAMPLES, = glob_wildcards("{sample}.fasta")
 
 rule final:
-    input: dynamic("Families/family_{fam}.phy")
+    input: dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon")
     # input: "intermediate_files/all.pep.combined_r90_SLX.fnodes"
     #input:expand("intermediate_files/all.pep.combined",sample=SAMPLES)
 
@@ -438,6 +438,97 @@ rule aln2phy:
                     out.write(headerStr.strip('>')+"\t")
                     out.write(seq +"\n")
 
+rule phy2codon:
+    input:
+        untrimmed="Families/family_{fam}.phy",
+        column_file="Families/family_{fam}.aln.trimmed.column_file",
+        nucleotide="intermediate_files/all.cds.combined"
+    output:
+        "Families/family_{fam}_dir/family_{fam}.codon.phylip",
+        "Families/family_{fam}_dir/family_{fam}.aln.codon"
+
+    run:
+        cut = ""
+        # print(input.untrimmed)
+        # print(input.column_file)
+        # print(input.nucleotide)
+        # print(output)
+        # print("making cds dictionary")
+        longIsoform_CDS_combined ={}
+        sequence_iterator = fasta_iter(input.nucleotide)
+        for ff in sequence_iterator:
+            headerStr, seq = ff
+            GeneID = headerStr
+            if GeneID not in longIsoform_CDS_combined:
+                    longIsoform_CDS_combined[GeneID] = seq
+        #Open outout
+        # print(len(longIsoform_CDS_combined))
+        with open(output[0], "w") as out:
+            with open(output[1],"w") as out2:
+                #Get  column cut file
+                with open(input.column_file) as f:
+                    for line in f:
+                        cut  +=line.strip().split("#ColumnsMap")[1]
+                    cut = cut.split(',')
+                    cut = list(map(int, cut))
+                #Get corresponding untrimmed Alignments, as original, line by line
+                line1=True
+                first_line=True
+                with open(input.untrimmed) as f:
+                    for line in f:
+                        if line1:
+                            line1=False
+                            continue
+
+                        row =line.strip().split()
+                        original=row[1]#cds
+                        header=row[0]
+
+                        #NOTE, potetintal bug below, if exception then sequence isn't declared and it can't go forward, use continue probably
+                        try:
+                            sequence=longIsoform_CDS_combined[header]#original
+                        except:
+                            print(header,"not in dict")
+                            continue
+                        CodonPos={}
+                        position=0
+                        codon=""
+                        number=1
+                        for i in sequence:
+
+                            codon +=i
+                            if position%3==2:
+                                CodonPos[number]=codon
+                                number+=1
+                            position +=1
+
+                            if position%3==0:
+                                codon=""
+                        aaPos=0
+                        firstAA=True
+                        alnPos=0
+                        prot=""
+                        trimmed=""
+                        print(number,len(sequence),original,cut,sequence,CodonPos)
+                        for i in original:
+                            if i!="-":
+                                aaPos+=1
+
+                            if alnPos in cut:
+                                prot+=i
+                                if i != "-":
+                                    print(aaPos,CodonPos[aaPos])
+                                    trimmed+=CodonPos[aaPos]
+                                else:
+                                    trimmed+="---"
+                            alnPos+=1
+                        num_lines = sum(1 for line in open(input.untrimmed) )
+                        if first_line:
+                            out.write(str(num_lines-1) + " " + str(len(trimmed)) + '\n')
+                            first_line=False
+                        out.write(header+'   '+trimmed+'\n')
+                        out2.write(">"+header+"\n")
+                        out2.write(trimmed+"\n")
 
 rule hyphy:
     input:
