@@ -35,7 +35,7 @@ def stringSplitter(string,delimiter,avoid):
 SAMPLES, = glob_wildcards("{sample}.fasta")
 
 rule final:
-    input: dynamic("Families/family_{fam}.fa")
+    input: dynamic("Families/family_{fam}.aln")
     # input: "intermediate_files/all.pep.combined_r90_SLX.fnodes"
     #input:expand("intermediate_files/all.pep.combined",sample=SAMPLES)
 
