@@ -35,7 +35,7 @@ def stringSplitter(string,delimiter,avoid):
 SAMPLES, = glob_wildcards("{sample}.fasta")
 
 rule final:
-    input:expand("intermediate_files/{sample}.longestIsoform.cds",sample=SAMPLES)
+    input:expand("Temp/all.pep.combined",sample=SAMPLES)
 
     # input:"test.fasta.fubar.csv"
 
@@ -295,6 +295,37 @@ rule longestIsoformCDS:
                 out.write('>'+sample+'_'+i+'\n')
                 # out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
                 out.write(longIsoform[i][2]+'\n')
+rule combine_pep_and_cds:
+    input:
+        pep=expand("Temp/{sample}.longestIsoform.pep",sample=SAMPLES),
+        cds=expand("Temp/{sample}.longestIsoform.cds",sample=SAMPLES)
+    output:
+        "Temp/all.pep.combined","Temp/fusterID.txt","Temp/all.cds.combined"
+
+    run:
+        fusterID = 1
+        idDict = {}
+
+        with open(output[1],"w") as id_out:
+            with open(output[0] ,"w") as pep_out:
+                for i in input.pep:
+                    for line in open(i):
+                        if ">" in line:
+                            pep_out.write(">fusterID_"+str(fusterID)+"\n")
+                            idDict[line.strip().strip(">")] = "fusterID_" + str(fusterID)
+                            id_out.write("fusterID_"+str(fusterID) + "\t"+line.strip(">"))
+                            fusterID+=1
+                        else:
+                            pep_out.write(line)
+        with open(output[2],"w") as cds_out:
+
+            for i in input.cds:
+                for line in open(i):
+                    if  ">" in line:
+                        cds_out.write(">" + idDict[line.strip().strip(">")]+"\n")
+
+                    else:
+                        cds_out.write(line)
 
 rule hyphy:
     input:
