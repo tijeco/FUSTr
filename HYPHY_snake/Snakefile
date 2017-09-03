@@ -195,7 +195,7 @@ rule transdecoderPredict:
 
 rule longestIsoformPep:
     input:
-        "intermediate_files/{sample}.new_headers.transdecoder.pep"
+        "{sample}.new_headers.transdecoder.pep"
     output:
         "intermediate_files/{sample}.longestIsoform.pep"
     run:
