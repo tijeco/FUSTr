@@ -567,7 +567,7 @@ rule phy2codon:
                         alnPos=0
                         prot=""
                         trimmed=""
-                        print(number,len(sequence),original,cut,sequence,CodonPos)
+                        # print(number,len(sequence),original,cut,sequence,CodonPos)
                         for i in original:
                             if i!="-":
                                 aaPos+=1
@@ -575,7 +575,7 @@ rule phy2codon:
                             if alnPos in cut:
                                 prot+=i
                                 if i != "-":
-                                    print(aaPos,CodonPos[aaPos])
+                                    # print(aaPos,CodonPos[aaPos])
                                     trimmed+=CodonPos[aaPos]
                                 else:
                                     trimmed+="---"
