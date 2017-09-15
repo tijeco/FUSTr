@@ -22,7 +22,7 @@ def makeSeed(numAA):
 
 # seedNum = int(sys.argv[1])
 
-for i in range(1000):
+for i in range(4):
     length = random.randint(50, 1000)
     branchlength = random.randint(1,50)
     filename = "seeds/seed"+str(i)+"_len"+str(length)+"BL_10.fa"
