@@ -39,11 +39,11 @@ def srcdir(str):
 SAMPLES, = glob_wildcards("{sample}.fasta")
 
 rule final:
-    input: dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.fubar.csv")
+    input: dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json")
     # input: "intermediate_files/all.pep.combined_r90_SLX.fnodes"
     #input:expand("intermediate_files/all.pep.combined",sample=SAMPLES)
 
-    # input:"test.fasta.fubar.csv"
+    # input:"test.fasta.FUBAR.json"
 
 rule cleanFasta:
     input:
@@ -551,7 +551,7 @@ rule hyphy:
         tree="Families/family_{fam}_dir/family_{fam}.tree",
         align="Families/family_{fam}_dir/family_{fam}.aln.codon"
     output:
-        "Families/family_{fam}_dir/family_{fam}.aln.codon.fubar.csv"
+        "Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json"
     shell:
         "tmpThing=$(find / -name FUBAR.bf|tail -n 1);(echo 1; echo 1;echo " +srcdir("{input.align}")+"; echo "+ srcdir("{input.tree}")+"; echo 20;echo 5; echo 2000000; echo 1000000;echo 100;echo 0.5 )|HYPHYMP $tmpThing"
 
