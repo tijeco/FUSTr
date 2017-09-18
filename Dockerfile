@@ -42,7 +42,7 @@ RUN wget -qO- -O tmp.zip https://sourceforge.net/projects/evolveagene/files/Evol
       unzip tmp.zip && rm tmp.zip
 RUN echo 'for name in *\ *; do mv -v "$name" "${name// /}"; done' > tmp.sh
 RUN ["bash", "tmp.sh"]
-RUN cp EvolvAGene4Package/EvolveAGene4-linux-x86-64 /usr/bin/EvolveAGene 
+RUN cp EvolvAGene4Package/EvolveAGene4-linux-x86-64 /usr/bin/EvolveAGene
 
 WORKDIR /home/usr/FUSTr/Simulations/
 # RUN git pull
@@ -60,8 +60,7 @@ RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
 RUN pip install numpy biopython scipy
 ##
 ENV PATH /opt/conda/bin:$PATH
+ADD $package /home/usr/data
 RUN ln -sf /bin/bash /bin/sh
 #NOTE
 # RUN wget http://topaz.gatech.edu/GeneMark/tmp/GMtool_nNklB/gmst_linux_64.tar.gz
-
-ADD $package /home/usr/data
