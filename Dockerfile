@@ -42,7 +42,7 @@ RUN wget -qO- -O tmp.zip https://sourceforge.net/projects/evolveagene/files/Evol
       unzip tmp.zip && rm tmp.zip
 RUN echo 'for name in *\ *; do mv -v "$name" "${name// /}"; done' > tmp.sh
 RUN ["bash", "tmp.sh"]
-RUN cp EvolvAGene4Package/EvolveAGene4-linux-x86-64 /usr/bin/EvolveAGene
+RUN cp EvolvAGene4Package/EvolveAGene4-linux-x86-64 /usr/bin/EvolveAGene 
 
 WORKDIR /home/usr/FUSTr/Simulations/
 # RUN git pull
