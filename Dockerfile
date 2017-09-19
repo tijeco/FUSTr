@@ -61,6 +61,6 @@ RUN pip install numpy biopython scipy
 ##
 ENV PATH /opt/conda/bin:$PATH
 ADD $package /home/usr/data
-RUN ln -sf /bin/bash /bin/sh
+RUN rm /bin/sh && ln -sf /bin/bash /bin/sh
 #NOTE
 # RUN wget http://topaz.gatech.edu/GeneMark/tmp/GMtool_nNklB/gmst_linux_64.tar.gz
