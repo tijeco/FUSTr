@@ -41,7 +41,7 @@ if os.path.exists(fusterID_file):
         with open(fusterID_file) as f:
             for line in f:
                 row = line.strip().split()
-                id_dict[row[0]] = row[1]
+                id_dict[row[1]] = row[0]
         with open(recipro_file) as f:
             for line in f:
                 row = line.strip().split()
@@ -60,6 +60,10 @@ if os.path.exists(fusterID_file):
         for i in reciproDict.keys():
             with open("group."+i+".fa","w") as out:
                 for j in reciproDict[i].keys():
-                    print(j,j in pepDict)
-                    # out.write(">"+j+"\n")
-                    # out.write(pepDict[j])
+                    # print(j,j in pepDict)
+                    out.write(">"+j+"\n")
+                    out.write(pepDict[j])
+
+                    #pepDict ---> {"fusterID":"seq"}
+                    #reciproDict ---> {group:[header1,header2]}
+                    #idDict  ---> {fusterID:header}
