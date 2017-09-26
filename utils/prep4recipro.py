@@ -62,7 +62,7 @@ if os.path.exists(fusterID_file):
                 for j in reciproDict[i].keys():
                     # print(j,j in pepDict)
                     out.write(">"+j+"\n")
-                    out.write(pepDict[j])
+                    out.write(pepDict[id_dict[j]])
 
                     #pepDict ---> {"fusterID":"seq"}
                     #reciproDict ---> {group:[header1,header2]}
