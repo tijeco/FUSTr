@@ -29,7 +29,7 @@ else:
 
 
 pep_file = working_dir + "/intermediate_files/all.pep.combined"
-fusterID_file = working_dir + "/intermediate_files/fusterID.txt"
+fusterID_file  = working_dir + "/intermediate_files/fusterID.txt"
 
 id_dict = {}
 reciproDict = {}
