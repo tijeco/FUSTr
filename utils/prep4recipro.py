@@ -60,6 +60,6 @@ if os.path.exists(fusterID_file):
         for i in reciproDict.keys():
             with open("group."+i+".fa","w") as out:
                 for j in reciproDict[i].keys():
-                    # print(j,j in id_dict)
-                    out.write(">"+j+"\n")
-                    out.write(pepDict[j])
+                    print(j,j in pepDict)
+                    # out.write(">"+j+"\n")
+                    # out.write(pepDict[j])
