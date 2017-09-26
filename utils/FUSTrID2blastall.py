@@ -26,7 +26,7 @@ blast_file = working_dir + "/intermediate_files/all.pep.combined.blastall.out"
 
 id_dict = {}
 if os.path.exists(fusterID_file):
-    if os.path.exists(family_file):
+    if os.path.exists(blast_file):
         #make id_dict
         with open(fusterID_file) as f:
             for line in f:
