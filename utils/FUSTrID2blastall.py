@@ -12,12 +12,12 @@ else:
 
     print("\nplease specify input directory name using -d <directory_name> \n")
     sys.exit()
-if "-i" in sys.argv:
-    working_file = getOptionValue("-i").strip("/")
-else:
-
-    print("\nplease specify input directory name using -i <directory_name> \n")
-    sys.exit()
+# if "-i" in sys.argv:
+#     working_file = getOptionValue("-i").strip("/")
+# else:
+#
+#     print("\nplease specify input directory name using -i <directory_name> \n")
+#     sys.exit()
 # SAMPLES, = glob_wildcards("{sample}.fasta")
 
 fusterID_file = working_dir+"/intermediate_files/fusterID.txt"
