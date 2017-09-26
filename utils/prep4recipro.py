@@ -44,7 +44,7 @@ if os.path.exists(fusterID_file):
                 id_dict[row[0]] = row[1]
         with open(recipro_file) as f:
             for line in f:
-                row = line.strip().split())
+                row = line.strip().split()
                 num = row[0]
                 header = row[1]
                 if num not in reciproDict:
