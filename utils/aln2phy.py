@@ -21,22 +21,21 @@ else:
 
     print("\nplease specify input directory name using -i <directory_name> \n")
     sys.exit()
-for currentFile in range(len(output)):
     # print(output[currentFile],input[currentFile])
 
 
-    with open(aln_file.split("aln")[0]+"phy","w") as out:
-        sequence_iterator = fasta_iter(aln_file)
-        first_line =True
-        for ff in sequence_iterator:
+with open(aln_file.split("aln")[0]+"phy","w") as out:
+    sequence_iterator = fasta_iter(aln_file)
+    first_line =True
+    for ff in sequence_iterator:
 
-            headerStr, seq = ff
-            if first_line:
-                seq_length = len(seq)
-                num_lines = num_lines = sum(1 for line in open(input[currentFile]) if line[0]=='>')
-                out.write(str(num_lines)+" "+str(seq_length)+"\n")
-                first_line=False
-
+        headerStr, seq = ff
+        if first_line:
             seq_length = len(seq)
-            out.write(headerStr.strip('>')+"\t")
-            out.write(seq +"\n")
+            num_lines = num_lines = sum(1 for line in open(aln_file) if line[0]=='>')
+            out.write(str(num_lines)+" "+str(seq_length)+"\n")
+            first_line=False
+
+        seq_length = len(seq)
+        out.write(headerStr.strip('>')+"\t")
+        out.write(seq +"\n")
