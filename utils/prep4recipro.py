@@ -54,7 +54,7 @@ if os.path.exists(fusterID_file):
                     reciproDict[num][header] = True
         with open(pep_file) as f:
             sequence_iterator = fasta_iter(pep_file)
-            for ff in fasta_iter:
+            for ff in sequence_iterator:
                 headerStr, seq = ff
                 pepDict[headerStr] = seq
         for i in reciproDict.keys():
