@@ -108,5 +108,5 @@ print("snakemake -Snakefile " + "template/Snakefile -d "+input_directory+" --cor
 
 
 
- 
+  
 print(configDict)
