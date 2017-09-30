@@ -113,7 +113,7 @@ print("snakemake --snakefile " + "template/Snakefile -d "+input_directory+" --co
 print(srcdir(input_directory),srcdir("template/Snakefile"))
 print("snakemake --snakefile " +srcdir("template/Snakefile")+ " -d "+srcdir(input_directory)+" --cores "+str(threads)+" --use-conda --configfile configure.json")
 
-# subprocess.Popen("snakemake --snakefile " +srcdir("template/Snakefile")+ "template/Snakefile -d "+srcdir(input_directory)+" --cores "+str(threads)+" --use-conda --configfile configure.json")
+subprocess.Popen("snakemake --snakefile " +srcdir("template/Snakefile")+ "template/Snakefile -d "+srcdir(input_directory)+" --cores "+str(threads)+" --use-conda --configfile configure.json")
 
 
 
