@@ -60,7 +60,7 @@ RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
 RUN pip install numpy biopython scipy
 ##
 ENV PATH /opt/conda/bin:$PATH
-ENV PATH /home/usr/FUSTr/bin:$PATH &&
+ENV PATH /home/usr/FUSTr/bin:$PATH 
 
 # RUN wget http://topaz.gatech.edu/GeneMark/tmp/GMtool_nNklB/gmst_linux_64.tar.gz
 RUN ln -sf /bin/bash /bin/sh
