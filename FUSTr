@@ -120,5 +120,5 @@ output = subprocess.check_output(['bash','-c', bashCommand])
 
 
 
-snakemake --snakefile /home/usr/FUSTr/template/template/Snakefile -d /home/usr/FUSTr/test/ --cores 1 --use-conda --configfile configure.json
+# snakemake --snakefile /home/usr/FUSTr/template/template/Snakefile -d /home/usr/FUSTr/test/ --cores 1 --use-conda --configfile configure.json
 # print(configDict)
