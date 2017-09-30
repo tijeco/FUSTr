@@ -31,7 +31,7 @@ def srcdir(str):
     return fullPath
 
 SAMPLES, = glob_wildcards("{sample}.fasta")
-
+print(SAMPLES)
 rule final:
     input:dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json")
 
