@@ -155,6 +155,6 @@ rule orf:
     output:
         "{sample}.new_headers.transdecoder_dir/longest_orfs.pep"
     conda:
-        config["transdecoder"]["conda"]
+        config["orf"]["conda"]
     shell:
-            config["transdecoder"]["shell"]
+            config["orf"]["shell"]
