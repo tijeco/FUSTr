@@ -1,0 +1,4 @@
+channels:
+  - bioconda
+dependencies:
+  - transdecoder=3.0.1
