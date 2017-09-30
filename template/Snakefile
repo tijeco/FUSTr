@@ -355,6 +355,6 @@ rule mafft:
     output:
         "Families/family_{fam}.aln"
     conda:
-        config["conda"]
+        config["align"]["conda"]
     shell:
-        config["shell"]
+        config["align"]["shell"]
