@@ -20,7 +20,7 @@ if "-d" in sys.argv:
     input_directory = getOptionValue("-d")
 else:
     # input_directory = "data/"
-    print "\nplease specify input directory name using -d <file_name> \n"
+    print("\nplease specify input directory name using -d <file_name> \n")
     sys.exit()
 
 if "-t" in sys.argv:
