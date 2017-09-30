@@ -33,7 +33,7 @@ def srcdir(str):
 SAMPLES, = glob_wildcards("{sample}.fasta")
 
 rule final:
-    input:"intermediate_files/all.pep.combined"
+    input:"intermediate_files/all.pep.combined.blastall.out"
 
 rule cleanFasta:
     input:
@@ -301,4 +301,4 @@ rule blastall:
     conda:
         config["blast"]["conda"]
     shell:
-        config["blast"]["shell"]
+        config["blast"][""]
