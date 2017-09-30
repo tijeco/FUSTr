@@ -158,3 +158,11 @@ rule orf:
         config["orf"]["conda"]
     shell:
             config["orf"]["shell"]
+
+rule model:
+    input:
+        "{sample}.new_headers.transdecoder_dir/longest_orfs.pep"
+    output:
+        "finalStatsfile.txt"
+    shell:
+        "touch {output}"
