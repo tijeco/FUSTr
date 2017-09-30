@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 import runme
 import sys
 import json
