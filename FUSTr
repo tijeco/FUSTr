@@ -10,7 +10,7 @@ def getOptionValue(option):
     return optionValue
 
 def srcdir(str):
-    fullPath = os.path.dirname(os.path.abspath(str)) +"/" +str
+    fullPath = os.path.dirname(os.path.abspath(str)) +"/" #+str
     return fullPath
 
 
