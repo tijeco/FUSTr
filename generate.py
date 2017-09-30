@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import generate
+import runme
 import sys
 import json
 
