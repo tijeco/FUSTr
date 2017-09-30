@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import sys
-import json
+import json 
 
 def getOptionValue(option):
     optionPos = [i for i, j in enumerate(sys.argv) if j == option][0]
