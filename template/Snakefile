@@ -33,7 +33,7 @@ def srcdir(str):
 SAMPLES, = glob_wildcards("{sample}.fasta")
 
 rule final:
-    input:dynamic("Families/family_{fam}_dir/family_{fam}.tree")
+    input:dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json")
 
 rule cleanFasta:
     input:
