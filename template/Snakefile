@@ -292,3 +292,13 @@ rule combine_pep_and_cds:
 
                     else:
                         cds_out.write(line)
+rule blastall:
+    input:
+        "intermediate_files/all.pep.combined"
+    output:
+        "intermediate_files/all.pep.combined.blastall.out"
+    threads:99
+    conda:
+        config["blast"]["conda"]
+    shell:
+        config["blast"]["shell"]
