@@ -314,9 +314,7 @@ rule silix:
     output:
         "intermediate_files/all.pep.combined_r90_SLX.fnodes"
     shell:
-        config["clust"]["shell
-
-        "]
+        config["clust"]["shell"]
 
 rule node2families:
     input:
