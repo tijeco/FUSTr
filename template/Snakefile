@@ -493,3 +493,12 @@ rule FastTree:
         "envs/fasttree.yaml"
     shell:
         "fasttree  -nosupport {input} > {output} || true"
+
+rule hyphy:
+    input:
+        tree="Families/family_{fam}_dir/family_{fam}.tree",
+        align="Families/family_{fam}_dir/family_{fam}.aln.codon"
+    output:
+        "Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json"
+    shell:
+        "tmpThing=$(find / -name FUBAR.bf|tail -n 1);(echo 1; echo 1;echo " +srcdir("{input.align}")+"; echo "+ srcdir("{input.tree}")+"; echo 20;echo 5; echo 2000000; echo 1000000;echo 100;echo 0.5 )|HYPHYMP $tmpThing"
