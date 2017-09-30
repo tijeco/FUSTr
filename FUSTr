@@ -111,7 +111,7 @@ with open("template/Snakefile") as f:
 
 print("snakemake --snakefile " + "template/Snakefile -d "+input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json")
 print(srcdir(input_directory),srcdir("template/Snakefile"))
-# subprocess.Popen("snakemake --snakefile " + "template/Snakefile -d "+input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json")
+subprocess.Popen("snakemake --snakefile " +srcdir("template/Snakefile")+ "template/Snakefile -d "+srcdir(input_directory)+" --cores "+str(threads)+" --use-conda --configfile configure.json")
 
 
 
