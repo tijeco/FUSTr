@@ -33,7 +33,7 @@ def srcdir(str):
 SAMPLES, = glob_wildcards("{sample}.fasta")
 
 rule final:
-    input:"intermediate_files/all.pep.combined.blastall.out"
+    input:"intermediate_files/all.pep.combined_r90_SLX.fnodes"
 
 rule cleanFasta:
     input:
@@ -149,6 +149,7 @@ rule newHeaders:
                     headerStr, seq = ff
                     out.write( ">"+stringSplitter(headerStr,"_","-").split()[0] +'\n')
                     out.write(seq+'\n')
+
 rule orf:
     input:
         "intermediate_files/{sample}.new_headers"
@@ -158,6 +159,7 @@ rule orf:
         config["orf"]["conda"]
     shell:
             config["orf"]["shell"]
+
 rule longestIsoformPep:
     input:
         "{sample}.new_headers.transdecoder.pep"
@@ -261,6 +263,7 @@ rule longestIsoformCDS:
                 out.write('>'+sample+'_'+i+'\n')
                 # out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
                 out.write(longIsoform[i][2]+'\n')
+
 rule combine_pep_and_cds:
     input:
         pep=expand("intermediate_files/{sample}.longestIsoform.pep",sample=SAMPLES),
@@ -292,6 +295,7 @@ rule combine_pep_and_cds:
 
                     else:
                         cds_out.write(line)
+
 rule blastall:
     input:
         "intermediate_files/all.pep.combined"
@@ -302,3 +306,12 @@ rule blastall:
         config["blast"]["conda"]
     shell:
         config["blast"]["shell"]
+
+rule silix:
+    input:
+        sequence_file="intermediate_files/all.pep.combined",
+        blast_file = "intermediate_files/all.pep.combined.blastall.out"
+    output:
+        "intermediate_files/all.pep.combined_r90_SLX.fnodes"
+    shell:
+        config["clust"][""]
