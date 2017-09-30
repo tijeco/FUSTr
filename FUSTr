@@ -8,6 +8,9 @@ def getOptionValue(option):
     optionValue = sys.argv[optionPos + 1]
     return optionValue
 
+def srcdir(str):
+    fullPath = os.path.dirname(os.path.abspath(str)) +"/" +str
+    return fullPath
 
 
 configDict = {}
@@ -106,7 +109,9 @@ with open("template/Snakefile") as f:
     print(f)
 
 print("snakemake --snakefile " + "template/Snakefile -d "+input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json")
-subprocess.Popen("snakemake --snakefile " + "template/Snakefile -d "+input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json")
+print(srcdir(input_directory),srcdir("template/Snakefile"))
+# subprocess.Popen("snakemake --snakefile " + "template/Snakefile -d "+input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json")
+
 
 
 
