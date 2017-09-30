@@ -39,7 +39,6 @@ else:
         TransDecoder.LongOrfs -t {input}  -m 30
         TransDecoder.Predict -t {input} --single_best_orf
         """
-
     }
 
 if "-blast" in sys.argv:
@@ -104,7 +103,7 @@ with open('configure.json', 'w') as fp:
 with open("template/Snakefile") as f:
     print(f)
 
-print("snakemake -Snakefile " + "template/Snakefile -d "+input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json")
+print("snakemake --snakefile " + "template/Snakefile -d "+input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json")
 
 
 
