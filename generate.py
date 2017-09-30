@@ -8,7 +8,7 @@ def getOptionValue(option):
 
 
 
-configDict = {} 
+configDict = {}
 
 if "-d" in sys.argv:
     input_directory = getOptionValue("-d")
@@ -109,4 +109,4 @@ print("snakemake -Snakefile " + "template/Snakefile -d "+input_directory+" --cor
 
 
 
-print(configDict)
+# print(configDict)
