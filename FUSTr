@@ -112,8 +112,10 @@ with open("template/Snakefile") as f:
 print("snakemake --snakefile " + "template/Snakefile -d "+input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json")
 print(srcdir(input_directory),srcdir("template/Snakefile"))
 print("snakemake --snakefile " +srcdir("template/Snakefile")+ " -d "+srcdir(input_directory)+" --cores "+str(threads)+" --use-conda --configfile configure.json")
+bashCommand = "snakemake --snakefile " +srcdir("template/Snakefile")+ " -d "+srcdir(input_directory)+" --cores "+str(threads)+" --use-conda --configfile configure.json"
+output = subprocess.check_output(['bash','-c', bashCommand])
 
-subprocess.call("snakemake --snakefile " +srcdir("template/Snakefile")+ "template/Snakefile -d "+srcdir(input_directory)+" --cores "+str(threads)+" --use-conda --configfile configure.json")
+# subprocess.call("snakemake --snakefile " +srcdir("template/Snakefile")+ "template/Snakefile -d "+srcdir(input_directory)+" --cores "+str(threads)+" --use-conda --configfile configure.json")
 
 
 
