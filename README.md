@@ -5,39 +5,34 @@ Fuster is a pipeline that clusters coding sequences from transcriptomes into pro
 
 # Getting started
 
-First you will need to install miniconda3, available  [here](https://conda.io/miniconda.html) so that you can set up the environment with all other dependencies. **Note:** make sure to choose the Python 3.6 version.
+The only software needed to run FUSTr is [Docker](https://www.docker.com/). FUSTr takes as input a directory containing transcriptome assemblies
 
-Alternatively, if you have pip3 installed, it is also possible to install miniconda using the following command.
-```bash
-pip3 install miniconda3
-```
-**Important:** The only dependency that is not avalaible in bioconda is SiLiX (v1.2.11), which needs to be installed on the system, and can be downloaded [here](http://lbbe.univ-lyon1.fr/Download,3009.html?lang=fr).
+**Important:** transcriptome assemblies need to be fasta files ending in .fasta, all in one directory.
 
-Once you have conda and SiLiX installed, clone into this repository.
 
+Download FUSTr with the following command
 ```bash
 git clone https://github.com/tijeco/FUSTr.git
 ```
 
 
-Using conda, you can set up an environment that installs all dependencies in a local session
+With Docker installed correctly on your system issue the following command to initialize the Docker container
 
 ```bash
-cd FUSTr
-conda create --name FUSTr -c bioconda --file FUSTr.requirements.txt
-source activate FUSTr
+docker build -t  fustr --build-arg package=/fasta/directory/ ./FUSTr
 ```
 
-
-
-
-After that all you have to do is type the following command with the path to the directory containing all transcriptome assemblies (ending in .fasta) and the Snakefile will do the rest of the work!
+Once the docker container has been initialized you can enter it using the following command
 
 ```
-snakemake -d <path_to_fastas> --cores <number_of_cores>
+docker run -it fustr /bin/bash
 ```
-Once that finishes you can end the conda session using
 
-```bash
-source deactivate  
+Now that you are in the docker container, your data is in /home/usr/data, to run FUSTr simply issue the following command
 ```
+FUSTr -d ./data -t <number_of_threads>
+```
+
+The output will be in data/file
+
+You can use scp to transfer this to your local machine.
