@@ -23,8 +23,8 @@ def makeSeed(numAA):
 # seedNum = int(sys.argv[1])
 
 for i in range(int(sys.argv[1])):
-    length = random.randint(50, 1000)
-    branchlength = random.randint(1,50)
+    length = random.randint(50, 500)
+    branchlength = random.randint(1,20)
     filename = "seeds/seed"+str(i)+"_len"+str(length)+"BL_"+str(branchlength)+".fa"
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     with open(filename, "w") as out:
