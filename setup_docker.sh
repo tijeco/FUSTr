@@ -8,4 +8,4 @@ echo $FUSTR_dir
 work_dir=$FUSTR_dir/$(basename $target)
 echo $work_dir
 ls $work_dir
-docker build -t  fuster --build-arg package=$work_dir  $FUSTR_dir --no-cache
+echo docker build -t  fuster --build-arg package=$work_dir  $FUSTR_dir --no-cache
