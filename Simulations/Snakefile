@@ -15,8 +15,8 @@ rule dos:
         run:
                 print(output[0].split("_")[0])
                 print(output[0].split("_")[1].split('/')[0])
-                regime = input[0].split(".")[-2]
-                branchLength = input[0].split("BL_")[1].split(regime)[0][:-1]
+                regime = input[0].split(".")[-1][:-3]
+                branchLength = input[0].split("BL_")[1].split(regime)[0]
                 os.system("EvolveAGene -f  "+input[0]+" -ss " +regime+" -n 32 -o Phy -b " + str(int(branchLength)/100.0))
 
 rule tres:
