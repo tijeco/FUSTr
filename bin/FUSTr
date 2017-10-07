@@ -35,9 +35,13 @@ else:
 
 
 if "-orf" in sys.argv:
-    orf_option = getOptionValue("-orf")
-    print("Sorry, that option is not currently supported for this subroutine\nexiting")
-    sys.exit()
+    # orf_option = getOptionValue("-orf")
+    orf_option="transdecoder"
+    configDict["orf"]={"conda":"envs/transdecoder.yaml",
+        "shell":"""
+        TransDecoder.LongOrfs -t {input}  -m 30 -S
+        TransDecoder.Predict -t {input} --single_best_orf
+        """
 else:
     orf_option="transdecoder"
     configDict["orf"]={"conda":"envs/transdecoder.yaml",
