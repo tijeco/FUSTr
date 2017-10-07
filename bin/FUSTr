@@ -42,6 +42,7 @@ if "-orf" in sys.argv:
         TransDecoder.LongOrfs -t {input}  -m 30 -S
         TransDecoder.Predict -t {input} --single_best_orf
         """
+    }
 else:
     orf_option="transdecoder"
     configDict["orf"]={"conda":"envs/transdecoder.yaml",
