@@ -35,8 +35,8 @@ if os.path.exists(fusterID_file):
         with open(family_file) as f:
             for line in f:
                 row = line.strip().split()
-                if row[0] in id_dict:
-                    print(row[1]+"\t"+id_dict[row[1]])
+                if row[1] in id_dict:
+                    print(row[0]+"\t"+id_dict[row[1]])
                 else:
                     print(None)
         # with open(working_dir+"_familyFile.txt","w") as out:
