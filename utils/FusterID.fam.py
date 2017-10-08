@@ -12,12 +12,12 @@ else:
 
     print("\nplease specify input directory name using -d <directory_name> \n")
     sys.exit()
-if "-i" in sys.argv:
-    working_file = getOptionValue("-i").strip("/")
-else:
-
-    print("\nplease specify input directory name using -i <directory_name> \n")
-    sys.exit()
+# if "-i" in sys.argv:
+#     working_file = getOptionValue("-i").strip("/")
+# else:
+#
+#     print("\nplease specify input directory name using -i <directory_name> \n")
+#     sys.exit()
 # SAMPLES, = glob_wildcards("{sample}.fasta")
 
 fusterID_file = working_dir+"/intermediate_files/fusterID.txt"
@@ -32,7 +32,7 @@ if os.path.exists(fusterID_file):
             for line in f:
                 row = line.strip().split()
                 id_dict[row[0]] = row[1]
-        with open(working_file) as f:
+        with open(family_file) as f:
             for line in f:
                 row = line.strip().split()
                 if row[0] in id_dict:
