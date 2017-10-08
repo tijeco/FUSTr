@@ -20,8 +20,8 @@ else:
     sys.exit()
 # SAMPLES, = glob_wildcards("{sample}.fasta")
 
-fusterID_file = working_dir+"/Temp/fusterID.txt"
-family_file = working_dir + "/Temp/all.pep.combined_r90_SLX.fnodes"
+fusterID_file = working_dir+"/intermediate_files/fusterID.txt"
+family_file = working_dir + "/intermediate_files/all.pep.combined_r90_SLX.fnodes"
 
 
 id_dict = {}
