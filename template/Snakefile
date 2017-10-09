@@ -504,23 +504,23 @@ rule hyphy:
         log="Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.log"
     shell:
         "tmpThing=$(find / -name FUBAR.bf 2>/dev/null|tail -n 1);(echo 1; echo 1;echo " +srcdir("{input.align}")+"; echo "+ srcdir("{input.tree}")+"; echo 20;echo 5; echo 2000000; echo 1000000;echo 100;echo 0.5 )|HYPHYMP $tmpThing >{output.log}"
-# rule finalStatistics:
-#     input:
-#         json=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json"),
-#         log=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.log")
-#     output:
-#         "final_results/posFams.txt"
-#     run:
-#         with open(output[0],"w") as out:
-#             for currentFile in input.log:
-#                 with open(currentFile) as f:
-#                     for line in f:
-#                         if "## FUBAR" in line:
-#
-#                             if "no" not in line:
-#                                 result = re.search('inferred(.*)sites', line)
-#
-#                                 out.write(currentFile.split("/")[-1].split(".")[0]+" "+result.group(1)+"\n")
+rule finalStatistics:
+    input:
+        json=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json"),
+        log=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.log")
+    output:
+        "final_results/posFams.txt"
+    run:
+        with open(output[0],"w") as out:
+            for currentFile in input.log:
+                with open(currentFile) as f:
+                    for line in f:
+                        if "## FUBAR" in line:
+
+                            if "no" not in line:
+                                result = re.search('inferred(.*)sites', line)
+
+                                out.write(currentFile.split("/")[-1].split(".")[0]+" "+result.group(1)+"\n")
 rule final_results:
     input:
         provided=expand("{sample}.fasta",sample=SAMPLES),
@@ -529,8 +529,8 @@ rule final_results:
         blast="intermediate_files/all.pep.combined.blastall.out",
         fams="intermediate_files/all.pep.combined_r90_SLX.fnodes",
         idFile="intermediate_files/fusterID.txt",
-        json=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json"),
-        log=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.log")
+        # json=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json"),
+        # log=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.log")
     output:
         # posFams="final_results/posFams.txt",
         FUSTrFams="final_results/FUSTr.fams",
@@ -589,15 +589,25 @@ rule final_results:
                         blastOut.write(line2print+"\n")
             with open(output.FUSTrFams,"w") as famOut:
                 with open(input.fams) as f:
+                    famTot = {}
                     famsUsed = {}
+
                     for line in f:
                         row = line.strip().split()
                         if row[1] in idDict:
                             print(row[0]+"\t"+idDict[row[1]])
-                            famsUsed[row[0]] = True
+                            if row[0] in famTot:
+
+                                famTot[row[0]] +=1
+                            else:
+                                famTot[row[0]] = 1
                         else:
                             None
-                    totFams = len(famsUsed)
+                    totFams = len(famTot)
+                    for i in famTot.keys():
+                        if famTot[i]>=15:
+                            famsUsed[i] = True
+                    usedFams = len(famsUsed)
 
             with open(output.posFams,"w") as posOut:
                 for currentFile in input.log:
