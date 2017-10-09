@@ -517,4 +517,8 @@ rule finalStatistics:
                 with open(currentFile) as f:
                     for line in f:
                         if "## FUBAR" in line:
-                            out.write(currentFile+" "+line)
+
+                            if "no" not in line:
+                                result = re.search('inferred(.*)sites', s)
+
+                                out.write(currentFile+" "+result.group(1)+"\n")
