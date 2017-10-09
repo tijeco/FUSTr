@@ -33,7 +33,7 @@ def srcdir(str):
 SAMPLES, = glob_wildcards("{sample}.fasta")
 print(SAMPLES)
 rule final:
-    input:"final_results/posFams.txt"
+    input:"final_results/FUSTr.out"
     # input:dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json")
 
 rule cleanFasta:
@@ -521,101 +521,101 @@ rule finalStatistics:
                                 result = re.search('inferred(.*)sites', line)
 
                                 out.write(currentFile.split("/")[-1].split(".")[0]+" "+result.group(1)+"\n")
-# rule finalStatistics:
-#     input:
-#         provided=expand("{sample}.fasta",sample=SAMPLES),
-#         transdecoder=expand("{sample}.new_headers.transdecoder.pep",sample=SAMPLES),
-#         allPep="intermediate_files/all.pep.combined",
-#         blast="intermediate_files/all.pep.combined.blastall.out",
-#         fams="intermediate_files/all.pep.combined_r90_SLX.fnodes",
-#         idFile="intermediate_files/fusterID.txt",
-#         json=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json"),
-#         log=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.log")
-#     output:
-#         posFams="final_results/posFams.txt",
-#         FUSTrFams="final_results/FUSTr.fams",
-#         blast="final_results/FUSTr.blast.out",
-#         pep="final_results/FUSTr.pep",
-#         FUSTr="final_results/FUSTr.out"
-#     run:
-#         samples = 0
-#         original_sequence = 0
-#         transdecoder_sequence = 0
-#         allPep = 0
-#         totFams = 0
-#         usedFams = 0
-#         selectFams = 0
-#         idDict={}
-#         with open(input.idFile) as f:
-#             for line in f:
-#                 row = line.strip().split()
-#                 idDict[row[1]] = row[0]
-#
-#         with open(output.FUSTr,"w") as out:
-#
-#
-#             for currentFile in input.provided:
-#                 samples+=1
-#
-#                 with open(currentFile) as f:
-#                     for line in f:
-#                         if line[0]==">":
-#                             original_sequence+=1
-#             for currentFile in input.transdecoder:
-#                 with open(currentFile) as f:
-#                     for line in f:
-#                         if line[0]==">":
-#                             transdecoder_sequence+=1
-#             with open(output.pep,"w") as pepOut:
-#                 sequence_iterator = fasta_iter(input.allPep)
-#                 for ff in sequence_iterator:
-#                     headerStr, seq = ff
-#                     allPep+=1
-#                     pepOut.write(">"+idDict[headerStr]+"\n"+seq+"\n")
-#
-#             with open(output.blast,"w") as blastOut:
-#                 with open(input.blast) as f:
-#                     for line in f:
-#                         row = line.strip().split()
-#                         line2print = ""
-#                         for i in row:
-#                             if i in idDict:
-#                                 line2print+=idDict[i]+" "
-#                             else:
-#                                 line2print+= i +" "
-#                         blastOut.write(line2print+"\n")
-#             with open(output.fams,"w") as famOut:
-#                 with open(input.FUSTrFams) as f:
-#                     famsUsed = {}
-#                     for line in f:
-#                         row = line.strip().split()
-#                         if row[1] in idDict:
-#                             print(row[0]+"\t"+idDict[row[1]])
-#                             famsUsed[row[0]] = True
-#                         else:
-#                             None
-#                     totFams = len(famsUsed)
-#
-#             with open(output.posFams,"w") as posOut:
-#                 for currentFile in input.log:
-#                     usedFams+=1
-#                     with open(currentFile) as f:
-#                         for line in f:
-#                             if "## FUBAR" in line:
-#
-#                                 if "no" not in line:
-#                                     result = re.search('inferred(.*)sites', line)
-#                                     selectFams +=1
-#
-#                                     posOut.write(currentFile.split("/")[-1].split(".")[0]+" "+result.group(1)+"\n")
-#
-#             out.write("Thank you for using FUSTr!!\n")
-#             out.write("You provided as input a total of "+ str(original_sequence)+" transcripts from " +str(samples)+" samples\n")
-#             out.write("FUSTr used a total of "+str(allPep)+"of these transcripts and disregarded " +str(allPep - transdecoder_sequence)+ " isoforms\n")
-#             out.write("These transcripts were divided into "+str(totFams)+" families, "+str(usedFams)+" had > 15 sequences used for analyis\n")
-#             out.write("FUSTr discovered "+str(selectFams)+" families under strong positive selection in your dataset\n\n")
-#             out.write("More information about these families can be found in the final_results directory!!\n\nToodles")
-#
+rule finalStatistics:
+    input:
+        provided=expand("{sample}.fasta",sample=SAMPLES),
+        transdecoder=expand("{sample}.new_headers.transdecoder.pep",sample=SAMPLES),
+        allPep="intermediate_files/all.pep.combined",
+        blast="intermediate_files/all.pep.combined.blastall.out",
+        fams="intermediate_files/all.pep.combined_r90_SLX.fnodes",
+        idFile="intermediate_files/fusterID.txt",
+        # json=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json"),
+        # log=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.log")
+    output:
+        # posFams="final_results/posFams.txt",
+        FUSTrFams="final_results/FUSTr.fams",
+        blast="final_results/FUSTr.blast.out",
+        pep="final_results/FUSTr.pep",
+        FUSTr="final_results/FUSTr.out"
+    run:
+        samples = 0
+        original_sequence = 0
+        transdecoder_sequence = 0
+        allPep = 0
+        totFams = 0
+        usedFams = 0
+        selectFams = 0
+        idDict={}
+        with open(input.idFile) as f:
+            for line in f:
+                row = line.strip().split()
+                idDict[row[1]] = row[0]
+
+        with open(output.FUSTr,"w") as out:
+
+
+            for currentFile in input.provided:
+                samples+=1
+
+                with open(currentFile) as f:
+                    for line in f:
+                        if line[0]==">":
+                            original_sequence+=1
+            for currentFile in input.transdecoder:
+                with open(currentFile) as f:
+                    for line in f:
+                        if line[0]==">":
+                            transdecoder_sequence+=1
+            with open(output.pep,"w") as pepOut:
+                sequence_iterator = fasta_iter(input.allPep)
+                for ff in sequence_iterator:
+                    headerStr, seq = ff
+                    allPep+=1
+                    pepOut.write(">"+idDict[headerStr]+"\n"+seq+"\n")
+
+            with open(output.blast,"w") as blastOut:
+                with open(input.blast) as f:
+                    for line in f:
+                        row = line.strip().split()
+                        line2print = ""
+                        for i in row:
+                            if i in idDict:
+                                line2print+=idDict[i]+" "
+                            else:
+                                line2print+= i +" "
+                        blastOut.write(line2print+"\n")
+            with open(output.fams,"w") as famOut:
+                with open(input.FUSTrFams) as f:
+                    famsUsed = {}
+                    for line in f:
+                        row = line.strip().split()
+                        if row[1] in idDict:
+                            print(row[0]+"\t"+idDict[row[1]])
+                            famsUsed[row[0]] = True
+                        else:
+                            None
+                    totFams = len(famsUsed)
+
+            # with open(output.posFams,"w") as posOut:
+            #     for currentFile in input.log:
+            #         usedFams+=1
+            #         with open(currentFile) as f:
+            #             for line in f:
+            #                 if "## FUBAR" in line:
+            #
+            #                     if "no" not in line:
+            #                         result = re.search('inferred(.*)sites', line)
+            #                         selectFams +=1
+            #
+            #                         posOut.write(currentFile.split("/")[-1].split(".")[0]+" "+result.group(1)+"\n")
+
+            out.write("Thank you for using FUSTr!!\n")
+            out.write("You provided as input a total of "+ str(original_sequence)+" transcripts from " +str(samples)+" samples\n")
+            out.write("FUSTr used a total of "+str(allPep)+"of these transcripts and disregarded " +str(allPep - transdecoder_sequence)+ " isoforms\n")
+            out.write("These transcripts were divided into "+str(totFams)+" families, "+str(usedFams)+" had > 15 sequences used for analyis\n")
+            out.write("FUSTr discovered "+str(selectFams)+" families under strong positive selection in your dataset\n\n")
+            out.write("More information about these families can be found in the final_results directory!!\n\nToodles")
+
 #             # """
 #             # Thank you for using FUSTr!!
 #             # You provided as input a total of ## transcripts from ## samples
