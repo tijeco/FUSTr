@@ -512,7 +512,7 @@ rule finalStatistics:
         "final_results/famsUnderSelection.txt"
     run:
         with open(output[0],"w") as out:
-            out.write("family numSitesUnderSelection")
+            out.write("family numSitesUnderSelection\n")
             for currentFile in input.log:
                 with open(currentFile) as f:
                     for line in f:
