@@ -507,8 +507,8 @@ rule hyphy:
 
 rule finalStatistics:
     input:
-        provided="{sample}.fasta",
-        transdecoder="{sample}.new_headers.transdecoder.pep",
+        provided=expand("{sample}.fasta",sample=SAMPLES),
+        transdecoder=expand("{sample}.new_headers.transdecoder.pep",sample=SAMPLES),
         allPep="intermediate_files/all.pep.combined",
         blast="intermediate_files/all.pep.combined.blastall",
         fams="intermediate_files/all.pep.combined_r90_SLX.fnodes",
