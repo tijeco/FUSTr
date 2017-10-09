@@ -33,6 +33,8 @@ Now that you are in the docker container, your data is in /home/usr/data, to run
 FUSTr -d ./data -t <number_of_threads>
 ```
 
-The output will be in data/file
+The output will be in data/final_results/
+
+
 
 You can use scp to transfer this to your local machine.
