@@ -587,8 +587,8 @@ rule final_results:
                             else:
                                 line2print+= i +" "
                         blastOut.write(line2print+"\n")
-            with open(output.fams,"w") as famOut:
-                with open(input.FUSTrFams) as f:
+            with open(output.FUSTrFams,"w") as famOut:
+                with open(input.fams) as f:
                     famsUsed = {}
                     for line in f:
                         row = line.strip().split()
