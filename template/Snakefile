@@ -542,9 +542,9 @@ rule finalStatistics:
                 samples+=1
 
                 with open(currentFile) as f:
-                for line in f:
-                    if line[0]==">":
-                        original_sequence+=1
+                    for line in f:
+                        if line[0]==">":
+                            original_sequence+=1
             for currentFile in input.transdecoder:
                 with open(currentFile) as f:
                 for line in f:
