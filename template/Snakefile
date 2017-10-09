@@ -517,4 +517,4 @@ rule finalStatistics:
                 with open(currentFile) as f:
                     for line in f:
                         if "## FUBAR" in line:
-                            out.write(currentFile+" "line)
+                            out.write(currentFile+" "+line)
