@@ -568,9 +568,11 @@ rule final_results:
                         if line[0]==">":
                             transdecoder_sequence+=1
             with open(output.pep,"w") as pepOut:
+                print(output.pep)
                 sequence_iterator = fasta_iter(input.allPep)
                 for ff in sequence_iterator:
                     headerStr, seq = ff
+                    print(headerStr)
                     allPep+=1
                     try:
                         pepOut.write(">"+idDict[headerStr]+"\n"+seq+"\n")
