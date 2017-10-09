@@ -18,7 +18,8 @@ rule dos:
                 # regime = input[0][4:6]
                 regime =  "pos"
                 branchLength = input[0].split("BL_")[1].split(".fa")[0]
-                os.system("EvolveAGene -f  "+input[0]+" -ss "+regime+" -n 32 -o Phy -b " + str(int(branchLength)/100.0))
+                nodes = 16
+                os.system("EvolveAGene -f  "+input[0]+" -ss "+regime+" -n "+nodes+" -o Phy -b " + str(int(branchLength)/100.0))
 
 rule tres:
         input:
