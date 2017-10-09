@@ -571,8 +571,10 @@ rule final_results:
                 for ff in sequence_iterator:
                     headerStr, seq = ff
                     allPep+=1
-                    print(headerStr in idDict,headerStr)
-                    pepOut.write(">"+idDict[headerStr]+"\n"+seq+"\n")
+                    try:
+                        pepOut.write(">"+idDict[headerStr]+"\n"+seq+"\n")
+                    except:
+                        print(headerStr in idDict,headerStr)
 
             with open(output.blast,"w") as blastOut:
                 with open(input.blast) as f:
