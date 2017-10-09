@@ -23,10 +23,10 @@ def makeSeed(numAA):
 # seedNum = int(sys.argv[1])
 
 for i in range(int(sys.argv[1])):
-    # length = random.randint(350, 500)
-    length = random.randint(50, 1000)
-    # branchlength = random.randint(1,15)
-    branchlength = random.randint(1,50)
+    length = random.randint(350, 500)
+    # length = random.randint(50, 1000)
+    branchlength = random.randint(1,15)
+    # branchlength = random.randint(1,50)
     regime = random.choice(["pos","pur","con"])
     # regime = "pos"
     filename = "seeds/seed"+regime+str(i)+"_len"+str(length)+"BL_"+str(branchlength)+".fa"
