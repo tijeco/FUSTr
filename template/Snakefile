@@ -514,7 +514,7 @@ rule finalStatistics:
     run:
         with open(output[0],"w") as out:
             for currentFile in input.log:
-                with open currentFile as f:
+                with open(currentFile) as f:
                     for line in f:
                         if "## FUBAR" in line:
                             out.write(currentFile+" "line)
