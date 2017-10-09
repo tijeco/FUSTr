@@ -595,7 +595,7 @@ rule final_results:
                         row = line.strip().split()
                         print(row[0],row[1],row[1] in idDict)
                         if row[1] in idDict:
-                            famOut.write(row[0]+" "+idDict[row[1]])
+                            famOut.write(row[0]+" "+idDict[row[1]]+"\n")
                             if row[0] in famTot:
 
                                 famTot[row[0]] +=1
