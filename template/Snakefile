@@ -550,7 +550,7 @@ rule final_results:
         with open(input.idFile) as f:
             for line in f:
                 row = line.strip().split()
-                idDict[row[1]] = row[0]
+                idDict[row[0]] = row[1]
         print(idDict)
 
         with open(output.FUSTr,"w") as out:
