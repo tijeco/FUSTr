@@ -529,6 +529,7 @@ rule final_results:
         blast="intermediate_files/all.pep.combined.blastall.out",
         fams="intermediate_files/all.pep.combined_r90_SLX.fnodes",
         idFile="intermediate_files/fusterID.txt",
+        posFams="final_results/posFams.txt"
         # json=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json"),
         # log=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.log")
     output:
@@ -608,7 +609,7 @@ rule final_results:
                         if famTot[i]>=15:
                             famsUsed[i] = True
                     usedFams = len(famsUsed)
-            with open("final_results/posFams.txt") as f:
+            with open(input.posFams) as f:
                 for line in f:
                     if "family_" in line:
                         selectFams+=1
