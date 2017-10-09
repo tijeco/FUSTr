@@ -552,10 +552,10 @@ rule finalStatistics:
                             transdecoder_sequence+=1
             with open(output.pep,"w") as pepOut:
                 sequence_iterator = fasta_iter(input.allPep)
-                    for ff in sequence_iterator:
-                        headerStr, seq = ff
-                            allPep+=1
-                            pepOut.write(">"+idDict[headerStr]+"\n"+seq+"\n")
+                for ff in sequence_iterator:
+                    headerStr, seq = ff
+                        allPep+=1
+                        pepOut.write(">"+idDict[headerStr]+"\n"+seq+"\n")
 
             with open(output.blast,"w") as blastOut:
                 with open(input.blast) as f:
