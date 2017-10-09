@@ -521,7 +521,7 @@ rule finalStatistics:
                                 result = re.search('inferred(.*)sites', line)
 
                                 out.write(currentFile.split("/")[-1].split(".")[0]+" "+result.group(1)+"\n")
-rule finalStatistics:
+rule final_results:
     input:
         provided=expand("{sample}.fasta",sample=SAMPLES),
         transdecoder=expand("{sample}.new_headers.transdecoder.pep",sample=SAMPLES),
