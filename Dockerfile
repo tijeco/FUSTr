@@ -46,10 +46,7 @@ RUN cp EvolvAGene4Package/EvolveAGene4-linux-x86-64 /usr/bin/EvolveAGene
 
 WORKDIR /home/usr/FUSTr/Simulations/
 RUN git pull
-# RUN ["python3","/home/usr/FUSTr/Simulations/makeSeed.py","8"]
-# 
-# RUN snakemake
-# -d /home/usr/FUSTr/Simulations/seeds/
+
 RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
     wget --quiet https://repo.continuum.io/miniconda/Miniconda3-4.3.14-Linux-x86_64.sh -O ~/miniconda.sh && \
     /bin/bash ~/miniconda.sh -b -p /opt/conda && \
