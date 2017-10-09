@@ -551,7 +551,6 @@ rule final_results:
             for line in f:
                 row = line.strip().split()
                 idDict[row[0]] = row[1]
-        print(idDict)
 
         with open(output.FUSTr,"w") as out:
 
@@ -569,15 +568,12 @@ rule final_results:
                         if line[0]==">":
                             transdecoder_sequence+=1
             with open(output.pep,"w") as pepOut:
-                print(output.pep)
                 sequence_iterator = fasta_iter(input.allPep)
                 for ff in sequence_iterator:
                     headerStr, seq = ff
                     allPep+=1
-                    try:
-                        pepOut.write(">"+idDict[headerStr]+"\n"+seq+"\n")
-                    except:
-                        print(headerStr in idDict,headerStr)
+                    pepOut.write(">"+idDict[headerStr]+"\n"+seq+"\n")
+
 
             with open(output.blast,"w") as blastOut:
                 with open(input.blast) as f:
@@ -598,7 +594,7 @@ rule final_results:
                     for line in f:
                         row = line.strip().split()
                         if row[1] in idDict:
-                            print(row[0]+"\t"+idDict[row[1]])
+                            famOut.write(row[0]+" "+idDict[row[1]])
                             if row[0] in famTot:
 
                                 famTot[row[0]] +=1
