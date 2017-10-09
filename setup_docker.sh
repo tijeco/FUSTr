@@ -1,4 +1,5 @@
 FUSTR_dir=$(pwd)
+echo $FUSTR_dir
 target=${1%/}
 
 cp -r $target $FUSTR_dir
