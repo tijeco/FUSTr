@@ -539,7 +539,6 @@ rule final_results:
         pep="final_results/FUSTr.pep",
         FUSTr="final_results/FUSTr.out"
     run:
-        print("ANYTHING")
         samples = 0
         original_sequence = 0
         transdecoder_sequence = 0
@@ -552,6 +551,7 @@ rule final_results:
             for line in f:
                 row = line.strip().split()
                 idDict[row[1]] = row[0]
+        print(idDict)
 
         with open(output.FUSTr,"w") as out:
 
@@ -573,7 +573,6 @@ rule final_results:
                 sequence_iterator = fasta_iter(input.allPep)
                 for ff in sequence_iterator:
                     headerStr, seq = ff
-                    print(headerStr)
                     allPep+=1
                     try:
                         pepOut.write(">"+idDict[headerStr]+"\n"+seq+"\n")
