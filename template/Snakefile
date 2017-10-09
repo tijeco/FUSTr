@@ -593,7 +593,7 @@ rule final_results:
 
                     for line in f:
                         row = line.strip().split()
-                        print(row[0],row[1])
+                        print(row[0],row[1],row[1] in idDict)
                         if row[1] in idDict:
                             famOut.write(row[0]+" "+idDict[row[1]])
                             if row[0] in famTot:
