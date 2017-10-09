@@ -18,8 +18,8 @@ git clone https://github.com/tijeco/FUSTr.git
 
 With Docker installed correctly on your system issue the following command to initialize the Docker container
 
-```bash
-docker build -t  fustr --build-arg package=/fasta/directory/ ./FUSTr
+```
+bash FUSTr/setup_docker.sh <directory_containing_fastas>
 ```
 
 Once the docker container has been initialized you can enter it using the following command
