@@ -509,9 +509,10 @@ rule finalStatistics:
         json=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json"),
         log=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.log")
     output:
-        "final_results/posFams.txt"
+        "final_results/famsUnderSelection.txt"
     run:
         with open(output[0],"w") as out:
+            out.write("family numSitesUnderSelection")
             for currentFile in input.log:
                 with open(currentFile) as f:
                     for line in f:
@@ -529,11 +530,11 @@ rule final_results:
         blast="intermediate_files/all.pep.combined.blastall.out",
         fams="intermediate_files/all.pep.combined_r90_SLX.fnodes",
         idFile="intermediate_files/fusterID.txt",
-        posFams="final_results/posFams.txt"
+        posFams="final_results/famsUnderSelection.txt"
         # json=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json"),
         # log=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.log")
     output:
-        # posFams="final_results/posFams.txt",
+        # posFams="final_results/famsUnderSelection.txt",
         FUSTrFams="final_results/FUSTr.fams",
         blast="final_results/FUSTr.blast.out",
         pep="final_results/FUSTr.pep",
