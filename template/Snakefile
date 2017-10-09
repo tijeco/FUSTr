@@ -581,17 +581,17 @@ rule finalStatistics:
                     totFams = len(famsUsed)
 
             with open(output.posFams,"w") as posOut:
-            for currentFile in input.log:
-                usedFams+=1
-                with open(currentFile) as f:
-                    for line in f:
-                        if "## FUBAR" in line:
+                for currentFile in input.log:
+                    usedFams+=1
+                    with open(currentFile) as f:
+                        for line in f:
+                            if "## FUBAR" in line:
 
-                            if "no" not in line:
-                                result = re.search('inferred(.*)sites', line)
-                                selectFams +=1
+                                if "no" not in line:
+                                    result = re.search('inferred(.*)sites', line)
+                                    selectFams +=1
 
-                                posOut.write(currentFile.split("/")[-1].split(".")[0]+" "+result.group(1)+"\n")
+                                    posOut.write(currentFile.split("/")[-1].split(".")[0]+" "+result.group(1)+"\n")
 
             out.write("Thank you for using FUSTr!!\n")
             out.write("You provided as input a total of "+ str(original_sequence)+" transcripts from " +str(samples)+" samples\n")
