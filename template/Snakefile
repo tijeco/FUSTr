@@ -539,6 +539,7 @@ rule final_results:
         pep="final_results/FUSTr.pep",
         FUSTr="final_results/FUSTr.out"
     run:
+        print("ANYTHING")
         samples = 0
         original_sequence = 0
         transdecoder_sequence = 0
