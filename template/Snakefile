@@ -608,7 +608,10 @@ rule final_results:
                         if famTot[i]>=15:
                             famsUsed[i] = True
                     usedFams = len(famsUsed)
-
+            with open("final_results/posFams.txt") as f:
+                for line in f:
+                    if "family_" in line:
+                        selectFams+=1
             # with open(output.posFams,"w") as posOut:
             #     for currentFile in input.log:
             #         usedFams+=1
@@ -619,13 +622,13 @@ rule final_results:
             #                     if "no" not in line:
             #                         result = re.search('inferred(.*)sites', line)
             #                         selectFams +=1
-            # 
+            #
             #                         posOut.write(currentFile.split("/")[-1].split(".")[0]+" "+result.group(1)+"\n")
 
             out.write("Thank you for using FUSTr!!\n")
             out.write("You provided as input a total of "+ str(original_sequence)+" transcripts from " +str(samples)+" samples\n")
             out.write("FUSTr used a total of "+str(allPep)+" of these transcripts and disregarded " +str(allPep - transdecoder_sequence)+ " isoforms\n")
-            out.write("These transcripts were divided into "+str(totFams)+" families, "+str(usedFams)+" had > 15 sequences used for analyis\n")
+            out.write("These transcripts were divided into "+str(totFams)+" families, "+str(usedFams)+" had > 15 sequences used for analysis\n")
             out.write("FUSTr discovered "+str(selectFams)+" families under strong positive selection in your dataset\n\n")
             out.write("More information about these families can be found in the final_results directory!!\n\nToodles")
 
