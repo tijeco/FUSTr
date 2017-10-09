@@ -547,9 +547,9 @@ rule finalStatistics:
                             original_sequence+=1
             for currentFile in input.transdecoder:
                 with open(currentFile) as f:
-                for line in f:
-                    if line[0]==">":
-                        transdecoder_sequence+=1
+                    for line in f:
+                        if line[0]==">":
+                            transdecoder_sequence+=1
             with open(output.pep,"w") as pepOut:
                 sequence_iterator = fasta_iter(input.allPep)
                     for ff in sequence_iterator:
