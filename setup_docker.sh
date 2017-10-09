@@ -1,4 +1,4 @@
-FUSTR_dir=$(pwd)
+FUSTR_dir=$(readlink -e $0)
 echo $FUSTR_dir
 target=${1%/}
 
