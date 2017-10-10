@@ -24,6 +24,7 @@ elif command[0:2] =="./":
     commandPath = srcdir(command) +"/" + command[2:ling]
 else:
     commandPath = srcdir(command) +"/" + command
+print(srcdir(command),command)
 print(commandPath,commandPath[0:len(commandPath)-9])
 snakefile = commandPath[0:len(commandPath)-9]+"template/Snakefile"
 print(snakefile)
