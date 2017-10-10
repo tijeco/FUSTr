@@ -134,10 +134,17 @@ with open('configure.json', 'w') as fp:
 # print("snakemake --snakefile " + "template/Snakefile -d "+input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json")
 # print(srcdir(input_directory),srcdir("template/Snakefile"))
 # print("snakemake --snakefile " +srcdir("template/Snakefile")+ " -d "+srcdir(input_directory)+" --cores "+str(threads)+" --use-conda --configfile configure.json")
-bashCommand = "snakemake --snakefile "+snakefile+" -d "+input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json"
-print(bashCommand)
 
-output = subprocess.check_output(['bash','-c', bashCommand])
+
+try:
+    bashCommand = "snakemake --snakefile "+snakefile+" -d "+input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json"
+    print(bashCommand)
+    output = subprocess.check_output(['bash','-c', bashCommand])
+except:
+    snakefile = command[0:len(command)-9]+"template/Snakefile"
+    bashCommand = "snakemake --snakefile "+snakefile+" -d "+input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json"
+    print(bashCommand)
+
 # subprocess.call("snakemake --snakefile " +srcdir("template/Snakefile")+ "template/Snakefile -d "+srcdir(input_directory)+" --cores "+str(threads)+" --use-conda --configfile configure.json")
 
 
