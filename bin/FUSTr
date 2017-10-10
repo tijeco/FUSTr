@@ -16,7 +16,7 @@ def srcdir(str):
 
 configDict = {}
 
-command =sys.argv[0]
+command ="/usr/FUSTr/bin/FUSTr"#sys.argv[0]
 ling =len(command)
 if command[0]=="/":
     commandPath = srcdir(command) +"/" + command[1:ling]
@@ -24,8 +24,9 @@ elif command[0:2] =="./":
     commandPath = srcdir(command) +"/" + command[2:ling]
 else:
     commandPath = srcdir(command) +"/" + command
-print(commandPath)
-
+print(commandPath,commandPath[0:len(commandPath)-9])
+snakefile = commandPath[0:len(commandPath)-9]+"template/Snakefile"
+print(snakefile)
 """
 /usr/FUSTr/bin/FUSTr
 usr/FUSTr/bin/FUSTr
@@ -143,7 +144,7 @@ with open('configure.json', 'w') as fp:
 # print("snakemake --snakefile " + "template/Snakefile -d "+input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json")
 # print(srcdir(input_directory),srcdir("template/Snakefile"))
 # print("snakemake --snakefile " +srcdir("template/Snakefile")+ " -d "+srcdir(input_directory)+" --cores "+str(threads)+" --use-conda --configfile configure.json")
-bashCommand = "snakemake --snakefile /home/usr/FUSTr/template/Snakefile  -d "+input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json"
+bashCommand = "snakemake --snakefile "+snakefile+" -d "+input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json"
 print(bashCommand)
 
 output = subprocess.check_output(['bash','-c', bashCommand])
