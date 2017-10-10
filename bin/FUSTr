@@ -15,9 +15,16 @@ def srcdir(str):
 
 
 configDict = {}
+
 command =sys.argv[0]
-commandPath = srcdir(command)
-print (commandPath,command)
+ling =len(command)
+if string[0]=="/":
+    commandPath = srcdir(command) +"/" command[1:ling]
+elif string[0:2] =="./":
+    commandPath = srcdir(command) +"/" command[2:ling]
+else:
+    commandPath = srcdir(command) +"/" command
+print(commandPath)
 
 """
 /usr/FUSTr/bin/FUSTr
