@@ -15,7 +15,7 @@ def srcdir(str):
 
 
 configDict = {}
-
+print(srcdir(sys.argv[0]))
 if "-d" in sys.argv:
     input_directory = getOptionValue("-d")
 else:
