@@ -1,3 +1,6 @@
+import sys
+print(sys.path)
+
 from itertools import groupby
 from Bio.Phylo.PAML import codeml
 from Bio.Phylo.PAML.chi2 import cdf_chi2
