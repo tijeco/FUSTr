@@ -17,7 +17,8 @@ def srcdir(str):
 configDict = {}
 command =srcdir(sys.argv[0])
 if len(command.split('/'))>=3:
-    snakefile = command+ command.strip().split()[-1]+"/"+command.strip().split()[-2]+"/"+command.strip().split()[-3]+"/"
+    # snakefile = command+ command.strip().split()[-1]+"/"+command.strip().split()[-2]+"/"+command.strip().split()[-3]+"/"
+    print(command.strip().split('/'))
 if "-d" in sys.argv:
     input_directory = getOptionValue("-d")
 else:
