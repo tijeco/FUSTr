@@ -41,7 +41,7 @@ rule cleanFasta:
         "{sample}.fasta"
     output:
         "intermediate_files/{sample}.clean"
-    benchmark:"benchmarks/{sample}.clean.benchmark.txt"
+    # benchmark:"benchmarks/{sample}.clean.benchmark.txt"
     run:
         Trinity_bool = False
         signature = ""
@@ -105,7 +105,7 @@ rule newHeaders:
         "intermediate_files/{sample}.clean"
     output:
         "intermediate_files/{sample}.new_headers"
-    benchmark:"benchmarks/{sample}.new_headers.benchmark.txt"
+    # benchmark:"benchmarks/{sample}.new_headers.benchmark.txt"
     run:
         try:
             patternDict = {}
@@ -169,7 +169,7 @@ rule longestIsoformPep:
         "{sample}.new_headers.transdecoder.pep"
     output:
         "intermediate_files/{sample}.longestIsoform.pep"
-    benchmark:"benchmarks/{sample}.longestIsoformPep.benchmark.txt"
+    # benchmark:"benchmarks/{sample}.longestIsoformPep.benchmark.txt"
     run:
         patternDict = {}
         with open("headerPatterns.txt") as f:
@@ -224,7 +224,7 @@ rule longestIsoformCDS:
         "{sample}.new_headers.transdecoder.cds"
     output:
         "intermediate_files/{sample}.longestIsoform.cds"
-    benchmark:"benchmarks/{sample}.longestIsoformCDS.benchmark.txt"
+    # benchmark:"benchmarks/{sample}.longestIsoformCDS.benchmark.txt"
     run:
         patternDict = {}
         with open("headerPatterns.txt") as f:
@@ -274,7 +274,7 @@ rule combine_pep_and_cds:
     input:
         pep=expand("intermediate_files/{sample}.longestIsoform.pep",sample=SAMPLES),
         cds=expand("intermediate_files/{sample}.longestIsoform.cds",sample=SAMPLES)
-    benchmark:"benchmarks/combine_pep_and_cds.benchmark.txt"
+    # benchmark:"benchmarks/combine_pep_and_cds.benchmark.txt"
     output:
         "intermediate_files/all.pep.combined","intermediate_files/FUSTrID.txt","intermediate_files/all.cds.combined"
 
@@ -329,7 +329,7 @@ rule node2families:
     input:
         node_file="intermediate_files/all.pep.combined_r90_SLX.fnodes",
         sequence_file="intermediate_files/all.pep.combined"
-    benchmark:dynamic("benchmarks/family_{fam}.node2families.benchmark.txt")
+    # benchmark:dynamic("benchmarks/family_{fam}.node2families.benchmark.txt")
     output:
         dynamic("Families/family_{fam}.fa")
     run:
@@ -389,7 +389,7 @@ rule aln2phy:
     output:
         "Families/family_{fam}.phy",
         "Families/family_{fam}.phy.trimmed"
-    benchmark:"benchmarks/family_{fam}.aln2phy.benchmark.txt"
+    # benchmark:"benchmarks/family_{fam}.aln2phy.benchmark.txt"
     run:
         seq_length=0
         for currentFile in range(len(output)):
@@ -421,7 +421,7 @@ rule phy2codon:
     output:
         "Families/family_{fam}_dir/family_{fam}.codon.phylip",
         "Families/family_{fam}_dir/family_{fam}.aln.codon"
-    benchmark:"benchmarks/family_{fam}.phy2codon.benchmark.txt"
+    # benchmark:"benchmarks/family_{fam}.phy2codon.benchmark.txt"
 
     run:
         cut = ""
@@ -525,7 +525,7 @@ rule finalStatistics:
     input:
         json=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json"),
         log=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.log")
-    benchmark:"benchmarks/finalStatistics.benchmark.txt"
+    # benchmark:"benchmarks/finalStatistics.benchmark.txt"
     output:
         "final_results/famsUnderSelection.txt"
     run:
@@ -540,6 +540,7 @@ rule finalStatistics:
                                 result = re.search('inferred(.*)sites', line)
 
                                 out.write(currentFile.split("/")[-1].split(".")[0]+" "+result.group(1)+"\n")
+
 rule final_results:
     input:
         provided=expand("{sample}.fasta",sample=SAMPLES),
@@ -557,7 +558,7 @@ rule final_results:
         blast="final_results/FUSTr.blast.out",
         pep="final_results/FUSTr.pep",
         FUSTr="final_results/FUSTr.out"
-    benchmark:"benchmarks/final_results.benchmark.txt"
+    # benchmark:"benchmarks/final_results.benchmark.txt"
     run:
         samples = 0
         original_sequence = 0
