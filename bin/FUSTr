@@ -18,9 +18,9 @@ configDict = {}
 
 command =sys.argv[0]
 ling =len(command)
-if string[0]=="/":
+if command[0]=="/":
     commandPath = srcdir(command) +"/" + command[1:ling]
-elif string[0:2] =="./":
+elif command[0:2] =="./":
     commandPath = srcdir(command) +"/" + command[2:ling]
 else:
     commandPath = srcdir(command) +"/" + command
