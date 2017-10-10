@@ -333,7 +333,7 @@ rule node2families:
     input:
         node_file="intermediate_files/all.pep.combined_r90_SLX.fnodes",
         sequence_file="intermediate_files/all.pep.combined"
-    benchmark:dynamic("benchmarks/family_{fam}.node2families.benchmark.txt")
+    benchmark:"benchmarks/family_.node2families.benchmark.txt"
     output:
         dynamic("Families/family_{fam}.fa")
     run:
