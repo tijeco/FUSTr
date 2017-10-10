@@ -143,8 +143,9 @@ try:
 except:
     snakefile = command[0:len(command)-9]+"template/Snakefile"
     bashCommand = "snakemake --snakefile "+snakefile+" -d "+input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json"
-    output = subprocess.check_output(['bash','-c', bashCommand])
     print(bashCommand)
+    output = subprocess.check_output(['bash','-c', bashCommand])
+
 
 # subprocess.call("snakemake --snakefile " +srcdir("template/Snakefile")+ "template/Snakefile -d "+srcdir(input_directory)+" --cores "+str(threads)+" --use-conda --configfile configure.json")
 
