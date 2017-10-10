@@ -16,7 +16,7 @@ def srcdir(str):
 
 configDict = {}
 
-command ="/usr/FUSTr/bin/FUSTr"#sys.argv[0]
+command =sys.argv[0]
 ling =len(command)
 if command[0]=="/":
     commandPath = srcdir(command) +"/" + command[1:ling]
@@ -27,18 +27,7 @@ else:
 print(commandPath,commandPath[0:len(commandPath)-9])
 snakefile = commandPath[0:len(commandPath)-9]+"template/Snakefile"
 print(snakefile)
-"""
-/usr/FUSTr/bin/FUSTr
-usr/FUSTr/bin/FUSTr
-/FUSTr/bin/FUSTr
-FUSTr/bin/FUSTr
-/bin/FUSTr
-bin/FUSTr
-/FUSTr
-FUSTr
 
-
-"""
 
 # if len(command.split('/'))>=3:
 #     # snakefile = command+ command.strip().split()[-1]+"/"+command.strip().split()[-2]+"/"+command.strip().split()[-3]+"/"
