@@ -41,6 +41,7 @@ rule cleanFasta:
         "{sample}.fasta"
     output:
         "intermediate_files/{sample}.clean"
+    benchmark:"benchmarks/{sample}.clean.benchmark.txt"
     run:
         Trinity_bool = False
         signature = ""
@@ -104,6 +105,7 @@ rule newHeaders:
         "intermediate_files/{sample}.clean"
     output:
         "intermediate_files/{sample}.new_headers"
+    benchmark:"benchmarks/{sample}.new_headers.benchmark.txt"
     run:
         try:
             patternDict = {}
@@ -156,6 +158,7 @@ rule orf:
         "intermediate_files/{sample}.new_headers"
     output:
         "{sample}.new_headers.transdecoder.pep","{sample}.new_headers.transdecoder.cds"
+    benchmark:"benchmarks/{sample}.orf.benchmark.txt"
     conda:
         config["orf"]["conda"]
     shell:
@@ -166,6 +169,7 @@ rule longestIsoformPep:
         "{sample}.new_headers.transdecoder.pep"
     output:
         "intermediate_files/{sample}.longestIsoform.pep"
+    benchmark:"benchmarks/{sample}.longestIsoformPep.benchmark.txt"
     run:
         patternDict = {}
         with open("headerPatterns.txt") as f:
@@ -220,6 +224,7 @@ rule longestIsoformCDS:
         "{sample}.new_headers.transdecoder.cds"
     output:
         "intermediate_files/{sample}.longestIsoform.cds"
+    benchmark:"benchmarks/{sample}.longestIsoformCDS.benchmark.txt"
     run:
         patternDict = {}
         with open("headerPatterns.txt") as f:
@@ -269,11 +274,12 @@ rule combine_pep_and_cds:
     input:
         pep=expand("intermediate_files/{sample}.longestIsoform.pep",sample=SAMPLES),
         cds=expand("intermediate_files/{sample}.longestIsoform.cds",sample=SAMPLES)
+    benchmark:"benchmarks/combine_pep_and_cds.benchmark.txt"
     output:
-        "intermediate_files/all.pep.combined","intermediate_files/fusterID.txt","intermediate_files/all.cds.combined"
+        "intermediate_files/all.pep.combined","intermediate_files/FUSTrID.txt","intermediate_files/all.cds.combined"
 
     run:
-        fusterID = 1
+        FUSTrID = 1
         idDict = {}
 
         with open(output[1],"w") as id_out:
@@ -281,10 +287,10 @@ rule combine_pep_and_cds:
                 for i in input.pep:
                     for line in open(i):
                         if ">" in line:
-                            pep_out.write(">fusterID_"+str(fusterID)+"\n")
-                            idDict[line.strip().strip(">")] = "fusterID_" + str(fusterID)
-                            id_out.write("fusterID_"+str(fusterID) + "\t"+line.strip(">"))
-                            fusterID+=1
+                            pep_out.write(">FUSTrID_"+str(FUSTrID)+"\n")
+                            idDict[line.strip().strip(">")] = "FUSTrID_" + str(FUSTrID)
+                            id_out.write("FUSTrID_"+str(FUSTrID) + "\t"+line.strip(">"))
+                            FUSTrID+=1
                         else:
                             pep_out.write(line)
         with open(output[2],"w") as cds_out:
@@ -302,6 +308,7 @@ rule blastall:
         "intermediate_files/all.pep.combined"
     output:
         "intermediate_files/all.pep.combined.blastall.out"
+    benchmark:"benchmarks/blastall.benchmark.txt"
     threads:99
     conda:
         config["blast"]["conda"]
@@ -314,6 +321,7 @@ rule silix:
         blast_file = "intermediate_files/all.pep.combined.blastall.out"
     output:
         "intermediate_files/all.pep.combined_r90_SLX.fnodes"
+    benchmark:"benchmarks/silix.benchmark.txt"
     shell:
         config["clust"]["shell"]
 
@@ -321,6 +329,7 @@ rule node2families:
     input:
         node_file="intermediate_files/all.pep.combined_r90_SLX.fnodes",
         sequence_file="intermediate_files/all.pep.combined"
+    benchmark:dynamic("benchmarks/family_{fam}.node2families.benchmark.txt")
     output:
         dynamic("Families/family_{fam}.fa")
     run:
@@ -355,6 +364,7 @@ rule mafft:
         "Families/family_{fam}.fa"
     output:
         "Families/family_{fam}.aln"
+    benchmark:"benchmarks/family_{fam}.mafft.benchmark.txt"
     conda:
         config["align"]["conda"]
     shell:
@@ -366,10 +376,12 @@ rule trimAln:
     output:
         trimmed_file="Families/family_{fam}.aln.trimmed",
         column_file="Families/family_{fam}.aln.trimmed.column_file"
+    benchmark:"benchmarks/family_{fam}.trimAln.benchmark.txt"
     conda:
         "envs/trimal.yaml"
     shell:
         "trimal -in {input} -out {output.trimmed_file} -gappyout -colnumbering > {output.column_file}"
+
 rule aln2phy:
     input:
         "Families/family_{fam}.aln",
@@ -377,6 +389,7 @@ rule aln2phy:
     output:
         "Families/family_{fam}.phy",
         "Families/family_{fam}.phy.trimmed"
+    benchmark:"benchmarks/family_{fam}.aln2phy.benchmark.txt"
     run:
         seq_length=0
         for currentFile in range(len(output)):
@@ -408,6 +421,7 @@ rule phy2codon:
     output:
         "Families/family_{fam}_dir/family_{fam}.codon.phylip",
         "Families/family_{fam}_dir/family_{fam}.aln.codon"
+    benchmark:"benchmarks/family_{fam}.phy2codon.benchmark.txt"
 
     run:
         cut = ""
@@ -490,6 +504,7 @@ rule FastTree:
         "Families/family_{fam}.aln"
     output:
         "Families/family_{fam}_dir/family_{fam}.tree"
+    benchmark:"benchmarks/family_{fam}.FastTree.benchmark.txt"
     conda:
         "envs/fasttree.yaml"
     shell:
@@ -502,12 +517,15 @@ rule hyphy:
     output:
         json="Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json",
         log="Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.log"
+    benchmark:"benchmarks/family_{fam}.hyphy.benchmark.txt"
     shell:
         "tmpThing=$(find / -name FUBAR.bf 2>/dev/null|tail -n 1);(echo 1; echo 1;echo " +srcdir("{input.align}")+"; echo "+ srcdir("{input.tree}")+"; echo 20;echo 5; echo 2000000; echo 1000000;echo 100;echo 0.5 )|HYPHYMP $tmpThing >{output.log}"
+
 rule finalStatistics:
     input:
         json=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json"),
         log=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.log")
+    benchmark:"benchmarks/finalStatistics.benchmark.txt"
     output:
         "final_results/famsUnderSelection.txt"
     run:
@@ -529,7 +547,7 @@ rule final_results:
         allPep="intermediate_files/all.pep.combined",
         blast="intermediate_files/all.pep.combined.blastall.out",
         fams="intermediate_files/all.pep.combined_r90_SLX.fnodes",
-        idFile="intermediate_files/fusterID.txt",
+        idFile="intermediate_files/FUSTrID.txt",
         posFams="final_results/famsUnderSelection.txt"
         # json=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json"),
         # log=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.log")
@@ -539,6 +557,7 @@ rule final_results:
         blast="final_results/FUSTr.blast.out",
         pep="final_results/FUSTr.pep",
         FUSTr="final_results/FUSTr.out"
+    benchmark:"benchmarks/final_results.benchmark.txt"
     run:
         samples = 0
         original_sequence = 0
