@@ -384,7 +384,8 @@ rule trimAln:
     conda:
         "envs/trimal.yaml"
     shell:
-        "trimal -in {input} -out {output.trimmed_file} -gappyout -colnumbering > {output.column_file}"
+        "cp {input} {output.trimmed_file}"
+        # "trimal -in {input} -out {output.trimmed_file} -gappyout -colnumbering > {output.column_file}"
 
 rule aln2phy:
     input:
