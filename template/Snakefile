@@ -652,7 +652,7 @@ rule final_results:
 
             out.write("Thank you for using FUSTr!!\n")
             out.write("You provided as input a total of "+ str(original_sequence)+" transcripts from " +str(samples)+" samples\n")
-            out.write("FUSTr used a total of "+str(allPep)+" of these transcripts and disregarded " +str(allPep - transdecoder_sequence)+ " isoforms\n")
+            out.write("FUSTr used a total of "+str(allPep)+" of these transcripts and disregarded " +str(transdecoder_sequence - allPep)+ " isoforms\n")
             out.write("These transcripts were divided into "+str(totFams)+" families, "+str(usedFams)+" had > 15 sequences used for analysis\n")
             out.write("FUSTr discovered "+str(selectFams)+" families under strong positive selection in your dataset\n\n")
             out.write("More information about these families can be found in the final_results directory!!")
