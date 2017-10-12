@@ -28,13 +28,14 @@ with open(fubar_file) as f:
         row = line.strip().split()
         famsUnderSelectionDict[row[0]] = True
 
-print(famsUnderSelectionDict)
+# print(famsUnderSelectionDict)
 os.makedirs(input_directory.strip('/')+"/fubar_out", exist_ok=True)
 for i in famsUnderSelectionDict.keys():
-    print(input_directory.strip('/')+"/Families/"+i+"_dir/"+i+".aln.codon.FUBAR.json")
+    # print(input_directory.strip('/')+"/Families/"+i+"_dir/"+i+".aln.codon.FUBAR.json")
     current_json = input_directory.strip('/')+"/Families/"+i+"_dir/"+i+".aln.codon.FUBAR.json"
 
     current_csv = input_directory.strip('/')+"/fubar_out/"+i+".fubar.csv"
+    print("writing to "+current_csv)
     with open(current_csv,"w") as out:
         with open(current_json) as data_file:
             data = json.load(data_file)
