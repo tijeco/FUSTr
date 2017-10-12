@@ -44,7 +44,7 @@ with open(current_csv,"w") as out:
         line2print+=data["MLE"]["headers"][i][0]+" " +data["MLE"]["headers"][i][1]+","
     out.write(line2print[:-1]+'\n')
 
-    for row in data["MLE"]["content"]['0']:
+    for row in data["MLE"]["content"]['0']: 
         line2print=""
         for i in row:
             line2print += str(i)+","
