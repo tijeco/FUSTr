@@ -35,17 +35,17 @@ for i in famsUnderSelectionDict.keys():
     current_json = input_directory.strip('/')+"/Families/"+i+"_dir/"+i+".aln.codon.FUBAR.json"
 
     current_csv = input_directory.strip('/')+"/fubar_out/"+i+".fubar.csv"
-with open(current_csv,"w") as out:
-    with open(current_json) as data_file:
-        data = json.load(data_file)
+    with open(current_csv,"w") as out:
+        with open(current_json) as data_file:
+            data = json.load(data_file)
 
-    line2print=""
-    for i in range(len(data["MLE"]["headers"])):
-        line2print+=data["MLE"]["headers"][i][0]+" " +data["MLE"]["headers"][i][1]+","
-    out.write(line2print[:-1]+'\n')
-
-    for row in data["MLE"]["content"]['0']: 
         line2print=""
-        for i in row:
-            line2print += str(i)+","
+        for i in range(len(data["MLE"]["headers"])):
+            line2print+=data["MLE"]["headers"][i][0]+" " +data["MLE"]["headers"][i][1]+","
         out.write(line2print[:-1]+'\n')
+
+        for row in data["MLE"]["content"]['0']:
+            line2print=""
+            for i in row:
+                line2print += str(i)+","
+            out.write(line2print[:-1]+'\n')
