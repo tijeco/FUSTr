@@ -22,7 +22,7 @@ rule dos:
                 print("CMD: EvolveAGene -f  "+input[0]+" -ss "+regime+" -n "+str(nodes)+" -o Phy -b " + str(int(branchLength)/100.0))
                 os.system("EvolveAGene -f  "+input[0]+" -ss "+regime+" -n "+str(nodes)+" -o Phy -b " + str(int(branchLength)/100.0))
 
-rule tres:
+rule tres: 
         input:
                 "seed{seed}_Unaligned.FASTA"
         output:
