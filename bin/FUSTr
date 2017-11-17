@@ -120,7 +120,10 @@ with open('configure.json', 'w') as fp:
 bashCommand = "snakemake --snakefile /home/usr/FUSTr/template/Snakefile  -d "+input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json"
 print(bashCommand)
 
-output = subprocess.check_output(['bash','-c', bashCommand])
+try:
+    output = subprocess.check_output(['bash','-c', bashCommand])
+except:
+    bashCommand = "snakemake $PATH/FUSTrTemplate/Snakefile -d " +input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json"
 # subprocess.call("snakemake --snakefile " +srcdir("template/Snakefile")+ "template/Snakefile -d "+srcdir(input_directory)+" --cores "+str(threads)+" --use-conda --configfile configure.json")
 
 
