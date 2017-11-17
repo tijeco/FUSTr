@@ -3,7 +3,7 @@ from itertools import groupby
 # from Bio.Phylo.PAML.chi2 import cdf_chi2
 import re
 import os
-from scipy import stats
+# from scipy import stats
 # configfile: "path/to/config.json"
 def fasta_iter(fasta_name):
     fh = open(fasta_name)
