@@ -99,7 +99,7 @@ sudo make install
    ```
 4. [Snakemake](http://snakemake.readthedocs.io/en/stable/)
 
-   * Install ```easy_install3```
+   * Install ```easy_install3``` (requires **root**)
    ```bash
    apt-get install -qqy python3-setuptools python3-docutils python3-flask
    ```
