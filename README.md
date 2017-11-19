@@ -39,6 +39,75 @@ The output will be in data/final_results/
 
 You can use scp to transfer this to your local machine.
 
+You do not have to make this Docker container over and over for new analysis with ```setup_docker.sh```. You can continue using the container for the analysis of additional datasets.
+
+
+# Some notes about docker
+
+In order to setup Docker on a new machine you will need root privileges for running commands or to create a group of users. This is not a problem if Docker is already properly installed on the system.
+
+Also, the default container size for Docker is 10 GB, which was plenty to run the analysis for the manuscript (273,221 transcripts and 48,000 simulated transcripts). For larger datasets, this may not be enough space.
+
+For the reasons above, in the event that users do not have root permissions to setup Docker on a new computer, or have a bewilderingly large dataset that would cause the 10GB Docker container to run out of space, below we have included instructions for installing FUSTr on the user's system.
+
+# Installing FUSTr without Docker
+
+These are the following dependencies of FUSTr that **must** be installed for FUSTr to properly function on a Linux 64 bit system.
+
+1. [Miniconda3](https://conda.io/miniconda.html)
+   * Be sure to choose **Python 3.6**
+   * Will download ```Miniconda3-latest-Linux-x86_64.sh ``` for Linux 64 bit systems
+
+   Install Miniconda3
+
+   ```bash
+   bash Miniconda3-latest-Linux-x86_64.sh
+   ```
+   Choose to install to PATH
+2.  [SiLiX](http://lbbe.univ-lyon1.fr/-SiLiX-?lang=en)
+
+   * Download version **1.2.11**
+   * Make sure Boost libraries are also installed (for Ubuntu issue the following commands, requires **root permissions**)
+   ```bash
+   sudo apt-get install libboost-dev
+sudo apt-get install libboost-program-options-dev
+   ```
+   * Install SiLiX
+```
+   tar zxvf silix-1.2.11.tar.gz
+cd silix-1.2.11
+./configure
+make
+make check
+make install
+```
+
+3. [HYPHY](https://github.com/veg/hyphy)
+   * Requires **root permissions**
+   * First install ```cmake```
+   ```bash
+   apt-get install cmake
+   ```
+   * Install ```HYPHYMP```
+   ```bash
+   git clone https://github.com/veg/hyphy.git
+   cd hyphy
+   cmake .
+   cmake .
+   make HYPHYMP
+   sudo make install
+   ```
+4. Add ```FUSTr``` to PATH
+   * Add full path to FUSTr/bin to ```.bashrc``` file
+
+
+   to run ```FUSTr``` simply issue the following command
+   ```
+   FUSTr -d directory_with_fastas -t <number_of_threads>
+   ```
+
+
+
 # What goes on under the hood
 
 The file ```setup_docker.sh``` takes as input a directory that contains the transcriptome assemblies the user wishes to analyze. There may be any number of transcriptomes in this directory. The only reqirements are that they are
@@ -61,7 +130,7 @@ Once ```FUSTr``` is executed using ```FUSTr -d ./data -t <number_of_threads>``` 
 
 4. ```longIsoform``` takes as input the files from ```orf``` and **headerPatterns.txt**
  as input to filter isoforms. It looks for genes that have multiple possible isoforms and only passes along the longest isoform for further analysis. The output can be found in **intermediate_files/{sample}.longestIsoform.pep** and **intermediate_files/{sample}.longestIsoform.cds**
-5. ```blast``` takes the combined pep output from ```longIsoform``` as input using [DIAMOND](https://github.com/bbuchfink/diamond)
+5. ```blast``` takes the combined pep output from ```longIsoform``` with lighter unique identifiers as input using [DIAMOND](https://github.com/bbuchfink/diamond)
 to run an all against all BLASTP search. The output can be found in **intermediate_files/all.pep.combined.blastall.out**
 
 6. ```silix``` takes as input the output from ```blast``` and assigns proteins to putative gene families in the file **intermediate_files/all.pep.combined_r90_SLX.fnodes**
