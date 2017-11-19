@@ -72,7 +72,7 @@ These are the following dependencies of FUSTr that **must** be installed for FUS
    sudo apt-get install libboost-dev
 sudo apt-get install libboost-program-options-dev
    ```
-   * Install SiLiX
+   * Install SiLiX, **requires root**
 ```
 tar zxvf silix-1.2.11.tar.gz
 cd silix-1.2.11
