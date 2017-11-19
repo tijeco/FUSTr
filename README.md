@@ -79,7 +79,7 @@ cd silix-1.2.11
 ./configure
 make
 make check
-make install
+sudo make install
 ```
 
 3. [HYPHY](https://github.com/veg/hyphy)
