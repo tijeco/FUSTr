@@ -98,7 +98,9 @@ make install
    sudo make install
    ```
 4. Add ```FUSTr``` to PATH
-   * Add full path to FUSTr/bin to ```.bashrc``` file
+   * Add full path to FUSTr/bin to
+    ```.bashrc``` file *i.e.*
+    ```export PATH=/path/to/FUSTr/bin:$PATH```
 
 
    to run ```FUSTr``` simply issue the following command
