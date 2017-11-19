@@ -97,6 +97,16 @@ sudo make install
    make HYPHYMP
    sudo make install
    ```
+4. [Snakemake](http://snakemake.readthedocs.io/en/stable/)
+
+   * Install ```easy_install3```
+   ```bash
+   apt-get install -qqy python3-setuptools python3-docutils python3-flask
+   ```
+   * Install ```snakemake```
+   ```bash
+   easy_install3 snakemake
+   ```
 4. Add ```FUSTr``` to PATH
    * Add full path to FUSTr/bin to
     ```.bashrc``` file *i.e.*
