@@ -74,7 +74,7 @@ sudo apt-get install libboost-program-options-dev
    ```
    * Install SiLiX
 ```
-   tar zxvf silix-1.2.11.tar.gz
+tar zxvf silix-1.2.11.tar.gz
 cd silix-1.2.11
 ./configure
 make
