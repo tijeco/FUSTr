@@ -42,6 +42,20 @@ You can use scp to transfer this to your local machine.
 You do not have to make this Docker container over and over for new analysis with ```setup_docker.sh```. You can continue using the container for the analysis of additional datasets.
 
 
+
+
+# Troubleshooting docker
+
+If you are getting ```permission denied``` issues run the following command, then log out and back in to your system.
+```bash
+sudo usermod -a -G docker $USER
+```
+
+If you have issues setting up the docker conatiner using ```setup_docker.sh``` (i.e. ```apt-get install``` returns non-zero code), you likely need to adjust docker's DNS settings using the lovely tutorial by Robin Winslow [here](https://development.robinwinslow.uk/2016/06/23/fix-docker-networking-dns/).
+
+
+If you still experience issues with docker, please see below on how to install FUSTr directly to your system. 
+
 # Some notes about docker
 
 In order to setup Docker on a new machine you will need root privileges for running commands or to create a group of users. This is not a problem if Docker is already properly installed on the system.
