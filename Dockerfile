@@ -5,7 +5,8 @@ MAINTAINER Jeff Cole <coleti16@students.ecu.edu>
 RUN apt-get -qq update
 RUN apt-get install -y wget git build-essential cmake unzip curl
 RUN apt-get install -qqy python3-setuptools python3-docutils python3-flask
-RUN easy_install3 snakemake pip
+RUN easy_install3  pip
+RUN pip install snakemake
 
 
 
@@ -47,7 +48,7 @@ RUN cp EvolvAGene4Package/EvolveAGene4-linux-x86-64 /usr/bin/EvolveAGene
 WORKDIR /home/usr/FUSTr/Simulations/
 RUN git pull
 # RUN ["python3","/home/usr/FUSTr/Simulations/makeSeed.py","8"]
-# 
+#
 # RUN snakemake
 # -d /home/usr/FUSTr/Simulations/seeds/
 RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
