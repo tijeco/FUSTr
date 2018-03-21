@@ -42,7 +42,7 @@ rule cleanFasta:
     output:
         "intermediate_files/{sample}.clean"
     run:
-        Trinity_bool = False
+        Trinity_bool = {}
         signature = ""
         sample = input[0].split('.')[0]
         sequence_iterator = fasta_iter(input[0])
@@ -62,7 +62,9 @@ rule cleanFasta:
                 headerStr, seq = ff
                 trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
                 if trinity_identifiers !=None:
-                    Trinity_bool = True
+                    Trinity_bool["yes"] = True
+                else:
+                    Trinity_bool["no"] = True
                 out.write(">"+headerStr+'\n')
                 out.write(  seq +"\n")
                 fileLength+=1
@@ -93,7 +95,7 @@ rule cleanFasta:
             signature = signature[:-1]
 
         with open("headerPatterns.txt","a") as out:
-            if Trinity_bool:
+            if "no" not in Trinity_bool:
                 out.write(sample+"\t"+"TRINITY\n")
             elif "{unique_id}" in signature:
 
