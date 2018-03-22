@@ -100,7 +100,7 @@ rule cleanFasta:
             print("Trinity_bool",Trinity_bool)
             if False:
                 print("Trinity_bool",Trinity_bool)
-                out.write(sample+"\t"+"TRINITY\n")
+                # out.write(sample+"\t"+"TRINITY\n")
             elif "{unique_id}" in signature:
 
                 out.write(sample+"\t"+signature+"\n")
