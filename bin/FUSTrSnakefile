@@ -61,12 +61,11 @@ rule cleanFasta:
 
                 headerStr, seq = ff
                 trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
-                try:
-                    print(trinity_identifiers.span()[1])
-                    Trinity_bool["yes"] =True
-                except:
-                    Trinity_bool["no"] = True
 
+                if trinity_identifiers !=None:
+                    Trinity_bool["yes"] = True
+                else:
+                    Trinity_bool["no"] = True
                 out.write(">"+headerStr+'\n')
                 out.write(  seq +"\n")
                 fileLength+=1
@@ -97,10 +96,8 @@ rule cleanFasta:
             signature = signature[:-1]
 
         with open("headerPatterns.txt","a") as out:
-            print("Trinity_bool",Trinity_bool)
-            if False:
-                print("Trinity_bool",Trinity_bool)
-                # out.write(sample+"\t"+"TRINITY\n")
+            if "no" not in Trinity_bool:
+                out.write(sample+"\t"+"TRINITY\n")
             elif "{unique_id}" in signature:
 
                 out.write(sample+"\t"+signature+"\n")
