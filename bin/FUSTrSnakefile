@@ -98,7 +98,7 @@ rule cleanFasta:
 
         with open("headerPatterns.txt","a") as out:
             print("Trinity_bool",Trinity_bool)
-            if "no" not in Trinity_bool:
+            if False:
                 print("Trinity_bool",Trinity_bool)
                 out.write(sample+"\t"+"TRINITY\n")
             elif "{unique_id}" in signature:
