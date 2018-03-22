@@ -61,10 +61,12 @@ rule cleanFasta:
 
                 headerStr, seq = ff
                 trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
-                if trinity_identifiers !=None:
-                    Trinity_bool["yes"] = True
-                else:
+                try:
+                    print(trinity_identifiers.span()[1])
+                    Trinity_bool["yes"] =True
+                except:
                     Trinity_bool["no"] = True
+
                 out.write(">"+headerStr+'\n')
                 out.write(  seq +"\n")
                 fileLength+=1
