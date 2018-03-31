@@ -6,7 +6,7 @@ RUN apt-get -qq update
 RUN apt-get install -y wget git build-essential cmake unzip curl
 RUN apt-get install -qqy python3-setuptools python3-docutils python3-flask
 RUN easy_install3  pip
-RUN pip install snakemake
+# RUN pip install snakemake
 
 
 
@@ -61,6 +61,7 @@ RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
 RUN pip install numpy biopython scipy
 ##
 ENV PATH /opt/conda/bin:$PATH
+RUN conda install snakemake
 ENV PATH /home/usr/FUSTr/bin:$PATH
 
 # RUN wget http://topaz.gatech.edu/GeneMark/tmp/GMtool_nNklB/gmst_linux_64.tar.gz
