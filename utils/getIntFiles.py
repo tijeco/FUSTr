@@ -55,7 +55,7 @@ if os.path.exists(fusterID_file):
                     new_pep = selectDir+ pep.split("/")[-1]
 
                     with open(new_pep,"w") as out:
-                        sequence_iterator = fasta_iter(new_pep)
+                        sequence_iterator = fasta_iter(pep)
                         for ff in sequence_iterator:
                             headerStr,seq = ff
                             new_header = id_dict[headerStr]
