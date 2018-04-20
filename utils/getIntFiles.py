@@ -52,9 +52,9 @@ if os.path.exists(fusterID_file):
 
                     for old,new  in [(pep,new_pep),(phy,new_phy),(codon,new_codon),(tree,new_tree)]:
                         with open(new,"w") as out:
-                            with open(old) as f:
-                                for line in f:
-                                    line2print = line
+                            with open(old) as fo:
+                                for line0 in f0:
+                                    line2print = line0
                                     for key in id_dict:
                                         line2print = line2print.replace(key,id_dict[key])
                                     out.write(line2print)
