@@ -44,10 +44,10 @@ if os.path.exists(fusterID_file):
                     codon = familyDir + current_fam + "_dir/" + current_fam + ".codon.phylip"
                     tree = familyDir + current_fam + "_dir/" + current_fam + ".tree"
 
-                    new_pep = selectDir+ pep.strip("/")[-1]
-                    new_phy = selectDir+ phy.strip("/")[-1]
-                    new_codon = selectDir+ codon.strip("/")[-1]
-                    new_tree = selectDir+ tree.strip("/")[-1]
+                    new_pep = selectDir+ pep.split("/")[-1]
+                    new_phy = selectDir+ phy.split("/")[-1]
+                    new_codon = selectDir+ codon.split("/")[-1]
+                    new_tree = selectDir+ tree.split("/")[-1]
 
 
                     for old,new  in [(pep,new_pep),(phy,new_phy),(codon,new_codon),(tree,new_tree)]:
