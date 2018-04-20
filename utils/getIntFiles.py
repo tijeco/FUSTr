@@ -1,6 +1,6 @@
 import sys
 import os.path
-
+from itertools import groupby
 
 def getOptionValue(option):
     optionPos = [i for i, j in enumerate(sys.argv) if j == option][0]
