@@ -41,8 +41,8 @@ if os.path.exists(fusterID_file):
 
                     pep = familyDir + current_fam + ".fa"
                     phy = familyDir + current_fam + ".fa"
-                    codon = familyDir + current_fam + "_dir/" + familyDir + ".codon.phylip"
-                    tree = familyDir + current_fam + "_dir/" + familyDir + ".tree"
+                    codon = familyDir + current_fam + "_dir/" + current_fam + ".codon.phylip"
+                    tree = familyDir + current_fam + "_dir/" + current_fam + ".tree"
 
                     new_pep = selectDir+ pep.strip("/")[-1]
                     new_phy = selectDir+ phy.strip("/")[-1]
