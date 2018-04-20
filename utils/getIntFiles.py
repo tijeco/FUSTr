@@ -40,7 +40,7 @@ if os.path.exists(fusterID_file):
                     current_fam = row[0]
 
                     pep = familyDir + current_fam + ".fa"
-                    phy = familyDir + current_fam + ".fa"
+                    phy = familyDir + current_fam + ".phy"
                     codon = familyDir + current_fam + "_dir/" + current_fam + ".codon.phylip"
                     tree = familyDir + current_fam + "_dir/" + current_fam + ".tree"
 
