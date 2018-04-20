@@ -20,6 +20,16 @@ familyDir = working_dir + "/Families/"
 selectDir = working_dir + "/final_results/famsUnderSelection_dir/"
 os.makedirs( selectDir,  exist_ok=True)
 
+def fasta_iter(fasta_name):
+    fh = open(fasta_name)
+    faiter = (x[1] for x in groupby(fh, lambda line: line[0] == ">"))
+    for header in faiter:
+        headerStr = header.__next__()[1:].strip()#Entire line, add .split[0] for just first column
+
+        seq = "".join(s.strip() for s in faiter.__next__())
+
+        yield (headerStr, seq)
+
 id_dict = {}
 # fams = {}
 if os.path.exists(fusterID_file):
@@ -40,24 +50,17 @@ if os.path.exists(fusterID_file):
                     current_fam = row[0]
 
                     pep = familyDir + current_fam + ".fa"
-                    phy = familyDir + current_fam + ".phy"
-                    codon = familyDir + current_fam + "_dir/" + current_fam + ".codon.phylip"
-                    tree = familyDir + current_fam + "_dir/" + current_fam + ".tree"
+
 
                     new_pep = selectDir+ pep.split("/")[-1]
-                    new_phy = selectDir+ phy.split("/")[-1]
-                    new_codon = selectDir+ codon.split("/")[-1]
-                    new_tree = selectDir+ tree.split("/")[-1]
 
-
-                    for old,new  in [(pep,new_pep),(phy,new_phy),(codon,new_codon),(tree,new_tree)]:
-                        with open(new,"w") as out:
-                            with open(old) as f0:
-                                for line0 in f0:
-                                    line2print = line0
-                                    for key in id_dict:
-                                        line2print = line2print.replace(key,id_dict[key])
-                                    out.write(line2print)
+                    with open(new_pep,"w") as out:
+                        for ff in sequence_iterator(pep):
+                            headerStr,seq = ff
+                            new_header = id_dict[headerStr]
+                            out.write(">"+new_header+"\n")
+                            out.write(seq + "\n")
+                            
 
 
 
