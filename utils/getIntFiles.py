@@ -52,7 +52,7 @@ if os.path.exists(fusterID_file):
 
                     for old,new  in [(pep,new_pep),(phy,new_phy),(codon,new_codon),(tree,new_tree)]:
                         with open(new,"w") as out:
-                            with open(old) as fo:
+                            with open(old) as f0:
                                 for line0 in f0:
                                     line2print = line0
                                     for key in id_dict:
