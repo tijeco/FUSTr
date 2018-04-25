@@ -50,17 +50,20 @@ if os.path.exists(fusterID_file):
                     current_fam = row[0]
 
                     pep = familyDir + current_fam + ".fa"
+                    cds = familyDir + current_fam + "_dir/" + current_fam + ".aln.codon"
 
 
                     new_pep = selectDir+ pep.split("/")[-1]
-
-                    with open(new_pep,"w") as out:
-                        sequence_iterator = fasta_iter(pep)
-                        for ff in sequence_iterator:
-                            headerStr,seq = ff
-                            new_header = id_dict[headerStr]
-                            out.write(">"+new_header+"\n")
-                            out.write(seq + "\n")
+                    new_cds = selectDir+ cds.split("/")[-1]
+                    
+                    for current_file in [pep,cds]:
+                        with open(current_file,"w") as out:
+                            sequence_iterator = fasta_iter(pep)
+                            for ff in sequence_iterator:
+                                headerStr,seq = ff
+                                new_header = id_dict[headerStr]
+                                out.write(">"+new_header+"\n")
+                                out.write(seq + "\n")
 
 
 
