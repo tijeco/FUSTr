@@ -58,7 +58,7 @@ if os.path.exists(fusterID_file):
                     print("opening:",cds)
                     print("writing to:",new_cds)
 
-                    for current_file in [pep,cds]:
+                    for current_file in [new_pep,new_cds]:
                         with open(current_file,"w") as out:
                             sequence_iterator = fasta_iter(pep)
                             for ff in sequence_iterator:
