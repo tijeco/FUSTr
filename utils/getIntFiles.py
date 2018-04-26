@@ -58,9 +58,9 @@ if os.path.exists(fusterID_file):
                     print("opening:",cds)
                     print("writing to:",new_cds)
 
-                    for current_file in [new_pep,new_cds]:
-                        with open(current_file,"w") as out:
-                            sequence_iterator = fasta_iter(current_file)
+                    for current_file in [(new_pep,pep),(new_cds,cds)]:
+                        with open(current_file[0],"w") as out:
+                            sequence_iterator = fasta_iter(current_file[1])
                             for ff in sequence_iterator:
                                 headerStr,seq = ff
                                 new_header = id_dict[headerStr]
