@@ -506,7 +506,7 @@ rule hyphy:
         json="Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json",
         log="Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.log"
     shell:
-        "(echo 1; echo 4; echo 1; echo "+srcdir("{input.align}")+"; echo "+ srcdir("{input.tree}")+"; echo 20; echo 5; echo 2000000; echo 1000000; echo 100; echo 0.5)|HYPHYMP >{output.log}"
+        "(echo 1; echo 4; echo 1; echo "+srcdir("{input.align}")+"; echo "+ srcdir("{input.tree}")+"; echo 20; echo 3; echo 0.5 )|HYPHYMP >{output.log}"
 rule finalStatistics:
     input:
         json=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json"),
