@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:14.04
 MAINTAINER Jeff Cole <coleti16@students.ecu.edu>
 
 # Install all the software needed to run the pipeline
@@ -30,10 +30,10 @@ RUN make install
 
 WORKDIR /home/usr
 
-RUN git clone https://github.com/veg/hyphy.git
+#RUN git clone https://github.com/veg/hyphy.git
 
-WORKDIR /home/usr/hyphy
-RUN cmake . ;cmake .; make HYPHYMP; make install
+#WORKDIR /home/usr/hyphy
+#RUN cmake . ;cmake .; make HYPHYMP; make install
 
 
 WORKDIR /home/usr
