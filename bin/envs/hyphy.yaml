@@ -1,4 +1,6 @@
 channels:
   - bioconda
+  - conda-forge
 dependencies:
+  - openmpi=3.1.0
   - hyphy=2.3.14
