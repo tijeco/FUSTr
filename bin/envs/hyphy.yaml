@@ -1,0 +1,4 @@
+channels:
+  - bioconda
+dependencies:
+  - hyphy=2.3.14
