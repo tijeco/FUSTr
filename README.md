@@ -54,7 +54,7 @@ sudo usermod -a -G docker $USER
 If you have issues setting up the docker conatiner using ```setup_docker.sh``` (i.e. ```apt-get install``` returns non-zero code), you likely need to adjust docker's DNS settings using the lovely tutorial by Robin Winslow [here](https://development.robinwinslow.uk/2016/06/23/fix-docker-networking-dns/).
 
 
-If you still experience issues with docker, please see below on how to install FUSTr directly to your system. 
+If you still experience issues with docker, please see below on how to install FUSTr directly to your system.
 
 # Some notes about docker
 
@@ -88,6 +88,7 @@ sudo apt-get install libboost-program-options-dev
    ```
    * Install SiLiX, **requires root**
 ```
+wget ftp://pbil.univ-lyon1.fr/pub/logiciel/silix/silix-1.2.11.tar.gz
 tar zxvf silix-1.2.11.tar.gz
 cd silix-1.2.11
 ./configure
@@ -96,30 +97,11 @@ make check
 sudo make install
 ```
 
-3. [HYPHY](https://github.com/veg/hyphy)
-   * Requires **root permissions**
-   * First install ```cmake```
-   ```bash
-   apt-get install cmake
-   ```
-   * Install ```HYPHYMP```
-   ```bash
-   git clone https://github.com/veg/hyphy.git
-   cd hyphy
-   cmake .
-   cmake .
-   make HYPHYMP
-   sudo make install
-   ```
-4. [Snakemake](http://snakemake.readthedocs.io/en/stable/)
+3. [Snakemake](http://snakemake.readthedocs.io/en/stable/)
 
-   * Install ```easy_install3``` (requires **root**)
-   ```bash
-   apt-get install -qqy python3-setuptools python3-docutils python3-flask
-   ```
    * Install ```snakemake```
    ```bash
-   easy_install3 snakemake
+   conda install snakemake
    ```
 4. Add ```FUSTr``` to PATH
    * Add full path to FUSTr/bin to
