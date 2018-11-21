@@ -122,8 +122,15 @@ with open('configure.json', 'w') as fp:
 # try:
 #     output = subprocess.check_output(['bash','-c', bashCommand])
 # except:
-bashCommand = "snakemake --snakefile $(which FUSTrSnakefile) -d " +input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json"
-output = subprocess.check_output(['bash','-c', bashCommand])
+try:
+    bashCommand = "snakemake --snakefile $(which FUSTrSnakefile) -d " +input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json"
+    output = subprocess.check_output(['bash','-c', bashCommand])
+except:
+    bashCommand = "snakemake --snakefile $(which FUSTrSnakefile) -d " +input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json  --unlock"
+    output = subprocess.check_output(['bash','-c', bashCommand])
+    bashCommand = "snakemake --snakefile $(which FUSTrSnakefile) -d " +input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json"
+    output = subprocess.check_output(['bash','-c', bashCommand])
+
 # subprocess.call("snakemake --snakefile " +srcdir("template/Snakefile")+ "template/Snakefile -d "+srcdir(input_directory)+" --cores "+str(threads)+" --use-conda --configfile configure.json")
 
 
