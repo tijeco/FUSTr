@@ -33,7 +33,7 @@ def stringSplitter(string,delimiter,avoid):
     return finalString
 
 
-SAMPLES, = glob_wildcards("Families/family_{fam}_dir/family_{fam}.tree")
+SAMPLES, = glob_wildcards("Families/family_{fam}_dir")
 COUNTER = []
 
 
