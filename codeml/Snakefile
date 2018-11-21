@@ -503,8 +503,8 @@ rule codemlModels:
                     out.write(line)
 rule revertFusterIDFams:
     input:
-        fusterID = "Temp/fusterID.txt",
-        family_file = "Temp/all.pep.combined_r90_SLX.fnodes"
+        fusterID = "intermediate_files/fusterID.txt",
+        family_file = "intermediate_files/all.pep.combined_r90_SLX.fnodes"
     output:
         "FusterFamilies.txt"
     run:
