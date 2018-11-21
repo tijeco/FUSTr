@@ -132,6 +132,10 @@ except:
     bashCommand = "snakemake --snakefile $(which FUSTrSnakefile) -d " +input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json"
     output = subprocess.check_output(['bash','-c', bashCommand])
 
+
+if "-doCodeml" in sys.argv:
+    bashCommand = "snakemake --snakefile $(which codemlSnakefile) -d " +input_directory+" --cores "+str(threads)
+    output = subprocess.check_output(['bash','-c', bashCommand])
 # subprocess.call("snakemake --snakefile " +srcdir("template/Snakefile")+ "template/Snakefile -d "+srcdir(input_directory)+" --cores "+str(threads)+" --use-conda --configfile configure.json")
 
 
