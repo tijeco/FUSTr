@@ -126,6 +126,7 @@ try:
     bashCommand = "snakemake --snakefile $(which FUSTrSnakefile) -d " +input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json"
     output = subprocess.check_output(['bash','-c', bashCommand])
 except:
+    print("Picking up from where we left off!")
     bashCommand = "snakemake --snakefile $(which FUSTrSnakefile) -d " +input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json  --unlock"
     output = subprocess.check_output(['bash','-c', bashCommand])
     bashCommand = "snakemake --snakefile $(which FUSTrSnakefile) -d " +input_directory+" --cores "+str(threads)+" --use-conda --configfile configure.json"
