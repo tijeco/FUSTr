@@ -112,7 +112,6 @@ rule M0:
         "Families/family_{fam}_dir/M0/family_{fam}.codon.phylip"
     output:
         "Families/family_{fam}_dir/M0/family_{fam}.mcl"
-    conda:"envs/paml.yaml"
     run:
         COUNTER.append(True)
         M0_cml = codeml.Codeml()
@@ -167,7 +166,6 @@ rule M1:
         "Families/family_{fam}_dir/M1/family_{fam}.codon.phylip"
     output:
         "Families/family_{fam}_dir/M1/family_{fam}.mcl"
-    conda:"envs/paml.yaml"
     run:
         COUNTER.append(True)
         M1_cml = codeml.Codeml()
@@ -221,7 +219,6 @@ rule M2:
         "Families/family_{fam}_dir/M2/family_{fam}.codon.phylip"
     output:
         "Families/family_{fam}_dir/M2/family_{fam}.mcl"
-    conda:"envs/paml.yaml"
     run:
         COUNTER.append(True)
         M2_cml = codeml.Codeml()
@@ -274,7 +271,6 @@ rule M3:
         "Families/family_{fam}_dir/M3/family_{fam}.codon.phylip"
     output:
         "Families/family_{fam}_dir/M3/family_{fam}.mcl"
-    conda:"envs/paml.yaml"
     run:
         COUNTER.append(True)
         M3_cml = codeml.Codeml()
@@ -327,7 +323,6 @@ rule M7:
         "Families/family_{fam}_dir/M7/family_{fam}.codon.phylip"
     output:
         "Families/family_{fam}_dir/M7/family_{fam}.mcl"
-    conda:"envs/paml.yaml"
     run:
         COUNTER.append(True)
         M7_cml = codeml.Codeml()
@@ -380,7 +375,6 @@ rule M8:
         "Families/family_{fam}_dir/M8/family_{fam}.codon.phylip"
     output:
         "Families/family_{fam}_dir/M8/family_{fam}.mcl"
-    conda:"envs/paml.yaml"
     run:
         COUNTER.append(True)
         M8_cml = codeml.Codeml()
@@ -438,7 +432,6 @@ rule M8a:
         "Families/family_{fam}_dir/M8a/family_{fam}.codon.phylip"
     output:
         "Families/family_{fam}_dir/M8a/family_{fam}.mcl"
-    conda:"envs/paml.yaml"
     run:
         COUNTER.append(True)
         M8a_cml = codeml.Codeml()
@@ -513,7 +506,7 @@ rule revertFusterIDFams:
         fusterID = "intermediate_files/fusterID.txt",
         family_file = "intermediate_files/all.pep.combined_r90_SLX.fnodes"
     output:
-        "FusterFamilies.txt"
+        "Families.txt"
     run:
         id_dict = {}
         with open(input.fusterID) as f:
@@ -529,7 +522,7 @@ rule revertFusterIDFams:
 rule codmlStats:
     input:
         codemlFile="codmlLiklihood.txt",
-        family_file="FusterFamilies.txt"
+        family_file="Families.txt"
     output:
         "final_results/codemlStatsfile.txt"
     run:
