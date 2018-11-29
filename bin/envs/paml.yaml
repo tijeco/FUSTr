@@ -1,0 +1,4 @@
+channels:
+  - bioconda
+dependencies:
+  - paml=4.9
