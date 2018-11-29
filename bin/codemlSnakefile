@@ -38,7 +38,7 @@ COUNTER = []
 
 
 rule final:
-    input:"finalStatsfile.txt"
+    input:"final_results/codemlStatsfile.txt"
     #input:dynamic("Families/family_{fam}_dir/family_{fam}.tree.fubar.csv")
     #input:dynamic("Families/family_{fam}_dir/M8a/tmp.txt")
 
@@ -524,7 +524,7 @@ rule codmlStats:
         codemlFile="codmlLiklihood.txt",
         family_file="FusterFamilies.txt"
     output:
-        "finalStatsfile.txt"
+        "final_results/codemlStatsfile.txt"
     run:
         ChiSq_dict = {}
         with open(output[0],"w") as out:
@@ -575,17 +575,3 @@ rule codmlStats:
                 # print(i,"M8_M8a",M8_M8a_pvalue)
                 out.write(i+"\tM8_M8a\t"+str(M8_M8a_pvalue)+"\n")
         #NOTE add here a print statement summarizing Families, number, avg size, singletons etc..
-
-
-
-
-
-rule FUBAR:
-    input:
-        stat="finalStatsfile.txt",
-        align="Families/family_{fam}_dir/family_{fam}.aln.codon",
-        tree="Families/family_{fam}_dir/family_{fam}.tree"
-    output:
-        "Families/family_{fam}_dir/family_{fam}.tree.fubar.csv"
-    shell:
-        "(echo 1; echo 1;echo {input.align}; echo {input.tree}; echo 20;echo echo 5; echo 2000000; echo 1000000;echo 100;echo 0.5 )|HYPHYMP FUBAR.bf"
