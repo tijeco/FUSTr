@@ -135,14 +135,14 @@ except:
 
 if "-doCodeml" in sys.argv:
     try:
-        bashCommand = "snakemake --snakefile $(which codemlSnakefile) -d " +input_directory+" --cores "+str(threads)
+        bashCommand = "snakemake --snakefile $(which codemlSnakefile) -d " +input_directory+" --cores "+str(threads) +" --use-conda"
         output = subprocess.check_output(['bash','-c', bashCommand])
     except:
         print("Picking up from where we left off!")
-        bashCommand = "snakemake --snakefile $(which codemlSnakefile) -d " +input_directory+" --cores "+str(threads) +" --unlock"
+        bashCommand = "snakemake --snakefile $(which codemlSnakefile) -d " +input_directory+" --cores "+str(threads) +" --unlock" +" --use-conda"
         print(bashCommand)
         output = subprocess.check_output(['bash','-c', bashCommand])
-        bashCommand = "snakemake --snakefile $(which codemlSnakefile) -d " +input_directory+" --cores "+str(threads)
+        bashCommand = "snakemake --snakefile $(which codemlSnakefile) -d " +input_directory+" --cores "+str(threads) +" --use-conda"
         output = subprocess.check_output(['bash','-c', bashCommand])
 
 # subprocess.call("snakemake --snakefile " +srcdir("template/Snakefile")+ "template/Snakefile -d "+srcdir(input_directory)+" --cores "+str(threads)+" --use-conda --configfile configure.json")
