@@ -138,7 +138,9 @@ if "-doCodeml" in sys.argv:
         bashCommand = "snakemake --snakefile $(which codemlSnakefile) -d " +input_directory+" --cores "+str(threads)
         output = subprocess.check_output(['bash','-c', bashCommand])
     except:
+        print("Picking up from where we left off!")
         bashCommand = "snakemake --snakefile $(which codemlSnakefile) -d " +input_directory+" --cores "+str(threads) +" --unlock"
+        print(bashCommand)
         output = subprocess.check_output(['bash','-c', bashCommand])
         bashCommand = "snakemake --snakefile $(which codemlSnakefile) -d " +input_directory+" --cores "+str(threads)
         output = subprocess.check_output(['bash','-c', bashCommand])
