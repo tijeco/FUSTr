@@ -104,17 +104,17 @@ sudo make install
    conda install snakemake
    ```
 4. Add ```FUSTr``` to PATH
-   * Add full path to FUSTr/bin to
-    ```.bashrc``` file *i.e.*
-    ```export PATH=/path/to/FUSTr/bin:$PATH```
+   * Add full path to FUSTr/bin to ```.bashrc``` file *i.e.*
+
+    ```
+    export PATH=/path/to/FUSTr/bin:$PATH
+    ```
 
 
    to run ```FUSTr``` simply issue the following command
    ```
    FUSTr -d directory_with_fastas -t <number_of_threads>
    ```
-
-
 
 # What goes on under the hood
 
@@ -166,3 +166,16 @@ Prob[alpha>beta] Posterior probability of negative selection at a site
 ```bash
 python FUSTr/utils/fubar_json.FUSTr.py -d <directory_with_fastas>
 ```
+
+# Following up with codeml
+
+You may wish to rerun the analyses from FUBAR with CODEML, this will take a sigificant amount of time, but I have added an option for FUSTr to do this, before or after running FUSTr just use the ```-doCodeml``` flag at the end and it will run CODEML on all of the families identified by FUSTr.
+
+**IMPORTANT:** make sure you have biopython installed, and CODEML installed
+
+```
+FUSTr -d <directory> -t <threads> -doCodeml
+```
+
+The output will be in ```final_results/codemlStatsfile.txt```
+It will consist of three columns with the family model comparison (M3 vs M0, M2 vs M1, M8 vs M7,M8 vs M8a), and the assosiated p-values for the liklihood ratios of the model comparisons. Complete CODEML output can be found for each model in directory ```Families/family_{num}_dir/```
