@@ -508,7 +508,7 @@ rule hyphy:
     conda:
         "envs/hyphy.yaml"
     shell:
-        "(echo 1; echo 4; echo 1; echo "+srcdir("{input.align}")+"; echo "+ srcdir("{input.tree}")+"; echo 20; echo 3; echo 0.5 )|HYPHYMP >{output.log} || true "
+        "(echo 1; echo 4; echo 1; echo "+srcdir("{input.align}")+"; echo "+ srcdir("{input.tree}")+"; echo 20; echo 3; echo 0.5 )|HYPHYMP >{output.log} || touch {output.log} {output.json} "
 rule finalStatistics:
     input:
         json=dynamic("Families/family_{fam}_dir/family_{fam}.aln.codon.FUBAR.json"),
