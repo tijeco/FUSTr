@@ -544,7 +544,7 @@ rule final_results:
         FUSTrFams="final_results/FUSTr.fams",
         blast="final_results/FUSTr.blast.out",
         pep="final_results/FUSTr.pep",
-        pep="final_results/FUSTr.cds",
+        cds="final_results/FUSTr.cds",
         FUSTr="final_results/FUSTr.out"
     run:
         samples = 0
