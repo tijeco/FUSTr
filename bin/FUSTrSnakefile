@@ -532,6 +532,7 @@ rule final_results:
         provided=expand("{sample}.fasta",sample=SAMPLES),
         transdecoder=expand("{sample}.new_headers.transdecoder.pep",sample=SAMPLES),
         allPep="intermediate_files/all.pep.combined",
+        allCDS="intermediate_files/all.cds.combined",
         blast="intermediate_files/all.pep.combined.blastall.out",
         fams="intermediate_files/all.pep.combined_r90_SLX.fnodes",
         idFile="intermediate_files/fusterID.txt",
@@ -543,6 +544,7 @@ rule final_results:
         FUSTrFams="final_results/FUSTr.fams",
         blast="final_results/FUSTr.blast.out",
         pep="final_results/FUSTr.pep",
+        pep="final_results/FUSTr.cds",
         FUSTr="final_results/FUSTr.out"
     run:
         samples = 0
@@ -579,6 +581,12 @@ rule final_results:
                     headerStr, seq = ff
                     allPep+=1
                     pepOut.write(">"+idDict[headerStr]+"\n"+seq+"\n")
+            with open(output.cds,"w") as cdsOut:
+                sequence_iterator = fasta_iter(input.allCDS)
+                for ff in sequence_iterator:
+                    headerStr, seq = ff
+                    allPep+=1
+                    cdsOut.write(">"+idDict[headerStr]+"\n"+seq+"\n")
 
 
             with open(output.blast,"w") as blastOut:
