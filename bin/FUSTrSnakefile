@@ -197,7 +197,7 @@ rule longestIsoformPep:
                     # GeneID = headerStr[:trinity_identifiers.span()[1]].split("::")[1]
                     gene_header = headerStr.split("::")[1]
                     trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",gene_header)
-                    GeneID = gene_header[:trinity_identifiers.span()[1]]
+                    GeneID = gene_header[:trinity_identifiers.span()[1]] + gene_header.split(gene_header[:trinity_identifiers.span()[1]])[1].split("_")[0]
                 else:
                     try:
 
@@ -248,7 +248,7 @@ rule longestIsoformCDS:
                     # GeneID = headerStr[:trinity_identifiers.span()[1]].split("::")[1]
                     gene_header = headerStr.split("::")[1]
                     trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",gene_header)
-                    GeneID = gene_header[:trinity_identifiers.span()[1]]
+                    GeneID = gene_header[:trinity_identifiers.span()[1]] + gene_header.split(gene_header[:trinity_identifiers.span()[1]])[1].split("_")[0]
                 else:
                     try:
 
