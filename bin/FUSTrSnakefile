@@ -189,6 +189,9 @@ rule longestIsoformPep:
             for ff in sequence_iterator:
 
                 headerStr, seq = ff
+                if config["complete"]:
+                    if "type:complete"  not in headerStr:
+                        continue
 
                 # print("trinity_identifiers:",trinity_identifiers)
                 if pattern =="TRINITY":
@@ -242,6 +245,9 @@ rule longestIsoformCDS:
             for ff in sequence_iterator:
 
                 headerStr, seq = ff
+                if config["complete"]:
+                    if "type:complete"  not in headerStr:
+                        continue
 
                 if pattern =="TRINITY":
                     trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
@@ -286,6 +292,7 @@ rule combine_pep_and_cds:
                 for i in input.pep:
                     for line in open(i):
                         if ">" in line:
+
                             pep_out.write(">fusterID_"+str(fusterID)+"\n")
                             idDict[line.strip().strip(">")] = "fusterID_" + str(fusterID)
                             id_out.write("fusterID_"+str(fusterID) + "\t"+line.strip(">"))
