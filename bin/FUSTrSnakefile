@@ -189,6 +189,7 @@ rule longestIsoformPep:
             for ff in sequence_iterator:
 
                 headerStr, seq = ff
+                print(config["complete"])
                 if config["complete"]:
                     if "type:complete"  not in headerStr:
                         continue
