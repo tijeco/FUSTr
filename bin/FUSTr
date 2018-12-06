@@ -103,7 +103,10 @@ else:
     #FIXME
     configDict["model"]={"shell":"(echo 1; echo 1;echo " +'srcdir("{input.align}")'+"; echo "+ 'srcdir("{input.tree}")'+"; echo 20; echo 3; echo 0.5 )|HYPHYMP /home/usr/hyphy/res/TemplateBatchFiles/FUBAR.bf"}
 
-
+if "-complete" in sys.argv:
+    configDict["complete"] = True
+else:
+    configDict["complete"] = False
 
 
 
