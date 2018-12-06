@@ -276,6 +276,8 @@ rule combine_pep_and_cds:
         "intermediate_files/all.pep.combined","intermediate_files/fusterID.txt","intermediate_files/all.cds.combined"
 
     run:
+        print("TESTING SOMETHING FROM CONFIG")
+        print(config)
         fusterID = 1
         idDict = {}
 
