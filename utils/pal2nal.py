@@ -32,7 +32,8 @@ for ff in sequence_iterator:
             # Get  column cut file
             with open(column_file) as f:
                 for line in f:
-                    cut += line.strip().split("#ColumnsMap")[1]
+                    if "#ColumnsMap" in line:
+                        cut += line.strip().split("#ColumnsMap")[1]
                 cut = cut.split(',')
                 cut = list(map(int, cut))
             # Get corresponding untrimmed Alignments, as original, line by line
