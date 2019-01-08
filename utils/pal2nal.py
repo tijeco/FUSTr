@@ -21,6 +21,15 @@ output1 = sys.argv[1].split(".")[0] + ".codon.aln"
 cut = ""
 longIsoform_CDS_combined = {}
 sequence_iterator = fasta_iter(nucleotide)
+with open(output1, "w") as out:
+    # Get  column cut file
+    with open(column_file) as f:
+        for line in f:
+            if "#ColumnsMap" in line:
+                cut += line.strip().split("#ColumnsMap")[1]
+        print(cut)
+        cut = cut.split(',')
+        cut = list(map(int, cut))
 for ff in sequence_iterator:
         headerStr, seq = ff
         GeneID = headerStr
@@ -28,15 +37,7 @@ for ff in sequence_iterator:
             longIsoform_CDS_combined[GeneID] = seq
     # Open outout
     # print(len(longIsoform_CDS_combined))
-        with open(output1, "w") as out:
-            # Get  column cut file
-            with open(column_file) as f:
-                for line in f:
-                    if "#ColumnsMap" in line:
-                        cut += line.strip().split("#ColumnsMap")[1]
-                print(cut)
-                cut = cut.split(',')
-                cut = list(map(int, cut))
+
             # Get corresponding untrimmed Alignments, as original, line by line
             line1 = True
             first_line = True
