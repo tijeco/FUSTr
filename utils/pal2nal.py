@@ -34,6 +34,7 @@ for ff in sequence_iterator:
                 for line in f:
                     if "#ColumnsMap" in line:
                         cut += line.strip().split("#ColumnsMap")[1]
+                print(cut)
                 cut = cut.split(',')
                 cut = list(map(int, cut))
             # Get corresponding untrimmed Alignments, as original, line by line
