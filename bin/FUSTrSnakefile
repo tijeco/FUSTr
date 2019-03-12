@@ -201,7 +201,8 @@ rule longestIsoformPep:
                     # GeneID = headerStr[:trinity_identifiers.span()[1]].split("::")[1]
                     gene_header = headerStr.split("::")[1]
                     trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",gene_header)
-                    GeneID = gene_header[:trinity_identifiers.span()[1]] + gene_header.split(gene_header[:trinity_identifiers.span()[1]])[1].split("_")[0]
+                    isoformID = gene_header.split(gene_header[:trinity_identifiers.span()[1]])[1].split("_")[0]
+                    GeneID = gene_header[:trinity_identifiers.span()[1]] #+ gene_header.split(gene_header[:trinity_identifiers.span()[1]])[1].split("_")[0]
                 else:
                     try:
 
@@ -216,8 +217,13 @@ rule longestIsoformPep:
                 else:
                     if longIsoform[GeneID][0] < len(seq):
                         longIsoform[GeneID] = [len(seq),headerStr,seq]
+                try:
+                    #these are isoform things from Trinity
+                    longIsoform[GeneID].append(isoformID)
+                except:
+                    None
             for i in longIsoform.keys():
-                out.write('>'+sample+'_'+i+'\n')
+                out.write('>'+sample+'_'+i+longIsoform[i][3]+'\n')
                 # out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
                 out.write(longIsoform[i][2]+'\n')
 
@@ -255,7 +261,9 @@ rule longestIsoformCDS:
                     # GeneID = headerStr[:trinity_identifiers.span()[1]].split("::")[1]
                     gene_header = headerStr.split("::")[1]
                     trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",gene_header)
-                    GeneID = gene_header[:trinity_identifiers.span()[1]] + gene_header.split(gene_header[:trinity_identifiers.span()[1]])[1].split("_")[0]
+                    isoformID = gene_header.split(gene_header[:trinity_identifiers.span()[1]])[1].split("_")[0]
+                    geneID = gene_header[:trinity_identifiers.span()[1]]
+
                 else:
                     try:
 
@@ -270,8 +278,14 @@ rule longestIsoformCDS:
                 else:
                     if longIsoform[GeneID][0] < len(seq):
                         longIsoform[GeneID] = [len(seq),headerStr,seq]
+                try:
+                    #these are isoform things from Trinity
+                    longIsoform[GeneID].append(isoformID)
+                except:
+                    None
+                    # these are things not from Trinity
             for i in longIsoform.keys():
-                out.write('>'+sample+'_'+i+'\n')
+                out.write('>'+sample+'_'+i+longIsoform[i][3]+'\n')
                 # out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
                 out.write(longIsoform[i][2]+'\n')
 
