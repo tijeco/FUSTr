@@ -223,7 +223,10 @@ rule longestIsoformPep:
                 except:
                     None
             for i in longIsoform.keys():
-                out.write('>'+sample+'_'+i+longIsoform[i][3]+'\n')
+                try:
+                    out.write('>'+sample+'_'+i+longIsoform[i][3]+'\n')
+                except:
+                    out.write('>'+sample+'_'+i+'\n')
                 # out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
                 out.write(longIsoform[i][2]+'\n')
 
@@ -285,7 +288,10 @@ rule longestIsoformCDS:
                     None
                     # these are things not from Trinity
             for i in longIsoform.keys():
-                out.write('>'+sample+'_'+i+longIsoform[i][3]+'\n')
+                try:
+                    out.write('>'+sample+'_'+i+longIsoform[i][3]+'\n')
+                except:
+                    out.write('>'+sample+'_'+i+'\n')
                 # out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
                 out.write(longIsoform[i][2]+'\n')
 
