@@ -41,6 +41,7 @@ rule cleanFasta:
         "{sample}.fasta"
     output:
         "intermediate_files/{sample}.clean"
+        "intermediate_files/headerPatterns.txt"
     run:
         Trinity_bool = {}
         signature = ""
@@ -95,7 +96,7 @@ rule cleanFasta:
                     signature+="{isoform_id}:"
             signature = signature[:-1]
 
-        with open("headerPatterns.txt","a") as out:
+        with open(output[1],"a") as out:
             if "no" not in Trinity_bool:
                 out.write(sample+"\t"+"TRINITY\n")
             elif "{unique_id}" in signature:
@@ -104,13 +105,14 @@ rule cleanFasta:
 
 rule newHeaders:
     input:
-        "intermediate_files/{sample}.clean"
+        "intermediate_files/{sample}.clean",
+        "intermediate_files/headerPatterns.txt"
     output:
         "intermediate_files/{sample}.new_headers"
     run:
         try:
             patternDict = {}
-            with open("headerPatterns.txt") as f:
+            with open(input[1]) as f:
                 for line in f:
                     row = line.strip().split()
                     patternDict[row[0]] = row[1]
@@ -167,11 +169,12 @@ rule orf:
 rule longestIsoformPep:
     input:
         "{sample}.new_headers.transdecoder.pep"
+        "intermediate_files/headerPatterns.txt"
     output:
         "intermediate_files/{sample}.longestIsoform.pep"
     run:
         patternDict = {}
-        with open("headerPatterns.txt") as f:
+        with open(input[1]) as f:
             for line in f:
                 row = line.strip().split()
                 patternDict[row[0]] = row[1]
@@ -234,11 +237,12 @@ rule longestIsoformPep:
 rule longestIsoformCDS:
     input:
         "{sample}.new_headers.transdecoder.cds"
+        "intermediate_files/headerPatterns.txt"
     output:
         "intermediate_files/{sample}.longestIsoform.cds"
     run:
         patternDict = {}
-        with open("headerPatterns.txt") as f:
+        with open(input[1]) as f:
             for line in f:
                 row = line.strip().split()
                 patternDict[row[0]] = row[1]
