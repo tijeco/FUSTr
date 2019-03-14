@@ -40,7 +40,7 @@ rule cleanFasta:
     input:
         "{sample}.fasta"
     output:
-        "intermediate_files/{sample}.clean"
+        "intermediate_files/{sample}.clean",
         "intermediate_files/headerPatterns.txt"
     run:
         Trinity_bool = {}
@@ -168,7 +168,7 @@ rule orf:
 
 rule longestIsoformPep:
     input:
-        "{sample}.new_headers.transdecoder.pep"
+        "{sample}.new_headers.transdecoder.pep",
         "intermediate_files/headerPatterns.txt"
     output:
         "intermediate_files/{sample}.longestIsoform.pep"
@@ -236,7 +236,7 @@ rule longestIsoformPep:
 
 rule longestIsoformCDS:
     input:
-        "{sample}.new_headers.transdecoder.cds"
+        "{sample}.new_headers.transdecoder.cds",
         "intermediate_files/headerPatterns.txt"
     output:
         "intermediate_files/{sample}.longestIsoform.cds"
