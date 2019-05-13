@@ -85,8 +85,13 @@ else:
 
 if "-tree" in sys.argv:
     tree_option = getOptionValue("-tree")
-    print("Sorry, that option is not currently supported for this subroutine\nexiting")
-    sys.exit()
+    if tree_option=="iqtree"
+        configDict["tree"]={"conda":"envs/iqtree.yaml",
+            "shell":"iqtree -s {input}; mv {input}.treefile {output}"
+        }
+    else:
+        print("Sorry, that option is not currently supported for this subroutine\nexiting")
+        sys.exit()
 else:
     tree_option="fasttree"
     configDict["tree"]={"conda":"envs/fasttree.yaml",
