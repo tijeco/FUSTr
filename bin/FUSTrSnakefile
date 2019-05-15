@@ -520,15 +520,15 @@ rule phy2codon:
                         out2.write(">"+header+"\n")
                         out2.write(trimmed+"\n")
 
-rule FastTree:
+rule phylogeny:
     input:
         "Families/family_{fam}.aln"
     output:
         "Families/family_{fam}_dir/family_{fam}.tree"
     conda:
-        "envs/fasttree.yaml"
+        config["tree"]["conda"]
     shell:
-        "fasttree  -nosupport {input} > {output} || true"
+        config["tree"]["shell"]
 
 rule hyphy:
     input:
