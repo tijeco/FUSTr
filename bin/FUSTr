@@ -85,7 +85,7 @@ else:
 
 if "-tree" in sys.argv:
     tree_option = getOptionValue("-tree")
-    if tree_option=="iqtree"
+    if tree_option=="iqtree":
         configDict["tree"]={"conda":"envs/iqtree.yaml",
             "shell":"iqtree -s {input}; mv {input}.treefile {output}"
         }
