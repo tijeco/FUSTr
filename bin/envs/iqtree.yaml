@@ -1,4 +1,4 @@
 channels:
   - bioconda
 dependencies:
-  - iqtree=1.6.10 
+  - iqtree=1.6.10
