@@ -164,13 +164,25 @@ rule orf:
     shell:
             config["orf"]["shell"]
 
-rule longestIsoformPep:
+
+rule longestIsoform:
     input:
-        "{sample}.new_headers.transdecoder.pep"
+        cds="{sample}.new_headers.transdecoder.cds",
+        pep="{sample}.new_headers.transdecoder.pep"
     output:
+        "intermediate_files/{sample}.longestIsoform.cds",
         "intermediate_files/{sample}.longestIsoform.pep"
     run:
         patternDict = {}
+        seqDict = {}
+        cds_iterator = fasta_iter(input.cds)
+        for ff in cds_iterator:
+            headerStr, seq = ff
+            seqDict[headerStr] = {"cds":seq}
+        pep_iterator = fasta_iter(input.pep)
+        for ff in pep_iterator:
+            headerStr, seq = ff
+            seqDict[headerStr]["pep"] = seq
         with open("headerPatterns.txt") as f:
             for line in f:
                 row = line.strip().split()
@@ -180,122 +192,60 @@ rule longestIsoformPep:
         except:
             pattern = None
         # print(pattern)
-        with open(output[0], "w") as out:
+        with open(output[0], "w") as cds_out:
+            with open(output[1], "w") as pep_out:
 
-            longIsoform={}
+                longIsoform={}
 
-            sequence_iterator = fasta_iter(input[0])
-            sample = input[0].split('.')[0]
-            for ff in sequence_iterator:
+                # sequence_iterator = fasta_iter(input[0])
+                sample = input.cds.split('.')[0]
+                for headerStr in seqDict:
+                    cds_seq = seqDict[headerStr]["cds"]
+                    pep_seq = seqDict[headerStr]["pep"]
+                    # headerStr, seq = ff
+                    print(config["complete"])
+                    if config["complete"]:
+                        if "type:complete"  not in headerStr:
+                            continue
 
-                headerStr, seq = ff
-                print(config["complete"])
-                if config["complete"]:
-                    if "type:complete"  not in headerStr:
-                        continue
+                    # print("trinity_identifiers:",trinity_identifiers)
+                    if pattern =="TRINITY":
+                        trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
+                        # print("trinity_identifiers:",trinity_identifiers,"\n",headerStr)
+                        # GeneID = headerStr[:trinity_identifiers.span()[1]].split("::")[1]
+                        gene_header = headerStr.split("::")[1]
+                        trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",gene_header)
+                        isoformID = gene_header.split(gene_header[:trinity_identifiers.span()[1]])[1].split("_")[0]
+                        GeneID = gene_header[:trinity_identifiers.span()[1]] #+ gene_header.split(gene_header[:trinity_identifiers.span()[1]])[1].split("_")[0]
+                    else:
+                        try:
 
-                # print("trinity_identifiers:",trinity_identifiers)
-                if pattern =="TRINITY":
-                    trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
-                    # print("trinity_identifiers:",trinity_identifiers,"\n",headerStr)
-                    # GeneID = headerStr[:trinity_identifiers.span()[1]].split("::")[1]
-                    gene_header = headerStr.split("::")[1]
-                    trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",gene_header)
-                    isoformID = gene_header.split(gene_header[:trinity_identifiers.span()[1]])[1].split("_")[0]
-                    GeneID = gene_header[:trinity_identifiers.span()[1]] #+ gene_header.split(gene_header[:trinity_identifiers.span()[1]])[1].split("_")[0]
-                else:
-                    try:
-
-                        GeneID=headerStr.split('___')[1].split('::')[0]
-                    except:
-                        reduced_header = stringSplitter(headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1],"_","-")
-                        out.write('>'+sample+"_"+reduced_header+'\n')
-                        out.write(seq + '\n')
-                        continue
-                if GeneID not in longIsoform:
-                    longIsoform[GeneID] = [len(seq),headerStr,seq]
-                else:
-                    if longIsoform[GeneID][0] < len(seq):
+                            GeneID=headerStr.split('___')[1].split('::')[0]
+                        except:
+                            reduced_header = stringSplitter(headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1],"_","-")
+                            out.write('>'+sample+"_"+reduced_header+'\n')
+                            out.write(seq + '\n')
+                            continue
+                    if GeneID not in longIsoform:
                         longIsoform[GeneID] = [len(seq),headerStr,seq]
-                try:
-                    #these are isoform things from Trinity
-                    longIsoform[GeneID].append(isoformID)
-                except:
-                    None
-            for i in longIsoform.keys():
-                try:
-                    out.write('>'+sample+'_'+i+longIsoform[i][3]+'\n')
-                except:
-                    out.write('>'+sample+'_'+i+'\n')
-                # out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
-                out.write(longIsoform[i][2]+'\n')
-
-
-rule longestIsoformCDS:
-    input:
-        "{sample}.new_headers.transdecoder.cds"
-    output:
-        "intermediate_files/{sample}.longestIsoform.cds"
-    run:
-        patternDict = {}
-        with open("headerPatterns.txt") as f:
-            for line in f:
-                row = line.strip().split()
-                patternDict[row[0]] = row[1]
-        try:
-            pattern = patternDict[input[0].split('.')[0]]
-        except:
-            pattern = None
-        # print(pattern)
-        with open(output[0], "w") as out:
-
-            longIsoform={}
-
-            sequence_iterator = fasta_iter(input[0])
-            sample = input[0].split('.')[0]
-            for ff in sequence_iterator:
-
-                headerStr, seq = ff
-                print(config["complete"])
-                if config["complete"]:
-                    if "type:complete"  not in headerStr:
-                        continue
-
-                # print("trinity_identifiers:",trinity_identifiers)
-                if pattern =="TRINITY":
-                    trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",headerStr)
-                    # print("trinity_identifiers:",trinity_identifiers,"\n",headerStr)
-                    # GeneID = headerStr[:trinity_identifiers.span()[1]].split("::")[1]
-                    gene_header = headerStr.split("::")[1]
-                    trinity_identifiers = re.search("c"+"(.*)"+"_g"+"(.*)"+"_i",gene_header)
-                    isoformID = gene_header.split(gene_header[:trinity_identifiers.span()[1]])[1].split("_")[0]
-                    GeneID = gene_header[:trinity_identifiers.span()[1]] #+ gene_header.split(gene_header[:trinity_identifiers.span()[1]])[1].split("_")[0]
-                else:
+                    else:
+                        if longIsoform[GeneID][0] < len(seq):
+                            longIsoform[GeneID] = [len(seq),headerStr,seq]
                     try:
-
-                        GeneID=headerStr.split('___')[1].split('::')[0]
+                        #these are isoform things from Trinity
+                        longIsoform[GeneID].append(isoformID)
                     except:
-                        reduced_header = stringSplitter(headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1],"_","-")
-                        out.write('>'+sample+"_"+reduced_header+'\n')
-                        out.write(seq + '\n')
-                        continue
-                if GeneID not in longIsoform:
-                    longIsoform[GeneID] = [len(seq),headerStr,seq]
-                else:
-                    if longIsoform[GeneID][0] < len(seq):
-                        longIsoform[GeneID] = [len(seq),headerStr,seq]
-                try:
-                    #these are isoform things from Trinity
-                    longIsoform[GeneID].append(isoformID)
-                except:
-                    None
-            for i in longIsoform.keys():
-                try:
-                    out.write('>'+sample+'_'+i+longIsoform[i][3]+'\n')
-                except:
-                    out.write('>'+sample+'_'+i+'\n')
-                # out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
-                out.write(longIsoform[i][2]+'\n')
+                        None
+                for i in longIsoform.keys():
+                    try:
+                        out_cds.write('>'+sample+'_'+i+longIsoform[i][3]+'\n')
+                        out_pep.write('>'+sample+'_'+i+longIsoform[i][3]+'\n')
+                    except:
+                        out_cds.write('>'+sample+'_'+i+'\n')
+                        out_pep.write('>'+sample+'_'+i+'\n')
+                    # out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
+                    out_cds.write(longIsoform[i][2]+'\n')
+                    out_pep.write(longIsoform[i][2]+'\n')
 
 rule combine_pep_and_cds:
     input:
