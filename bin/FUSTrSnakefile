@@ -192,8 +192,8 @@ rule longestIsoform:
         except:
             pattern = None
         # print(pattern)
-        with open(output[0], "w") as cds_out:
-            with open(output[1], "w") as pep_out:
+        with open(output[0], "w") as out_cds:
+            with open(output[1], "w") as out_pep:
 
                 longIsoform={}
 
