@@ -225,29 +225,32 @@ rule longestIsoform:
                             reduced_header = stringSplitter(headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1],"_","-")
                             out_cds.write('>'+sample+"_"+reduced_header+'\n')
                             out_pep.write('>'+sample+"_"+reduced_header+'\n')
-                            out_cds.write(seq + '\n')
-                            out_pep.write(seq + '\n')
+                            out_cds.write(cds_seq + '\n')
+                            out_pep.write(pep_seq + '\n')
                             continue
                     if GeneID not in longIsoform:
-                        longIsoform[GeneID] = [len(seq),headerStr,seq]
+                        longIsoform[GeneID]["cds"] = [len(cds_seq),headerStr,cds_seq]
+                        longIsoform[GeneID]["pep"] = [len(pep_seq),headerStr,pep_seq]
                     else:
-                        if longIsoform[GeneID][0] < len(seq):
-                            longIsoform[GeneID] = [len(seq),headerStr,seq]
+                        if longIsoform[GeneID]["cds"][0] < len(seq):
+                            longIsoform[GeneID]["cds"] = [len(cds_seq),headerStr,cds_seq]
+                            longIsoform[GeneID]["pep"] = [len(pep_seq),headerStr,pep_seq]
                     try:
                         #these are isoform things from Trinity
-                        longIsoform[GeneID].append(isoformID)
+                        longIsoform[GeneID]["cds"].append(isoformID)
+                        longIsoform[GeneID]["pep"].append(isoformID)
                     except:
                         None
                 for i in longIsoform.keys():
                     try:
-                        out_cds.write('>'+sample+'_'+i+longIsoform[i][3]+'\n')
-                        out_pep.write('>'+sample+'_'+i+longIsoform[i][3]+'\n')
+                        out_cds.write('>'+sample+'_'+i+longIsoform[i]["cds"][3]+'\n')
+                        out_pep.write('>'+sample+'_'+i+longIsoform[i]["pep"][3]+'\n')
                     except:
                         out_cds.write('>'+sample+'_'+i+'\n')
                         out_pep.write('>'+sample+'_'+i+'\n')
                     # out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
-                    out_cds.write(longIsoform[i][2]+'\n')
-                    out_pep.write(longIsoform[i][2]+'\n')
+                    out_cds.write(longIsoform[i]["cds"][2]+'\n')
+                    out_pep.write(longIsoform[i]["pep"][2]+'\n')
 
 rule combine_pep_and_cds:
     input:
