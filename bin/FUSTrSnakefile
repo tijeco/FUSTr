@@ -223,8 +223,10 @@ rule longestIsoform:
                             GeneID=headerStr.split('___')[1].split('::')[0]
                         except:
                             reduced_header = stringSplitter(headerStr.split()[0].split("::")[0]+headerStr.split()[0].split("::")[1],"_","-")
-                            out.write('>'+sample+"_"+reduced_header+'\n')
-                            out.write(seq + '\n')
+                            out_cds.write('>'+sample+"_"+reduced_header+'\n')
+                            out_pep.write('>'+sample+"_"+reduced_header+'\n')
+                            out_cds.write(seq + '\n')
+                            out_pep.write(seq + '\n')
                             continue
                     if GeneID not in longIsoform:
                         longIsoform[GeneID] = [len(seq),headerStr,seq]
