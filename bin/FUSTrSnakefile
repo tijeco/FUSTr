@@ -195,7 +195,7 @@ rule longestIsoform:
         with open(output[0], "w") as out_cds:
             with open(output[1], "w") as out_pep:
 
-                longIsoform={}
+                longIsoform={"cds":{},"pep":{}}
 
                 # sequence_iterator = fasta_iter(input[0])
                 sample = input.cds.split('.')[0]
@@ -229,16 +229,16 @@ rule longestIsoform:
                             out_pep.write(pep_seq + '\n')
                             continue
                     if GeneID not in longIsoform:
-                        longIsoform[GeneID]["cds"] = [len(cds_seq),headerStr,cds_seq]
-                        longIsoform[GeneID]["pep"] = [len(pep_seq),headerStr,pep_seq]
+                        longIsoform["cds"][GeneID] = [len(cds_seq),headerStr,cds_seq]
+                        longIsoform["pep"][GeneID] = [len(pep_seq),headerStr,pep_seq]
                     else:
-                        if longIsoform[GeneID]["cds"][0] < len(seq):
-                            longIsoform[GeneID]["cds"] = [len(cds_seq),headerStr,cds_seq]
-                            longIsoform[GeneID]["pep"] = [len(pep_seq),headerStr,pep_seq]
+                        if longIsoform["cds"][GeneID][0] < len(seq):
+                            longIsoform["cds"][GeneID] = [len(cds_seq),headerStr,cds_seq]
+                            longIsoform["pep"][GeneID] = [len(pep_seq),headerStr,pep_seq]
                     try:
                         #these are isoform things from Trinity
-                        longIsoform[GeneID]["cds"].append(isoformID)
-                        longIsoform[GeneID]["pep"].append(isoformID)
+                        longIsoform["cds"][GeneID].append(isoformID)
+                        longIsoform["pep"][GeneID].append(isoformID)
                     except:
                         None
                 for i in longIsoform.keys():
