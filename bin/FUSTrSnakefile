@@ -241,7 +241,7 @@ rule longestIsoform:
                         longIsoform["pep"][GeneID].append(isoformID)
                     except:
                         None
-                for i in longIsoform.keys():
+                for i in longIsoform["cds"].keys():
                     try:
                         out_cds.write('>'+sample+'_'+i+longIsoform["cds"][i][3]+'\n')
                         out_pep.write('>'+sample+'_'+i+longIsoform["pep"][i][3]+'\n')
