@@ -243,14 +243,14 @@ rule longestIsoform:
                         None
                 for i in longIsoform.keys():
                     try:
-                        out_cds.write('>'+sample+'_'+i+longIsoform[i]["cds"][3]+'\n')
-                        out_pep.write('>'+sample+'_'+i+longIsoform[i]["pep"][3]+'\n')
+                        out_cds.write('>'+sample+'_'+i+longIsoform["cds"][i][3]+'\n')
+                        out_pep.write('>'+sample+'_'+i+longIsoform["pep"][i][3]+'\n')
                     except:
                         out_cds.write('>'+sample+'_'+i+'\n')
                         out_pep.write('>'+sample+'_'+i+'\n')
                     # out.write('>'+sample+'_'+longIsoform[i][1].split("::")[0]+'\n')
-                    out_cds.write(longIsoform[i]["cds"][2]+'\n')
-                    out_pep.write(longIsoform[i]["pep"][2]+'\n')
+                    out_cds.write(longIsoform["cds"][i][2]+'\n')
+                    out_pep.write(longIsoform["pep"][i][2]+'\n')
 
 rule combine_pep_and_cds:
     input:
