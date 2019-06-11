@@ -228,7 +228,7 @@ rule longestIsoform:
                             out_cds.write(cds_seq + '\n')
                             out_pep.write(pep_seq + '\n')
                             continue
-                    if GeneID not in longIsoform:
+                    if GeneID not in longIsoform["cds"]:
                         longIsoform["cds"][GeneID] = [len(cds_seq),headerStr,cds_seq]
                         longIsoform["pep"][GeneID] = [len(pep_seq),headerStr,pep_seq]
                         print("CURRENT GENE:",GeneID+isoformID)
