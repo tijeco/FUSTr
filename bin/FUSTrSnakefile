@@ -231,10 +231,13 @@ rule longestIsoform:
                     if GeneID not in longIsoform:
                         longIsoform["cds"][GeneID] = [len(cds_seq),headerStr,cds_seq]
                         longIsoform["pep"][GeneID] = [len(pep_seq),headerStr,pep_seq]
+                        print("CURRENT GENE:",GeneID+isoformID)
                     else:
                         if longIsoform["cds"][GeneID][0] < len(seq):
                             longIsoform["cds"][GeneID] = [len(cds_seq),headerStr,cds_seq]
                             longIsoform["pep"][GeneID] = [len(pep_seq),headerStr,pep_seq]
+                            print("CURRENT GENE:",GeneID+isoformID,"is the longer isoform")
+
                     try:
                         #these are isoform things from Trinity
                         longIsoform["cds"][GeneID].append(isoformID)
