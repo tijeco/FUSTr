@@ -205,7 +205,7 @@ rule longestIsoform:
                         cds_seq = seqDict[headerStr]["cds"]
                         pep_seq = seqDict[headerStr]["pep"]
                         # headerStr, seq = ff
-                        print(config["complete"])
+                        # print(config["complete"])
                         if config["complete"]:
                             if "type:complete"  not in headerStr:
                                 continue
