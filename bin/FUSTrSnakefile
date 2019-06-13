@@ -201,7 +201,7 @@ rule longestIsoform:
 
                     # sequence_iterator = fasta_iter(input[0])
                     sample = input.cds.split('.')[0]
-                    print(seqDict)
+                    # print(seqDict)
                     for headerStr in seqDict:
                         cds_seq = seqDict[headerStr]["cds"]
                         pep_seq = seqDict[headerStr]["pep"]
