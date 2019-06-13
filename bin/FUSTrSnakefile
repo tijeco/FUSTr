@@ -239,7 +239,7 @@ rule longestIsoform:
                             longIsoform["pep"][GeneID] = [len(pep_seq),headerStr,pep_seq]
                             # out_txt.write(GeneID+isoformID+","+str(len(cds_seq))+"\n")
                         else:
-                            if longIsoform["cds"][GeneID][0] > len(cds_seq):
+                            if longIsoform["cds"][GeneID][0] < len(cds_seq):
                                 longIsoform["cds"][GeneID] = [len(cds_seq),headerStr,cds_seq]
                                 longIsoform["pep"][GeneID] = [len(pep_seq),headerStr,pep_seq]
                                 # out_txt.write(GeneID+isoformID+","+str(len(cds_seq))+"\n")
