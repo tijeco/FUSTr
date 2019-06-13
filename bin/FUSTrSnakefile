@@ -205,6 +205,7 @@ rule longestIsoform:
                     for headerStr in seqDict:
                         cds_seq = seqDict[headerStr]["cds"]
                         pep_seq = seqDict[headerStr]["pep"]
+
                         # headerStr, seq = ff
                         # print(config["complete"])
 
@@ -235,7 +236,7 @@ rule longestIsoform:
                         if GeneID not in longIsoform["cds"]:
                             longIsoform["cds"][GeneID] = [len(cds_seq),headerStr,cds_seq]
                             longIsoform["pep"][GeneID] = [len(pep_seq),headerStr,pep_seq]
-                            out_txt.write(GeneID+isoformID+","+str(len(seq))+"\n")
+                            out_txt.write(GeneID+isoformID+","+str(len(cds_seq))+"\n")
                         else:
                             if longIsoform["cds"][GeneID][0] < len(seq):
                                 longIsoform["cds"][GeneID] = [len(cds_seq),headerStr,cds_seq]
