@@ -178,7 +178,7 @@ rule longestIsoform:
         cds_iterator = fasta_iter(input.cds)
         for ff in cds_iterator:
             headerStr, seq = ff
-            seqDict[headerStr]["cds"] = seq
+            seqDict[headerStr] = {"cds":seq}
         pep_iterator = fasta_iter(input.pep)
         for ff in pep_iterator:
             headerStr, seq = ff
