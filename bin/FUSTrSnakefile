@@ -233,12 +233,12 @@ rule longestIsoform:
                         if GeneID not in longIsoform["cds"]:
                             longIsoform["cds"][GeneID] = [len(cds_seq),headerStr,cds_seq]
                             longIsoform["pep"][GeneID] = [len(pep_seq),headerStr,pep_seq]
-                            out_txt.write(GeneID+isoformID+","+str(len(seq)))
+                            out_txt.write(GeneID+isoformID+","+str(len(seq))+"\n")
                         else:
                             if longIsoform["cds"][GeneID][0] < len(seq):
                                 longIsoform["cds"][GeneID] = [len(cds_seq),headerStr,cds_seq]
                                 longIsoform["pep"][GeneID] = [len(pep_seq),headerStr,pep_seq]
-                                out_txt.write(GeneID+isoformID+","+str(len(seq)))
+                                out_txt.write(GeneID+isoformID+","+str(len(seq))+"\n")
 
                         try:
                             #these are isoform things from Trinity
