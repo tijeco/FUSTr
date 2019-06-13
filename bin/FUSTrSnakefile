@@ -171,8 +171,7 @@ rule longestIsoform:
         pep="{sample}.new_headers.transdecoder.pep"
     output:
         "intermediate_files/{sample}.longestIsoform.cds",
-        "intermediate_files/{sample}.longestIsoform.pep",
-        "intermediate_files/{sample}.longestIsoform.txt"
+        "intermediate_files/{sample}.longestIsoform.pep"
     run:
         patternDict = {}
         seqDict = {}
