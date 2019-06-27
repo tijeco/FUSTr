@@ -1,6 +1,9 @@
 # FUSTr
 Families Under Selection in Transcriptomes
-# Introduction  
+
+[![doi](https://img.shields.io/badge/doi-10.7717/peerj.4234-green.svg?style=flat)](https://doi.org/10.7717/peerj.4234)
+
+# Introduction
 Fuster is a pipeline that clusters coding sequences from transcriptomes into protein families, and then analyzes those families for positive selection.
 
 # Getting started
@@ -14,55 +17,6 @@ Download FUSTr with the following command
 ```bash
 git clone https://github.com/tijeco/FUSTr.git
 ```
-
-
-With Docker installed correctly on your system issue the following command to initialize the Docker container
-
-```
-bash FUSTr/setup_docker.sh <directory_containing_fastas>
-```
-
-Once the docker container has been initialized you can enter it using the following command
-
-```
-docker run -it fustr /bin/bash
-```
-
-Now that you are in the docker container, your data is in /home/usr/data, to run FUSTr simply issue the following command
-```
-FUSTr -d ./data -t <number_of_threads>
-```
-
-The output will be in data/final_results/
-
-
-
-You can use scp to transfer this to your local machine.
-
-You do not have to make this Docker container over and over for new analysis with ```setup_docker.sh```. You can continue using the container for the analysis of additional datasets.
-
-
-
-
-# Troubleshooting docker
-
-If you are getting ```permission denied``` issues run the following command, then log out and back in to your system.
-```bash
-sudo usermod -a -G docker $USER
-```
-
-If you have issues setting up the docker conatiner using ```setup_docker.sh``` (i.e. ```apt-get install``` returns non-zero code), you likely need to adjust docker's DNS settings using the lovely tutorial by Robin Winslow [here](https://development.robinwinslow.uk/2016/06/23/fix-docker-networking-dns/).
-
-
-If you still experience issues with docker, please see below on how to install FUSTr directly to your system.
-
-# Some notes about docker
-
-In order to setup Docker on a new machine you will need root privileges for running commands or to create a group of users. This is not a problem if Docker is already properly installed on the system.
-
-Also, the default container size for Docker is 10 GB, which was plenty to run the analysis for the manuscript (273,221 transcripts and 48,000 simulated transcripts). For larger datasets, this may not be enough space.
-
-For the reasons above, in the event that users do not have root permissions to setup Docker on a new computer, or have a bewilderingly large dataset that would cause the 10GB Docker container to run out of space, below we have included instructions for installing FUSTr on the user's system.
 
 # Installing FUSTr without Docker
 
@@ -115,6 +69,57 @@ sudo make install
    ```
    FUSTr -d directory_with_fastas -t <number_of_threads>
    ```
+
+
+# Installing FUSTr with Docker
+With Docker installed correctly on your system issue the following command to initialize the Docker container
+
+```
+bash FUSTr/setup_docker.sh <directory_containing_fastas>
+```
+
+Once the docker container has been initialized you can enter it using the following command
+
+```
+docker run -it fustr /bin/bash
+```
+
+Now that you are in the docker container, your data is in /home/usr/data, to run FUSTr simply issue the following command
+```
+FUSTr -d ./data -t <number_of_threads>
+```
+
+The output will be in data/final_results/
+
+
+
+You can use scp to transfer this to your local machine.
+
+You do not have to make this Docker container over and over for new analysis with ```setup_docker.sh```. You can continue using the container for the analysis of additional datasets.
+
+
+
+
+# Troubleshooting docker
+
+If you are getting ```permission denied``` issues run the following command, then log out and back in to your system.
+```bash
+sudo usermod -a -G docker $USER
+```
+
+If you have issues setting up the docker conatiner using ```setup_docker.sh``` (i.e. ```apt-get install``` returns non-zero code), you likely need to adjust docker's DNS settings using the lovely tutorial by Robin Winslow [here](https://development.robinwinslow.uk/2016/06/23/fix-docker-networking-dns/).
+
+
+If you still experience issues with docker, please see below on how to install FUSTr directly to your system.
+
+# Some notes about docker
+
+In order to setup Docker on a new machine you will need root privileges for running commands or to create a group of users. This is not a problem if Docker is already properly installed on the system.
+
+Also, the default container size for Docker is 10 GB, which was plenty to run the analysis for the manuscript (273,221 transcripts and 48,000 simulated transcripts). For larger datasets, this may not be enough space.
+
+For the reasons above, in the event that users do not have root permissions to setup Docker on a new computer, or have a bewilderingly large dataset that would cause the 10GB Docker container to run out of space, below we have included instructions for installing FUSTr on the user's system.
+
 
 # What goes on under the hood
 
