@@ -4,7 +4,7 @@ Families Under Selection in Transcriptomes
 [![doi](https://img.shields.io/badge/doi-10.7717/peerj.4234-green.svg?style=flat)](https://doi.org/10.7717/peerj.4234)
 
 # Introduction
-Fuster is a pipeline that clusters coding sequences from transcriptomes into protein families, and then analyzes those families for positive selection.
+FUSTr is a pipeline that clusters coding sequences from transcriptomes into protein families, and then analyzes those families for positive selection.
 
 # Getting started
 
