@@ -12,28 +12,49 @@ else:
 
     print("\nplease specify input directory name using -d <directory_name> \n")
     sys.exit()
-# SAMPLES, = glob_wildcards("{sample}.fasta")
+if "-i" in sys.argv:
+    input_file = getOptionValue("-d").strip("/")
+else:
 
-fusterID_file = working_dir+"/Temp/fusterID.txt"
-family_file = working_dir + "/Temp/all.pep.combined_r90_SLX.fnodes"
+    print("\nplease specify input directory name using -d <directory_name> \n")
+    sys.exit()
 
 
+
+fusterID_file = working_dir+"/intermediate_files/fusterID.txt"
 id_dict = {}
 if os.path.exists(fusterID_file):
-    if os.path.exists(family_file):
-        #make id_dict
-        with open(fusterID_file) as f:
-            for line in f:
-                row = line.strip().split()
-                id_dict[row[0]] = row[1]
-        with open(working_dir+"_familyFile.txt","w") as out:
-            with open(family_file) as f:
-                for line in f:
-                    row = line.strip().split()
-                    out.write(row[0]+"\t"+id_dict[row[1]]+"\n")
+
+    #make id_dict
+    with open(fusterID_file) as f:
+        for line in f:
+            row = line.strip().split()
+            id_dict[row[0]] = row[1]
+# print(testString[:len("fusterID")])
+# print(testString.split("fusterID"))
+# print([int(s) for s in testString if s.isdigit()])
+def findIDs(s):
+    s_list = s.split("fusterID")
+    new_string = ""
+    if len(s_list) > 1:
+        for i in range(len(s_list)):
+            id_num = ""
+            for char in s_list[i]:
+                if char.isdigit():
+                    id_num += char
+                else:
+                    break
+            if id_num != "":
+                if "fusterID"+id_num in id_dict:
+                    new_string += id_dict["fusterID" + id_num] + s_list[i][len(id_num):]
+                else:
+                    print("ERROR: fusterID" + id_num +" not found, exiting")
+                    sys.exit()
     else:
-        print(family_file+" does not exist\nexiting")
-        sys.exit()
-else:
-    print(fusterID_file +" does not exist\nexiting")
-    sys.exit()
+        new_string = s
+    return new_string
+
+with open(input_file) as f:
+    for line in f:
+        print(findIDs(line.strip()))
+        
