@@ -30,12 +30,15 @@ if os.path.exists(fusterID_file):
         for line in f:
             row = line.strip().split()
             id_dict[row[0]] = row[1]
+
+
 # print(testString[:len("fusterID_")])
 # print(testString.split("fusterID_"))
 # print([int(s) for s in testString if s.isdigit()])
+
 def findIDs(s):
     s_list = s.split("fusterID_")
-    new_string = ""
+    new_string = s_list[0]
     if len(s_list) > 1:
         for i in range(len(s_list)):
             id_num = ""
@@ -53,6 +56,7 @@ def findIDs(s):
     else:
         new_string = s
     return new_string
+
 
 with open(input_file) as f:
     for line in f:
