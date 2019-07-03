@@ -13,10 +13,10 @@ else:
     print("\nplease specify input directory name using -d <directory_name> \n")
     sys.exit()
 if "-i" in sys.argv:
-    input_file = getOptionValue("-d").strip("/")
+    input_file = getOptionValue("-i").strip("/")
 else:
 
-    print("\nplease specify input directory name using -d <directory_name> \n")
+    print("\nplease specify input directory name using -i <directory_name> \n")
     sys.exit()
 
 
