@@ -1,6 +1,7 @@
 import sys
 import os.path
 from itertools import groupby
+import pandas as pd
 
 def getOptionValue(option):
     optionPos = [i for i, j in enumerate(sys.argv) if j == option][0]
@@ -12,6 +13,14 @@ else:
 
     print("\nplease specify input directory name using -d <directory_name> \n")
     sys.exit()
+
+if "-o" in sys.argv:
+    out_file = getOptionValue("-o").strip("/")
+else:
+
+    print("\nplease specify output file using -o <directory_name> \n")
+    sys.exit()
+
 
 
 
@@ -28,6 +37,8 @@ with open(family_file) as f:
                 species = row[1].split("_")[0]
                 if species not in species_dict:
                     species_dict[species] = {}
-                    # species_dict[species][num] = 1
-                # else:
-                species_dict[species][num] = 1
+                if num not in species_dict[species]:
+                    species_dict[species][num] = 0
+                species_dict[species][num] += 1
+
+pd.DataFrame.from_dict(species_dict).to_csv(out_file)
