@@ -51,5 +51,5 @@ python parseDollo.py outfile > node.loss_gain.csv
 # determine which specific families were gained at each node
 
 ```bash
-python dollo_extractNodeFams.py outfile > node_fams.txt
+python dollo_extractNodeFams.py -i outfile -o node_fams.txt
 ```
